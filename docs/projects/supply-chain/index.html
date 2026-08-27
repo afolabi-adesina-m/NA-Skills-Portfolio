@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Supply Chain Skills Lab | Afolabi Adesina</title>
-  <meta name="description" content="Five-module North America supply chain skills lab: fundamentals, design, dynamics, analytics, and technology — with GTA–Great Lakes sample problems and interactive demos." />
+  <meta name="description" content="Five-module North America supply chain skills lab: inventory problems, cash conversion cycle, working capital impact, network optimization, and GTA–Great Lakes sample demos." />
   <!-- Root-absolute paths so CSS/assets load with or without a trailing slash on GitHub Pages -->
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/supply-chain/sc.css" />
@@ -20,6 +20,7 @@
       <div class="nav-links">
         <a href="/NA-Skills-Portfolio/">Hub</a>
         <a href="#modules">Modules</a>
+        <a href="#finance-impact">Cash / WC</a>
         <a href="#network-lab">Network Lab</a>
         <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP Migration</a>
         <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
@@ -38,8 +39,8 @@
       <h1>Supply Chain Skills Lab — 5 Modules</h1>
       <p class="lead">
         End-to-end supply chain fluency for manufacturing, retail, logistics, and CPG — framed on North America corridors
-        (GTA DCs, Great Lakes plants, Canada–US lanes). Each module explains the skill area, lists demonstrated capabilities,
-        and walks through concrete sample problems with worked or interactive results. Synthetic demo data only.
+        (GTA DCs, Great Lakes plants, Canada–US lanes). Modules cover inventory math, network design, dynamics, analytics,
+        and systems — plus how SC decisions hit working capital and P&amp;L. Synthetic demo data only.
       </p>
       <div class="sc-pill-row">
         <span class="sc-pill">Fundamentals</span>
@@ -47,15 +48,15 @@
         <span class="sc-pill">Dynamics</span>
         <span class="sc-pill">Analytics</span>
         <span class="sc-pill">Technology &amp; Systems</span>
-        <span class="sc-pill accent">Aggregate planning · Network OR</span>
+        <span class="sc-pill accent">Inventory · Cash / WC impact</span>
       </div>
     </div>
   </section>
 
   <section class="section" id="modules">
     <p class="disclaimer">
-      Module summaries synthesize common supply-chain themes (inventory, network design, variability, optimization, digital systems).
-      They do not reproduce proprietary course text or PDFs. Charts and tables use original synthetic North America demo data.
+      Module summaries synthesize common supply-chain themes (inventory, cash/working capital, network design, variability, optimization, digital systems).
+      They do not reproduce proprietary course text, LinkedIn Learning, or Excel exercise files. Charts and tables use original synthetic North America demo data.
     </p>
 
     <h2>Why this lab matters</h2>
@@ -63,19 +64,19 @@
     <div class="sc-context">
       <div class="sc-context-item">
         <strong>Cross-industry patterns</strong>
-        <p>EOQ, safety stock, network design, bullwhip, and aggregate plans transfer across CPG, industrial, retail, and logistics.</p>
+        <p>EOQ, ROP, ABC, newsvendor, network design, and bullwhip transfer across CPG, industrial, retail, and logistics.</p>
       </div>
       <div class="sc-context-item">
         <strong>NA / GTA framing</strong>
         <p>Oakville, Mississauga, Hamilton, Buffalo, and Detroit nodes make border friction and corridor service real constraints.</p>
       </div>
       <div class="sc-context-item">
-        <strong>Decision literacy</strong>
-        <p>Level vs chase production, capacity-constrained mix, and landed-cost allocation are the everyday language of SC ops.</p>
+        <strong>Cash &amp; working capital</strong>
+        <p>Inventory, receivables, and payables set the cash conversion cycle — SC plans show up on the balance sheet and P&amp;L.</p>
       </div>
       <div class="sc-context-item">
         <strong>Systems glue</strong>
-        <p>WMS / TMS / ERP visibility only pays off when the underlying inventory and network math is sound.</p>
+        <p>WMS / TMS / ERP visibility only pays off when inventory math and financial tradeoffs are clear.</p>
       </div>
     </div>
 
@@ -85,6 +86,7 @@
       <a href="#mod-dynamics">3 · Dynamics</a>
       <a href="#mod-analytics">4 · Analytics</a>
       <a href="#mod-technology">5 · Technology</a>
+      <a href="#finance-impact">Cash / WC impact</a>
       <a href="#network-lab">Network optimizer</a>
     </nav>
 
@@ -96,42 +98,68 @@
       </div>
       <p class="module-summary">
         Foundations of how goods, information, and cash move: roles (supplier → plant → DC → customer), inventory drivers
-        (cycle stock, safety stock, pipeline), logistics cost tradeoffs, and basic replenishment math. This module builds the
-        shared vocabulary that design, dynamics, and analytics all rely on — whether you ship pallets to GTA retailers or
-        components into a Mississauga plant.
+        (cycle stock, safety stock, pipeline), replenishment math (EOQ, reorder point, CSL), ABC prioritization, and
+        turns / days-of-supply. This vocabulary underpins design, dynamics, analytics — and the working-capital story
+        hiring managers care about.
       </p>
       <p class="skills-label">Skills demonstrated</p>
       <ul>
-        <li>Map end-to-end flows and cost buckets (inventory, freight, handling, stockout)</li>
-        <li>Apply EOQ / replenishment sizing with realistic holding and order costs</li>
-        <li>Set safety stock from demand variability and service-level targets</li>
+        <li>Size EOQ, reorder point, and safety stock from demand, cost, and service targets</li>
+        <li>Classify SKUs (ABC) and set turns / days-of-supply targets by class</li>
+        <li>Connect inventory policy to stockout cost vs carrying cost tradeoffs</li>
       </ul>
 
-      <p class="problem-label">Sample problems</p>
+      <p class="problem-label">Sample inventory problems</p>
 
       <div class="problem-block">
-        <h4>Problem A — EOQ for a Mississauga CPG / retail SKU</h4>
+        <h4>Problem A — EOQ + orders per year (Mississauga CPG / retail SKU)</h4>
         <div class="problem-meta">
           <span class="problem-chip">Retail · CPG · DC replenishment</span>
           <span class="problem-chip">Mississauga DC</span>
         </div>
-        <p><strong>Statement:</strong> Annual demand for a mid-velocity SKU is <strong>24,000 cases</strong>. Each replenishment order costs <strong>$180</strong> (admin + inbound handling). Holding cost is <strong>$4.50 / case / year</strong>. What order quantity minimizes total inventory cost, and how often do we order?</p>
-        <p class="approach"><strong>Approach:</strong> Classic EOQ = √(2DS/H). Annual orders = D/Q. Total cost = (D/Q)S + (Q/2)H. Same math applies to manufacturing spare parts or 3PL inbound waves.</p>
+        <p><strong>Statement:</strong> Annual demand <strong>24,000 cases</strong>. Order / setup cost <strong>$180</strong>. Unit cost <strong>$28</strong>; holding rate <strong>16%/yr</strong> → H = $4.48/case/yr (≈ $4.50). What EOQ minimizes order + holding cost, and how many orders per year?</p>
+        <p class="approach"><strong>Approach:</strong> EOQ = √(2DS/H). Orders/year = D/Q. Avg cycle stock = Q/2. Same pattern for manufacturing lot sizes and 3PL inbound waves.</p>
         <div class="kpi-grid" id="eoq-kpis"></div>
         <p class="result-callout" id="eoq-result"></p>
       </div>
 
       <div class="problem-block">
-        <h4>Problem B — Safety stock for Toronto metro service</h4>
+        <h4>Problem B — Reorder point &amp; cycle service level (Oakville → Toronto)</h4>
         <div class="problem-meta">
           <span class="problem-chip">Logistics · Retail · Manufacturing</span>
-          <span class="problem-chip">Oakville → Toronto</span>
+          <span class="problem-chip">Oakville DC · 95% CSL</span>
         </div>
-        <p><strong>Statement:</strong> Weekly demand at Oakville DC for a Toronto retail lane averages <strong>420 units</strong> with σ = <strong>95</strong>. Lead time is <strong>1.5 weeks</strong> (stable carrier). Target cycle service level <strong>95%</strong> (z ≈ 1.65). How much safety stock?</p>
-        <p class="approach"><strong>Approach:</strong> SS = z · σ · √L for independent weekly demand. Pipeline / cycle stock are separate. Pattern holds for plant-to-DC and DC-to-store.</p>
-        <p class="result-callout">
-          SS = 1.65 × 95 × √1.5 ≈ <strong>192 units</strong>. At 95% CSL this buffers lead-time demand variability without overstocking the GTA node — transferable to auto aftermarket, grocery, or industrial MRO.
-        </p>
+        <p><strong>Statement:</strong> Daily demand μ = <strong>60</strong>, σ = <strong>18</strong>. Lead time <strong>5 days</strong> (GTA carrier). Target cycle service level <strong>95%</strong> (z ≈ 1.65). EOQ from Problem A ≈ 1,386 cases. What safety stock and reorder point?</p>
+        <p class="approach"><strong>Approach:</strong> σ<sub>L</sub> = σ√L; SS = z·σ<sub>L</sub>; ROP = μL + SS. CSL is the probability of no stockout in a replenishment cycle — used in retail, MRO, and plant-to-DC policies.</p>
+        <div class="kpi-grid" id="rop-kpis"></div>
+        <p class="result-callout" id="rop-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem C — ABC classification (Mississauga DC assortment)</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Retail · CPG · Industrial</span>
+          <span class="problem-chip">Pareto / inventory focus</span>
+        </div>
+        <p><strong>Statement:</strong> Eight SKUs at Mississauga DC with annual $ usage below. Classify A / B / C so planners put tight control on the vital few and lighter review on the trivial many.</p>
+        <p class="approach"><strong>Approach:</strong> Rank by annual usage $; cumulative % of value → A (~top 70–80%), B (next ~15–20%), C (remainder). Policy intensity follows class.</p>
+        <div id="chart-abc" class="chart" style="min-height:280px"></div>
+        <div class="table-wrap" style="margin-top:0.75rem">
+          <table id="abc-table"><thead><tr><th>SKU</th><th>Annual usage $</th><th>Cum %</th><th>Class</th><th>Policy cue</th></tr></thead><tbody></tbody></table>
+        </div>
+        <p class="result-callout" id="abc-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem D — Inventory turns, days of supply &amp; stockout tradeoff</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Working capital · Service</span>
+          <span class="problem-chip">Oakville finished goods</span>
+        </div>
+        <p><strong>Statement:</strong> Oakville FG average inventory <strong>$1.85M</strong>; annual COGS <strong>$11.2M</strong>. Cutting average inventory 12% (leaner turns) raises expected stockout / expedite cost from <strong>$95k</strong> to <strong>$180k</strong>/yr while saving carrying cost at <strong>18%</strong> of inventory. Is the cut worth it?</p>
+        <p class="approach"><strong>Approach:</strong> Turns = COGS / Avg inventory; DOS = 365 / Turns. Net = carrying savings − incremental service cost. Same tradeoff for retail backroom and spare-parts cribs.</p>
+        <div class="kpi-grid" id="turns-kpis"></div>
+        <p class="result-callout" id="turns-result"></p>
       </div>
     </article>
 
@@ -239,15 +267,15 @@
         <span class="module-code an">SCA</span>
       </div>
       <p class="module-summary">
-        Turning data into decisions: optimization models, inventory analytics, forecasting quality, and KPI packs
-        (OTIF, cost/ton, turns, capacity utilization). Analytics connects the fundamentals and design choices to
-        measurable outcomes on the same GTA–Great Lakes network.
+        Turning data into decisions: optimization models, single-period (newsvendor) stocking, inventory analytics,
+        and KPI packs (OTIF, cost/ton, turns, capacity). Analytics connects fundamentals and design to measurable
+        outcomes — including dollars on the P&amp;L and cash tied up in working capital.
       </p>
       <p class="skills-label">Skills demonstrated</p>
       <ul>
         <li>Formulate capacity-constrained allocation / product-mix LPs</li>
-        <li>Compare plan costs with clear KPI scorecards</li>
-        <li>Visualize shipment and capacity results for decision makers</li>
+        <li>Apply newsvendor critical-ratio stocking for seasonal / perishable demand</li>
+        <li>Score financial impact of inventory and service decisions (see Cash / WC panel)</li>
       </ul>
 
       <p class="problem-label">Sample problems</p>
@@ -265,7 +293,19 @@
       </div>
 
       <div class="problem-block">
-        <h4>Problem B — Network landed-cost minimization</h4>
+        <h4>Problem B — Newsvendor / single-period buy (GTA seasonal SKU)</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Retail · CPG · Seasonal</span>
+          <span class="problem-chip">Critical ratio · salvage</span>
+        </div>
+        <p><strong>Statement:</strong> A seasonal outdoor / promo SKU for GTA retailers: demand ~ Normal(μ=<strong>1,200</strong>, σ=<strong>280</strong>). Cost <strong>$22</strong>, sell <strong>$48</strong>, end-of-season salvage <strong>$10</strong>. How many units to buy before the season?</p>
+        <p class="approach"><strong>Approach:</strong> Critical ratio CR = Cu / (Cu+Co) where Cu = p−c (underage), Co = c−s (overage). Q* = μ + z<sub>CR</sub>·σ. Same logic for fashion, fresh CPG, and event-driven manufacturing kits.</p>
+        <div class="kpi-grid" id="nv-kpis"></div>
+        <p class="result-callout" id="nv-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem C — Network landed-cost minimization</h4>
         <div class="problem-meta">
           <span class="problem-chip">Logistics · Retail · Distribution</span>
           <span class="problem-chip">Multi-DC OR</span>
@@ -322,6 +362,81 @@
         </p>
       </div>
     </article>
+  </section>
+
+  <!-- ========== FINANCIAL IMPACT (Fundamentals / Analytics bridge) ========== -->
+  <section class="section section-band lab-anchor" id="finance-impact">
+    <h2>Financial impact of supply chain</h2>
+    <p class="sub">
+      Working capital and P&amp;L translation of inventory and service decisions — for hiring managers who ask
+      “what does this do to cash?” Built from cash-flow and supply-chain Excel themes (CCC, tracking, waterfall)
+      with original synthetic GTA numbers. Complements Fundamentals inventory math and Analytics newsvendor / LP work.
+    </p>
+    <p class="disclaimer">
+      Illustrative statement-of-account style panels only. Not real company financials. Themes synthesized from
+      cash-flow (NPV, cash tracking, waterfall) and inventory / service tradeoff patterns — no proprietary workbooks reproduced.
+    </p>
+
+    <div class="sc-context">
+      <div class="sc-context-item">
+        <strong>Cash conversion cycle</strong>
+        <p>CCC = DIO + DSO − DPO. Inventory days, receivables, and payables set how long cash is locked in the chain.</p>
+      </div>
+      <div class="sc-context-item">
+        <strong>SC → cash levers</strong>
+        <p>Inventory build vs stockout, payment terms with suppliers / customers, and expediting all move CCC and free cash.</p>
+      </div>
+      <div class="sc-context-item">
+        <strong>P&amp;L bridge</strong>
+        <p>Revenue, COGS, carrying cost, and service / penalty cost show why “lean” is not automatically cheaper.</p>
+      </div>
+      <div class="sc-context-item">
+        <strong>Decision language</strong>
+        <p>Same story for manufacturing, retail, CPG, and 3PL: trade service risk for cash release (or the reverse).</p>
+      </div>
+    </div>
+
+    <div class="problem-block" style="background:#fff;border:1px solid var(--sc-line);box-shadow:var(--shadow)">
+      <h4>Working capital — GTA distributor snapshot</h4>
+      <div class="problem-meta">
+        <span class="problem-chip">Inventory · AR · AP</span>
+        <span class="problem-chip">Oakville / Mississauga ops</span>
+      </div>
+      <p><strong>Statement:</strong> Annual COGS <strong>$48M</strong>, sales <strong>$72M</strong>. Average inventory <strong>$6.4M</strong>, AR <strong>$7.8M</strong>, AP <strong>$5.1M</strong>. What are DIO, DSO, DPO, and CCC? If we cut DIO by 8 days (better turns) without hurting DSO/DPO, how much cash is released?</p>
+      <p class="approach"><strong>Approach:</strong> DIO = Inv / (COGS/365); DSO = AR / (Sales/365); DPO = AP / (COGS/365); CCC = DIO+DSO−DPO. Cash release ≈ ΔDIO × (COGS/365).</p>
+      <div class="kpi-grid" id="ccc-kpis"></div>
+      <p class="result-callout" id="ccc-result"></p>
+    </div>
+
+    <div class="problem-block" style="background:#fff;border:1px solid var(--sc-line);box-shadow:var(--shadow);margin-top:1rem">
+      <h4>Scenario — inventory build vs lean (cash vs service)</h4>
+      <div class="problem-meta">
+        <span class="problem-chip">Cash flow · P&amp;L</span>
+        <span class="problem-chip">Interactive</span>
+      </div>
+      <p><strong>Statement:</strong> Compare a <strong>buffer</strong> plan (higher inventory, lower stockouts) vs a <strong>lean</strong> plan (lower inventory, more expedites / lost sales). Which improves annual operating contribution after carrying and service costs?</p>
+      <p class="approach"><strong>Approach:</strong> Waterfall from revenue → COGS → gross margin → carrying − service/penalty → contribution. Toggle scenarios; watch cash tied in inventory and net contribution move together.</p>
+      <div class="strategy-tabs" role="group" aria-label="Inventory cash scenario">
+        <button type="button" class="active" data-fin="buffer" id="fin-buf">Buffer (service-first)</button>
+        <button type="button" data-fin="lean" id="fin-lean">Lean (cash-first)</button>
+      </div>
+      <div class="kpi-grid" id="fin-kpis"></div>
+      <div class="two-col" style="margin-top:1rem">
+        <div class="panel"><h3>P&amp;L / cost waterfall ($000s)</h3><div id="chart-waterfall" class="chart" style="min-height:300px"></div></div>
+        <div class="panel"><h3>Working capital bridge</h3><div id="chart-wc" class="chart" style="min-height:300px"></div></div>
+      </div>
+      <p class="result-callout" id="fin-result"></p>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <h3>How SC decisions move cash</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><strong>Inventory policy</strong> — EOQ / SS / newsvendor set DIO; level aggregate plans build stock ahead of peaks (cash out, service up).</div></div>
+        <div class="step"><div class="step-num">2</div><div><strong>Payment terms</strong> — Longer supplier DPO frees cash; longer customer DSO consumes it. Cross-border NA terms often differ by entity.</div></div>
+        <div class="step"><div class="step-num">3</div><div><strong>Expediting &amp; penalties</strong> — Rush freight and OTIF penalties are P&amp;L hits that “lean” inventory can trigger when variability is high.</div></div>
+        <div class="step"><div class="step-num">4</div><div><strong>Investment lens</strong> — Optional NPV framing: inventory reduction projects compete with automation / WMS ROI using the same cash-flow discipline.</div></div>
+      </div>
+    </div>
   </section>
 
   <!-- ========== NETWORK LAB ========== -->
@@ -392,6 +507,212 @@
       `Minimum combined order + holding cost ≈ <strong>$${Math.round(TC).toLocaleString()}/yr</strong>. ` +
       `Same pattern scales to manufacturing lot sizes and 3PL replenishment waves.`;
   })();
+
+  /* ---- Fundamentals: ROP / CSL ---- */
+  (function ropDemo() {
+    const mu = 60, sigma = 18, L = 5, z = 1.65;
+    const muL = mu * L;
+    const sigmaL = sigma * Math.sqrt(L);
+    const ss = z * sigmaL;
+    const rop = muL + ss;
+    document.getElementById("rop-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Demand during LT</div><div class="value">${muL.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">σ during LT</div><div class="value">${sigmaL.toFixed(1)}</div></div>
+      <div class="kpi"><div class="label">Safety stock</div><div class="value">${Math.round(ss)}</div></div>
+      <div class="kpi"><div class="label">Reorder point</div><div class="value">${Math.round(rop)}</div></div>`;
+    document.getElementById("rop-result").innerHTML =
+      `ROP ≈ <strong>${Math.round(rop)} cases</strong> (μL ${muL} + SS ${Math.round(ss)}). ` +
+      `At 95% CSL you replenish when on-hand + on-order hits ROP — the same policy used for retail backrooms and plant raw materials.`;
+  })();
+
+  /* ---- Fundamentals: ABC ---- */
+  (function abcDemo() {
+    const skus = [
+      { id: "SKU-A12", usage: 820000 },
+      { id: "SKU-B07", usage: 610000 },
+      { id: "SKU-C21", usage: 295000 },
+      { id: "SKU-D04", usage: 180000 },
+      { id: "SKU-E19", usage: 95000 },
+      { id: "SKU-F33", usage: 62000 },
+      { id: "SKU-G08", usage: 41000 },
+      { id: "SKU-H15", usage: 28000 }
+    ].sort((a, b) => b.usage - a.usage);
+    const total = skus.reduce((s, r) => s + r.usage, 0);
+    let cum = 0;
+    skus.forEach(r => {
+      cum += r.usage;
+      r.cum = cum / total;
+      r.cls = r.cum <= 0.78 ? "A" : r.cum <= 0.95 ? "B" : "C";
+      r.policy = r.cls === "A" ? "Weekly review · tight SS" : r.cls === "B" ? "Biweekly · standard ROP" : "Monthly · bulk / visual";
+    });
+    document.querySelector("#abc-table tbody").innerHTML = skus.map(r =>
+      `<tr><td class="mono">${r.id}</td><td>$${r.usage.toLocaleString()}</td><td>${(r.cum * 100).toFixed(1)}%</td>` +
+      `<td><span class="badge ${r.cls === "A" ? "badge-ok" : r.cls === "B" ? "badge-warn" : "badge-bad"}">${r.cls}</span></td>` +
+      `<td>${r.policy}</td></tr>`
+    ).join("");
+    Plotly.newPlot("chart-abc", [{
+      type: "bar",
+      x: skus.map(r => r.id),
+      y: skus.map(r => r.usage / 1000),
+      marker: { color: skus.map(r => r.cls === "A" ? teal : r.cls === "B" ? sky : "#94A3B8") },
+      text: skus.map(r => r.cls),
+      textposition: "outside"
+    }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: chartFont, margin: { t: 24, r: 10, b: 60, l: 48 },
+      yaxis: { title: "Annual usage $000s", gridcolor: grid }, xaxis: { gridcolor: grid }
+    }, { responsive: true, displayModeBar: false });
+    const aCount = skus.filter(r => r.cls === "A").length;
+    const aShare = skus.filter(r => r.cls === "A").reduce((s, r) => s + r.usage, 0) / total;
+    document.getElementById("abc-result").innerHTML =
+      `<strong>${aCount} A-class SKUs</strong> drive ~${(aShare * 100).toFixed(0)}% of usage $. Focus cycle counting, forecast, and SS there — C items get simple min-max.`;
+  })();
+
+  /* ---- Fundamentals: Turns / DOS ---- */
+  (function turnsDemo() {
+    const inv0 = 1.85e6, cogs = 11.2e6, carryRate = 0.18;
+    const inv1 = inv0 * 0.88;
+    const turns0 = cogs / inv0, turns1 = cogs / inv1;
+    const dos0 = 365 / turns0, dos1 = 365 / turns1;
+    const carrySave = (inv0 - inv1) * carryRate;
+    const serviceDelta = 180000 - 95000;
+    const net = carrySave - serviceDelta;
+    document.getElementById("turns-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Turns (now → lean)</div><div class="value">${turns0.toFixed(1)}→${turns1.toFixed(1)}</div></div>
+      <div class="kpi"><div class="label">DOS (days)</div><div class="value">${dos0.toFixed(0)}→${dos1.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">Carrying saved</div><div class="value">$${(carrySave / 1000).toFixed(0)}k</div></div>
+      <div class="kpi"><div class="label">Net vs service</div><div class="value" style="color:${net >= 0 ? "var(--ok)" : "var(--danger)"}">$${(net / 1000).toFixed(0)}k</div></div>`;
+    document.getElementById("turns-result").innerHTML =
+      `12% inventory cut saves <strong>$${Math.round(carrySave).toLocaleString()}</strong> carrying but adds <strong>$${serviceDelta.toLocaleString()}</strong> stockout/expedite — ` +
+      `net <strong>${net >= 0 ? "gain" : "loss"} of $${Math.abs(Math.round(net)).toLocaleString()}/yr</strong>. Lean only wins when service risk is controlled.`;
+  })();
+
+  /* ---- Analytics: Newsvendor ---- */
+  function normsInv(p) {
+    // Acklam approximation for standard normal inverse CDF
+    const a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02, 1.383577459006891e+02, -3.066479806614716e+01, 2.506628277459239e+00];
+    const b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02, 6.680131188771972e+01, -1.328068155288572e+01];
+    const c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];
+    const d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00];
+    const plow = 0.02425, phigh = 1 - plow;
+    let q, r;
+    if (p < plow) {
+      q = Math.sqrt(-2 * Math.log(p));
+      return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+    }
+    if (p > phigh) {
+      q = Math.sqrt(-2 * Math.log(1 - p));
+      return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+    }
+    q = p - 0.5; r = q * q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5]) * q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+  (function newsvendorDemo() {
+    const mu = 1200, sigma = 280, cost = 22, price = 48, salvage = 10;
+    const Cu = price - cost, Co = cost - salvage;
+    const cr = Cu / (Cu + Co);
+    const z = normsInv(cr);
+    const Q = mu + z * sigma;
+    document.getElementById("nv-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Cu (underage)</div><div class="value">$${Cu}</div></div>
+      <div class="kpi"><div class="label">Co (overage)</div><div class="value">$${Co}</div></div>
+      <div class="kpi"><div class="label">Critical ratio</div><div class="value">${(cr * 100).toFixed(0)}%</div></div>
+      <div class="kpi"><div class="label">Optimal Q*</div><div class="value">${Math.round(Q).toLocaleString()}</div></div>`;
+    document.getElementById("nv-result").innerHTML =
+      `CR = ${Cu}/(${Cu}+${Co}) = <strong>${(cr * 100).toFixed(1)}%</strong> → z≈${z.toFixed(2)} → ` +
+      `Q* ≈ <strong>${Math.round(Q)} units</strong> (~${((Q - mu) / sigma).toFixed(2)}σ above mean). High margin vs salvage pushes a high in-stock target.`;
+  })();
+
+  /* ---- Finance: CCC ---- */
+  (function cccDemo() {
+    const cogs = 48e6, sales = 72e6, inv = 6.4e6, ar = 7.8e6, ap = 5.1e6;
+    const dio = inv / (cogs / 365);
+    const dso = ar / (sales / 365);
+    const dpo = ap / (cogs / 365);
+    const ccc = dio + dso - dpo;
+    const cashRelease = 8 * (cogs / 365);
+    document.getElementById("ccc-kpis").innerHTML = `
+      <div class="kpi"><div class="label">DIO (days)</div><div class="value">${dio.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">DSO (days)</div><div class="value">${dso.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">DPO (days)</div><div class="value">${dpo.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">CCC (days)</div><div class="value">${ccc.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">Cash if −8 DIO</div><div class="value">$${(cashRelease / 1e6).toFixed(2)}M</div><div class="delta up">released</div></div>`;
+    document.getElementById("ccc-result").innerHTML =
+      `CCC ≈ <strong>${ccc.toFixed(0)} days</strong>. Cutting 8 inventory days frees ≈ <strong>$${Math.round(cashRelease).toLocaleString()}</strong> ` +
+      `without changing customer or supplier terms — the clearest SC → treasury lever.`;
+  })();
+
+  /* ---- Finance: buffer vs lean waterfall ---- */
+  function runFinance(mode) {
+    const scenarios = {
+      buffer: { rev: 7200, cogs: 4680, carry: 210, service: 55, invCash: 6400, ar: 7800, ap: 5100 },
+      lean:   { rev: 7050, cogs: 4580, carry: 155, service: 195, invCash: 5200, ar: 7650, ap: 5100 }
+    };
+    const s = scenarios[mode];
+    const gm = s.rev - s.cogs;
+    const contrib = gm - s.carry - s.service;
+    const wc = s.invCash + s.ar - s.ap;
+    document.getElementById("fin-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Revenue ($000)</div><div class="value">${s.rev.toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Gross margin</div><div class="value">${gm.toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Carry + service</div><div class="value">${(s.carry + s.service).toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Contribution</div><div class="value">${contrib.toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">NWC tied</div><div class="value">$${(wc / 1000).toFixed(1)}M</div></div>`;
+
+    // Waterfall-style relative bars
+    const labels = ["Revenue", "COGS", "Gross margin", "Carrying", "Service / penalty", "Contribution"];
+    const measures = ["absolute", "relative", "total", "relative", "relative", "total"];
+    const values = [s.rev, -s.cogs, gm, -s.carry, -s.service, contrib];
+    Plotly.newPlot("chart-waterfall", [{
+      type: "waterfall",
+      orientation: "v",
+      measure: measures,
+      x: labels,
+      y: values,
+      connector: { line: { color: grid } },
+      increasing: { marker: { color: emerald } },
+      decreasing: { marker: { color: "#D97706" } },
+      totals: { marker: { color: teal } },
+      text: values.map(v => (v >= 0 ? "" : "−") + Math.abs(v)),
+      textposition: "outside"
+    }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: chartFont, margin: { t: 20, r: 10, b: 70, l: 48 },
+      yaxis: { title: "$000s", gridcolor: grid }
+    }, { responsive: true, displayModeBar: false });
+
+    Plotly.newPlot("chart-wc", [{
+      type: "bar",
+      x: ["Inventory", "Receivables", "Payables", "Net WC"],
+      y: [s.invCash, s.ar, -s.ap, wc],
+      marker: { color: [teal, sky, "#94A3B8", emerald] },
+      text: [s.invCash, s.ar, -s.ap, wc].map(v => "$" + (Math.abs(v) / 1000).toFixed(1) + "M"),
+      textposition: "outside"
+    }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: chartFont, margin: { t: 20, r: 10, b: 50, l: 48 },
+      yaxis: { title: "$000s", gridcolor: grid }
+    }, { responsive: true, displayModeBar: false });
+
+    const other = mode === "buffer" ? scenarios.lean : scenarios.buffer;
+    const otherContrib = (other.rev - other.cogs) - other.carry - other.service;
+    const otherWc = other.invCash + other.ar - other.ap;
+    const deltaC = contrib - otherContrib;
+    const deltaW = wc - otherWc;
+    document.getElementById("fin-result").innerHTML = mode === "buffer"
+      ? `<strong>Buffer</strong> contribution <strong>$${contrib.toLocaleString()}k</strong> vs lean $${otherContrib.toLocaleString()}k ` +
+        `(${deltaC >= 0 ? "+" : ""}${deltaC}k). Extra NWC ≈ $${(deltaW / 1000).toFixed(1)}M buys service — often the better P&amp;L when expedite/penalty risk is high.`
+      : `<strong>Lean</strong> frees ≈ <strong>$${((otherWc - wc) / 1000).toFixed(1)}M</strong> NWC vs buffer but contribution is ` +
+        `<strong>$${contrib.toLocaleString()}k</strong> (${deltaC}k vs buffer) after stockouts and rush freight. Cash-first only wins if demand is stable.`;
+  }
+  document.querySelectorAll("[data-fin]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-fin]").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      runFinance(btn.dataset.fin);
+    });
+  });
+  runFinance("buffer");
 
   /* ---- Design: Aggregate planning ---- */
   const aggDemand = [820, 900, 1100, 1400, 1250, 950];
@@ -470,9 +791,9 @@
       `<strong>${strategy.charAt(0).toUpperCase() + strategy.slice(1)} total ≈ $${Math.round(total).toLocaleString()}</strong>. ${verdict} Toggle strategies to compare.`;
   }
 
-  document.querySelectorAll(".strategy-tabs button").forEach(btn => {
+  document.querySelectorAll("[data-strategy]").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".strategy-tabs button").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll("[data-strategy]").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       runAggregate(btn.dataset.strategy);
     });
@@ -507,7 +828,7 @@
       return { s, total: prodCost + holdCost + wf + ot + back };
     });
     const best = costs.reduce((a, b) => a.total < b.total ? a : b);
-    const active = document.querySelector(".strategy-tabs button.active")?.dataset.strategy;
+    const active = document.querySelector("[data-strategy].active")?.dataset.strategy;
     if (active === best.s || true) {
       /* keep current result text; optional note left in hybrid description */
     }
