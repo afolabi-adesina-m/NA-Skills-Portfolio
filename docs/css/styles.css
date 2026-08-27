@@ -209,7 +209,7 @@ a:hover { text-decoration: underline; }
 .tag-ai { background: rgba(129, 140, 248, 0.18); color: #c7d2fe; }
 .tag-sc { background: rgba(45, 212, 191, 0.16); color: #99f6e4; }
 .tag-bi { background: rgba(56, 189, 248, 0.16); color: #bae6fd; }
-.tag-sap { background: rgba(245, 158, 11, 0.16); color: #fde68a; }
+.tag-sap { background: rgba(0, 143, 211, 0.2); color: #7dd3fc; }
 .card h3 { margin: 0; font-size: 1.2rem; line-height: 1.3; }
 .card p {
   margin: 0;

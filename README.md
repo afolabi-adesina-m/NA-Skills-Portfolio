@@ -14,7 +14,7 @@ Smart-Shield AI stays in its own repository. This repo only links to it.
 |--------|---------|--------|
 | AI / ML | Smart-Shield AI (external) | `Smart-Shield-AI` `master` |
 | Supply Chain | GTA–Great Lakes Network Optimizer | `project/supply-chain` |
-| SAP Migration | NA Manufacturing MDM Migration Lab | `project/sap-migration` |
+| SAP Skills | SAP Modules & MDM Migration Lab | `project/sap-migration` |
 | BI Dashboard | North America Ops Control Tower | `project/bi-dashboard` |
 
 ## Local setup
