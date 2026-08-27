@@ -40,25 +40,11 @@
   backdrop-filter: blur(12px);
 }
 
-.theme-bi .brand { color: var(--bi-ink); text-decoration: none; }
-.theme-bi .brand:hover { text-decoration: none; }
+.theme-bi .brand { color: var(--bi-ink); }
 .theme-bi .nav-links a { color: var(--bi-muted); }
 .theme-bi .nav-links a:hover,
 .theme-bi .nav-links a[aria-current="page"] { color: var(--bi-cyan-deep); font-weight: 650; }
-.theme-bi .brand-mark {
-  background: linear-gradient(135deg, var(--bi-cyan), var(--bi-cyan-deep));
-  color: #fff;
-  border-radius: 8px;
-}
 .theme-bi a { color: var(--bi-cyan-deep); }
-
-.nav-bi-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: block;
-  flex-shrink: 0;
-}
 
 .bi-hero {
   max-width: 1160px;
