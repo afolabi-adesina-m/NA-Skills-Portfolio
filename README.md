@@ -67,3 +67,17 @@ The same CSVs are mirrored under `docs/assets/data/` for the interactive Plotly 
 ## Author
 
 Afolabi Adesina · Oakville, ON · adesiafo@sheridancollege.ca
+
+## Hub customization
+
+### Profile photo
+
+Replace `docs/assets/afolabi-headshot.jpg` with your studio headshot (recommended 800&times;800 px JPEG, optimized). The hub references it at `/NA-Skills-Portfolio/assets/afolabi-headshot.jpg`.
+
+### Book a Call
+
+Search `docs/index.html` for `Book a Call` and replace the `mailto:` links with your Calendly URL (e.g. `https://calendly.com/your-handle/15min`). No Calendly link was found in co-op materials; the live hub uses email until you update it.
+
+### LinkedIn recommendations
+
+Recommendation quotes are sourced from public LinkedIn recommendations on [linkedin.com/in/afolabi-adesina](https://www.linkedin.com/in/afolabi-adesina/). To add or edit cards, update the `#recommendations` section in `docs/index.html`.
