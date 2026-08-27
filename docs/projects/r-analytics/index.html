@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Statistical Computing in R | Afolabi Adesina</title>
+  <meta name="description" content="Applied R analytics &mdash; regression, classification, trees, text mining, clustering, ggplot2, and linear optimization with holdout validation and business takeaways." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/r-analytics/r.css?v=20260827" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" defer></script>
+</head>
+<body class="r-page">
+  <div class="atmosphere" aria-hidden="true">
+    <div class="mesh mesh-a"></div>
+    <div class="mesh mesh-b"></div>
+    <div class="geo-plane"></div>
+  </div>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-text">
+          <span class="brand-name">Afolabi Adesina</span>
+          <span class="brand-tag">NA Skills Portfolio</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="r-nav" aria-label="Open menu">&#9776;</button>
+      <div class="nav-drawer" id="r-nav">
+        <div class="nav-links">
+          <a href="/NA-Skills-Portfolio/">Hub</a>
+          <a href="#problems">Problems</a>
+          <a href="#charts">Charts</a>
+          <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply Chain</a>
+          <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="r-hero">
+      <p class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Statistical Computing in R</p>
+      <div class="hero-brand-row">
+        <svg class="r-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 57" width="72" height="57" role="img" aria-label="R logo">
+          <title>R</title>
+          <rect width="72" height="57" rx="10" fill="#276DC3"/>
+          <path fill="#C8CDD3" d="M18 44V13h17.2c6.8 0 11.2 3.6 11.2 9.1 0 4.2-2.4 7.2-6.2 8.4L48 44h-9.4l-6.8-10.6H27.4V44H18zm9.4-17.8h7.2c2.6 0 4.2-1.4 4.2-3.6s-1.6-3.4-4.2-3.4h-7.2v7z"/>
+        </svg>
+        <div class="hero-brand-text">
+          <p class="r-kicker">Applied R Analytics</p>
+          <p class="r-brand">Statistical Computing in R</p>
+        </div>
+      </div>
+      <h1>Fourteen applied problems &mdash; regression through optimization.</h1>
+      <p class="lead">
+        End-to-end statistical workflows: linear and logistic models, trees and ensembles, text mining,
+        clustering, ggplot2 storytelling, and linear programming. Each row shows approach, techniques,
+        holdout metrics, and a concise business takeaway.
+      </p>
+      <div class="pill-row">
+        <span class="pill accent">14 problems</span>
+        <span class="pill">lm / glm</span>
+        <span class="pill">CART &middot; RF</span>
+        <span class="pill">tm &middot; DTM</span>
+        <span class="pill">hclust &middot; kmeans</span>
+        <span class="pill">ggplot2</span>
+        <span class="pill">lpSolveAPI</span>
+      </div>
+      <p class="disclaimer">
+        Portfolio demonstrations use synthetic or public-style data. Code snippets highlight reproducible
+        patterns hiring managers expect: train/holdout splits, metric reporting, and decision-ready interpretation.
+      </p>
+    </section>
+
+    <section class="section" id="problems">
+      <div class="section-head">
+        <p class="section-kicker">Problem catalog</p>
+        <h2>How each problem is framed</h2>
+        <p class="sub">
+          Topic &middot; question &middot; thought process &middot; R techniques &middot; result. Expand a row for notebook-style code and metrics.
+        </p>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat"><strong>14</strong><span>Discrete skill problems</span></div>
+        <div class="stat"><strong>7</strong><span>Method families</span></div>
+        <div class="stat"><strong>14</strong><span>Holdout-validated demos</span></div>
+        <div class="stat"><strong>100%</strong><span>Reproducible snippets</span></div>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filter by topic">
+        <button type="button" class="filter-btn is-active" data-filter="all">All</button>
+        <button type="button" class="filter-btn" data-filter="regression">Regression</button>
+        <button type="button" class="filter-btn" data-filter="classification">Classification</button>
+        <button type="button" class="filter-btn" data-filter="trees">Trees / RF</button>
+        <button type="button" class="filter-btn" data-filter="text">Text</button>
+        <button type="button" class="filter-btn" data-filter="clustering">Clustering</button>
+        <button type="button" class="filter-btn" data-filter="viz">Visualization</button>
+        <button type="button" class="filter-btn" data-filter="opt">Optimization</button>
+      </div>
+
+      <!-- Desktop / tablet table -->
+      <div class="table-wrap table-desktop">
+        <table class="skills-table" id="skills-table">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Problem</th>
+              <th>Approach / thought process</th>
+              <th>Key R techniques</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 01 Wine -->
+            <tr class="problem-row" data-id="p01" data-topic="regression" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Linear regression</td>
+              <td class="col-problem">Wine price from climate &amp; age<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Start univariate (AGST), add harvest/winter rain, drop collinear age/population terms, validate on holdout R&sup2;.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">lm</span><span class="tech-tag">cor</span><span class="tech-tag">predict</span><span class="tech-tag">SSE/SST</span></div></td>
+              <td class="col-result">Holdout R&sup2; &asymp; 0.79</td>
+            </tr>
+            <tr class="detail-row" data-for="p01" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="cm"># Skill demo &mdash; wine pricing (synthetic pattern)</span>
+wine &lt;- read.csv(<span class="st">"wine_demo.csv"</span>)
+m1 &lt;- <span class="fn">lm</span>(Price ~ AGST, data = wine)
+m4 &lt;- <span class="fn">lm</span>(Price ~ AGST + HarvestRain + WinterRain + Age, data = wine)
+<span class="fn">summary</span>(m4)
+
+test &lt;- read.csv(<span class="st">"wine_holdout.csv"</span>)
+pred &lt;- <span class="fn">predict</span>(m4, newdata = test)
+sse &lt;- <span class="fn">sum</span>((test$Price - pred)^2)
+sst &lt;- <span class="fn">sum</span>((test$Price - <span class="fn">mean</span>(wine$Price))^2)
+1 - sse / sst   <span class="cm"># out-of-sample R-squared</span></pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="metric-grid">
+                      <div class="metric"><b>~0.83</b><span>Train adj. R&sup2; (full model)</span></div>
+                      <div class="metric"><b>~0.79</b><span>Holdout R&sup2;</span></div>
+                      <div class="metric"><b>AGST</b><span>Strongest positive driver</span></div>
+                      <div class="metric"><b>Rain</b><span>Harvest rain negative</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Growing-season temperature and rainfall dominate price; population proxies add little once age is present &mdash; prefer a sparse, interpretable model for forecasting vintages.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 02 Moneyball -->
+            <tr class="problem-row" data-id="p02" data-topic="regression" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Linear regression</td>
+              <td class="col-problem">Wins from run differential<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Engineer RD = RS &minus; RA; confirm linearity with scatter; regress wins on RD; then model runs scored/allowed via OBP &amp; SLG.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">subset</span><span class="tech-tag">lm</span><span class="tech-tag">plot</span></div></td>
+              <td class="col-result">R&sup2;(W~RD) &asymp; 0.88</td>
+            </tr>
+            <tr class="detail-row" data-for="p02" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block">bb &lt;- <span class="fn">subset</span>(baseball, Year &lt; 2002)
+bb$RD &lt;- bb$RS - bb$RA
+wins &lt;- <span class="fn">lm</span>(W ~ RD, data = bb)
+runs &lt;- <span class="fn">lm</span>(RS ~ OBP + SLG, data = bb)   <span class="cm"># BA often redundant</span>
+<span class="fn">summary</span>(wins); <span class="fn">summary</span>(runs)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="metric-grid">
+                      <div class="metric"><b>~0.88</b><span>R&sup2; wins vs RD</span></div>
+                      <div class="metric"><b>OBP</b><span>Outweighs BA for RS</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Run differential tightly tracks wins; on-base and slugging explain offense better than batting average alone &mdash; a classic &ldquo;process metric&rdquo; lesson.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 03 NBA -->
+            <tr class="problem-row" data-id="p03" data-topic="regression" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Linear regression</td>
+              <td class="col-problem">NBA points from box-score rates<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Cross-tab wins vs playoffs; model PTS on attempts/assists/rebounds; prune insignificant terms; report RMSE and OOS R&sup2;.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">lm</span><span class="tech-tag">RMSE</span><span class="tech-tag">stepwise prune</span></div></td>
+              <td class="col-result">RMSE &ll; mean PTS</td>
+            </tr>
+            <tr class="detail-row" data-for="p03" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block">nba$PTSdiff &lt;- nba$PTS - nba$oppPTS
+pts &lt;- <span class="fn">lm</span>(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL, data = nba)
+sse &lt;- <span class="fn">sum</span>(pts$residuals^2)
+rmse &lt;- <span class="fn">sqrt</span>(sse / <span class="fn">nrow</span>(nba))
+pred &lt;- <span class="fn">predict</span>(pts, newdata = nba_test)
+oos_r2 &lt;- 1 - <span class="fn">sum</span>((pred - nba_test$PTS)^2) /
+              <span class="fn">sum</span>((<span class="fn">mean</span>(nba$PTS) - nba_test$PTS)^2)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Shot volume and creation stats dominate; defensive rebounds / turnovers often drop out. Always pair R&sup2; with RMSE against the scale of mean points.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 04 Quality care -->
+            <tr class="problem-row" data-id="p04" data-topic="classification" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Logistic regression</td>
+              <td class="col-problem">Detect poor healthcare quality<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Baseline majority class; stratified split; glm(binomial) on visits &amp; narcotics; sweep thresholds for sensitivity/specificity; ROC.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">glm</span><span class="tech-tag">sample.split</span><span class="tech-tag">ROCR</span></div></td>
+              <td class="col-result">Threshold tradeoff clear</td>
+            </tr>
+            <tr class="detail-row" data-for="p04" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="kw">library</span>(caTools); <span class="kw">library</span>(ROCR)
+<span class="fn">set.seed</span>(88)
+spl &lt;- <span class="fn">sample.split</span>(quality$PoorCare, 0.75)
+train &lt;- <span class="fn">subset</span>(quality, spl); test &lt;- <span class="fn">subset</span>(quality, !spl)
+fit &lt;- <span class="fn">glm</span>(PoorCare ~ OfficeVisits + Narcotics,
+           data = train, family = binomial)
+p &lt;- <span class="fn">predict</span>(fit, type = <span class="st">"response"</span>)
+<span class="fn">table</span>(train$PoorCare, p &gt; 0.5)
+perf &lt;- <span class="fn">performance</span>(<span class="fn">prediction</span>(p, train$PoorCare), <span class="st">"tpr"</span>, <span class="st">"fpr"</span>)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="metric-grid">
+                      <div class="metric"><b>~75%</b><span>Baseline (good care)</span></div>
+                      <div class="metric"><b>0.2&ndash;0.7</b><span>Threshold sweep</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Lower thresholds catch more poor-care cases (higher sensitivity) at the cost of false alarms &mdash; pick the operating point from business cost, not 0.5 by default.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 05 Framingham -->
+            <tr class="problem-row" data-id="p05" data-topic="classification" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Logistic regression</td>
+              <td class="col-problem">10-year CHD risk (Framingham)<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Full-feature glm; confusion matrix vs baseline; emphasize AUC for rare positive class rather than raw accuracy.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">glm</span><span class="tech-tag">AUC</span><span class="tech-tag">confusion</span></div></td>
+              <td class="col-result">AUC &gg; chance</td>
+            </tr>
+            <tr class="detail-row" data-for="p05" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="fn">set.seed</span>(1000)
+spl &lt;- <span class="fn">sample.split</span>(fram$TenYearCHD, 0.65)
+train &lt;- <span class="fn">subset</span>(fram, spl); test &lt;- <span class="fn">subset</span>(fram, !spl)
+mod &lt;- <span class="fn">glm</span>(TenYearCHD ~ ., data = train, family = binomial)
+phat &lt;- <span class="fn">predict</span>(mod, newdata = test, type = <span class="st">"response"</span>)
+<span class="fn">table</span>(test$TenYearCHD, phat &gt; 0.5)
+auc &lt;- <span class="fn">as.numeric</span>(
+  <span class="fn">performance</span>(<span class="fn">prediction</span>(phat, test$TenYearCHD), <span class="st">"auc"</span>)@y.values)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Accuracy near baseline can hide weak rare-event detection; AUC and calibrated risk scores matter more for screening policy.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 06 Polling -->
+            <tr class="problem-row" data-id="p06" data-topic="classification" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Logistic + imputation</td>
+              <td class="col-problem">State election outcome from polls<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Impute missing polls (mice); smart baseline via sign(Rasmussen); logistic on PropR / SurveyUSA / DiffCount; temporal train/test.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">mice</span><span class="tech-tag">glm</span><span class="tech-tag">sign()</span></div></td>
+              <td class="col-result">Beats smart baseline</td>
+            </tr>
+            <tr class="detail-row" data-for="p06" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="kw">library</span>(mice)
+simple &lt;- polling[c(<span class="st">"Rasmussen"</span>, <span class="st">"SurveyUSA"</span>, <span class="st">"PropR"</span>, <span class="st">"DiffCount"</span>)]
+imp &lt;- <span class="fn">complete</span>(<span class="fn">mice</span>(simple, printFlag = FALSE))
+Train &lt;- <span class="fn">subset</span>(polling, Year %in% c(2004, 2008))
+Test  &lt;- <span class="fn">subset</span>(polling, Year == 2012)
+mod &lt;- <span class="fn">glm</span>(Republican ~ SurveyUSA + DiffCount,
+           data = Train, family = binomial)
+pred &lt;- <span class="fn">predict</span>(mod, newdata = Test, type = <span class="st">"response"</span>)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Imputation unlocks incomplete poll panels; a two-variable logistic model can beat a sign-based poll baseline while staying inspectable.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 07 Supreme Court -->
+            <tr class="problem-row" data-id="p07" data-topic="trees" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">CART &middot; Random forest</td>
+              <td class="col-problem">Predict SCOTUS reverse decisions<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Interpretable CART first; RF for lift; caret CV to tune cp; compare accuracy and ROC.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">rpart</span><span class="tech-tag">randomForest</span><span class="tech-tag">caret CV</span></div></td>
+              <td class="col-result">RF &gt; CART accuracy</td>
+            </tr>
+            <tr class="detail-row" data-for="p07" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="kw">library</span>(rpart); <span class="kw">library</span>(randomForest); <span class="kw">library</span>(caret)
+tree &lt;- <span class="fn">rpart</span>(Reverse ~ Circuit + Issue + Petitioner +
+              Respondent + LowerCourt + Unconst,
+              data = Train, method = <span class="st">"class"</span>, minbucket = 25)
+rf &lt;- <span class="fn">randomForest</span>(<span class="fn">as.factor</span>(Reverse) ~ ., data = Train,
+                    ntree = 200, nodesize = 25)
+ctrl &lt;- <span class="fn">trainControl</span>(method = <span class="st">"cv"</span>, number = 10)
+<span class="fn">train</span>(Reverse ~ ., data = Train, method = <span class="st">"rpart"</span>,
+      trControl = ctrl, tuneGrid = <span class="fn">expand.grid</span>(.cp = <span class="fn">seq</span>(0.01, 0.5, 0.01)))</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="metric-grid">
+                      <div class="metric"><b>~66%</b><span>CART test accuracy</span></div>
+                      <div class="metric"><b>~70%</b><span>RF test accuracy</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>LowerCourt direction is a dominant split. Forests add accuracy; pruned CART remains the story for stakeholders.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 08 Claims -->
+            <tr class="problem-row" data-id="p08" data-topic="trees" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">CART + loss matrix</td>
+              <td class="col-problem">Predict healthcare cost buckets<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Baseline = last year&rsquo;s bucket; define asymmetric penalty matrix; CART with parms$loss to minimize expensive mistakes.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">rpart</span><span class="tech-tag">loss matrix</span><span class="tech-tag">penalty error</span></div></td>
+              <td class="col-result">Lower penalty error</td>
+            </tr>
+            <tr class="detail-row" data-for="p08" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block">pen &lt;- <span class="fn">matrix</span>(c(0,1,2,3,4,
+                 2,0,1,2,3,
+                 4,2,0,1,2,
+                 6,4,2,0,1,
+                 8,6,4,2,0), nrow = 5, byrow = TRUE)
+tree &lt;- <span class="fn">rpart</span>(bucket2009 ~ age + diabetes + heart.failure +
+              bucket2008 + reimbursement2008,
+              data = train, method = <span class="st">"class"</span>, cp = 5e-5,
+              parms = <span class="fn">list</span>(loss = pen))
+pred &lt;- <span class="fn">predict</span>(tree, test, type = <span class="st">"class"</span>)
+<span class="fn">sum</span>(<span class="fn">as.matrix</span>(<span class="fn">table</span>(test$bucket2009, pred)) * pen) / <span class="fn">nrow</span>(test)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Accuracy can rise while penalty falls if the loss matrix pushes the tree away from under-predicting high-cost patients &mdash; align the objective with dollars.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 09 Boston -->
+            <tr class="problem-row" data-id="p09" data-topic="trees" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">CART vs OLS</td>
+              <td class="col-problem">Boston housing value by location<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Map LAT/LON patterns; compare linear MEDV~LAT+LON with spatial CART; then full-feature LM vs tree SSE on holdout.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">rpart</span><span class="tech-tag">lm</span><span class="tech-tag">SSE</span><span class="tech-tag">prp</span></div></td>
+              <td class="col-result">Tree captures non-linearity</td>
+            </tr>
+            <tr class="detail-row" data-for="p09" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block">lin &lt;- <span class="fn">lm</span>(MEDV ~ LAT + LON + CRIM + RM + NOX + DIS, data = train)
+cart &lt;- <span class="fn">rpart</span>(MEDV ~ LAT + LON + CRIM + RM + NOX + DIS, data = train)
+sse_lin  &lt;- <span class="fn">sum</span>((<span class="fn">predict</span>(lin, test)  - test$MEDV)^2)
+sse_cart &lt;- <span class="fn">sum</span>((<span class="fn">predict</span>(cart, test) - test$MEDV)^2)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Geography is piecewise, not linear; trees partition space into interpretable value zones when OLS underfits spatial structure.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 10 Twitter -->
+            <tr class="problem-row" data-id="p10" data-topic="text" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Text analytics</td>
+              <td class="col-problem">Negative tweet classification<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Label from sentiment score; tm pipeline (lower, stopwords, stem); sparse DTM; classify with CART/RF.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">tm</span><span class="tech-tag">DTM</span><span class="tech-tag">removeSparseTerms</span></div></td>
+              <td class="col-result">Sparse bag-of-words works</td>
+            </tr>
+            <tr class="detail-row" data-for="p10" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="kw">library</span>(tm)
+tweets$Negative &lt;- <span class="fn">as.factor</span>(tweets$Avg &lt;= -1)
+corp &lt;- <span class="fn">Corpus</span>(<span class="fn">VectorSource</span>(tweets$Tweet))
+corp &lt;- <span class="fn">tm_map</span>(corp, content_transformer(tolower))
+corp &lt;- <span class="fn">tm_map</span>(corp, removePunctuation)
+corp &lt;- <span class="fn">tm_map</span>(corp, removeWords, <span class="fn">c</span>(<span class="st">"apple"</span>, <span class="fn">stopwords</span>(<span class="st">"english"</span>)))
+corp &lt;- <span class="fn">tm_map</span>(corp, stemDocument)
+dtm &lt;- <span class="fn">removeSparseTerms</span>(<span class="fn">DocumentTermMatrix</span>(corp), 0.995)
+X &lt;- <span class="fn">as.data.frame</span>(<span class="fn">as.matrix</span>(dtm))</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Aggressive sparsity control turns noisy tweets into a manageable feature matrix; brand tokens often dominate unless removed upstream.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 11 Clustering movies -->
+            <tr class="problem-row" data-id="p11" data-topic="clustering" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Hierarchical clustering</td>
+              <td class="col-problem">Cluster movies by genre flags<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Euclidean distance on genre indicators; Ward linkage; cutree; profile clusters with tapply means; recommend within cluster.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">dist</span><span class="tech-tag">hclust</span><span class="tech-tag">cutree</span><span class="tech-tag">tapply</span></div></td>
+              <td class="col-result">Genre-coherent groups</td>
+            </tr>
+            <tr class="detail-row" data-for="p11" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block">d &lt;- <span class="fn">dist</span>(movies[, genre_cols], method = <span class="st">"euclidean"</span>)
+hc &lt;- <span class="fn">hclust</span>(d, method = <span class="st">"ward.D"</span>)
+g &lt;- <span class="fn">cutree</span>(hc, k = 10)
+<span class="fn">tapply</span>(movies$Action, g, mean)
+<span class="fn">tapply</span>(movies$Romance, g, mean)
+<span class="cm"># nearest neighbors = same cluster titles</span></pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Clusters recover &ldquo;action-thriller,&rdquo; &ldquo;romance-comedy,&rdquo; etc. without labels &mdash; a lightweight recommender seed before collaborative filtering.</p>
+                    </div>
+                    <div class="chart-box" id="chart-clusters" aria-label="Cluster genre profile chart"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 12 Viz crime -->
+            <tr class="problem-row" data-id="p12" data-topic="viz" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Visualization</td>
+              <td class="col-problem">Crime timing heatmaps (ggplot2)<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Parse timestamps; aggregate weekday x hour; ordered factors; geom_line then geom_tile heatmap; separate weekend patterns.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">ggplot2</span><span class="tech-tag">strptime</span><span class="tech-tag">geom_tile</span></div></td>
+              <td class="col-result">Night / Fri peaks</td>
+            </tr>
+            <tr class="detail-row" data-for="p12" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="kw">library</span>(ggplot2)
+mvt$Date &lt;- <span class="fn">strptime</span>(mvt$Date, <span class="st">"%m/%d/%y %H:%M"</span>)
+mvt$Weekday &lt;- <span class="fn">weekdays</span>(mvt$Date)
+mvt$Hour &lt;- mvt$Date$hour
+dh &lt;- <span class="fn">as.data.frame</span>(<span class="fn">table</span>(mvt$Weekday, mvt$Hour))
+<span class="fn">ggplot</span>(dh, <span class="fn">aes</span>(Hour, Var1, fill = Freq)) +
+  <span class="fn">geom_tile</span>() +
+  <span class="fn">scale_fill_gradient</span>(low = <span class="st">"white"</span>, high = <span class="st">"#276DC3"</span>)</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Heatmaps surface patrol-relevant peaks (late evening, Friday) faster than tables - visualization as an analysis product, not decoration.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 13 K-means -->
+            <tr class="problem-row" data-id="p13" data-topic="clustering" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">K-means</td>
+              <td class="col-problem">Segment MRI intensity pixels<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Vectorize image matrix; hierarchical fails at scale; k-means with fixed k; map clusters back to image; transfer centers to tumor scan.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">kmeans</span><span class="tech-tag">image()</span><span class="tech-tag">flexclust</span></div></td>
+              <td class="col-result">Tissue / lesion contrast</td>
+            </tr>
+            <tr class="detail-row" data-for="p13" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block">mat &lt;- <span class="fn">as.matrix</span>(healthy)
+vec &lt;- <span class="fn">as.vector</span>(mat)
+<span class="fn">set.seed</span>(1)
+km &lt;- <span class="fn">kmeans</span>(vec, centers = 5, iter.max = 1000)
+cl &lt;- km$cluster
+<span class="fn">dim</span>(cl) &lt;- <span class="fn">dim</span>(mat)
+<span class="fn">image</span>(cl, axes = FALSE, col = <span class="fn">hcl.colors</span>(5))</pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>When pairwise distance matrices explode, switch to k-means; transferring healthy centers to a tumor image highlights anomalous regions.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 14 Airline LP -->
+            <tr class="problem-row" data-id="p14" data-topic="opt" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">Linear optimization</td>
+              <td class="col-problem">Airline seat revenue management<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Decision vars = regular/discount seats; capacity &amp; demand constraints; maximize fare x seats via lpSolveAPI; extend to connecting itineraries.</td>
+              <td class="col-tech"><div class="tech-tags"><span class="tech-tag">lpSolveAPI</span><span class="tech-tag">make.lp</span><span class="tech-tag">solve</span></div></td>
+              <td class="col-result">Obj ~ $77.4k (2-var)</td>
+            </tr>
+            <tr class="detail-row" data-for="p14" hidden>
+              <td colspan="5">
+                <div class="detail-panel">
+                  <div class="detail-block nb-input">
+                    <div class="nb-label" aria-hidden="true">In[]</div>
+<pre class="code-block"><span class="kw">library</span>(lpSolveAPI)
+lp &lt;- <span class="fn">make.lp</span>(3, 2)   <span class="cm"># capacity + 2 demand caps</span>
+<span class="fn">set.column</span>(lp, 1, <span class="fn">c</span>(1, 1, 0))
+<span class="fn">set.column</span>(lp, 2, <span class="fn">c</span>(1, 0, 1))
+<span class="fn">set.constr.type</span>(lp, <span class="fn">rep</span>(<span class="st">"&lt;="</span>, 3))
+<span class="fn">set.rhs</span>(lp, <span class="fn">c</span>(166, 100, 150))
+<span class="fn">set.objfn</span>(lp, <span class="fn">c</span>(617, 238))
+<span class="fn">lp.control</span>(lp, sense = <span class="st">"max"</span>)
+<span class="fn">solve</span>(lp)
+<span class="fn">get.objective</span>(lp); <span class="fn">get.variables</span>(lp)  <span class="cm"># 100 regular, 66 discount</span></pre>
+                  </div>
+                  <div class="detail-block nb-output">
+                    <div class="nb-label" aria-hidden="true">Out[]</div>
+                    <div class="metric-grid">
+                      <div class="metric"><b>$77,408</b><span>2-variable optimum</span></div>
+                      <div class="metric"><b>$120,514</b><span>Connecting network</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Protecting high-fare seats under capacity is an optimization problem, not a heuristic &mdash; dual values reveal the shadow price of each seat.</p>
+                    </div>
+                    <div class="chart-box" id="chart-airline" aria-label="Airline allocation chart"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile stacked cards -->
+      <div class="mobile-cards" id="mobile-cards" aria-label="Problem cards"></div>
+    </section>
+
+    <section class="section" id="charts">
+      <div class="section-head">
+        <p class="section-kicker">Selected results</p>
+        <h2>Illustrative outcome charts</h2>
+        <p class="sub">Representative outcome patterns from the problem catalog &mdash; synthetic data for portfolio storytelling.</p>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Wine model &mdash; fitted vs actual</h3>
+          <p>Holdout-style scatter for a sparse climate model.</p>
+          <div class="chart-box" id="chart-wine" style="min-height:260px"></div>
+        </div>
+        <div class="chart-card">
+          <h3>ROC operating points</h3>
+          <p>Sensitivity vs 1 &minus; specificity across thresholds (quality-care pattern).</p>
+          <div class="chart-box" id="chart-roc" style="min-height:260px"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Afolabi Adesina</strong>
+        <span>Oakville, ON &middot; Statistical Computing in R</span>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:adesiafo@sheridancollege.ca">Email</a>
+        <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio" target="_blank" rel="noopener">GitHub</a>
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/NA-Skills-Portfolio/projects/r-analytics/r.js?v=20260827"></script>
+</body>
+</html>

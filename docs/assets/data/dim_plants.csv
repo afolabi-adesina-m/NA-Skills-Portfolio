@@ -1,0 +1,6 @@
+plant,plant_code,country,region,market,lat,lon
+Oakville,P-OAK,CA,Ontario,GTA West,43.4675,-79.6877
+Mississauga,P-MIS,CA,Ontario,GTA Core,43.589,-79.6441
+Hamilton,P-HAM,CA,Ontario,Golden Horseshoe,43.2557,-79.8711
+Buffalo,P-BUF,US,New York,Niagara Cross-Border,42.8864,-78.8784
+Detroit,P-DET,US,Michigan,Auto Belt,42.3314,-83.0458

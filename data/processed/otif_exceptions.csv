@@ -1,0 +1,82 @@
+exception_id,month,plant,country,region,order_impact,otif_gap,root_cause,severity,owner
+EX-00001,2025-09,Oakville,CA,Ontario,13,0.018,Carrier delay at border,Critical,Plant Ops
+EX-00002,2025-09,Buffalo,US,New York,7,0.017,Weather / winter ops,Watch,Transportation
+EX-00003,2025-09,Detroit,US,Michigan,5,0.035,Short ship / pick error,Action,Planning
+EX-00004,2025-10,Mississauga,CA,Ontario,12,0.031,Documentation hold,Critical,Customer Care
+EX-00005,2025-10,Hamilton,CA,Ontario,11,0.053,Production slip,Action,Transportation
+EX-00006,2025-10,Hamilton,CA,Ontario,3,0.053,Yard congestion,Watch,Plant Ops
+EX-00007,2025-10,Buffalo,US,New York,10,0.076,Carrier delay at border,Watch,Planning
+EX-00008,2025-10,Buffalo,US,New York,30,0.076,Short ship / pick error,Action,Plant Ops
+EX-00009,2025-10,Detroit,US,Michigan,35,0.061,Short ship / pick error,Watch,Planning
+EX-00010,2025-10,Detroit,US,Michigan,20,0.061,Production slip,Action,Plant Ops
+EX-00011,2025-11,Oakville,CA,Ontario,3,0.014,Yard congestion,Critical,Customer Care
+EX-00012,2025-11,Mississauga,CA,Ontario,23,0.03,Weather / winter ops,Critical,Plant Ops
+EX-00013,2025-11,Hamilton,CA,Ontario,14,0.074,Documentation hold,Action,Transportation
+EX-00014,2025-11,Hamilton,CA,Ontario,6,0.074,Weather / winter ops,Watch,Customer Care
+EX-00015,2025-11,Buffalo,US,New York,13,0.078,Customer dock unavailable,Watch,Customer Care
+EX-00016,2025-11,Buffalo,US,New York,9,0.078,Documentation hold,Watch,Plant Ops
+EX-00017,2025-11,Detroit,US,Michigan,13,0.045,Documentation hold,Action,Transportation
+EX-00018,2025-11,Detroit,US,Michigan,4,0.045,Production slip,Watch,Transportation
+EX-00019,2025-12,Oakville,CA,Ontario,4,0.029,Carrier delay at border,Watch,Transportation
+EX-00020,2025-12,Mississauga,CA,Ontario,5,0.043,Yard congestion,Action,Customer Care
+EX-00021,2025-12,Mississauga,CA,Ontario,3,0.043,Customer dock unavailable,Critical,Customer Care
+EX-00022,2025-12,Hamilton,CA,Ontario,2,0.019,Carrier delay at border,Watch,Transportation
+EX-00023,2025-12,Buffalo,US,New York,29,0.07,Documentation hold,Watch,Plant Ops
+EX-00024,2025-12,Buffalo,US,New York,22,0.07,Carrier delay at border,Watch,Planning
+EX-00025,2025-12,Detroit,US,Michigan,2,0.031,Yard congestion,Critical,Planning
+EX-00026,2026-01,Oakville,CA,Ontario,27,0.071,Weather / winter ops,Action,Planning
+EX-00027,2026-01,Oakville,CA,Ontario,1,0.071,Production slip,Critical,Planning
+EX-00028,2026-01,Mississauga,CA,Ontario,6,0.043,Short ship / pick error,Watch,Transportation
+EX-00029,2026-01,Mississauga,CA,Ontario,9,0.043,Short ship / pick error,Action,Transportation
+EX-00030,2026-01,Hamilton,CA,Ontario,2,0.069,Customer dock unavailable,Critical,Transportation
+EX-00031,2026-01,Hamilton,CA,Ontario,10,0.069,Production slip,Action,Planning
+EX-00032,2026-01,Buffalo,US,New York,2,0.085,Carrier delay at border,Action,Planning
+EX-00033,2026-01,Buffalo,US,New York,5,0.085,Production slip,Watch,Transportation
+EX-00034,2026-01,Detroit,US,Michigan,41,0.081,Documentation hold,Critical,Plant Ops
+EX-00035,2026-01,Detroit,US,Michigan,25,0.081,Documentation hold,Critical,Customer Care
+EX-00036,2026-02,Oakville,CA,Ontario,16,0.059,Customer dock unavailable,Action,Customer Care
+EX-00037,2026-02,Oakville,CA,Ontario,19,0.059,Customer dock unavailable,Action,Planning
+EX-00038,2026-02,Mississauga,CA,Ontario,9,0.029,Yard congestion,Watch,Customer Care
+EX-00039,2026-02,Buffalo,US,New York,15,0.095,Carrier delay at border,Action,Plant Ops
+EX-00040,2026-02,Buffalo,US,New York,31,0.095,Customer dock unavailable,Action,Transportation
+EX-00041,2026-02,Detroit,US,Michigan,6,0.054,Carrier delay at border,Watch,Transportation
+EX-00042,2026-02,Detroit,US,Michigan,9,0.054,Customer dock unavailable,Critical,Plant Ops
+EX-00043,2026-03,Oakville,CA,Ontario,13,0.022,Yard congestion,Critical,Planning
+EX-00044,2026-03,Mississauga,CA,Ontario,12,0.061,Documentation hold,Watch,Transportation
+EX-00045,2026-03,Mississauga,CA,Ontario,8,0.061,Customer dock unavailable,Action,Customer Care
+EX-00046,2026-03,Hamilton,CA,Ontario,19,0.022,Carrier delay at border,Critical,Customer Care
+EX-00047,2026-03,Buffalo,US,New York,19,0.08,Customer dock unavailable,Watch,Transportation
+EX-00048,2026-03,Buffalo,US,New York,27,0.08,Documentation hold,Action,Customer Care
+EX-00049,2026-03,Detroit,US,Michigan,12,0.106,Production slip,Watch,Plant Ops
+EX-00050,2026-03,Detroit,US,Michigan,4,0.106,Yard congestion,Critical,Transportation
+EX-00051,2026-04,Mississauga,CA,Ontario,1,0.04,Customer dock unavailable,Action,Plant Ops
+EX-00052,2026-04,Buffalo,US,New York,11,0.06,Customer dock unavailable,Watch,Transportation
+EX-00053,2026-04,Buffalo,US,New York,11,0.06,Weather / winter ops,Watch,Customer Care
+EX-00054,2026-04,Detroit,US,Michigan,1,0.035,Carrier delay at border,Watch,Transportation
+EX-00055,2026-05,Mississauga,CA,Ontario,13,0.015,Carrier delay at border,Critical,Customer Care
+EX-00056,2026-05,Hamilton,CA,Ontario,5,0.072,Short ship / pick error,Critical,Planning
+EX-00057,2026-05,Hamilton,CA,Ontario,38,0.072,Carrier delay at border,Action,Customer Care
+EX-00058,2026-05,Buffalo,US,New York,11,0.076,Yard congestion,Watch,Planning
+EX-00059,2026-05,Buffalo,US,New York,21,0.076,Production slip,Critical,Customer Care
+EX-00060,2026-05,Detroit,US,Michigan,12,0.096,Weather / winter ops,Critical,Customer Care
+EX-00061,2026-05,Detroit,US,Michigan,15,0.096,Weather / winter ops,Critical,Transportation
+EX-00062,2026-06,Oakville,CA,Ontario,13,0.051,Short ship / pick error,Critical,Customer Care
+EX-00063,2026-06,Oakville,CA,Ontario,5,0.051,Yard congestion,Critical,Plant Ops
+EX-00064,2026-06,Buffalo,US,New York,19,0.045,Production slip,Critical,Plant Ops
+EX-00065,2026-06,Buffalo,US,New York,6,0.045,Customer dock unavailable,Action,Transportation
+EX-00066,2026-06,Detroit,US,Michigan,11,0.032,Customer dock unavailable,Watch,Planning
+EX-00067,2026-07,Oakville,CA,Ontario,3,0.014,Short ship / pick error,Critical,Plant Ops
+EX-00068,2026-07,Mississauga,CA,Ontario,8,0.041,Short ship / pick error,Action,Transportation
+EX-00069,2026-07,Mississauga,CA,Ontario,3,0.041,Documentation hold,Critical,Customer Care
+EX-00070,2026-07,Hamilton,CA,Ontario,15,0.048,Carrier delay at border,Action,Transportation
+EX-00071,2026-07,Hamilton,CA,Ontario,8,0.048,Weather / winter ops,Watch,Customer Care
+EX-00072,2026-07,Buffalo,US,New York,5,0.034,Documentation hold,Watch,Plant Ops
+EX-00073,2026-07,Detroit,US,Michigan,2,0.052,Production slip,Action,Planning
+EX-00074,2026-07,Detroit,US,Michigan,6,0.052,Production slip,Action,Planning
+EX-00075,2026-08,Oakville,CA,Ontario,12,0.074,Customer dock unavailable,Action,Plant Ops
+EX-00076,2026-08,Oakville,CA,Ontario,16,0.074,Documentation hold,Critical,Transportation
+EX-00077,2026-08,Hamilton,CA,Ontario,3,0.024,Production slip,Watch,Plant Ops
+EX-00078,2026-08,Buffalo,US,New York,10,0.058,Carrier delay at border,Action,Customer Care
+EX-00079,2026-08,Buffalo,US,New York,4,0.058,Carrier delay at border,Action,Transportation
+EX-00080,2026-08,Detroit,US,Michigan,25,0.087,Yard congestion,Critical,Plant Ops
+EX-00081,2026-08,Detroit,US,Michigan,6,0.087,Short ship / pick error,Critical,Planning
