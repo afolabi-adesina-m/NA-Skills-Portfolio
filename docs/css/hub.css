@@ -151,11 +151,15 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .brand:hover { text-decoration: none; }
 
 .brand-photo {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(26, 43, 60, 0.12);
+  object-position: center 12%;
+  border: 2px solid rgba(26, 43, 60, 0.14);
+  box-shadow: 0 1px 4px rgba(18, 21, 28, 0.1);
   flex-shrink: 0;
   background: var(--surface-solid);
 }
@@ -372,17 +376,25 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .hero-photo-wrap {
   margin: 0;
-  width: min(100%, 360px);
+  width: min(100%, 340px);
+}
+
+.hero-photo-frame {
+  overflow: hidden;
+  border-radius: calc(var(--radius) + 6px);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-lift);
+  background: var(--surface-solid);
+  aspect-ratio: 4 / 5;
 }
 
 .hero-photo {
   display: block;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: calc(var(--radius) + 6px);
-  border: 1px solid var(--line-strong);
-  box-shadow: var(--shadow-lift);
+  object-position: center 18%;
   background: var(--surface-solid);
 }
 
@@ -1232,8 +1244,15 @@ body.hub a.btn-cta:hover,
   }
 
   .hero-photo-wrap {
-    width: min(100%, 280px);
+    width: min(100%, 260px);
     margin: 0 auto;
+  }
+
+  .brand-photo {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
   }
 
   .btn-nav-cta {
