@@ -17,6 +17,7 @@
   --sap: #1f5f82;
   --bi: #4a5568;
   --r: #3a5a6e;
+  --py: #2b6a6e;
   --radius: 14px;
   --radius-sm: 10px;
   --shadow: 0 1px 2px rgba(18, 21, 28, 0.04), 0 12px 40px rgba(18, 21, 28, 0.06);
@@ -471,6 +472,7 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .track-card.track-sap { --card-accent: var(--sap); }
 .track-card.track-bi { --card-accent: var(--bi); }
 .track-card.track-r { --card-accent: var(--r); }
+.track-card.track-py { --card-accent: var(--py); }
 
 .track-card:hover {
   transform: translateY(-4px);

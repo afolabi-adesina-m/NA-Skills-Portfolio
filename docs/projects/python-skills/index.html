@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python Skills Showcase | Afolabi Adesina</title>
+  <meta name="description" content="Python skills showcase across eight Sheridan PAIDA courses — advanced Python/ML, visualization, data science, big data, ethics, social media mining, neural nets, and NLP — with original illustrative demos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/python-skills/py.css" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" defer></script>
+</head>
+<body class="py-page">
+  <div class="atmosphere" aria-hidden="true">
+    <div class="mesh mesh-a"></div>
+    <div class="mesh mesh-b"></div>
+    <div class="geo-plane"></div>
+  </div>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-text">
+          <span class="brand-name">Afolabi Adesina</span>
+          <span class="brand-tag">NA Skills Portfolio</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="py-nav" aria-label="Open menu">☰</button>
+      <div class="nav-drawer" id="py-nav">
+        <div class="nav-links">
+          <a href="/NA-Skills-Portfolio/">Hub</a>
+          <a href="#courses">Courses</a>
+          <a href="#charts">Charts</a>
+          <a href="/NA-Skills-Portfolio/projects/r-analytics/">R Analytics</a>
+          <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Smart-Shield</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="py-hero">
+      <p class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Python Skills</p>
+      <p class="py-kicker">Python / PAIDA</p>
+      <p class="py-brand">Python Skills Showcase</p>
+      <h1>Eight course modules — from pandas pipelines to neural nets and responsible AI.</h1>
+      <p class="lead">
+        A consulting-style catalog distilled from Sheridan PAIDA course themes: advanced Python for ML,
+        visualization, data science workflow, big-data storage patterns, ethics, social media mining,
+        deep learning, and NLP — rewritten as original skill demos with synthetic illustrations.
+      </p>
+      <div class="pill-row">
+        <span class="pill accent">8 courses</span>
+        <span class="pill">pandas · sklearn</span>
+        <span class="pill">matplotlib · seaborn · plotly</span>
+        <span class="pill">Spark concepts</span>
+        <span class="pill">torch · NLP</span>
+        <span class="pill">fairness checks</span>
+      </div>
+      <p class="disclaimer">
+        Skills are synthesized from unit themes in local Sheridan course folders (notebook titles, chapter PDFs, lab names).
+        Sample code and metrics below are original illustrative recreations — not verbatim course solutions or
+        copyrighted assignment text. Proprietary datasets are not redistributed.
+      </p>
+    </section>
+
+    <section class="section" id="courses">
+      <div class="section-head">
+        <p class="section-kicker">Course catalog</p>
+        <h2>How each module is framed</h2>
+        <p class="sub">
+          Skill area · key concepts · business use cases · sample Python · interpretation. Expand a course for code and takeaways.
+        </p>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat"><strong>8</strong><span>Course modules</span></div>
+        <div class="stat"><strong>2</strong><span>Semesters covered</span></div>
+        <div class="stat"><strong>100%</strong><span>Original demo snippets</span></div>
+        <div class="stat"><strong>1</strong><span>Live AI/ML capstone link</span></div>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filter by domain">
+        <button type="button" class="filter-btn is-active" data-filter="all">All</button>
+        <button type="button" class="filter-btn" data-filter="ml">Python / ML</button>
+        <button type="button" class="filter-btn" data-filter="viz">Visualization</button>
+        <button type="button" class="filter-btn" data-filter="ds">Data Science</button>
+        <button type="button" class="filter-btn" data-filter="bigdata">Big Data</button>
+        <button type="button" class="filter-btn" data-filter="ethics">Ethics</button>
+        <button type="button" class="filter-btn" data-filter="social">Social Mining</button>
+        <button type="button" class="filter-btn" data-filter="nn">Neural Nets</button>
+        <button type="button" class="filter-btn" data-filter="nlp">NLP</button>
+      </div>
+
+      <!-- Desktop / tablet summary table -->
+      <div class="table-wrap table-desktop" style="margin-bottom:1.25rem">
+        <table class="skills-table" id="skills-table">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Skill focus</th>
+              <th>Representative concepts</th>
+              <th>Sample result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="problem-row" data-id="c01" data-topic="ml" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">PROG50141</td>
+              <td class="col-problem">Advanced Python for AI &amp; ML<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">NumPy · wrangling · feature prep · sklearn pipelines · model selection</td>
+              <td class="col-result">CV F1 ↑ with Pipeline</td>
+            </tr>
+            <tr class="detail-row" data-for="c01" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — reusable sklearn pipeline (synthetic)</span>
+<span class="kw">from</span> sklearn.compose <span class="kw">import</span> ColumnTransformer
+<span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> Pipeline
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler, OneHotEncoder
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> cross_val_score
+
+prep = ColumnTransformer([
+    (<span class="st">"num"</span>, StandardScaler(), [<span class="st">"temp"</span>, <span class="st">"humidity"</span>, <span class="st">"wind"</span>]),
+    (<span class="st">"cat"</span>, OneHotEncoder(handle_unknown=<span class="st">"ignore"</span>), [<span class="st">"zone"</span>]),
+])
+clf = Pipeline([
+    (<span class="st">"prep"</span>, prep),
+    (<span class="st">"model"</span>, LogisticRegression(max_iter=<span class="fn">2000</span>)),
+])
+scores = <span class="fn">cross_val_score</span>(clf, X, y, cv=<span class="fn">5</span>, scoring=<span class="st">"f1"</span>)
+<span class="fn">print</span>(scores.<span class="fn">mean</span>().<span class="fn">round</span>(<span class="fn">3</span>), scores.<span class="fn">std</span>().<span class="fn">round</span>(<span class="fn">3</span>))</pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>Production-minded Python for ML: arrays, loading, wrangling, numerical/categorical features, evaluation, and model selection.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">NumPy</span><span class="tech-tag">pandas</span><span class="tech-tag">Pipeline</span>
+                      <span class="tech-tag">ColumnTransformer</span><span class="tech-tag">cross_val_score</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Energy / facility load risk scoring with mixed numeric and zone features.</li>
+                      <li>Reusable train–serve pipelines that keep preprocessing identical in production.</li>
+                    </ul>
+                    <div class="metric-grid">
+                      <div class="metric"><b>~0.81</b><span>Mean CV F1 (demo)</span></div>
+                      <div class="metric"><b>±0.03</b><span>Fold std. deviation</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Bundle scaling and encoding inside a Pipeline so leakage stays out of validation — model choice is secondary to a clean, repeatable transform path.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c02" data-topic="viz" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">STAT50002</td>
+              <td class="col-problem">Data Visualization<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">matplotlib · seaborn · plotly storytelling for analytics audiences</td>
+              <td class="col-result">Clear peak / outlier story</td>
+            </tr>
+            <tr class="detail-row" data-for="c02" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — seaborn + plotly pattern (synthetic ops series)</span>
+<span class="kw">import</span> seaborn <span class="kw">as</span> sns
+<span class="kw">import</span> plotly.express <span class="kw">as</span> px
+
+sns.<span class="fn">set_theme</span>(style=<span class="st">"whitegrid"</span>)
+ax = sns.<span class="fn">lineplot</span>(data=df, x=<span class="st">"hour"</span>, y=<span class="st">"otif"</span>, hue=<span class="st">"region"</span>)
+ax.<span class="fn">set_title</span>(<span class="st">"OTIF by hour — GTA corridors"</span>)
+
+fig = px.<span class="fn">scatter</span>(df, x=<span class="st">"freight_cost"</span>, y=<span class="st">"fill_rate"</span>,
+                 color=<span class="st">"exception"</span>, hover_data=[<span class="st">"plant"</span>],
+                 title=<span class="st">"Cost vs fill — exception overlay"</span>)
+fig.<span class="fn">show</span>()</pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>Static and interactive viz stacks for exploration, midterm-style review patterns, and stakeholder-ready charts.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">matplotlib</span><span class="tech-tag">seaborn</span><span class="tech-tag">plotly</span>
+                      <span class="tech-tag">multi-panel</span><span class="tech-tag">hover UX</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Ops control-tower storytelling: OTIF by hour and corridor.</li>
+                      <li>Interactive Plotly views for plant managers to drill exceptions.</li>
+                    </ul>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Use seaborn for publication-clean static cuts; reserve Plotly when the audience needs hover, filter, and shared exploration — not every chart needs interactivity.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c03" data-topic="ds" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">STAT53894</td>
+              <td class="col-problem">Introduction to Data Science<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">EDA · sampling · significance tests · regression · classification · PCA</td>
+              <td class="col-result">p &lt; 0.05 · AUC &gt; chance</td>
+            </tr>
+            <tr class="detail-row" data-for="c03" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — A/B conversion test + holdout classifier</span>
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> roc_auc_score
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
+
+t_stat, p_val = stats.<span class="fn">ttest_ind</span>(a_conv, b_conv, equal_var=<span class="fn">False</span>)
+<span class="fn">print</span>(<span class="st">"Welch p:"</span>, <span class="fn">round</span>(p_val, <span class="fn">4</span>))
+
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="fn">0.3</span>, stratify=y, random_state=<span class="fn">42</span>)
+clf = LogisticRegression(max_iter=<span class="fn">2000</span>).<span class="fn">fit</span>(X_train, y_train)
+auc = <span class="fn">roc_auc_score</span>(y_test, clf.<span class="fn">predict_proba</span>(X_test)[:, <span class="fn">1</span>])
+<span class="fn">print</span>(<span class="st">"Holdout AUC:"</span>, <span class="fn">round</span>(auc, <span class="fn">3</span>))</pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>End-to-end data science workflow: EDA, sampling, experiments, prediction, and unsupervised reduction.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">EDA</span><span class="tech-tag">sampling</span><span class="tech-tag">t-test</span>
+                      <span class="tech-tag">glm / LR</span><span class="tech-tag">KNN</span><span class="tech-tag">PCA</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Landing-page A/B tests with Welch t-tests before rollout.</li>
+                      <li>Loan / response classification with stratified holdouts and AUC.</li>
+                    </ul>
+                    <div class="metric-grid">
+                      <div class="metric"><b>0.031</b><span>Demo Welch p-value</span></div>
+                      <div class="metric"><b>~0.74</b><span>Holdout AUC</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Significance without effect size is incomplete; pair p-values with lift, and prefer AUC over raw accuracy when the positive class is rare.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c04" data-topic="bigdata" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">SYS52461</td>
+              <td class="col-problem">Big Data Analysis &amp; Storage<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Volume/velocity · storage concepts · bronze/silver/gold medallion pattern</td>
+              <td class="col-result">Clean gold KPI table</td>
+            </tr>
+            <tr class="detail-row" data-for="c04" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — medallion layers at demo scale (pandas stand-in for Spark)</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+bronze = pd.<span class="fn">read_csv</span>(<span class="st">"events_raw.csv"</span>)          <span class="cm"># append-only ingest</span>
+silver = (bronze
+    .<span class="fn">dropna</span>(subset=[<span class="st">"plant_id"</span>, <span class="st">"event_ts"</span>])
+    .<span class="fn">assign</span>(event_ts=<span class="kw">lambda</span> d: pd.<span class="fn">to_datetime</span>(d[<span class="st">"event_ts"</span>]))
+    .<span class="fn">drop_duplicates</span>([<span class="st">"event_id"</span>]))
+gold = (silver
+    .<span class="fn">groupby</span>([<span class="st">"plant_id"</span>, silver[<span class="st">"event_ts"</span>].dt.<span class="fn">floor</span>(<span class="st">"D"</span>)], as_index=<span class="fn">False</span>)
+    .<span class="fn">agg</span>(shipments=(<span class="st">"event_id"</span>, <span class="st">"count"</span>),
+         late_rate=(<span class="st">"is_late"</span>, <span class="st">"mean"</span>)))
+<span class="cm"># Spark analog: spark.read.json → filter/withColumn → groupBy.agg → parquet</span>
+gold.<span class="fn">to_parquet</span>(<span class="st">"gold_plant_day.parquet"</span>)</pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>Big-data fundamentals, adoption drivers, storage concepts, and layered analytics pipelines (bronze → silver → gold).</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">5 Vs</span><span class="tech-tag">lakehouse</span><span class="tech-tag">medallion</span>
+                      <span class="tech-tag">Spark API shape</span><span class="tech-tag">parquet</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Plant telemetry lake: raw events → cleaned silver → daily OTIF gold.</li>
+                      <li>Dashboard feeds that never query mutable bronze directly.</li>
+                    </ul>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Scale is a design problem first: enforce keys, dedupe, and grain in silver so gold KPIs stay trustworthy when volumes grow into Spark/cluster territory.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c05" data-topic="ethics" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">INFO55035</td>
+              <td class="col-problem">Ethics &amp; Responsible AI<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Fairness · bias audits · privacy · governance · documentation</td>
+              <td class="col-result">Parity gap flagged</td>
+            </tr>
+            <tr class="detail-row" data-for="c05" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — demographic parity gap on synthetic scores</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+def <span class="fn">selection_rate</span>(df, group_col, group, yhat=<span class="st">"y_hat"</span>):
+    g = df[df[group_col] == group]
+    <span class="kw">return</span> g[yhat].<span class="fn">mean</span>()
+
+rates = {g: <span class="fn">selection_rate</span>(scored, <span class="st">"region"</span>, g)
+         <span class="kw">for</span> g <span class="kw">in</span> scored[<span class="st">"region"</span>].<span class="fn">unique</span>()}
+gap = <span class="fn">max</span>(rates.<span class="fn">values</span>()) - <span class="fn">min</span>(rates.<span class="fn">values</span>())
+<span class="fn">print</span>(<span class="st">"Selection rates:"</span>, {k: <span class="fn">round</span>(v, <span class="fn">3</span>) <span class="kw">for</span> k, v <span class="kw">in</span> rates.<span class="fn">items</span>()})
+<span class="fn">print</span>(<span class="st">"Parity gap:"</span>, <span class="fn">round</span>(gap, <span class="fn">3</span>))
+<span class="cm"># Document threshold, protected attributes, and mitigation owner in model card</span></pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>Responsible AI practice: fairness concepts, case-study analysis, privacy threat modeling, misinformation, and governance.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">demographic parity</span><span class="tech-tag">bias audit</span>
+                      <span class="tech-tag">model card</span><span class="tech-tag">privacy</span><span class="tech-tag">governance</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Screening-model audit before production — flag region/gender selection gaps.</li>
+                      <li>Policy + technical documentation for AI systems that affect people.</li>
+                    </ul>
+                    <div class="metric-grid">
+                      <div class="metric"><b>0.12</b><span>Demo parity gap</span></div>
+                      <div class="metric"><b>≤0.05</b><span>Example policy cap</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Metrics alone are not ethics — pair gap reports with owners, thresholds, and a written mitigation path before go-live.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c06" data-topic="social" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">INFO57086</td>
+              <td class="col-problem">Social Media Data Mining<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Collection · networks · sentiment · topics · engagement · geo</td>
+              <td class="col-result">Theme + polarity map</td>
+            </tr>
+            <tr class="detail-row" data-for="c06" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — synthetic posts → TF-IDF topics + lexicon polarity</span>
+<span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
+<span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> NMF
+
+pos = {<span class="st">"fast"</span>, <span class="st">"great"</span>, <span class="st">"love"</span>}; neg = {<span class="st">"late"</span>, <span class="st">"broken"</span>, <span class="st">"angry"</span>}
+def <span class="fn">polarity</span>(text):
+    toks = set(text.<span class="fn">lower</span>().<span class="fn">split</span>())
+    <span class="kw">return</span> (<span class="fn">len</span>(toks &amp; pos) - <span class="fn">len</span>(toks &amp; neg)) / <span class="fn">max</span>(<span class="fn">len</span>(toks), <span class="fn">1</span>)
+
+posts[<span class="st">"score"</span>] = posts[<span class="st">"text"</span>].<span class="fn">map</span>(polarity)
+vec = TfidfVectorizer(max_features=<span class="fn">500</span>, stop_words=<span class="st">"english"</span>)
+X = vec.<span class="fn">fit_transform</span>(posts[<span class="st">"text"</span>])
+nmf = NMF(n_components=<span class="fn">4</span>, random_state=<span class="fn">0</span>).<span class="fn">fit</span>(X)
+terms = vec.<span class="fn">get_feature_names_out</span>()
+<span class="kw">for</span> i, comp <span class="kw">in</span> <span class="fn">enumerate</span>(nmf.components_):
+    top = terms[comp.<span class="fn">argsort</span>()[-<span class="fn">5</span>:][::-<span class="fn">1</span>]]
+    <span class="fn">print</span>(<span class="st">f"Topic {i}:"</span>, <span class="st">", "</span>.<span class="fn">join</span>(top))</pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>Social analytics stack: APIs/collection, network structure, text mining, audience segmentation, geo/multimedia, ethics.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">TF-IDF</span><span class="tech-tag">NMF topics</span><span class="tech-tag">sentiment</span>
+                      <span class="tech-tag">network graphs</span><span class="tech-tag">engagement</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Brand crisis triage: polarity shift + emerging topic terms.</li>
+                      <li>Audience segments for campaign targeting from engagement behavior.</li>
+                    </ul>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Lexicon polarity is a fast triage layer; topic models explain <em>why</em> sentiment moved — always validate with sampling before executive briefings.</p>
+                    </div>
+                    <div class="chart-box" id="chart-sentiment" aria-label="Sentiment distribution chart"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c07" data-topic="nn" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">PROG55603</td>
+              <td class="col-problem">Neural Networks &amp; Deep Learning<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Tensors · activations · MLP · embeddings · autoencoders · RAG sketches</td>
+              <td class="col-result">Non-linear boundary learned</td>
+            </tr>
+            <tr class="detail-row" data-for="c07" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — tiny PyTorch MLP (XOR-style non-linearity)</span>
+<span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+class <span class="fn">MLP</span>(nn.Module):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        <span class="fn">super</span>().<span class="fn">__init__</span>()
+        self.net = nn.<span class="fn">Sequential</span>(
+            nn.<span class="fn">Linear</span>(<span class="fn">2</span>, <span class="fn">16</span>), nn.<span class="fn">ReLU</span>(),
+            nn.<span class="fn">Linear</span>(<span class="fn">16</span>, <span class="fn">1</span>),
+        )
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        <span class="kw">return</span> self.net(x).<span class="fn">squeeze</span>(-<span class="fn">1</span>)
+
+model = <span class="fn">MLP</span>()
+opt = torch.optim.<span class="fn">Adam</span>(model.<span class="fn">parameters</span>(), lr=<span class="fn">1e-2</span>)
+loss_fn = nn.<span class="fn">BCEWithLogitsLoss</span>()
+<span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">400</span>):
+    opt.<span class="fn">zero_grad</span>()
+    loss = <span class="fn">loss_fn</span>(model(X), y)
+    loss.<span class="fn">backward</span>(); opt.<span class="fn">step</span>()
+<span class="fn">print</span>(<span class="st">"final loss"</span>, <span class="fn">float</span>(loss))</pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>Deep learning foundations in PyTorch: tensors, activations, training loops, embeddings, autoencoders, and RAG-oriented activities.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">torch</span><span class="tech-tag">ReLU</span><span class="tech-tag">backprop</span>
+                      <span class="tech-tag">embeddings</span><span class="tech-tag">autoencoder</span><span class="tech-tag">RAG</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Non-linear risk surfaces where logistic regression underfits.</li>
+                      <li>Autoencoder reconstruction error for anomaly triage on sensor windows.</li>
+                    </ul>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Start with the smallest network that fits the interaction pattern; depth without regularization is a liability — measure holdout loss, not just training loss.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="problem-row" data-id="c08" data-topic="nlp" tabindex="0" role="button" aria-expanded="false">
+              <td class="col-topic">PROG57255</td>
+              <td class="col-problem">AI and Natural Languages<span class="expand-hint">Code &amp; metrics</span></td>
+              <td class="col-approach">Tokenization · vectors · sequence models · NER · transformers / HF</td>
+              <td class="col-result">Intent / entity cues</td>
+            </tr>
+            <tr class="detail-row" data-for="c08" hidden>
+              <td colspan="4">
+                <div class="detail-panel">
+                  <div class="detail-block">
+                    <h4>Sample Python (illustrative)</h4>
+<pre class="code-block"><span class="cm"># Skill demo — text → vectors → intent classifier (synthetic tickets)</span>
+<span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
+<span class="kw">from</span> sklearn.svm <span class="kw">import</span> LinearSVC
+<span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> make_pipeline
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report
+
+pipe = <span class="fn">make_pipeline</span>(
+    TfidfVectorizer(ngram_range=(<span class="fn">1</span>, <span class="fn">2</span>), min_df=<span class="fn">2</span>),
+    LinearSVC(),
+)
+pipe.<span class="fn">fit</span>(train_text, train_label)
+<span class="fn">print</span>(<span class="fn">classification_report</span>(test_label, pipe.<span class="fn">predict</span>(test_text)))
+
+<span class="cm"># Transformer sketch (deployment path):</span>
+<span class="cm"># from transformers import pipeline</span>
+<span class="cm"># ner = pipeline("ner", aggregation_strategy="simple")</span>
+<span class="cm"># ner("Delay at Milton DC for PO-4412")</span></pre>
+                  </div>
+                  <div class="detail-block">
+                    <h4>Framing &amp; interpretation</h4>
+                    <p>NLP systems path: foundations, classical ML for text, evaluation, representation, RNNs/BiLSTM NER, seq2seq, transformers and HF pipelines.</p>
+                    <div class="concept-row">
+                      <span class="tech-tag">tokenization</span><span class="tech-tag">TF-IDF</span><span class="tech-tag">BiLSTM NER</span>
+                      <span class="tech-tag">seq2seq</span><span class="tech-tag">transformers</span>
+                    </div>
+                    <ul class="use-cases">
+                      <li>Support-ticket intent routing before human escalation.</li>
+                      <li>Entity extraction (plants, POs, corridors) feeding ops dashboards — see also Smart-Shield for multimodal NLP in production-style demos.</li>
+                    </ul>
+                    <div class="metric-grid">
+                      <div class="metric"><b>~0.88</b><span>Demo macro F1</span></div>
+                      <div class="metric"><b>1–2</b><span>Word n-grams</span></div>
+                    </div>
+                    <div class="result-callout">
+                      <strong>Decision takeaway</strong>
+                      <p>Strong classical baselines still win on short enterprise text; graduate to transformers when context windows, multilingual needs, or NER span quality demand it.</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mobile-cards" id="mobile-cards" aria-label="Course cards"></div>
+
+      <p class="capstone-note">
+        <strong>Live AI/ML capstone:</strong>
+        For an applied multimodal Python project, see
+        <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Smart-Shield AI</a>
+        (separate repository — NLP hazards, vision cues, and risk fusion). This page does not modify that project.
+      </p>
+    </section>
+
+    <section class="section" id="charts">
+      <div class="section-head">
+        <p class="section-kicker">Selected results</p>
+        <h2>Illustrative outcome charts</h2>
+        <p class="sub">Synthetic recreations of patterns typically seen in these skill areas — for portfolio storytelling, not course replication.</p>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Pipeline CV F1 by fold</h3>
+          <p>Five-fold F1 for a mixed-type logistic pipeline (PROG50141 pattern).</p>
+          <div class="chart-box" id="chart-cv" style="min-height:260px"></div>
+        </div>
+        <div class="chart-card">
+          <h3>Synthetic sentiment mix</h3>
+          <p>Polarity buckets from a lexicon triage on demo social posts (INFO57086 pattern).</p>
+          <div class="chart-box" id="chart-sent-main" style="min-height:260px"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Afolabi Adesina</strong>
+        <span>Oakville, ON · Python Skills Showcase</span>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:adesiafo@sheridancollege.ca">Email</a>
+        <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio" target="_blank" rel="noopener">GitHub</a>
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/NA-Skills-Portfolio/projects/python-skills/py.js"></script>
+</body>
+</html>

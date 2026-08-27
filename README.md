@@ -1,8 +1,10 @@
 # NA Skills Portfolio
 
-North America skills showcase for **AI/ML**, **Supply Chain Optimization**, **SAP Data Migration**, **BI / Tableau**, and **Statistical Computing in R**.
+North America skills showcase for **AI/ML**, **Python Skills**, **Supply Chain Optimization**, **SAP Data Migration**, **BI / Tableau**, and **Statistical Computing in R**.
 
 **Live hub:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/
+
+**Python Skills:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/python-skills/
 
 **BI dashboard:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/bi-dashboard/
 
@@ -17,6 +19,7 @@ Smart-Shield AI stays in its own repository. This repo only links to it.
 | Filter | Project | Branch |
 |--------|---------|--------|
 | AI / ML | Smart-Shield AI (external) | `Smart-Shield-AI` `master` |
+| Python Skills | Eight-course PAIDA Python catalog | `project/python-skills` |
 | Supply Chain | Supply Chain Skills Lab | `project/supply-chain` |
 | SAP Skills | SAP Modules & MDM Migration Lab | `project/sap-migration` |
 | BI Dashboard | North America Ops Control Tower | `project/bi-dashboard` |
@@ -54,6 +57,11 @@ The same CSVs are mirrored under `docs/assets/data/` for the interactive Plotly 
 ## R Analytics attribution
 
 - Skills table synthesizes themes from a local Analytics Edge materials folder (unit R scripts / datasets).
+- Demo snippets and charts are original recreations; proprietary course solutions and datasets are not redistributed.
+
+## Python Skills attribution
+
+- Catalog synthesizes themes from eight local Sheridan PAIDA course folders (chapter/lab titles across Semesters 2–3).
 - Demo snippets and charts are original recreations; proprietary course solutions and datasets are not redistributed.
 
 ## Author
