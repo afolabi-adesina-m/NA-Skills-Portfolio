@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>North America Ops Control Tower</title>
+  <link rel="stylesheet" href="../../css/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../../index.html"><span class="brand-mark">AA</span><span>NA Skills Portfolio</span></a>
+      <div class="nav-links">
+        <a href="../../index.html">Hub</a>
+        <a href="../supply-chain/">Supply Chain</a>
+        <a href="../sap-migration/">SAP Migration</a>
+      </div>
+    </nav>
+  </header>
+  <section class="project-hero">
+    <div class="breadcrumb"><a href="../../index.html">Hub</a> / BI Dashboard</div>
+    <div class="eyebrow">Tableau-ready · Canada–US corridor</div>
+    <h1>North America Ops Control Tower</h1>
+    <p class="lead" style="color:var(--muted);max-width:62ch;line-height:1.6">Interactive Plotly control tower for OTIF, freight spend, inventory turns, and fill rate. CSVs under <code>tableau/extracts</code> connect directly to Tableau Desktop / Tableau Public.</p>
+  </section>
+  <section class="section">
+    <div class="kpi-grid" id="kpis"></div>
+    <div class="two-col" style="margin-top:1rem">
+      <div class="panel"><h3 style="margin-top:0">OTIF by plant (trend)</h3><div id="chart-otif" class="chart"></div></div>
+      <div class="panel"><h3 style="margin-top:0">Freight spend by plant</h3><div id="chart-freight" class="chart"></div></div>
+    </div>
+    <div class="panel"><h3 style="margin-top:0">Inventory turns vs fill rate</h3><div id="chart-inv" class="chart"></div></div>
+    <div class="panel">
+      <h3 style="margin-top:0">Tableau publish path</h3>
+      <ol style="color:var(--muted);line-height:1.6">
+        <li>Open Tableau Public / Desktop.</li>
+        <li>Connect to <code>tableau/extracts/ops_control_tower.csv</code> and <code>optimal_shipments.csv</code>.</li>
+        <li>Build sheets: OTIF trend, freight by plant, inventory turns, lane cost map.</li>
+        <li>Publish to Tableau Public and paste the embed URL into this page if desired.</li>
+      </ol>
+      <p style="color:var(--muted)">Branch: <code>project/bi-dashboard</code></p>
+    </div>
+  </section>
+  <footer class="footer">Synthetic ops metrics for portfolio demonstration.</footer>
+  <script>
+  async function loadCSV(path) {
+    const text = await fetch(path).then(r => r.text());
+    const lines = text.trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      const row = {};
+      headers.forEach((h, i) => row[h] = cols[i]);
+      return row;
+    });
+  }
+  (async function () {
+    const rows = await loadCSV("../../assets/data/ops_control_tower.csv");
+    const latestMonth = rows.map(r => r.month).sort().slice(-1)[0];
+    const latest = rows.filter(r => r.month === latestMonth);
+    const otif = latest.reduce((s,r)=>s+(+r.otif),0)/latest.length;
+    const freight = latest.reduce((s,r)=>s+(+r.freight_spend_cad),0);
+    const turns = latest.reduce((s,r)=>s+(+r.inventory_turns),0)/latest.length;
+    const fill = latest.reduce((s,r)=>s+(+r.fill_rate),0)/latest.length;
+    document.getElementById("kpis").innerHTML = `
+      <div class="kpi"><div class="label">OTIF (${latestMonth})</div><div class="value">${(otif*100).toFixed(1)}%</div></div>
+      <div class="kpi"><div class="label">Freight spend</div><div class="value">$${(freight/1000).toFixed(0)}k</div></div>
+      <div class="kpi"><div class="label">Inv. turns</div><div class="value">${turns.toFixed(1)}</div></div>
+      <div class="kpi"><div class="label">Fill rate</div><div class="value">${(fill*100).toFixed(1)}%</div></div>`;
+    const plants = [...new Set(rows.map(r => r.plant))];
+    const months = [...new Set(rows.map(r => r.month))].sort();
+    const otifTraces = plants.map(p => ({
+      type: "scatter", mode: "lines+markers", name: p,
+      x: months,
+      y: months.map(m => +rows.find(r => r.plant===p && r.month===m).otif)
+    }));
+    Plotly.newPlot("chart-otif", otifTraces, {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" },
+      margin: { t: 20, r: 10, b: 50, l: 50 }, legend: { orientation: "h" },
+      yaxis: { tickformat: ".0%", gridcolor: "#2a3a55", range: [0.84, 1] }, xaxis: { gridcolor: "#2a3a55" }
+    }, {responsive: true, displayModeBar: false});
+    Plotly.newPlot("chart-freight", [{
+      type: "bar", x: latest.map(r => r.plant), y: latest.map(r => +r.freight_spend_cad), marker: { color: "#38bdf8" }
+    }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" },
+      margin: { t: 20, r: 10, b: 60, l: 50 }, yaxis: { title: "CAD", gridcolor: "#2a3a55" }
+    }, {responsive: true, displayModeBar: false});
+    Plotly.newPlot("chart-inv", [{
+      type: "scatter", mode: "markers+text",
+      x: latest.map(r => +r.inventory_turns), y: latest.map(r => +r.fill_rate),
+      text: latest.map(r => r.plant), textposition: "top center",
+      marker: { size: 16, color: "#2dd4bf" }
+    }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" },
+      margin: { t: 30, r: 20, b: 50, l: 50 },
+      xaxis: { title: "Inventory turns", gridcolor: "#2a3a55" },
+      yaxis: { title: "Fill rate", tickformat: ".0%", gridcolor: "#2a3a55", range: [0.88, 1] }
+    }, {responsive: true, displayModeBar: false});
+  })();
+  </script>
+</body>
+</html>

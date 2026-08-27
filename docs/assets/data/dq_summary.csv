@@ -1,0 +1,5 @@
+object,legacy_count,ready_count,pass_rate
+Material,80,54,0.675
+Customer BP,60,54,0.9
+Vendor BP,40,24,0.6
+Ship-To,40,23,0.575

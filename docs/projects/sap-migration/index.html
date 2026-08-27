@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NA Manufacturing MDM Migration Lab</title>
+  <link rel="stylesheet" href="../../css/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../../index.html"><span class="brand-mark">AA</span><span>NA Skills Portfolio</span></a>
+      <div class="nav-links">
+        <a href="../../index.html">Hub</a>
+        <a href="../supply-chain/">Supply Chain</a>
+        <a href="../bi-dashboard/">BI Dashboard</a>
+      </div>
+    </nav>
+  </header>
+  <section class="project-hero">
+    <div class="breadcrumb"><a href="../../index.html">Hub</a> / SAP Data Migration</div>
+    <div class="eyebrow">Synthetic ECC → S/4 · MDM / LTMC pattern</div>
+    <h1>NA Manufacturing MDM Migration Lab</h1>
+    <p class="lead" style="color:var(--muted);max-width:62ch;line-height:1.6">Demonstrate material, customer BP, vendor BP, and ship-to cleansing &amp; mapping for a North America manufacturing cutover. Portfolio-safe synthetic data only.</p>
+  </section>
+  <section class="section">
+    <div class="kpi-grid" id="kpis"></div>
+    <div class="two-col" style="margin-top:1rem">
+      <div class="panel"><h3 style="margin-top:0">Ready vs legacy by object</h3><div id="chart-dq" class="chart"></div></div>
+      <div class="panel"><h3 style="margin-top:0">Migration readiness</h3><div id="chart-pass" class="chart"></div></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">DQ scorecard</h3>
+      <div class="table-wrap"><table id="dq-table"><thead><tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Pass rate</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Sample customer BP mapping</h3>
+      <div class="table-wrap"><table id="map-table"><thead><tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Cutover pattern</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div>Extract legacy masters (material, sold-to, ship-to, vendor).</div></div>
+        <div class="step"><div class="step-num">2</div><div>Apply DQ rules: UOM, plant, orphan ship-to, tax, bank, duplicates.</div></div>
+        <div class="step"><div class="step-num">3</div><div>Map to S/4 BP / material numbers with sales-area &amp; partner roles.</div></div>
+        <div class="step"><div class="step-num">4</div><div>Stage READY / NEEDS_REVIEW loads (LTMC-style) and track pass rates.</div></div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">No confidential client data. Branch: project/sap-migration</footer>
+  <script>
+  async function loadCSV(path) {
+    const text = await fetch(path).then(r => r.text());
+    const lines = text.trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      const row = {};
+      headers.forEach((h, i) => row[h] = cols[i]);
+      return row;
+    });
+  }
+  (async function () {
+    const dq = await loadCSV("../../assets/data/dq_summary.csv");
+    const cust = await loadCSV("../../assets/data/map_customers.csv");
+    const avgPass = dq.reduce((s, r) => s + (+r.pass_rate), 0) / dq.length;
+    const ready = dq.reduce((s, r) => s + (+r.ready_count), 0);
+    const legacy = dq.reduce((s, r) => s + (+r.legacy_count), 0);
+    document.getElementById("kpis").innerHTML = `
+      <div class="kpi"><div class="label">Legacy records</div><div class="value">${legacy}</div></div>
+      <div class="kpi"><div class="label">Migration-ready</div><div class="value">${ready}</div><div class="delta up">after DQ</div></div>
+      <div class="kpi"><div class="label">Avg pass rate</div><div class="value">${(avgPass*100).toFixed(0)}%</div></div>
+      <div class="kpi"><div class="label">Objects in scope</div><div class="value">${dq.length}</div></div>`;
+    Plotly.newPlot("chart-dq", [
+      { type: "bar", name: "Legacy", x: dq.map(r => r.object), y: dq.map(r => +r.legacy_count), marker: { color: "#64748b" } },
+      { type: "bar", name: "Ready", x: dq.map(r => r.object), y: dq.map(r => +r.ready_count), marker: { color: "#2dd4bf" } }
+    ], { barmode: "group", paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" }, margin: { t: 20, r: 10, b: 60, l: 40 }, legend: { orientation: "h" }, yaxis: { gridcolor: "#2a3a55" } }, {responsive: true, displayModeBar: false});
+    Plotly.newPlot("chart-pass", [{ type: "bar", orientation: "h", y: dq.map(r => r.object), x: dq.map(r => +r.pass_rate), marker: { color: "#f59e0b" }, text: dq.map(r => ((+r.pass_rate)*100).toFixed(0)+"%"), textposition: "auto" }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" }, margin: { t: 20, r: 20, b: 40, l: 100 },
+      xaxis: { range: [0, 1], tickformat: ".0%", gridcolor: "#2a3a55" }
+    }, {responsive: true, displayModeBar: false});
+    document.querySelector("#dq-table tbody").innerHTML = dq.map(r => {
+      const p = +r.pass_rate; const badge = p >= 0.9 ? "badge-ok" : p >= 0.75 ? "badge-warn" : "badge-bad";
+      const label = p >= 0.9 ? "GO" : p >= 0.75 ? "REVIEW" : "BLOCK";
+      return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${(p*100).toFixed(1)}%</td><td><span class="badge ${badge}">${label}</span></td></tr>`;
+    }).join("");
+    document.querySelector("#map-table tbody").innerHTML = cust.slice(0, 10).map(r =>
+      `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td><span class="badge ${r.migration_status==="READY"?"badge-ok":"badge-warn"}">${r.migration_status}</span></td></tr>`
+    ).join("");
+  })();
+  </script>
+</body>
+</html>

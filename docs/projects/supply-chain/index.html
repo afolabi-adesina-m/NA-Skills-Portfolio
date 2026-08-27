@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GTA–Great Lakes Network Optimizer</title>
+  <link rel="stylesheet" href="../../css/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../../index.html"><span class="brand-mark">AA</span><span>NA Skills Portfolio</span></a>
+      <div class="nav-links">
+        <a href="../../index.html">Hub</a>
+        <a href="../sap-migration/">SAP Migration</a>
+        <a href="../bi-dashboard/">BI Dashboard</a>
+      </div>
+    </nav>
+  </header>
+  <section class="project-hero">
+    <div class="breadcrumb"><a href="../../index.html">Hub</a> / Supply Chain Optimization</div>
+    <div class="eyebrow">North America · Canada–US Great Lakes</div>
+    <h1>GTA–Great Lakes Network Optimizer</h1>
+    <p class="lead" style="color:var(--muted);max-width:62ch;line-height:1.6">Allocate demand from Oakville, Mississauga, Hamilton, Buffalo, and Detroit DCs to metro customers while respecting capacity and minimizing landed freight cost. Synthetic demo inspired by building-materials / industrial distribution networks.</p>
+  </section>
+  <section class="section">
+    <div class="kpi-grid" id="kpis"></div>
+    <div class="two-col" style="margin-top:1rem">
+      <div class="panel"><h3 style="margin-top:0">Optimal flow by DC</h3><div id="chart-dc" class="chart"></div></div>
+      <div class="panel"><h3 style="margin-top:0">Cost vs distance (lanes used)</h3><div id="chart-scatter" class="chart"></div></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Shipment plan (top lanes)</h3>
+      <div class="table-wrap"><table id="ship-table"><thead><tr><th>DC</th><th>Customer</th><th>Tons</th><th>$/ton</th><th>Total $</th><th>Transit days</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Method</h3>
+      <p style="color:var(--muted);line-height:1.55">Capacity-constrained lowest-cost assignment over haversine lane costs with a Canada–US border friction premium on some cross-border lanes. Re-run with <code>python scripts/generate_data.py</code>. Branch: <code>project/supply-chain</code>.</p>
+    </div>
+  </section>
+  <footer class="footer">Synthetic data for portfolio demonstration only.</footer>
+  <script>
+  async function loadCSV(path) {
+    const text = await fetch(path).then(r => r.text());
+    const lines = text.trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      const row = {};
+      headers.forEach((h, i) => row[h] = cols[i]);
+      return row;
+    });
+  }
+  (async function () {
+    const ships = (await loadCSV("../../assets/data/optimal_shipments.csv")).filter(r => r.dc_id !== "UNMET");
+    const totalCost = ships.reduce((s, r) => s + (+r.total_cost || 0), 0);
+    const tons = ships.reduce((s, r) => s + (+r.tons || 0), 0);
+    const avgTransit = ships.reduce((s, r) => s + (+r.transit_days || 0), 0) / (ships.length || 1);
+    const dcs = new Set(ships.map(r => r.dc_id)).size;
+    document.getElementById("kpis").innerHTML = `
+      <div class="kpi"><div class="label">Network freight</div><div class="value">$${(totalCost/1000).toFixed(0)}k</div><div class="delta up">optimized plan</div></div>
+      <div class="kpi"><div class="label">Tons allocated</div><div class="value">${tons.toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Active DCs</div><div class="value">${dcs}</div></div>
+      <div class="kpi"><div class="label">Avg transit</div><div class="value">${avgTransit.toFixed(1)}d</div></div>`;
+    const byDc = {};
+    ships.forEach(r => { byDc[r.dc_id] = (byDc[r.dc_id] || 0) + (+r.tons || 0); });
+    Plotly.newPlot("chart-dc", [{ type: "bar", x: Object.keys(byDc), y: Object.values(byDc), marker: { color: "#2dd4bf" } }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: { color: "#9aadc8" }, margin: { t: 20, r: 10, b: 60, l: 50 },
+      yaxis: { title: "Tons", gridcolor: "#2a3a55" }, xaxis: { gridcolor: "#2a3a55" }
+    }, {responsive: true, displayModeBar: false});
+    Plotly.newPlot("chart-scatter", [{
+      type: "scatter", mode: "markers",
+      x: ships.map(r => +r.distance_km), y: ships.map(r => +r.cost_per_ton),
+      marker: { size: ships.map(r => Math.max(8, Math.sqrt(+r.tons))), color: "#38bdf8", opacity: 0.75 },
+      text: ships.map(r => r.dc_id + " → " + r.customer_id)
+    }], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: { color: "#9aadc8" }, margin: { t: 20, r: 10, b: 50, l: 50 },
+      xaxis: { title: "Distance km", gridcolor: "#2a3a55" }, yaxis: { title: "$ / ton", gridcolor: "#2a3a55" }
+    }, {responsive: true, displayModeBar: false});
+    const top = [...ships].sort((a,b) => (+b.total_cost) - (+a.total_cost)).slice(0, 12);
+    document.querySelector("#ship-table tbody").innerHTML = top.map(r =>
+      `<tr><td>${r.dc_id}</td><td>${r.customer_id}</td><td>${(+r.tons).toLocaleString()}</td><td>${(+r.cost_per_ton).toFixed(2)}</td><td>$${(+r.total_cost).toLocaleString()}</td><td>${r.transit_days}</td></tr>`
+    ).join("");
+  })();
+  </script>
+</body>
+</html>

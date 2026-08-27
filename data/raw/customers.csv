@@ -1,0 +1,11 @@
+customer_id,name,lat,lon,demand_tons,region
+C-TOR,Toronto Metro,43.6532,-79.3832,1800,ON
+C-OTT,Ottawa East,45.4215,-75.6972,620,ON
+C-MTL,Montreal South,45.5017,-73.5673,980,QC
+C-KW,Kitchener-Waterloo,43.4516,-80.4925,540,ON
+C-LON,London SW,42.9849,-81.2453,410,ON
+C-BUF,Buffalo Retail,42.8864,-78.8784,700,NY
+C-ROC,Rochester,43.1566,-77.6088,380,NY
+C-DET,Detroit Auto Belt,42.3314,-83.0458,920,MI
+C-CLE,Cleveland,41.4993,-81.6944,510,OH
+C-CHI,Chicago North,41.8781,-87.6298,1100,IL

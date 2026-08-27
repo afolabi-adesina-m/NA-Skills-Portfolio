@@ -1,0 +1,6 @@
+dc_id,name,lat,lon,capacity_tons,fixed_cost
+DC-OAK,Oakville DC,43.4675,-79.6877,4200,180000
+DC-MIS,Mississauga DC,43.589,-79.6441,5100,210000
+DC-HAM,Hamilton DC,43.2557,-79.8711,3600,150000
+DC-BUF,Buffalo Cross-Dock,42.8864,-78.8784,2900,135000
+DC-DET,Detroit Hub,42.3314,-83.0458,3300,160000
