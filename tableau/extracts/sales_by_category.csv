@@ -1,0 +1,421 @@
+month,plant,country,region,market,category,product_line,sku_family,units_sold,revenue_cad,gross_margin_pct
+2025-09,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,210,27235.36,0.265
+2025-09,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,213,76152.93,0.222
+2025-09,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,277,114560.12,0.295
+2025-09,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,133,47461.28,0.195
+2025-09,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,274,26684.74,0.228
+2025-09,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,142,54207.05,0.256
+2025-09,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,79,7439.82,0.189
+2025-09,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,137,24776.06,0.387
+2025-09,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,64,24002.72,0.26
+2025-09,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,103,36336.31,0.285
+2025-09,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,244,81497.97,0.395
+2025-09,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,237,47062.81,0.225
+2025-09,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,294,61170.0,0.371
+2025-09,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,64,2871.42,0.325
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,132,35340.88,0.257
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,80,15588.25,0.251
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,268,76883.37,0.282
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,267,54139.12,0.19
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,220,64014.55,0.284
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,69,7599.58,0.333
+2025-09,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,30,4622.96,0.214
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,264,25517.62,0.196
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,227,46834.74,0.408
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,56,16111.58,0.343
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,229,48004.01,0.363
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,110,28860.6,0.276
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,182,30688.82,0.207
+2025-09,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,59,8802.38,0.208
+2025-09,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,173,55507.51,0.231
+2025-09,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,186,59051.93,0.42
+2025-09,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,142,17903.86,0.385
+2025-09,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,271,38709.61,0.351
+2025-09,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,84,29947.84,0.412
+2025-09,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,203,62671.44,0.35
+2025-09,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,48,6788.17,0.351
+2025-10,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,129,45264.59,0.302
+2025-10,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,102,42331.98,0.37
+2025-10,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,161,56313.77,0.186
+2025-10,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,228,55080.46,0.416
+2025-10,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,106,30740.29,0.201
+2025-10,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,198,43239.95,0.352
+2025-10,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,62,8550.88,0.198
+2025-10,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,202,60637.05,0.288
+2025-10,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,304,60925.39,0.391
+2025-10,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,133,45513.51,0.211
+2025-10,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,297,115856.32,0.193
+2025-10,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,103,26632.11,0.253
+2025-10,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,122,23557.14,0.35
+2025-10,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,76,11161.8,0.383
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,168,25327.87,0.41
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,180,22847.77,0.253
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,313,36401.44,0.334
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,118,16797.56,0.33
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,212,77856.48,0.315
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,54,6059.32,0.408
+2025-10,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,83,7227.09,0.333
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,294,112547.3,0.311
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,194,47876.58,0.373
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,247,45606.17,0.198
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,70,9656.99,0.28
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,277,42477.32,0.326
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,200,74719.5,0.257
+2025-10,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,26,3382.16,0.304
+2025-10,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,94,18038.96,0.292
+2025-10,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,176,41468.18,0.214
+2025-10,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,65,11844.37,0.272
+2025-10,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,254,42715.32,0.388
+2025-10,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,121,43259.32,0.404
+2025-10,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,200,29718.88,0.218
+2025-10,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,49,4761.39,0.202
+2025-11,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,241,61292.06,0.412
+2025-11,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,150,42063.04,0.192
+2025-11,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,184,46145.28,0.392
+2025-11,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,280,50603.2,0.182
+2025-11,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,95,21789.28,0.392
+2025-11,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,227,77382.49,0.268
+2025-11,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,81,4805.88,0.313
+2025-11,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,77,16510.87,0.288
+2025-11,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,183,66150.71,0.33
+2025-11,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,100,12810.22,0.203
+2025-11,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,231,81148.12,0.261
+2025-11,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,227,76706.33,0.228
+2025-11,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,300,65839.4,0.19
+2025-11,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,52,7045.78,0.305
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,116,33419.28,0.304
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,207,82180.76,0.256
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,241,100462.36,0.357
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,193,54792.27,0.302
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,300,79000.15,0.35
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,193,47109.18,0.184
+2025-11,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,63,6801.65,0.371
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,53,15103.13,0.244
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,156,50960.37,0.32
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,127,33098.46,0.353
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,234,31474.14,0.343
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,56,15501.42,0.348
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,137,12514.13,0.255
+2025-11,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,36,3106.7,0.366
+2025-11,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,281,106047.7,0.357
+2025-11,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,71,22821.86,0.304
+2025-11,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,206,86390.46,0.295
+2025-11,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,232,44104.85,0.222
+2025-11,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,312,62300.02,0.265
+2025-11,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,175,50640.74,0.226
+2025-11,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,48,3029.2,0.413
+2025-12,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,192,65921.93,0.349
+2025-12,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,290,55450.51,0.264
+2025-12,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,180,32653.7,0.318
+2025-12,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,318,67478.82,0.415
+2025-12,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,216,87435.5,0.373
+2025-12,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,188,18629.35,0.409
+2025-12,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,66,7721.77,0.359
+2025-12,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,149,22751.22,0.309
+2025-12,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,179,23446.57,0.328
+2025-12,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,162,26928.2,0.341
+2025-12,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,311,49946.6,0.236
+2025-12,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,91,20334.49,0.352
+2025-12,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,91,28501.14,0.213
+2025-12,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,70,6627.67,0.228
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,187,36014.55,0.335
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,85,25799.21,0.236
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,59,23064.99,0.222
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,130,51722.33,0.189
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,243,84798.94,0.225
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,188,71197.28,0.182
+2025-12,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,52,3669.65,0.417
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,318,82885.65,0.393
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,108,39971.34,0.292
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,138,49121.47,0.259
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,274,82796.11,0.352
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,47,15593.05,0.37
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,138,19843.13,0.385
+2025-12,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,75,5699.31,0.276
+2025-12,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,88,12927.35,0.214
+2025-12,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,205,81692.81,0.182
+2025-12,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,236,38680.31,0.361
+2025-12,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,208,38719.59,0.353
+2025-12,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,45,7767.91,0.266
+2025-12,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,160,16929.86,0.208
+2025-12,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,74,11128.73,0.393
+2026-01,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,199,62933.21,0.333
+2026-01,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,191,39752.3,0.233
+2026-01,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,108,26480.62,0.289
+2026-01,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,231,51815.21,0.312
+2026-01,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,281,95178.19,0.372
+2026-01,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,151,51373.67,0.343
+2026-01,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,77,9468.75,0.199
+2026-01,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,97,10251.83,0.311
+2026-01,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,298,45511.31,0.309
+2026-01,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,124,24170.01,0.305
+2026-01,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,99,30976.99,0.352
+2026-01,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,290,33484.98,0.302
+2026-01,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,68,16109.19,0.303
+2026-01,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,81,7516.58,0.374
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,51,11099.78,0.376
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,151,42088.88,0.191
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,216,69039.85,0.31
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,70,27865.97,0.197
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,281,26872.36,0.278
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,109,37229.2,0.415
+2026-01,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,58,5281.89,0.4
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,233,49126.01,0.344
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,316,40938.3,0.386
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,100,14478.87,0.309
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,310,39575.0,0.415
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,41,13871.12,0.415
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,277,86042.42,0.311
+2026-01,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,39,2571.62,0.263
+2026-01,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,181,26813.51,0.39
+2026-01,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,97,9291.9,0.338
+2026-01,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,48,7949.91,0.196
+2026-01,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,57,13369.79,0.341
+2026-01,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,64,10687.1,0.191
+2026-01,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,264,43164.97,0.232
+2026-01,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,47,3020.7,0.4
+2026-02,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,203,56526.17,0.365
+2026-02,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,204,33530.02,0.39
+2026-02,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,306,48669.09,0.252
+2026-02,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,71,19276.54,0.322
+2026-02,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,129,38017.29,0.283
+2026-02,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,293,29506.91,0.263
+2026-02,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,50,6101.93,0.278
+2026-02,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,193,40745.03,0.361
+2026-02,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,282,46734.26,0.234
+2026-02,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,113,40107.66,0.4
+2026-02,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,251,102711.3,0.314
+2026-02,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,108,23233.0,0.241
+2026-02,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,209,63044.11,0.401
+2026-02,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,34,1409.03,0.271
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,60,22659.77,0.225
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,151,37085.16,0.389
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,210,39179.28,0.398
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,148,59044.38,0.411
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,100,33520.45,0.361
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,164,52157.71,0.349
+2026-02,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,80,6016.15,0.248
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,278,73328.84,0.266
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,173,35548.2,0.392
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,278,32813.38,0.416
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,280,95240.8,0.257
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,144,30122.81,0.279
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,153,50997.89,0.184
+2026-02,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,35,2668.16,0.271
+2026-02,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,165,41623.89,0.337
+2026-02,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,212,36295.35,0.377
+2026-02,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,291,69658.91,0.356
+2026-02,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,220,31174.88,0.353
+2026-02,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,290,42530.24,0.393
+2026-02,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,70,18236.5,0.381
+2026-02,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,16,2088.68,0.279
+2026-03,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,158,17027.54,0.216
+2026-03,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,151,38417.5,0.27
+2026-03,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,287,87781.89,0.184
+2026-03,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,312,84177.78,0.183
+2026-03,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,311,101676.65,0.309
+2026-03,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,186,16878.16,0.375
+2026-03,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,32,1548.07,0.203
+2026-03,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,116,19224.05,0.329
+2026-03,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,169,60518.36,0.244
+2026-03,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,243,27087.56,0.41
+2026-03,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,275,75425.83,0.418
+2026-03,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,155,28751.18,0.379
+2026-03,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,81,24624.12,0.386
+2026-03,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,58,4764.48,0.294
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,44,14099.94,0.2
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,262,78873.51,0.26
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,88,33858.44,0.401
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,157,24464.48,0.388
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,283,49756.17,0.402
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,183,70687.3,0.315
+2026-03,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,50,1847.86,0.23
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,113,38081.59,0.351
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,243,96270.06,0.252
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,163,44799.43,0.384
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,316,61976.92,0.361
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,111,38829.67,0.345
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,80,20221.25,0.414
+2026-03,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,39,5453.54,0.262
+2026-03,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,243,99529.98,0.258
+2026-03,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,179,62200.46,0.288
+2026-03,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,156,31854.69,0.406
+2026-03,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,261,38424.99,0.321
+2026-03,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,234,26607.56,0.328
+2026-03,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,166,53765.97,0.2
+2026-03,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,29,3696.25,0.256
+2026-04,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,94,10871.98,0.406
+2026-04,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,267,54887.82,0.245
+2026-04,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,107,12224.17,0.283
+2026-04,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,302,66951.83,0.186
+2026-04,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,221,59816.66,0.323
+2026-04,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,206,77115.19,0.183
+2026-04,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,20,2512.11,0.314
+2026-04,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,164,45363.51,0.221
+2026-04,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,234,33177.24,0.245
+2026-04,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,177,44284.78,0.195
+2026-04,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,262,46491.17,0.252
+2026-04,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,79,16272.17,0.407
+2026-04,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,293,83190.07,0.227
+2026-04,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,10,1536.03,0.26
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,234,82921.55,0.259
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,211,48373.11,0.378
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,109,20235.39,0.325
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,142,34856.49,0.223
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,243,99514.08,0.25
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,291,119077.38,0.368
+2026-04,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,60,4837.62,0.404
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,142,40242.24,0.311
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,53,21425.6,0.291
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,147,34086.71,0.25
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,75,26951.51,0.371
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,249,77301.43,0.213
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,195,32385.03,0.338
+2026-04,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,19,1731.53,0.324
+2026-04,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,245,64683.2,0.402
+2026-04,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,254,67848.77,0.37
+2026-04,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,224,71690.64,0.375
+2026-04,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,83,10096.02,0.24
+2026-04,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,221,31099.87,0.327
+2026-04,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,244,99767.14,0.26
+2026-04,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,22,1481.53,0.303
+2026-05,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,305,82937.98,0.345
+2026-05,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,153,35853.38,0.274
+2026-05,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,296,40107.87,0.419
+2026-05,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,287,34446.9,0.28
+2026-05,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,83,10282.31,0.406
+2026-05,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,112,22589.29,0.262
+2026-05,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,54,5104.1,0.285
+2026-05,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,271,51987.2,0.252
+2026-05,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,98,9071.47,0.262
+2026-05,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,95,29624.96,0.219
+2026-05,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,164,42288.7,0.312
+2026-05,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,209,56962.82,0.41
+2026-05,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,158,55655.21,0.331
+2026-05,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,65,5489.11,0.357
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,141,33220.68,0.283
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,42,13485.63,0.229
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,72,20045.63,0.372
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,314,46356.31,0.258
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,274,33749.93,0.341
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,290,75917.51,0.333
+2026-05,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,85,4188.72,0.264
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,274,79957.72,0.375
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,192,75409.66,0.322
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,108,20511.06,0.237
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,99,14485.67,0.346
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,301,64755.69,0.323
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,236,53505.45,0.297
+2026-05,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,32,3339.65,0.298
+2026-05,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,111,16392.26,0.382
+2026-05,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,67,25121.65,0.408
+2026-05,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,288,37652.87,0.376
+2026-05,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,298,90525.95,0.278
+2026-05,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,291,65252.73,0.382
+2026-05,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,290,40898.68,0.316
+2026-05,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,45,2839.74,0.249
+2026-06,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,274,75211.06,0.365
+2026-06,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,293,78863.37,0.207
+2026-06,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,98,17124.79,0.31
+2026-06,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,227,60514.69,0.362
+2026-06,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,265,71027.51,0.418
+2026-06,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,92,30503.17,0.337
+2026-06,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,14,1277.03,0.264
+2026-06,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,84,19495.43,0.419
+2026-06,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,161,25004.78,0.357
+2026-06,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,219,81785.84,0.326
+2026-06,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,259,36416.4,0.213
+2026-06,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,145,51842.21,0.373
+2026-06,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,219,57665.78,0.323
+2026-06,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,47,3344.83,0.244
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,303,125786.99,0.343
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,88,11477.16,0.36
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,250,98196.88,0.418
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,104,33277.7,0.212
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,114,36858.17,0.379
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,241,60001.45,0.319
+2026-06,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,58,5306.94,0.332
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,87,19136.09,0.36
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,228,54109.65,0.297
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,41,15419.45,0.383
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,87,28698.01,0.29
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,223,82462.19,0.371
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,243,38387.45,0.283
+2026-06,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,51,7065.69,0.261
+2026-06,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,106,29113.71,0.296
+2026-06,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,215,82676.49,0.363
+2026-06,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,63,7456.52,0.368
+2026-06,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,275,24874.92,0.403
+2026-06,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,120,27939.7,0.18
+2026-06,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,259,39569.14,0.345
+2026-06,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,48,2633.86,0.404
+2026-07,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,180,20928.4,0.267
+2026-07,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,82,17184.55,0.397
+2026-07,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,124,12691.24,0.33
+2026-07,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,159,36377.99,0.202
+2026-07,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,88,7512.02,0.294
+2026-07,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,107,30375.44,0.305
+2026-07,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,53,7268.35,0.417
+2026-07,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,256,81280.1,0.295
+2026-07,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,157,33492.56,0.355
+2026-07,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,92,11000.67,0.268
+2026-07,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,193,25271.09,0.366
+2026-07,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,108,32392.23,0.343
+2026-07,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,75,19704.02,0.182
+2026-07,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,37,4199.87,0.216
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,250,72846.37,0.286
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,151,17220.11,0.204
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,103,29098.25,0.272
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,259,49302.91,0.214
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,181,54471.57,0.24
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,185,64001.64,0.346
+2026-07,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,87,8586.06,0.359
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,191,57580.17,0.368
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,162,40627.56,0.207
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,295,88133.49,0.197
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,46,19117.86,0.404
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,107,22961.22,0.381
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,255,52890.36,0.344
+2026-07,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,19,704.64,0.196
+2026-07,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,174,27365.66,0.401
+2026-07,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,243,61895.64,0.331
+2026-07,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,296,101226.63,0.282
+2026-07,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,245,27590.26,0.309
+2026-07,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,118,20998.3,0.254
+2026-07,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,301,118446.46,0.414
+2026-07,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,60,6498.28,0.363
+2026-08,Oakville,CA,Ontario,GTA West,Cementitious,Binder Blends,CB-100,73,13790.19,0.285
+2026-08,Oakville,CA,Ontario,GTA West,Cementitious,Specialty Mortars,SM-200,162,16912.56,0.201
+2026-08,Oakville,CA,Ontario,GTA West,Aggregates,Fine Aggregate,AG-F,262,32450.14,0.327
+2026-08,Oakville,CA,Ontario,GTA West,Aggregates,Coarse Aggregate,AG-C,68,12825.63,0.358
+2026-08,Oakville,CA,Ontario,GTA West,Packaged,Bagged Mix,PK-B,129,16126.73,0.35
+2026-08,Oakville,CA,Ontario,GTA West,Packaged,Retail Kits,PK-R,45,6294.78,0.409
+2026-08,Oakville,CA,Ontario,GTA West,Logistics Add-ons,Expedite Surcharge,LX-E,43,2402.43,0.21
+2026-08,Mississauga,CA,Ontario,GTA Core,Cementitious,Binder Blends,CB-100,177,58504.43,0.208
+2026-08,Mississauga,CA,Ontario,GTA Core,Cementitious,Specialty Mortars,SM-200,55,10847.58,0.283
+2026-08,Mississauga,CA,Ontario,GTA Core,Aggregates,Fine Aggregate,AG-F,308,32770.31,0.351
+2026-08,Mississauga,CA,Ontario,GTA Core,Aggregates,Coarse Aggregate,AG-C,79,19845.55,0.303
+2026-08,Mississauga,CA,Ontario,GTA Core,Packaged,Bagged Mix,PK-B,68,17161.12,0.316
+2026-08,Mississauga,CA,Ontario,GTA Core,Packaged,Retail Kits,PK-R,228,31395.34,0.366
+2026-08,Mississauga,CA,Ontario,GTA Core,Logistics Add-ons,Expedite Surcharge,LX-E,75,2649.08,0.386
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Binder Blends,CB-100,46,7678.54,0.293
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Cementitious,Specialty Mortars,SM-200,236,92813.11,0.223
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Fine Aggregate,AG-F,58,15672.16,0.399
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Aggregates,Coarse Aggregate,AG-C,254,40694.01,0.24
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Bagged Mix,PK-B,203,35701.9,0.199
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Packaged,Retail Kits,PK-R,230,28749.84,0.342
+2026-08,Hamilton,CA,Ontario,Golden Horseshoe,Logistics Add-ons,Expedite Surcharge,LX-E,76,11983.43,0.409
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Binder Blends,CB-100,75,28409.4,0.388
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Cementitious,Specialty Mortars,SM-200,199,38734.52,0.313
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Fine Aggregate,AG-F,44,9177.87,0.25
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Aggregates,Coarse Aggregate,AG-C,195,64887.8,0.238
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Packaged,Bagged Mix,PK-B,228,64573.35,0.298
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Packaged,Retail Kits,PK-R,140,46252.53,0.311
+2026-08,Buffalo,US,New York,Niagara Cross-Border,Logistics Add-ons,Expedite Surcharge,LX-E,62,2355.3,0.31
+2026-08,Detroit,US,Michigan,Auto Belt,Cementitious,Binder Blends,CB-100,44,17757.6,0.18
+2026-08,Detroit,US,Michigan,Auto Belt,Cementitious,Specialty Mortars,SM-200,232,85704.75,0.355
+2026-08,Detroit,US,Michigan,Auto Belt,Aggregates,Fine Aggregate,AG-F,93,14297.83,0.416
+2026-08,Detroit,US,Michigan,Auto Belt,Aggregates,Coarse Aggregate,AG-C,254,63456.74,0.194
+2026-08,Detroit,US,Michigan,Auto Belt,Packaged,Bagged Mix,PK-B,112,36221.2,0.202
+2026-08,Detroit,US,Michigan,Auto Belt,Packaged,Retail Kits,PK-R,158,60923.43,0.305
+2026-08,Detroit,US,Michigan,Auto Belt,Logistics Add-ons,Expedite Surcharge,LX-E,20,2151.93,0.301

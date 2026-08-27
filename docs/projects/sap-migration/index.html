@@ -3,55 +3,324 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NA Manufacturing MDM Migration Lab</title>
-  <link rel="stylesheet" href="../../css/styles.css" />
+  <title>SAP Module Skills &amp; MDM Migration Lab | Afolabi Adesina</title>
+  <meta name="description" content="Professional SAP module skill showcase (BW, CO, FI, HR, MM-IM, MM-PO, PM, PP, SD) plus synthetic ECC to S/4 MDM migration lab for North America manufacturing." />
+  <!-- Root-absolute paths so CSS/logo load with or without a trailing slash on GitHub Pages -->
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/sap-migration/sap.css?v=20260827" />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
-<body>
+<body class="theme-sap">
   <header class="site-header">
     <nav class="nav">
-      <a class="brand" href="../../index.html"><span class="brand-mark">AA</span><span>NA Skills Portfolio</span></a>
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <img class="nav-sap-logo" src="/NA-Skills-Portfolio/projects/sap-migration/sap-logo.svg" width="34" height="34" alt="SAP skill mark" />
+        <span class="brand-mark">AA</span><span>NA Skills Portfolio</span>
+      </a>
       <div class="nav-links">
-        <a href="../../index.html">Hub</a>
-        <a href="../supply-chain/">Supply Chain</a>
-        <a href="../bi-dashboard/">BI Dashboard</a>
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+        <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">AI / ML</a>
+        <a href="#modules">SAP Modules</a>
+        <a href="#migration-lab">Migration Lab</a>
+        <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply Chain</a>
+        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
       </div>
     </nav>
   </header>
-  <section class="project-hero">
-    <div class="breadcrumb"><a href="../../index.html">Hub</a> / SAP Data Migration</div>
-    <div class="eyebrow">Synthetic ECC → S/4 · MDM / LTMC pattern</div>
-    <h1>NA Manufacturing MDM Migration Lab</h1>
-    <p class="lead" style="color:var(--muted);max-width:62ch;line-height:1.6">Demonstrate material, customer BP, vendor BP, and ship-to cleansing &amp; mapping for a North America manufacturing cutover. Portfolio-safe synthetic data only.</p>
-  </section>
-  <section class="section">
-    <div class="kpi-grid" id="kpis"></div>
-    <div class="two-col" style="margin-top:1rem">
-      <div class="panel"><h3 style="margin-top:0">Ready vs legacy by object</h3><div id="chart-dq" class="chart"></div></div>
-      <div class="panel"><h3 style="margin-top:0">Migration readiness</h3><div id="chart-pass" class="chart"></div></div>
+
+  <section class="sap-hero">
+    <div class="sap-logo-block">
+      <!-- Original geometric mark (SAP blue #008FD3 / navy) — not a trademark bitmap -->
+      <img
+        class="sap-mark-img"
+        src="/NA-Skills-Portfolio/projects/sap-migration/sap-logo.svg"
+        width="120"
+        height="120"
+        alt="Original SAP skill showcase mark"
+        onerror="this.style.display='none';var s=this.nextElementSibling;if(s){s.classList.add('is-fallback');}"
+      />
+      <svg class="sap-mark" viewBox="0 0 96 96" role="img" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="sapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#008FD3"/>
+            <stop offset="100%" stop-color="#0A2540"/>
+          </linearGradient>
+        </defs>
+        <rect width="96" height="96" rx="18" fill="#0A2540"/>
+        <polygon points="48,10 82,30 82,66 48,86 14,66 14,30" fill="url(#sapGrad)"/>
+        <text x="48" y="55" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" letter-spacing="2">SAP</text>
+      </svg>
+      <span class="sap-mark-label">SAP skill mark</span>
     </div>
-    <div class="panel">
-      <h3 style="margin-top:0">DQ scorecard</h3>
-      <div class="table-wrap"><table id="dq-table"><thead><tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Pass rate</th><th>Status</th></tr></thead><tbody></tbody></table></div>
-    </div>
-    <div class="panel">
-      <h3 style="margin-top:0">Sample customer BP mapping</h3>
-      <div class="table-wrap"><table id="map-table"><thead><tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Status</th></tr></thead><tbody></tbody></table></div>
-    </div>
-    <div class="panel">
-      <h3 style="margin-top:0">Cutover pattern</h3>
-      <div class="steps">
-        <div class="step"><div class="step-num">1</div><div>Extract legacy masters (material, sold-to, ship-to, vendor).</div></div>
-        <div class="step"><div class="step-num">2</div><div>Apply DQ rules: UOM, plant, orphan ship-to, tax, bank, duplicates.</div></div>
-        <div class="step"><div class="step-num">3</div><div>Map to S/4 BP / material numbers with sales-area &amp; partner roles.</div></div>
-        <div class="step"><div class="step-num">4</div><div>Stage READY / NEEDS_REVIEW loads (LTMC-style) and track pass rates.</div></div>
+    <div>
+      <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / SAP Skills &amp; Data Migration</div>
+      <div class="eyebrow">Enterprise ERP · MDM · Analytics</div>
+      <h1>SAP Module Skills &amp; NA Manufacturing MDM Lab</h1>
+      <p class="lead">
+        Cross-module fluency across finance, logistics, manufacturing, and analytics — framed for master-data migration,
+        O2C / P2P process awareness, and planning-adjacent work (Anaplan / IBP style). Built from structured module study
+        in a manufacturing context; portfolio demos use synthetic data only.
+      </p>
+      <div class="sap-pill-row">
+        <span class="sap-pill">BW · CO · FI · HR</span>
+        <span class="sap-pill">MM-IM · MM-PO</span>
+        <span class="sap-pill">PM · PP · SD</span>
+        <span class="sap-pill accent">ECC &rarr; S/4 MDM pattern</span>
       </div>
     </div>
   </section>
-  <footer class="footer">No confidential client data. Branch: project/sap-migration</footer>
+
+  <section class="section" id="modules">
+    <p class="disclaimer">
+      Summaries below are skill-oriented syntheses of module scope: master data, process flows, and reporting touchpoints.
+      Migration charts and tables use synthetic North America demo data for portfolio storytelling.
+    </p>
+
+    <h2>How SAP modules fit my work</h2>
+    <p class="sub">MDM and cutover quality depend on knowing which objects live where — and how FI/CO, logistics, and plant execution stay consistent after go-live.</p>
+    <div class="sap-context">
+      <div class="sap-context-item">
+        <strong>Master data backbone</strong>
+        <p>Material, customer/BP, vendor, pricing, BOM/recipe, and technical objects must be clean before LTMC-style loads.</p>
+      </div>
+      <div class="sap-context-item">
+        <strong>Process literacy</strong>
+        <p>O2C (SD), P2P (MM-PO), inventory (MM-IM), and plant maintenance/production (PM/PP) define what “ready” means.</p>
+      </div>
+      <div class="sap-context-item">
+        <strong>Finance &amp; control</strong>
+        <p>FI/CO hierarchies and settlements validate that migrated masters still support month-end and product costing.</p>
+      </div>
+      <div class="sap-context-item">
+        <strong>Analytics &amp; planning</strong>
+        <p>BW reporting and IBP/Anaplan-adjacent views confirm KPIs survive cutover — fill rate, cost/ton, OTIF, spend.</p>
+      </div>
+    </div>
+
+    <h2>Module skill map</h2>
+    <p class="sub">Nine core areas: what each module covers, and the skills it demonstrates for migration, operations, and analytics.</p>
+
+    <div class="module-grid">
+      <article class="module-card" id="module-bw">
+        <div class="module-card-head">
+          <h3>Business Warehouse</h3>
+          <span class="module-code bw">BW</span>
+        </div>
+        <p class="module-summary">
+          SAP BW is the enterprise reporting layer that turns transactional data into management packs: BeX workbooks,
+          EXCO / financial dashboards, procurement drill-downs, HR HIP extracts, credit assessment views, and plant
+          daily cockpits (including production and distribution KPIs).
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Map masters and postings into reportable dimensions and KPIs</li>
+          <li>Validate cutover with before/after dashboard and month-end report checks</li>
+          <li>Bridge ops, finance, HR, and procurement for leadership packs</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Post-load reconciliation: DQ pass rates must still reconcile to BW-style inventory, credit, and procurement views.</p>
+      </article>
+
+      <article class="module-card" id="module-co">
+        <div class="module-card-head">
+          <h3>Controlling</h3>
+          <span class="module-code co">CO</span>
+        </div>
+        <p class="module-summary">
+          Controlling owns cost and profit structures: cost elements and centers, standard hierarchies, assessments and
+          activity prices, internal orders and budgets, product / process-order settlement, and CO-PA style margin analysis.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Cost-object hierarchies and allocation rules that survive org redesign</li>
+          <li>Link material, process, and PM orders to product-cost settlement</li>
+          <li>Period-lock and month-end control awareness for cutover windows</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Cost center, profit center, and activity master alignment keeps S/4 postings and BW cost packs trustworthy.</p>
+      </article>
+
+      <article class="module-card" id="module-fi">
+        <div class="module-card-head">
+          <h3>Financial Accounting</h3>
+          <span class="module-code fi">FI</span>
+        </div>
+        <p class="module-summary">
+          FI covers the books: GL, AP, AR, and Asset Management — chart of accounts, vendor/customer financial views,
+          invoice and payment cycles, AR clearing / bank interfaces, asset masters, acquisitions, transfers, and retirement.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>AP/AR master quality for Business Partner conversion</li>
+          <li>GL document and month-end closing touchpoints for cutover timing</li>
+          <li>Asset master and depreciation / AUC process awareness</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Vendor and customer BP loads must preserve payment terms, tax, and bank data or FI open items and aging break after go-live.</p>
+      </article>
+
+      <article class="module-card" id="module-hr">
+        <div class="module-card-head">
+          <h3>Human Resources</h3>
+          <span class="module-code hr">HR</span>
+        </div>
+        <p class="module-summary">
+          HR spans Organizational Management, Personnel Administration, Personnel Development, training / event management,
+          and time-related processes — org and position masters, personnel actions, learning records, and reporting interfaces.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Org and position structures that feed approvals and cost assignment</li>
+          <li>Awareness of HR interfaces into time, training, and dialogue systems</li>
+          <li>Data-stewardship mindset for sensitive master objects</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Clean OM/PA masters keep cost centers, plants, and approval chains consistent when logistics and FI masters move.</p>
+      </article>
+
+      <article class="module-card" id="module-mm-im">
+        <div class="module-card-head">
+          <h3>Materials Mgmt — Inventory</h3>
+          <span class="module-code mm">MM-IM</span>
+        </div>
+        <p class="module-summary">
+          MM-IM is plant stock truth: material master design across raw, finished, and spare-part types; MRP and storage views;
+          goods receipt / issue; returns; stock transfers; physical inventory; IM month-end; and inventory reporting.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Material master design (plant, storage, UOM, valuation cues)</li>
+          <li>Inventory process literacy for GR/GI, transfers, and PI counts</li>
+          <li>Month-end stock reconciliation mindset</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Material MDM is the heart of this lab: UOM, plant extension, and valuation readiness drive LTMC pass rates.</p>
+      </article>
+
+      <article class="module-card" id="module-mm-po">
+        <div class="module-card-head">
+          <h3>Materials Mgmt — Purchasing</h3>
+          <span class="module-code mm">MM-PO</span>
+        </div>
+        <p class="module-summary">
+          MM-PO covers the procure-to-pay master and process view: local / foreign / one-off vendors, info records and source lists,
+          freight and claim conditions, PR → RFQ → PO, outline agreements, special procurement, vendor evaluation, and service acceptance.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Supplier master stewardship and purchasing-org views</li>
+          <li>Source-of-supply and outline-agreement concepts</li>
+          <li>Vendor evaluation and service PO acceptance awareness</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Vendor BP + purchasing info readiness protects open POs and spend analytics after S/4 conversion.</p>
+      </article>
+
+      <article class="module-card" id="module-pm">
+        <div class="module-card-head">
+          <h3>Plant Maintenance</h3>
+          <span class="module-code pm">PM</span>
+        </div>
+        <p class="module-summary">
+          PM manages technical objects and work: functional locations, equipment and BOMs, classes, preventive maintenance plans,
+          work-order create / confirm / complete, and PM reporting for heavy-industry plant reliability.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Technical object hierarchy (FL / equipment / BOM)</li>
+          <li>Work-order lifecycle and confirmation discipline</li>
+          <li>Link from maintenance orders into product costing / settlement</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Equipment and FL masters must align with plants, cost centers, and materials so PM and CO stay in sync post-cutover.</p>
+      </article>
+
+      <article class="module-card" id="module-pp">
+        <div class="module-card-head">
+          <h3>Production Planning</h3>
+          <span class="module-code pp">PP</span>
+        </div>
+        <p class="module-summary">
+          PP (process industry focus) covers resources, BOM, recipe, and production version; PIRs and MRP; process orders and
+          shop-floor control; period-end / interfaces; and PP reporting — the planning backbone next to IBP / Anaplan-style balancing.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>BOM / recipe / production-version master data quality</li>
+          <li>PIR and MRP processing awareness for plant planning</li>
+          <li>Period-end and interface checkpoints for manufacturing close</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Without clean PP masters, migrated materials cannot plan or cost correctly — blocking ops and BW manufacturing KPIs.</p>
+      </article>
+
+      <article class="module-card" id="module-sd">
+        <div class="module-card-head">
+          <h3>Sales &amp; Distribution</h3>
+          <span class="module-code sd">SD</span>
+        </div>
+        <p class="module-summary">
+          SD is order-to-cash: customer master, sales views and sales BOM, pricing and VAT conditions, contracts, sales orders,
+          delivery, plant weighbridge / output interfaces, billing with credit-debit and rebates, and the sales information system.
+        </p>
+        <p class="skills-label">Skills demonstrated</p>
+        <ul>
+          <li>Customer BP / sold-to / ship-to partner-role thinking</li>
+          <li>Pricing condition and sales-area structure awareness</li>
+          <li>Order → delivery → billing flow literacy (incl. plant weighbridge)</li>
+        </ul>
+        <p class="link-label">Migration / analytics link</p>
+        <p class="migration-link">Customer BP mapping and pricing readiness are first-class objects in the MDM lab scorecard below.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-band lab-anchor" id="migration-lab">
+    <h2>MDM Migration Lab</h2>
+    <p class="sub">
+      Synthetic ECC → S/4 style cutover for material, customer BP, vendor BP, and ship-to. Demonstrates the DQ rules,
+      mapping templates, and readiness scorecards I apply when module masters must land cleanly — no confidential client data.
+    </p>
+
+    <div class="kpi-grid" id="kpis"></div>
+
+    <div class="two-col" style="margin-top:1rem">
+      <div class="panel"><h3 style="margin-top:0;color:var(--sap-navy)">Ready vs legacy by object</h3><div id="chart-dq" class="chart"></div></div>
+      <div class="panel"><h3 style="margin-top:0;color:var(--sap-navy)">Migration readiness</h3><div id="chart-pass" class="chart"></div></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">DQ scorecard</h3>
+      <div class="table-wrap"><table id="dq-table"><thead><tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Pass rate</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">Sample customer BP mapping</h3>
+      <div class="table-wrap"><table id="map-table"><thead><tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">Cutover pattern</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div>Extract legacy masters grounded in module scope (MM material, SD customer/ship-to, MM-PO vendor, FI financial views).</div></div>
+        <div class="step"><div class="step-num">2</div><div>Apply DQ rules: UOM, plant extension, orphan ship-to, tax, bank keys, duplicates, sales-area completeness.</div></div>
+        <div class="step"><div class="step-num">3</div><div>Map to S/4 BP / material numbers with partner roles, purchasing org, and plant views aligned to CO/FI.</div></div>
+        <div class="step"><div class="step-num">4</div><div>Stage READY / NEEDS_REVIEW loads (LTMC-style), track pass rates, and reconcile with BW-style KPI packs.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Afolabi Adesina · SAP skill showcase + synthetic MDM lab · No confidential client or proprietary training content ·
+    Branch: project/sap-migration
+  </footer>
+
   <script>
   async function loadCSV(path) {
-    const text = await fetch(path).then(r => r.text());
+    const text = await fetch(path).then(r => {
+      if (!r.ok) throw new Error("Failed to load " + path);
+      return r.text();
+    });
     const lines = text.trim().split(/\r?\n/);
     const headers = lines[0].split(",");
     return lines.slice(1).map(line => {
@@ -62,32 +331,57 @@
     });
   }
   (async function () {
-    const dq = await loadCSV("../../assets/data/dq_summary.csv");
-    const cust = await loadCSV("../../assets/data/map_customers.csv");
-    const avgPass = dq.reduce((s, r) => s + (+r.pass_rate), 0) / dq.length;
-    const ready = dq.reduce((s, r) => s + (+r.ready_count), 0);
-    const legacy = dq.reduce((s, r) => s + (+r.legacy_count), 0);
-    document.getElementById("kpis").innerHTML = `
-      <div class="kpi"><div class="label">Legacy records</div><div class="value">${legacy}</div></div>
-      <div class="kpi"><div class="label">Migration-ready</div><div class="value">${ready}</div><div class="delta up">after DQ</div></div>
-      <div class="kpi"><div class="label">Avg pass rate</div><div class="value">${(avgPass*100).toFixed(0)}%</div></div>
-      <div class="kpi"><div class="label">Objects in scope</div><div class="value">${dq.length}</div></div>`;
-    Plotly.newPlot("chart-dq", [
-      { type: "bar", name: "Legacy", x: dq.map(r => r.object), y: dq.map(r => +r.legacy_count), marker: { color: "#64748b" } },
-      { type: "bar", name: "Ready", x: dq.map(r => r.object), y: dq.map(r => +r.ready_count), marker: { color: "#2dd4bf" } }
-    ], { barmode: "group", paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" }, margin: { t: 20, r: 10, b: 60, l: 40 }, legend: { orientation: "h" }, yaxis: { gridcolor: "#2a3a55" } }, {responsive: true, displayModeBar: false});
-    Plotly.newPlot("chart-pass", [{ type: "bar", orientation: "h", y: dq.map(r => r.object), x: dq.map(r => +r.pass_rate), marker: { color: "#f59e0b" }, text: dq.map(r => ((+r.pass_rate)*100).toFixed(0)+"%"), textposition: "auto" }], {
-      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "#9aadc8" }, margin: { t: 20, r: 20, b: 40, l: 100 },
-      xaxis: { range: [0, 1], tickformat: ".0%", gridcolor: "#2a3a55" }
-    }, {responsive: true, displayModeBar: false});
-    document.querySelector("#dq-table tbody").innerHTML = dq.map(r => {
-      const p = +r.pass_rate; const badge = p >= 0.9 ? "badge-ok" : p >= 0.75 ? "badge-warn" : "badge-bad";
-      const label = p >= 0.9 ? "GO" : p >= 0.75 ? "REVIEW" : "BLOCK";
-      return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${(p*100).toFixed(1)}%</td><td><span class="badge ${badge}">${label}</span></td></tr>`;
-    }).join("");
-    document.querySelector("#map-table tbody").innerHTML = cust.slice(0, 10).map(r =>
-      `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td><span class="badge ${r.migration_status==="READY"?"badge-ok":"badge-warn"}">${r.migration_status}</span></td></tr>`
-    ).join("");
+    const assetBase = "/NA-Skills-Portfolio/assets/data/";
+    const chartFont = { color: "#5A6F86", family: "Segoe UI, Arial, sans-serif" };
+    const grid = "#D4E2EF";
+    try {
+      const dq = await loadCSV(assetBase + "dq_summary.csv");
+      const cust = await loadCSV(assetBase + "map_customers.csv");
+      const avgPass = dq.reduce((s, r) => s + (+r.pass_rate), 0) / dq.length;
+      const ready = dq.reduce((s, r) => s + (+r.ready_count), 0);
+      const legacy = dq.reduce((s, r) => s + (+r.legacy_count), 0);
+      document.getElementById("kpis").innerHTML = `
+        <div class="kpi"><div class="label">Legacy records</div><div class="value">${legacy}</div></div>
+        <div class="kpi"><div class="label">Migration-ready</div><div class="value">${ready}</div><div class="delta up">after DQ</div></div>
+        <div class="kpi"><div class="label">Avg pass rate</div><div class="value">${(avgPass*100).toFixed(0)}%</div></div>
+        <div class="kpi"><div class="label">Objects in scope</div><div class="value">${dq.length}</div></div>`;
+      Plotly.newPlot("chart-dq", [
+        { type: "bar", name: "Legacy", x: dq.map(r => r.object), y: dq.map(r => +r.legacy_count), marker: { color: "#94A3B8" } },
+        { type: "bar", name: "Ready", x: dq.map(r => r.object), y: dq.map(r => +r.ready_count), marker: { color: "#008FD3" } }
+      ], {
+        barmode: "group",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
+        font: chartFont,
+        margin: { t: 20, r: 10, b: 60, l: 40 },
+        legend: { orientation: "h" },
+        yaxis: { gridcolor: grid }
+      }, {responsive: true, displayModeBar: false});
+      Plotly.newPlot("chart-pass", [{
+        type: "bar", orientation: "h",
+        y: dq.map(r => r.object),
+        x: dq.map(r => +r.pass_rate),
+        marker: { color: "#0070F2" },
+        text: dq.map(r => ((+r.pass_rate)*100).toFixed(0)+"%"),
+        textposition: "auto"
+      }], {
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
+        font: chartFont,
+        margin: { t: 20, r: 20, b: 40, l: 100 },
+        xaxis: { range: [0, 1], tickformat: ".0%", gridcolor: grid }
+      }, {responsive: true, displayModeBar: false});
+      document.querySelector("#dq-table tbody").innerHTML = dq.map(r => {
+        const p = +r.pass_rate; const badge = p >= 0.9 ? "badge-ok" : p >= 0.75 ? "badge-warn" : "badge-bad";
+        const label = p >= 0.9 ? "GO" : p >= 0.75 ? "REVIEW" : "BLOCK";
+        return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${(p*100).toFixed(1)}%</td><td><span class="badge ${badge}">${label}</span></td></tr>`;
+      }).join("");
+      document.querySelector("#map-table tbody").innerHTML = cust.slice(0, 10).map(r =>
+        `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td><span class="badge ${r.migration_status==="READY"?"badge-ok":"badge-warn"}">${r.migration_status}</span></td></tr>`
+      ).join("");
+    } catch (err) {
+      document.getElementById("kpis").innerHTML = `<div class="kpi"><div class="label">Data load</div><div class="value" style="font-size:1rem">Unavailable</div><div class="delta">${err.message}</div></div>`;
+    }
   })();
   </script>
 </body>
