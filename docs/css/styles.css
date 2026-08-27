@@ -71,30 +71,9 @@ a:hover { text-decoration: underline; }
   font-weight: 700;
 }
 .brand:hover { text-decoration: none; }
+/* Legacy brand styles — prefer brand-nav.css for nav headshot */
 .brand-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  display: grid;
-  place-items: center;
-  color: #062018;
-  font-size: 0.85rem;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-  gap: 0.12rem;
-}
-.brand-name { font-size: 0.95rem; }
-.brand-tag {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--muted);
-  letter-spacing: 0.02em;
+  display: none;
 }
 .nav-links {
   display: flex;
