@@ -5,45 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NA Skills Portfolio | Afolabi Adesina</title>
   <meta name="description" content="North America portfolio hub: AI/ML, supply chain optimization, SAP data migration, and Tableau BI dashboards." />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#projects">Skip to projects</a>
   <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="index.html"><span class="brand-mark">AA</span><span>NA Skills Portfolio</span></a>
-      <div class="nav-links">
-        <a href="#projects">Projects</a>
-        <a href="#branches">Branches</a>
-        <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Smart-Shield AI</a>
-        <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio" target="_blank" rel="noopener">GitHub</a>
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <span class="brand-mark">AA</span>
+        <span class="brand-text">
+          <span class="brand-name">NA Skills Portfolio</span>
+          <span class="brand-tag">Afolabi Adesina</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hub-nav-links">Menu</button>
+      <div class="nav-links" id="hub-nav-links">
+        <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">AI / ML</a>
+        <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply Chain</a>
+        <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP Migration</a>
+        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
+        <a class="nav-quiet" href="#branches">Branches</a>
+        <a class="nav-quiet" href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio" target="_blank" rel="noopener">GitHub</a>
       </div>
     </nav>
   </header>
+
   <section class="hero">
-    <div class="eyebrow">Oakville / GTA ? North America focus</div>
+    <div class="eyebrow">Oakville / GTA · North America focus</div>
     <h1>Skills lab for AI, supply chain, SAP migration &amp; BI</h1>
-    <p class="lead">Interactive GitHub Pages showcase. Filter by project type. Smart-Shield AI stays live on its own repo; these pages add supply chain optimization, SAP MDM migration, and Tableau-ready BI.</p>
+    <p class="lead">
+      Interactive GitHub Pages showcase with clear tracks. Filter the gallery or jump from the primary nav.
+      Smart-Shield AI stays live on its own repo; this hub adds supply chain, SAP MDM migration, and Tableau-ready BI.
+    </p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#projects">Browse projects</a>
       <a class="btn btn-ghost" href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Open Smart-Shield AI</a>
     </div>
+    <div class="track-strip" aria-label="Skill tracks">
+      <a class="track-chip track-ai" href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">
+        <span class="track-label">Track 01</span>
+        <strong>AI / ML</strong>
+        <span>Smart-Shield AI</span>
+      </a>
+      <a class="track-chip track-sc" href="/NA-Skills-Portfolio/projects/supply-chain/">
+        <span class="track-label">Track 02</span>
+        <strong>Supply Chain</strong>
+        <span>Skills Lab</span>
+      </a>
+      <a class="track-chip track-sap" href="/NA-Skills-Portfolio/projects/sap-migration/">
+        <span class="track-label">Track 03</span>
+        <strong>SAP Migration</strong>
+        <span>MDM Lab</span>
+      </a>
+      <a class="track-chip track-bi" href="/NA-Skills-Portfolio/projects/bi-dashboard/">
+        <span class="track-label">Track 04</span>
+        <strong>BI Dashboard</strong>
+        <span>Ops Control Tower</span>
+      </a>
+    </div>
   </section>
+
   <section class="section" id="projects">
-    <h2>Project gallery</h2>
-    <p class="sub">Choose a track. Each card opens a live demo built for GitHub Pages.</p>
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Project gallery</p>
+        <h2>Choose a track</h2>
+        <p class="sub">Cards filter like a portfolio board. Each opens a live GitHub Pages demo.</p>
+      </div>
+    </div>
     <div class="filters" role="group" aria-label="Filter projects">
       <button class="filter-btn active" data-filter="all" type="button">All</button>
       <button class="filter-btn" data-filter="ai" type="button">AI / ML</button>
-      <button class="filter-btn" data-filter="sc" type="button">Supply Chain Optimization</button>
+      <button class="filter-btn" data-filter="sc" type="button">Supply Chain</button>
+      <button class="filter-btn" data-filter="sap" type="button">SAP Migration</button>
       <button class="filter-btn" data-filter="bi" type="button">BI Dashboard</button>
-      <button class="filter-btn" data-filter="sap" type="button">SAP Skills</button>
     </div>
     <div class="grid" id="project-grid">
       <article class="card" data-type="ai">
         <span class="tag tag-ai">AI / ML</span>
         <h3>Smart-Shield AI</h3>
-        <p>Sheridan capstone: multimodal highway safety scoring with NLP hazard text, vision surface cues, and collision-risk fusion. Already deployed ? unchanged.</p>
-        <div class="meta"><span class="chip">NLP</span><span class="chip">Computer Vision</span><span class="chip">branch: Smart-Shield master</span></div>
+        <p>Sheridan capstone: multimodal highway safety scoring with NLP hazard text, vision surface cues, and collision-risk fusion. Already deployed — unchanged.</p>
+        <div class="meta"><span class="chip">NLP</span><span class="chip">Computer Vision</span><span class="chip">External repo</span></div>
         <div class="card-actions">
           <a class="btn btn-primary" href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Live demo</a>
           <a class="btn btn-ghost" href="https://github.com/afolabi-adesina-m/Smart-Shield-AI" target="_blank" rel="noopener">Repo</a>
@@ -53,48 +95,59 @@
         <span class="tag tag-sc">Supply Chain</span>
         <h3>Supply Chain Skills Lab</h3>
         <p>Five modules — Fundamentals through Technology — with inventory problems (EOQ, ROP, ABC, newsvendor, turns), cash conversion cycle / working capital impact, aggregate planning, and the GTA–Great Lakes network optimizer.</p>
-        <div class="meta"><span class="chip">5 modules</span><span class="chip">Inventory · Cash / WC</span><span class="chip">branch: project/supply-chain</span></div>
+        <div class="meta"><span class="chip">5 modules</span><span class="chip">Inventory · Cash / WC</span><span class="chip">project/supply-chain</span></div>
         <div class="card-actions">
           <a class="btn btn-primary" href="/NA-Skills-Portfolio/projects/supply-chain/">Open project</a>
           <a class="btn btn-ghost" href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/supply-chain" target="_blank" rel="noopener">Branch</a>
         </div>
       </article>
       <article class="card" data-type="sap">
-        <span class="tag tag-sap">SAP Skills</span>
+        <span class="tag tag-sap">SAP Migration</span>
         <h3>SAP Modules &amp; MDM Migration Lab</h3>
         <p>Professional skill map across BW, CO, FI, HR, MM-IM, MM-PO, PM, PP, and SD — plus a synthetic ECC→S/4 MDM cutover with DQ scorecards. Enterprise blue theme; demo data only.</p>
-        <div class="meta"><span class="chip">9 modules</span><span class="chip">MDM / LTMC</span><span class="chip">branch: project/sap-migration</span></div>
+        <div class="meta"><span class="chip">9 modules</span><span class="chip">MDM / LTMC</span><span class="chip">project/sap-migration</span></div>
         <div class="card-actions">
-          <a class="btn btn-primary" href="projects/sap-migration/">Open project</a>
+          <a class="btn btn-primary" href="/NA-Skills-Portfolio/projects/sap-migration/">Open project</a>
           <a class="btn btn-ghost" href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/sap-migration" target="_blank" rel="noopener">Branch</a>
         </div>
       </article>
       <article class="card" data-type="bi">
         <span class="tag tag-bi">BI Dashboard</span>
         <h3>North America Ops Control Tower</h3>
-        <p>Tableau-ready workbook pack plus an interactive Plotly control tower for OTIF, freight spend, inventory turns, and plant fill rate across Canada?US corridors.</p>
-        <div class="meta"><span class="chip">Tableau Public</span><span class="chip">Plotly</span><span class="chip">branch: project/bi-dashboard</span></div>
+        <p>Tableau-ready extracts plus an interactive Plotly control tower for OTIF, freight, inventory, regional geography, category mix, and exception queues across Canada–US corridors.</p>
+        <div class="meta"><span class="chip">Tableau extracts</span><span class="chip">Plotly</span><span class="chip">project/bi-dashboard</span></div>
         <div class="card-actions">
-          <a class="btn btn-primary" href="projects/bi-dashboard/">Open project</a>
+          <a class="btn btn-primary" href="/NA-Skills-Portfolio/projects/bi-dashboard/">Open project</a>
           <a class="btn btn-ghost" href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/bi-dashboard" target="_blank" rel="noopener">Branch</a>
         </div>
       </article>
     </div>
   </section>
+
   <section class="section" id="branches">
-    <h2>How the branches work</h2>
-    <p class="sub">Smart-Shield AI is untouched. New skills live in this repo on dedicated branches; <code>main</code> publishes the hub.</p>
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Repository map</p>
+        <h2>How the branches work</h2>
+        <p class="sub">Smart-Shield AI is untouched. New skills live in this repo on dedicated branches; <code>main</code> publishes the hub.</p>
+      </div>
+    </div>
     <div class="panel">
       <div class="steps">
-        <div class="step"><div class="step-num">1</div><div><strong>main</strong> ? GitHub Pages hub (<code>/docs</code>) with filters and live demos.</div></div>
+        <div class="step"><div class="step-num">1</div><div><strong>main</strong> — GitHub Pages hub (<code>/docs</code>) with filters and live demos.</div></div>
         <div class="step"><div class="step-num">2</div><div><strong>project/supply-chain</strong> — five-module skills lab, sample problems, network optimizer, and lane data.</div></div>
-        <div class="step"><div class="step-num">3</div><div><strong>project/sap-migration</strong> ? mapping CSVs, DQ rules, migration scorecard.</div></div>
-        <div class="step"><div class="step-num">4</div><div><strong>project/bi-dashboard</strong> ? Tableau extract CSVs + control-tower UI.</div></div>
-        <div class="step"><div class="step-num">5</div><div><strong>Smart-Shield-AI</strong> (separate repo) ? <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">keeps working as-is</a>.</div></div>
+        <div class="step"><div class="step-num">3</div><div><strong>project/sap-migration</strong> — mapping CSVs, DQ rules, migration scorecard.</div></div>
+        <div class="step"><div class="step-num">4</div><div><strong>project/bi-dashboard</strong> — Tableau extract CSVs + ops control-tower UI.</div></div>
+        <div class="step"><div class="step-num">5</div><div><strong>Smart-Shield-AI</strong> (separate repo) — <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">keeps working as-is</a>.</div></div>
       </div>
     </div>
   </section>
-  <footer class="footer">Afolabi Adesina ? Oakville, ON ? <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a> ? <a href="https://linkedin.com/in/afolabi-adesina" target="_blank" rel="noopener">LinkedIn</a></footer>
-  <script src="js/hub.js"></script>
+
+  <footer class="footer">
+    Afolabi Adesina · Oakville, ON ·
+    <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a> ·
+    <a href="https://linkedin.com/in/afolabi-adesina" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+  <script src="/NA-Skills-Portfolio/js/hub.js"></script>
 </body>
 </html>

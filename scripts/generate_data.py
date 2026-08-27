@@ -249,33 +249,157 @@ def clean_sap(materials, customers, vendors, ship_tos):
     return mat_map, cust_map, vend_map, ship_map
 
 
-def generate_bi(shipments: list[dict]) -> list[dict]:
+PLANTS_DIM = [
+    {"plant": "Oakville", "plant_code": "P-OAK", "country": "CA", "region": "Ontario", "market": "GTA West", "lat": 43.4675, "lon": -79.6877},
+    {"plant": "Mississauga", "plant_code": "P-MIS", "country": "CA", "region": "Ontario", "market": "GTA Core", "lat": 43.5890, "lon": -79.6441},
+    {"plant": "Hamilton", "plant_code": "P-HAM", "country": "CA", "region": "Ontario", "market": "Golden Horseshoe", "lat": 43.2557, "lon": -79.8711},
+    {"plant": "Buffalo", "plant_code": "P-BUF", "country": "US", "region": "New York", "market": "Niagara Cross-Border", "lat": 42.8864, "lon": -78.8784},
+    {"plant": "Detroit", "plant_code": "P-DET", "country": "US", "region": "Michigan", "market": "Auto Belt", "lat": 42.3314, "lon": -83.0458},
+]
+
+CATEGORIES = [
+    {"category": "Cementitious", "product_line": "Binder Blends", "sku_family": "CB-100"},
+    {"category": "Cementitious", "product_line": "Specialty Mortars", "sku_family": "SM-200"},
+    {"category": "Aggregates", "product_line": "Fine Aggregate", "sku_family": "AG-F"},
+    {"category": "Aggregates", "product_line": "Coarse Aggregate", "sku_family": "AG-C"},
+    {"category": "Packaged", "product_line": "Bagged Mix", "sku_family": "PK-B"},
+    {"category": "Packaged", "product_line": "Retail Kits", "sku_family": "PK-R"},
+    {"category": "Logistics Add-ons", "product_line": "Expedite Surcharge", "sku_family": "LX-E"},
+]
+
+EXCEPTION_ROOT_CAUSES = [
+    "Carrier delay at border",
+    "Yard congestion",
+    "Short ship / pick error",
+    "Production slip",
+    "Customer dock unavailable",
+    "Weather / winter ops",
+    "Documentation hold",
+]
+
+
+def generate_bi(shipments: list[dict]) -> dict[str, list[dict]]:
+    """North America ops / OTIF / sales extracts for Tableau + web control tower."""
     months = [
         "2025-09", "2025-10", "2025-11", "2025-12",
         "2026-01", "2026-02", "2026-03", "2026-04",
         "2026-05", "2026-06", "2026-07", "2026-08",
     ]
-    plants = ["Oakville", "Mississauga", "Hamilton", "Buffalo", "Detroit"]
     total_opt = sum(s["total_cost"] for s in shipments if s["dc_id"] != "UNMET")
-    rows = []
+    plant_lookup = {p["plant"]: p for p in PLANTS_DIM}
+
+    ops_rows: list[dict] = []
     for month in months:
-        for plant in plants:
-            base = random.randint(850, 1400)
-            rows.append(
+        for plant_meta in PLANTS_DIM:
+            plant = plant_meta["plant"]
+            # Mild seasonality + cross-border friction on US nodes
+            season = 1.0 + 0.06 * math.sin(months.index(month) / 12 * 2 * math.pi)
+            border = 0.97 if plant_meta["country"] == "US" else 1.0
+            base = int(random.randint(880, 1380) * season)
+            otif = round(min(0.985, random.uniform(0.875, 0.975) * border), 3)
+            fill = round(min(0.998, random.uniform(0.905, 0.995)), 3)
+            late_pct = round(max(0.01, 1 - otif) * random.uniform(0.55, 0.85), 3)
+            ops_rows.append(
                 {
                     "month": month,
                     "plant": plant,
+                    "plant_code": plant_meta["plant_code"],
+                    "country": plant_meta["country"],
+                    "region": plant_meta["region"],
+                    "market": plant_meta["market"],
+                    "lat": plant_meta["lat"],
+                    "lon": plant_meta["lon"],
                     "orders": base,
-                    "otif": round(random.uniform(0.86, 0.98), 3),
-                    "freight_spend_cad": round(base * random.uniform(38, 62), 2),
+                    "otif": otif,
+                    "late_orders": int(base * late_pct),
+                    "freight_spend_cad": round(base * random.uniform(38, 62) * (1.08 if plant_meta["country"] == "US" else 1.0), 2),
                     "inventory_tons": round(random.uniform(1200, 2800), 1),
                     "inventory_turns": round(random.uniform(4.2, 9.5), 2),
-                    "fill_rate": round(random.uniform(0.90, 0.995), 3),
+                    "fill_rate": fill,
+                    "sales_cad": round(base * random.uniform(420, 680), 2),
                     "corridor": "Canada-US Great Lakes",
                     "network_opt_cost_ref": round(total_opt / len(months), 2),
                 }
             )
-    return rows
+
+    sales_rows: list[dict] = []
+    for month in months:
+        for plant_meta in PLANTS_DIM:
+            for cat in CATEGORIES:
+                units = random.randint(40, 320)
+                unit_price = random.uniform(85, 420)
+                if cat["category"] == "Logistics Add-ons":
+                    units = random.randint(10, 90)
+                    unit_price = random.uniform(35, 160)
+                revenue = round(units * unit_price, 2)
+                sales_rows.append(
+                    {
+                        "month": month,
+                        "plant": plant_meta["plant"],
+                        "country": plant_meta["country"],
+                        "region": plant_meta["region"],
+                        "market": plant_meta["market"],
+                        "category": cat["category"],
+                        "product_line": cat["product_line"],
+                        "sku_family": cat["sku_family"],
+                        "units_sold": units,
+                        "revenue_cad": revenue,
+                        "gross_margin_pct": round(random.uniform(0.18, 0.42), 3),
+                    }
+                )
+
+    exceptions: list[dict] = []
+    eid = 1
+    for row in ops_rows:
+        # Sample a few exception tickets per plant-month when OTIF dips
+        n = 2 if row["otif"] < 0.92 else (1 if row["otif"] < 0.95 else 0)
+        for _ in range(n):
+            impact = random.randint(1, max(2, row["late_orders"] // 3))
+            exceptions.append(
+                {
+                    "exception_id": f"EX-{eid:05d}",
+                    "month": row["month"],
+                    "plant": row["plant"],
+                    "country": row["country"],
+                    "region": row["region"],
+                    "order_impact": impact,
+                    "otif_gap": round(max(0.0, 0.96 - row["otif"]), 3),
+                    "root_cause": random.choice(EXCEPTION_ROOT_CAUSES),
+                    "severity": random.choice(["Watch", "Action", "Critical"]),
+                    "owner": random.choice(["Plant Ops", "Transportation", "Customer Care", "Planning"]),
+                }
+            )
+            eid += 1
+
+    # Regional rollup for map / executive geography view
+    regional: list[dict] = []
+    by_key: dict[tuple, list[dict]] = {}
+    for r in ops_rows:
+        by_key.setdefault((r["month"], r["country"], r["region"]), []).append(r)
+    for (month, country, region), grp in sorted(by_key.items()):
+        orders = sum(x["orders"] for x in grp)
+        regional.append(
+            {
+                "month": month,
+                "country": country,
+                "region": region,
+                "orders": orders,
+                "otif": round(sum(x["otif"] for x in grp) / len(grp), 3),
+                "fill_rate": round(sum(x["fill_rate"] for x in grp) / len(grp), 3),
+                "freight_spend_cad": round(sum(x["freight_spend_cad"] for x in grp), 2),
+                "sales_cad": round(sum(x["sales_cad"] for x in grp), 2),
+                "inventory_tons": round(sum(x["inventory_tons"] for x in grp), 1),
+                "plants": len(grp),
+            }
+        )
+
+    return {
+        "ops_control_tower": ops_rows,
+        "sales_by_category": sales_rows,
+        "otif_exceptions": exceptions,
+        "regional_performance": regional,
+        "dim_plants": [dict(p) for p in PLANTS_DIM],
+    }
 
 
 def main() -> None:
@@ -317,17 +441,26 @@ def main() -> None:
     )
 
     bi = generate_bi(shipments)
-    write_csv(PROC / "ops_control_tower.csv", bi)
-    write_csv(DOCS_DATA / "ops_control_tower.csv", bi)
     tableau = ROOT / "tableau" / "extracts"
     tableau.mkdir(parents=True, exist_ok=True)
-    write_csv(tableau / "ops_control_tower.csv", bi)
+    for name, rows in bi.items():
+        write_csv(PROC / f"{name}.csv", rows)
+        write_csv(DOCS_DATA / f"{name}.csv", rows)
+        write_csv(tableau / f"{name}.csv", rows)
     write_csv(tableau / "optimal_shipments.csv", shipments)
+    write_csv(DOCS_DATA / "optimal_shipments.csv", shipments)
 
     total_cost = sum(s["total_cost"] for s in shipments if s["dc_id"] != "UNMET")
     unmet = sum(s["tons"] for s in shipments if s["dc_id"] == "UNMET")
     print(f"Shipments: {len(shipments)} | Network cost: ${total_cost:,.0f} | Unmet tons: {unmet}")
     print(f"SAP ready materials: {len(mat_map)} / {len(materials)}")
+    print(
+        "BI extracts:",
+        f"ops={len(bi['ops_control_tower'])}",
+        f"sales={len(bi['sales_by_category'])}",
+        f"exceptions={len(bi['otif_exceptions'])}",
+        f"regional={len(bi['regional_performance'])}",
+    )
 
 
 if __name__ == "__main__":
