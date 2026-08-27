@@ -17,6 +17,7 @@
   --sap: #1f5f82;
   --bi: #4a5568;
   --r: #3a5a6e;
+  --py: #3776AB;
   --radius: 14px;
   --radius-sm: 10px;
   --shadow: 0 1px 2px rgba(18, 21, 28, 0.04), 0 12px 40px rgba(18, 21, 28, 0.06);
@@ -275,6 +276,13 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
   padding: clamp(3.5rem, 8vw, 6.5rem) 1.5rem clamp(3rem, 6vw, 4.5rem);
 }
 
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
 .hero-inner { max-width: 40rem; }
 
 .hero-product {
@@ -308,13 +316,100 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 .hero .lead {
-  margin: 0 0 2rem;
+  margin: 0 0 1.5rem;
   color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.65;
   max-width: 42ch;
   font-weight: 450;
 }
+
+.hub-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 1.75rem;
+}
+
+.hub-metric {
+  background: var(--surface-solid);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.85rem;
+  box-shadow: var(--shadow);
+}
+
+.hub-metric strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 550;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.hub-metric span {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+}
+
+.hero-orbit {
+  position: relative;
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9) 0%, rgba(238, 241, 245, 0.4) 55%, transparent 70%);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lift);
+}
+
+.orbit-core {
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #f7f8fa;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(22, 50, 79, 0.2);
+}
+
+.orbit-node {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 12px rgba(18, 21, 28, 0.12);
+}
+
+.orbit-ai { top: 6%; left: 50%; transform: translateX(-50%); background: var(--ai); }
+.orbit-py { top: 22%; right: 8%; background: var(--py); }
+.orbit-sc { bottom: 18%; right: 10%; background: var(--sc); }
+.orbit-sap { bottom: 6%; left: 50%; transform: translateX(-50%); background: var(--sap); }
+.orbit-bi { bottom: 18%; left: 10%; background: var(--bi); }
+.orbit-r { top: 22%; left: 8%; background: var(--r); }
 
 .hero-cta {
   display: flex;
@@ -455,6 +550,30 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
   transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.25s ease;
 }
 
+.track-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(238, 241, 245, 0.85);
+  border: 1px solid var(--line);
+  color: var(--card-accent, var(--accent));
+  margin-bottom: 0.15rem;
+}
+
+.track-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.track-card.track-py .track-icon {
+  background: rgba(55, 118, 171, 0.08);
+  border-color: rgba(55, 118, 171, 0.2);
+}
+
+.track-card.track-py .track-icon svg { width: 24px; height: 24px; }
+
 .track-card::before {
   content: "";
   position: absolute;
@@ -471,6 +590,7 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .track-card.track-sap { --card-accent: var(--sap); }
 .track-card.track-bi { --card-accent: var(--bi); }
 .track-card.track-r { --card-accent: var(--r); }
+.track-card.track-py { --card-accent: var(--py); }
 
 .track-card:hover {
   transform: translateY(-4px);
@@ -675,6 +795,24 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Mobile */
 @media (max-width: 860px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-visual {
+    min-height: 220px;
+    order: -1;
+  }
+
+  .hero-orbit {
+    width: min(100%, 260px);
+  }
+
+  .hub-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .track-grid { grid-template-columns: 1fr; }
 
   .nav-toggle { display: inline-flex; }
