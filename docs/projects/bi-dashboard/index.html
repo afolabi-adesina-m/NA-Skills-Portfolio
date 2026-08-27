@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>North America Ops Control Tower | BI Dashboard</title>
   <meta name="description" content="Tableau-ready North America ops BI dashboard: OTIF, freight, inventory, regional performance, category sales, and exception management across Canada–US corridors." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260827e" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260827e" />
+  <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
+  <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/bi-dashboard/bi.css?v=20260827" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/bi-dashboard/bi.css?v=20260827b" />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 <body class="theme-bi">
@@ -224,7 +229,7 @@
         <li>Connect to the CSVs under <code>tableau/extracts/</code> (also mirrored in <code>docs/assets/data/</code> for the web charts).</li>
         <li>Relate <code>dim_plants</code> → <code>ops_control_tower</code> / <code>sales_by_category</code> / <code>otif_exceptions</code> on <code>plant</code>.</li>
         <li>Build sheets: KPI cards, OTIF trend, regional bar, category treemap or bar, exception table, lane map from <code>optimal_shipments</code>.</li>
-        <li>Publish to Tableau Public and paste the share embed URL into the placeholder below.</li>
+        <li>Publish to Tableau Public — live embed below uses the Minnesota Traffic Volume dashboard from this profile.</li>
       </ol>
       <ul class="extract-list">
         <li><code>ops_control_tower.csv</code> <span>Plant-month OTIF, freight, turns, fill, sales, lat/lon</span></li>
@@ -234,9 +239,22 @@
         <li><code>dim_plants.csv</code> <span>Plant dimension (market, country, geo)</span></li>
         <li><code>optimal_shipments.csv</code> <span>Network optimizer lanes for map overlays</span></li>
       </ul>
-      <div class="embed-placeholder" style="margin-top:1rem" id="tableau-embed">
-        <strong>Tableau Public embed placeholder</strong>
-        Paste your published workbook iframe here when ready. The Plotly control tower above already demonstrates the same narrative live on GitHub Pages.
+      <div class="tableau-embed-card" id="tableau-embed">
+        <h3 class="tableau-embed-heading">Tableau Public &mdash; Live Dashboard</h3>
+        <p class="tableau-embed-note">
+          <strong>Google BI Task &mdash; Minnesota Traffic Volume Dashboard</strong> &mdash; operational KPIs, hourly traffic patterns,
+          and geographic views from Google Business Intelligence coursework. The Plotly control tower above uses the same NA ops narrative with portfolio demo data.
+        </p>
+        <div class="tableau-embed-frame">
+          <iframe
+            title="Minnesota Traffic Volume Dashboard on Tableau Public"
+            src="https://public.tableau.com/views/GoogleBITask-MinnesotaTrafficVolume/MinnesotaTrafficVolumeDashboard?:language=en-US&amp;:embed=y&amp;:display_count=yes&amp;:origin=viz_share_link"
+            allowfullscreen
+            loading="lazy"></iframe>
+        </div>
+        <p class="tableau-embed-link">
+          <a href="https://public.tableau.com/app/profile/afolabi.adesina/vizzes" target="_blank" rel="noopener noreferrer">View all vizzes on Tableau Public</a>
+        </p>
       </div>
       <p style="color:var(--bi-muted);margin:1rem 0 0">Branch: <code>project/bi-dashboard</code> &middot; Hub publishes from <code>main</code> /docs</p>
     </div>
