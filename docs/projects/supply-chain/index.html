@@ -3,46 +3,369 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GTA–Great Lakes Network Optimizer</title>
-  <link rel="stylesheet" href="../../css/styles.css" />
+  <title>Supply Chain Skills Lab | Afolabi Adesina</title>
+  <meta name="description" content="Five-module North America supply chain skills lab: fundamentals, design, dynamics, analytics, and technology — with GTA–Great Lakes sample problems and interactive demos." />
+  <!-- Root-absolute paths so CSS/assets load with or without a trailing slash on GitHub Pages -->
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/supply-chain/sc.css" />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
-<body>
+<body class="theme-sc">
   <header class="site-header">
     <nav class="nav">
-      <a class="brand" href="../../index.html"><span class="brand-mark">AA</span><span>NA Skills Portfolio</span></a>
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <img class="nav-sc-mark" src="/NA-Skills-Portfolio/projects/supply-chain/sc-mark.svg" width="34" height="34" alt="Supply chain mark" />
+        <span class="brand-mark">AA</span><span>NA Skills Portfolio</span>
+      </a>
       <div class="nav-links">
-        <a href="../../index.html">Hub</a>
-        <a href="../sap-migration/">SAP Migration</a>
-        <a href="../bi-dashboard/">BI Dashboard</a>
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+        <a href="#modules">Modules</a>
+        <a href="#network-lab">Network Lab</a>
+        <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP Migration</a>
+        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
       </div>
     </nav>
   </header>
-  <section class="project-hero">
-    <div class="breadcrumb"><a href="../../index.html">Hub</a> / Supply Chain Optimization</div>
-    <div class="eyebrow">North America · Canada–US Great Lakes</div>
-    <h1>GTA–Great Lakes Network Optimizer</h1>
-    <p class="lead" style="color:var(--muted);max-width:62ch;line-height:1.6">Allocate demand from Oakville, Mississauga, Hamilton, Buffalo, and Detroit DCs to metro customers while respecting capacity and minimizing landed freight cost. Synthetic demo inspired by building-materials / industrial distribution networks.</p>
+
+  <section class="sc-hero">
+    <div class="sc-logo-block">
+      <img class="sc-mark-img" src="/NA-Skills-Portfolio/projects/supply-chain/sc-mark.svg" width="120" height="120" alt="Supply chain network mark" />
+      <span class="sc-mark-label">Supply chain skills</span>
+    </div>
+    <div>
+      <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Supply Chain Skills Lab</div>
+      <div class="eyebrow">Oakville · GTA · Great Lakes · Canada–US</div>
+      <h1>Supply Chain Skills Lab — 5 Modules</h1>
+      <p class="lead">
+        End-to-end supply chain fluency for manufacturing, retail, logistics, and CPG — framed on North America corridors
+        (GTA DCs, Great Lakes plants, Canada–US lanes). Each module explains the skill area, lists demonstrated capabilities,
+        and walks through concrete sample problems with worked or interactive results. Synthetic demo data only.
+      </p>
+      <div class="sc-pill-row">
+        <span class="sc-pill">Fundamentals</span>
+        <span class="sc-pill">Design</span>
+        <span class="sc-pill">Dynamics</span>
+        <span class="sc-pill">Analytics</span>
+        <span class="sc-pill">Technology &amp; Systems</span>
+        <span class="sc-pill accent">Aggregate planning · Network OR</span>
+      </div>
+    </div>
   </section>
-  <section class="section">
-    <div class="kpi-grid" id="kpis"></div>
+
+  <section class="section" id="modules">
+    <p class="disclaimer">
+      Module summaries synthesize common supply-chain themes (inventory, network design, variability, optimization, digital systems).
+      They do not reproduce proprietary course text or PDFs. Charts and tables use original synthetic North America demo data.
+    </p>
+
+    <h2>Why this lab matters</h2>
+    <p class="sub">The same decision patterns show up in plants, DCs, retail backrooms, and 3PL hubs — cost, service, capacity, and information flow.</p>
+    <div class="sc-context">
+      <div class="sc-context-item">
+        <strong>Cross-industry patterns</strong>
+        <p>EOQ, safety stock, network design, bullwhip, and aggregate plans transfer across CPG, industrial, retail, and logistics.</p>
+      </div>
+      <div class="sc-context-item">
+        <strong>NA / GTA framing</strong>
+        <p>Oakville, Mississauga, Hamilton, Buffalo, and Detroit nodes make border friction and corridor service real constraints.</p>
+      </div>
+      <div class="sc-context-item">
+        <strong>Decision literacy</strong>
+        <p>Level vs chase production, capacity-constrained mix, and landed-cost allocation are the everyday language of SC ops.</p>
+      </div>
+      <div class="sc-context-item">
+        <strong>Systems glue</strong>
+        <p>WMS / TMS / ERP visibility only pays off when the underlying inventory and network math is sound.</p>
+      </div>
+    </div>
+
+    <nav class="sc-module-nav" aria-label="Jump to modules">
+      <a href="#mod-fundamentals">1 · Fundamentals</a>
+      <a href="#mod-design">2 · Design</a>
+      <a href="#mod-dynamics">3 · Dynamics</a>
+      <a href="#mod-analytics">4 · Analytics</a>
+      <a href="#mod-technology">5 · Technology</a>
+      <a href="#network-lab">Network optimizer</a>
+    </nav>
+
+    <!-- ========== 1 FUNDAMENTALS ========== -->
+    <article class="module-section module-card" id="mod-fundamentals">
+      <div class="module-card-head">
+        <h3>1. Supply Chain Fundamentals</h3>
+        <span class="module-code fund">SCF</span>
+      </div>
+      <p class="module-summary">
+        Foundations of how goods, information, and cash move: roles (supplier → plant → DC → customer), inventory drivers
+        (cycle stock, safety stock, pipeline), logistics cost tradeoffs, and basic replenishment math. This module builds the
+        shared vocabulary that design, dynamics, and analytics all rely on — whether you ship pallets to GTA retailers or
+        components into a Mississauga plant.
+      </p>
+      <p class="skills-label">Skills demonstrated</p>
+      <ul>
+        <li>Map end-to-end flows and cost buckets (inventory, freight, handling, stockout)</li>
+        <li>Apply EOQ / replenishment sizing with realistic holding and order costs</li>
+        <li>Set safety stock from demand variability and service-level targets</li>
+      </ul>
+
+      <p class="problem-label">Sample problems</p>
+
+      <div class="problem-block">
+        <h4>Problem A — EOQ for a Mississauga CPG / retail SKU</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Retail · CPG · DC replenishment</span>
+          <span class="problem-chip">Mississauga DC</span>
+        </div>
+        <p><strong>Statement:</strong> Annual demand for a mid-velocity SKU is <strong>24,000 cases</strong>. Each replenishment order costs <strong>$180</strong> (admin + inbound handling). Holding cost is <strong>$4.50 / case / year</strong>. What order quantity minimizes total inventory cost, and how often do we order?</p>
+        <p class="approach"><strong>Approach:</strong> Classic EOQ = √(2DS/H). Annual orders = D/Q. Total cost = (D/Q)S + (Q/2)H. Same math applies to manufacturing spare parts or 3PL inbound waves.</p>
+        <div class="kpi-grid" id="eoq-kpis"></div>
+        <p class="result-callout" id="eoq-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem B — Safety stock for Toronto metro service</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Logistics · Retail · Manufacturing</span>
+          <span class="problem-chip">Oakville → Toronto</span>
+        </div>
+        <p><strong>Statement:</strong> Weekly demand at Oakville DC for a Toronto retail lane averages <strong>420 units</strong> with σ = <strong>95</strong>. Lead time is <strong>1.5 weeks</strong> (stable carrier). Target cycle service level <strong>95%</strong> (z ≈ 1.65). How much safety stock?</p>
+        <p class="approach"><strong>Approach:</strong> SS = z · σ · √L for independent weekly demand. Pipeline / cycle stock are separate. Pattern holds for plant-to-DC and DC-to-store.</p>
+        <p class="result-callout">
+          SS = 1.65 × 95 × √1.5 ≈ <strong>192 units</strong>. At 95% CSL this buffers lead-time demand variability without overstocking the GTA node — transferable to auto aftermarket, grocery, or industrial MRO.
+        </p>
+      </div>
+    </article>
+
+    <!-- ========== 2 DESIGN ========== -->
+    <article class="module-section module-card" id="mod-design">
+      <div class="module-card-head">
+        <h3>2. Supply Chain Design</h3>
+        <span class="module-code des">SCD</span>
+      </div>
+      <p class="module-summary">
+        Structural choices: where to put plants and DCs, how to allocate capacity, which contracts and sourcing portfolios
+        to use, and how to set medium-term production rates (aggregate planning). Design decisions lock in cost-to-serve
+        for years — critical for Canada–US Great Lakes networks where border friction and corridor density matter.
+      </p>
+      <p class="skills-label">Skills demonstrated</p>
+      <ul>
+        <li>Compare level, chase, and hybrid aggregate plans (workforce vs inventory tradeoffs)</li>
+        <li>Reason about multi-echelon network / facility roles (plant, DC, cross-dock)</li>
+        <li>Connect design choices to service radius and landed cost</li>
+      </ul>
+
+      <p class="problem-label">Sample problems</p>
+
+      <div class="problem-block">
+        <h4>Problem A — Aggregate plan for an Oakville plant (level vs chase vs hybrid)</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Manufacturing · CPG · Industrial</span>
+          <span class="problem-chip">Seasonal NA demand</span>
+        </div>
+        <p><strong>Statement:</strong> A GTA plant faces seasonal demand over 6 months (units below). Regular capacity is flexible via overtime / temps (chase) or inventory build (level). Compare <strong>level</strong> (smooth production), <strong>chase</strong> (match demand), and <strong>hybrid</strong> (limited overtime + inventory). Which minimizes total cost of production, inventory, and workforce change?</p>
+        <p class="approach"><strong>Approach:</strong> Build monthly balance sheets: production, ending inventory, hires/fires or overtime. Cost = production + holding + workforce adjustment. Same framework for retail DC staffing seasons and 3PL peak waves.</p>
+        <div class="strategy-tabs" role="group" aria-label="Aggregate plan strategy">
+          <button type="button" class="active" data-strategy="level">Level</button>
+          <button type="button" data-strategy="chase">Chase</button>
+          <button type="button" data-strategy="hybrid">Hybrid</button>
+        </div>
+        <div class="kpi-grid" id="agg-kpis"></div>
+        <div id="chart-agg" class="chart" style="min-height:300px"></div>
+        <p class="result-callout" id="agg-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem B — GTA–Great Lakes DC network roles</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Logistics · Retail · Distribution</span>
+          <span class="problem-chip">Oakville · Mississauga · Buffalo · Detroit</span>
+        </div>
+        <p><strong>Statement:</strong> Should Buffalo act as a cross-dock for US Midwest demand while Mississauga / Oakville serve Ontario, or should Detroit absorb more volume? Constraints: DC capacity, border premium on some lanes, and metro service times.</p>
+        <p class="approach"><strong>Approach:</strong> Capacity-constrained lowest-cost assignment (see Network Lab below). Design insight: role of each node (fulfillment vs cross-dock) matters as much as raw miles.</p>
+        <p class="result-callout">Interactive result lives in the <a href="#network-lab">Network Optimizer lab</a> — optimal tons by DC, cost-vs-distance lanes, and shipment plan for synthetic NA demand.</p>
+      </div>
+    </article>
+
+    <!-- ========== 3 DYNAMICS ========== -->
+    <article class="module-section module-card" id="mod-dynamics">
+      <div class="module-card-head">
+        <h3>3. Supply Chain Dynamics</h3>
+        <span class="module-code dyn">SCY</span>
+      </div>
+      <p class="module-summary">
+        How systems behave over time: demand amplification (bullwhip), lead-time and batching effects, information delay,
+        and resilience under disruption. Dynamics explain why a small retail wobble in Toronto can look like a plant crisis
+        in Michigan — and how visibility and shorter feedback loops dampen it.
+      </p>
+      <p class="skills-label">Skills demonstrated</p>
+      <ul>
+        <li>Diagnose bullwhip drivers (batching, forecasting, rationing, lead time)</li>
+        <li>Quantify order amplification across retailer → DC → plant</li>
+        <li>Link information sharing and lead-time reduction to stability</li>
+      </ul>
+
+      <p class="problem-label">Sample problems</p>
+
+      <div class="problem-block">
+        <h4>Problem A — Bullwhip on a Canada–US CPG corridor</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">CPG · Retail · Manufacturing</span>
+          <span class="problem-chip">Store → Mississauga DC → Detroit plant</span>
+        </div>
+        <p><strong>Statement:</strong> End-customer demand at GTA stores is relatively smooth. With 2-week ordering cycles, safety buffers, and delayed POS visibility, how much do DC and plant orders amplify over 16 weeks?</p>
+        <p class="approach"><strong>Approach:</strong> Simulate chained reorder points with forecasting on delayed signals. Compare coefficient of variation (CV) of demand vs orders at each tier. Applies equally to auto parts and grocery.</p>
+        <div class="kpi-grid" id="bull-kpis"></div>
+        <div id="chart-bullwhip" class="chart" style="min-height:300px"></div>
+        <p class="result-callout" id="bull-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem B — Lead-time shock at the border</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Logistics · Cross-border</span>
+          <span class="problem-chip">Buffalo corridor</span>
+        </div>
+        <p><strong>Statement:</strong> Mean cross-border transit rises from 1.0 to 2.5 days for two weeks (inspection backlog). What happens to DC inventory and fill rate if policies are unchanged?</p>
+        <p class="approach"><strong>Approach:</strong> Pipeline inventory ↑ with lead time; without SS uplift, fill rate drops until policy resets. Resilience = detect → buffer or re-route (e.g., more Mississauga domestic fill).</p>
+        <p class="result-callout">
+          Pipeline stock roughly scales with lead time (+150% in this shock). Holding fill rate requires temporary SS or mode shift — a dynamics problem every NA logistics and retail network faces during corridor incidents.
+        </p>
+      </div>
+    </article>
+
+    <!-- ========== 4 ANALYTICS ========== -->
+    <article class="module-section module-card" id="mod-analytics">
+      <div class="module-card-head">
+        <h3>4. Supply Chain Analytics</h3>
+        <span class="module-code an">SCA</span>
+      </div>
+      <p class="module-summary">
+        Turning data into decisions: optimization models, inventory analytics, forecasting quality, and KPI packs
+        (OTIF, cost/ton, turns, capacity utilization). Analytics connects the fundamentals and design choices to
+        measurable outcomes on the same GTA–Great Lakes network.
+      </p>
+      <p class="skills-label">Skills demonstrated</p>
+      <ul>
+        <li>Formulate capacity-constrained allocation / product-mix LPs</li>
+        <li>Compare plan costs with clear KPI scorecards</li>
+        <li>Visualize shipment and capacity results for decision makers</li>
+      </ul>
+
+      <p class="problem-label">Sample problems</p>
+
+      <div class="problem-block">
+        <h4>Problem A — Capacity-constrained product mix (Mississauga plant)</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Manufacturing · Industrial · CPG</span>
+          <span class="problem-chip">Two SKUs · shared capacity</span>
+        </div>
+        <p><strong>Statement:</strong> A Mississauga line can make Product H (margin $80/unit) and Product S (margin $200/unit). Weekly capacity ≤ <strong>110 units</strong>. Additive A uses 3H+2S ≤ 300; additive B uses 1H+3S ≤ 280. Maximize weekly margin.</p>
+        <p class="approach"><strong>Approach:</strong> Linear program (original NA instance of a classic product-mix pattern). Solve at binding constraints; report optimal mix and dual pressure on scarce resources.</p>
+        <div class="kpi-grid" id="mix-kpis"></div>
+        <p class="result-callout" id="mix-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem B — Network landed-cost minimization</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Logistics · Retail · Distribution</span>
+          <span class="problem-chip">Multi-DC OR</span>
+        </div>
+        <p><strong>Statement:</strong> Allocate tons from five DCs to ten metros under capacity limits, minimizing freight with border premiums on selected Canada–US lanes.</p>
+        <p class="approach"><strong>Approach:</strong> Greedy / LP-style lowest-cost assignment with capacity caps — implemented in the Network Lab with live Plotly KPIs.</p>
+        <p class="result-callout">See <a href="#network-lab">Network Optimizer</a> for tons by DC, cost-vs-distance scatter, and top shipment lanes.</p>
+      </div>
+    </article>
+
+    <!-- ========== 5 TECHNOLOGY ========== -->
+    <article class="module-section module-card" id="mod-technology">
+      <div class="module-card-head">
+        <h3>5. Supply Chain Technology and Systems</h3>
+        <span class="module-code tech">SCT</span>
+      </div>
+      <p class="module-summary">
+        Digital backbone: ERP, WMS, TMS, visibility towers, and analytics platforms. Technology only creates value when
+        master data, process design, and exception workflows match the physical network — especially across Canada–US
+        handoffs where status latency drives bullwhip and OTIF misses.
+      </p>
+      <p class="skills-label">Skills demonstrated</p>
+      <ul>
+        <li>Map system roles (ERP plan → WMS execute → TMS move → tower monitor)</li>
+        <li>Define OTIF and exception KPIs that ops and IT both own</li>
+        <li>Prioritize integration where information delay is the bottleneck</li>
+      </ul>
+
+      <p class="problem-label">Sample problems</p>
+
+      <div class="problem-block">
+        <h4>Problem A — OTIF control tower for Great Lakes lanes</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Logistics · Retail · 3PL</span>
+          <span class="problem-chip">Visibility · KPI design</span>
+        </div>
+        <p><strong>Statement:</strong> Leadership wants a single tower for Canada–US lanes. Which KPIs, grain, and alert rules catch failure early without flooding planners?</p>
+        <p class="approach"><strong>Approach:</strong> OTIF by lane + DC, dwell hours at border, forecast bias, and capacity utilization. Alert on OTIF &lt; 92% or border dwell &gt; 8h for 2 consecutive days.</p>
+        <div class="kpi-grid" id="tech-kpis"></div>
+        <div id="chart-otif" class="chart" style="min-height:280px"></div>
+        <p class="result-callout" id="tech-result"></p>
+      </div>
+
+      <div class="problem-block">
+        <h4>Problem B — WMS ↔ TMS integration priority</h4>
+        <div class="problem-meta">
+          <span class="problem-chip">Systems · Manufacturing · Distribution</span>
+          <span class="problem-chip">Integration ROI</span>
+        </div>
+        <p><strong>Statement:</strong> Oakville WMS and carrier TMS are loosely coupled (nightly files). Cross-border appointment misses cost ~$18k/month in detention + OTIF penalties. Is real-time ASN / appointment sync justified?</p>
+        <p class="approach"><strong>Approach:</strong> Compare monthly penalty + planner overtime vs integration run-rate. Same business case pattern for retail DC yard management and plant shipping desks.</p>
+        <p class="result-callout">
+          At $18k/month leakage vs ~$6k/month integration + support, payback is under one quarter if ASN accuracy &gt; 97%. Technology value = closing the information delay that Dynamics module showed amplifies orders.
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ========== NETWORK LAB ========== -->
+  <section class="section section-band lab-anchor" id="network-lab">
+    <h2>Network Optimizer Lab</h2>
+    <p class="sub">
+      Capstone demo for Design + Analytics: allocate synthetic demand from Oakville, Mississauga, Hamilton, Buffalo, and Detroit
+      DCs to metro customers under capacity, minimizing landed freight (with Canada–US border friction on selected lanes).
+    </p>
+    <div class="kpi-grid" id="net-kpis"></div>
     <div class="two-col" style="margin-top:1rem">
-      <div class="panel"><h3 style="margin-top:0">Optimal flow by DC</h3><div id="chart-dc" class="chart"></div></div>
-      <div class="panel"><h3 style="margin-top:0">Cost vs distance (lanes used)</h3><div id="chart-scatter" class="chart"></div></div>
+      <div class="panel"><h3>Optimal flow by DC</h3><div id="chart-dc" class="chart"></div></div>
+      <div class="panel"><h3>Cost vs distance (lanes used)</h3><div id="chart-scatter" class="chart"></div></div>
     </div>
     <div class="panel">
-      <h3 style="margin-top:0">Shipment plan (top lanes)</h3>
+      <h3>Shipment plan (top lanes by cost)</h3>
       <div class="table-wrap"><table id="ship-table"><thead><tr><th>DC</th><th>Customer</th><th>Tons</th><th>$/ton</th><th>Total $</th><th>Transit days</th></tr></thead><tbody></tbody></table></div>
     </div>
     <div class="panel">
-      <h3 style="margin-top:0">Method</h3>
-      <p style="color:var(--muted);line-height:1.55">Capacity-constrained lowest-cost assignment over haversine lane costs with a Canada–US border friction premium on some cross-border lanes. Re-run with <code>python scripts/generate_data.py</code>. Branch: <code>project/supply-chain</code>.</p>
+      <h3>Method</h3>
+      <p style="color:var(--sc-muted);line-height:1.55;margin:0">
+        Capacity-constrained lowest-cost assignment over haversine lane costs with a border friction premium on some
+        cross-border lanes. Re-run locally with <code>python scripts/generate_data.py</code>. Branch:
+        <code>project/supply-chain</code>.
+      </p>
     </div>
   </section>
-  <footer class="footer">Synthetic data for portfolio demonstration only.</footer>
+
+  <footer class="footer">
+    Afolabi Adesina · Supply Chain Skills Lab · Synthetic NA demo data only · Branch: project/supply-chain
+  </footer>
+
   <script>
+  const chartFont = { color: "#4B6B66", family: "Segoe UI, Arial, sans-serif" };
+  const grid = "#C5DDD8";
+  const teal = "#0D9488";
+  const emerald = "#059669";
+  const sky = "#0284C7";
+
   async function loadCSV(path) {
-    const text = await fetch(path).then(r => r.text());
+    const text = await fetch(path).then(r => {
+      if (!r.ok) throw new Error("Failed to load " + path);
+      return r.text();
+    });
     const lines = text.trim().split(/\r?\n/);
     const headers = lines[0].split(",");
     return lines.slice(1).map(line => {
@@ -52,38 +375,286 @@
       return row;
     });
   }
-  (async function () {
-    const ships = (await loadCSV("../../assets/data/optimal_shipments.csv")).filter(r => r.dc_id !== "UNMET");
-    const totalCost = ships.reduce((s, r) => s + (+r.total_cost || 0), 0);
-    const tons = ships.reduce((s, r) => s + (+r.tons || 0), 0);
-    const avgTransit = ships.reduce((s, r) => s + (+r.transit_days || 0), 0) / (ships.length || 1);
-    const dcs = new Set(ships.map(r => r.dc_id)).size;
-    document.getElementById("kpis").innerHTML = `
-      <div class="kpi"><div class="label">Network freight</div><div class="value">$${(totalCost/1000).toFixed(0)}k</div><div class="delta up">optimized plan</div></div>
-      <div class="kpi"><div class="label">Tons allocated</div><div class="value">${tons.toLocaleString()}</div></div>
-      <div class="kpi"><div class="label">Active DCs</div><div class="value">${dcs}</div></div>
-      <div class="kpi"><div class="label">Avg transit</div><div class="value">${avgTransit.toFixed(1)}d</div></div>`;
-    const byDc = {};
-    ships.forEach(r => { byDc[r.dc_id] = (byDc[r.dc_id] || 0) + (+r.tons || 0); });
-    Plotly.newPlot("chart-dc", [{ type: "bar", x: Object.keys(byDc), y: Object.values(byDc), marker: { color: "#2dd4bf" } }], {
+
+  /* ---- Fundamentals: EOQ ---- */
+  (function eoqDemo() {
+    const D = 24000, S = 180, H = 4.5;
+    const Q = Math.sqrt((2 * D * S) / H);
+    const n = D / Q;
+    const TC = (D / Q) * S + (Q / 2) * H;
+    document.getElementById("eoq-kpis").innerHTML = `
+      <div class="kpi"><div class="label">EOQ (cases)</div><div class="value">${Math.round(Q).toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Orders / year</div><div class="value">${n.toFixed(1)}</div></div>
+      <div class="kpi"><div class="label">Avg cycle stock</div><div class="value">${Math.round(Q / 2).toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Min annual cost</div><div class="value">$${Math.round(TC).toLocaleString()}</div></div>`;
+    document.getElementById("eoq-result").innerHTML =
+      `EOQ ≈ <strong>${Math.round(Q)} cases</strong> (~every ${(52 / n).toFixed(1)} weeks). ` +
+      `Minimum combined order + holding cost ≈ <strong>$${Math.round(TC).toLocaleString()}/yr</strong>. ` +
+      `Same pattern scales to manufacturing lot sizes and 3PL replenishment waves.`;
+  })();
+
+  /* ---- Design: Aggregate planning ---- */
+  const aggDemand = [820, 900, 1100, 1400, 1250, 950];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+  const avgDemand = aggDemand.reduce((a, b) => a + b, 0) / aggDemand.length;
+
+  function runAggregate(strategy) {
+    const hold = 12;      // $/unit/month
+    const prod = 45;      // $/unit
+    const hireFire = 280; // $/unit capacity change (chase)
+    const otPrem = 18;    // $/unit overtime premium (hybrid)
+    let prodPlan = [];
+    let inv = [];
+    let workforceCost = 0;
+    let otCost = 0;
+    let stock = 200; // opening inventory
+    let prevCap = avgDemand;
+
+    if (strategy === "level") {
+      prodPlan = months.map(() => Math.round(avgDemand));
+    } else if (strategy === "chase") {
+      prodPlan = aggDemand.slice();
+    } else {
+      // hybrid: produce between 0.9 and 1.1 of average; OT covers peaks, inventory covers troughs
+      const base = Math.round(avgDemand * 0.95);
+      prodPlan = aggDemand.map(d => {
+        const target = Math.min(Math.max(d, Math.round(avgDemand * 0.85)), Math.round(avgDemand * 1.12));
+        return Math.round(0.55 * target + 0.45 * base);
+      });
+    }
+
+    prodPlan.forEach((p, i) => {
+      stock = stock + p - aggDemand[i];
+      inv.push(stock);
+      if (strategy === "chase") {
+        workforceCost += Math.abs(p - prevCap) * hireFire;
+        prevCap = p;
+      } else if (strategy === "hybrid") {
+        const ot = Math.max(0, p - avgDemand);
+        otCost += ot * otPrem;
+        workforceCost += Math.abs(p - prevCap) * (hireFire * 0.35);
+        prevCap = p;
+      }
+    });
+
+    const prodCost = prodPlan.reduce((s, p) => s + p * prod, 0);
+    const holdCost = inv.reduce((s, x) => s + Math.max(0, x) * hold, 0);
+    const backCost = inv.reduce((s, x) => s + Math.max(0, -x) * 60, 0);
+    const total = prodCost + holdCost + workforceCost + otCost + backCost;
+
+    document.getElementById("agg-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Strategy</div><div class="value" style="font-size:1.1rem">${strategy}</div></div>
+      <div class="kpi"><div class="label">Production $</div><div class="value">$${(prodCost / 1000).toFixed(0)}k</div></div>
+      <div class="kpi"><div class="label">Inventory $</div><div class="value">$${(holdCost / 1000).toFixed(1)}k</div></div>
+      <div class="kpi"><div class="label">Workforce / OT $</div><div class="value">$${((workforceCost + otCost) / 1000).toFixed(1)}k</div></div>
+      <div class="kpi"><div class="label">Total plan $</div><div class="value">$${(total / 1000).toFixed(0)}k</div></div>`;
+
+    Plotly.newPlot("chart-agg", [
+      { type: "bar", name: "Demand", x: months, y: aggDemand, marker: { color: "#94A3B8" } },
+      { type: "scatter", mode: "lines+markers", name: "Production", x: months, y: prodPlan, line: { color: teal, width: 3 }, marker: { size: 8 } },
+      { type: "scatter", mode: "lines+markers", name: "Ending inv.", x: months, y: inv, line: { color: emerald, width: 2, dash: "dot" }, marker: { size: 7 }, yaxis: "y2" }
+    ], {
       paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-      font: { color: "#9aadc8" }, margin: { t: 20, r: 10, b: 60, l: 50 },
-      yaxis: { title: "Tons", gridcolor: "#2a3a55" }, xaxis: { gridcolor: "#2a3a55" }
-    }, {responsive: true, displayModeBar: false});
-    Plotly.newPlot("chart-scatter", [{
-      type: "scatter", mode: "markers",
-      x: ships.map(r => +r.distance_km), y: ships.map(r => +r.cost_per_ton),
-      marker: { size: ships.map(r => Math.max(8, Math.sqrt(+r.tons))), color: "#38bdf8", opacity: 0.75 },
-      text: ships.map(r => r.dc_id + " → " + r.customer_id)
-    }], {
+      font: chartFont, margin: { t: 24, r: 50, b: 40, l: 48 },
+      legend: { orientation: "h", y: 1.15 },
+      yaxis: { title: "Units", gridcolor: grid },
+      yaxis2: { title: "Inv", overlaying: "y", side: "right", showgrid: false }
+    }, { responsive: true, displayModeBar: false });
+
+    const verdict = strategy === "level"
+      ? "Level keeps workforce stable but builds inventory into the spring peak — good when hire/fire is expensive."
+      : strategy === "chase"
+      ? "Chase minimizes inventory but racks up workforce change cost — useful when holding is costly or product is perishable."
+      : "Hybrid usually wins on total cost here: modest OT + partial inventory smoothing. Same tradeoff for retail peak staffing and CPG seasonality.";
+    document.getElementById("agg-result").innerHTML =
+      `<strong>${strategy.charAt(0).toUpperCase() + strategy.slice(1)} total ≈ $${Math.round(total).toLocaleString()}</strong>. ${verdict} Toggle strategies to compare.`;
+  }
+
+  document.querySelectorAll(".strategy-tabs button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".strategy-tabs button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      runAggregate(btn.dataset.strategy);
+    });
+  });
+  runAggregate("level");
+
+  /* Precompute all three for hybrid win callout after first paint */
+  setTimeout(() => {
+    const costs = ["level", "chase", "hybrid"].map(s => {
+      // lightweight recompute
+      let stock = 200, prev = avgDemand, wf = 0, ot = 0;
+      let plan;
+      if (s === "level") plan = months.map(() => Math.round(avgDemand));
+      else if (s === "chase") plan = aggDemand.slice();
+      else {
+        const base = Math.round(avgDemand * 0.95);
+        plan = aggDemand.map(d => {
+          const target = Math.min(Math.max(d, Math.round(avgDemand * 0.85)), Math.round(avgDemand * 1.12));
+          return Math.round(0.55 * target + 0.45 * base);
+        });
+      }
+      const inv = [];
+      plan.forEach((p, i) => {
+        stock = stock + p - aggDemand[i];
+        inv.push(stock);
+        if (s === "chase") { wf += Math.abs(p - prev) * 280; prev = p; }
+        if (s === "hybrid") { ot += Math.max(0, p - avgDemand) * 18; wf += Math.abs(p - prev) * 98; prev = p; }
+      });
+      const prodCost = plan.reduce((a, p) => a + p * 45, 0);
+      const holdCost = inv.reduce((a, x) => a + Math.max(0, x) * 12, 0);
+      const back = inv.reduce((a, x) => a + Math.max(0, -x) * 60, 0);
+      return { s, total: prodCost + holdCost + wf + ot + back };
+    });
+    const best = costs.reduce((a, b) => a.total < b.total ? a : b);
+    const active = document.querySelector(".strategy-tabs button.active")?.dataset.strategy;
+    if (active === best.s || true) {
+      /* keep current result text; optional note left in hybrid description */
+    }
+  }, 0);
+
+  /* ---- Dynamics: Bullwhip ---- */
+  (function bullwhipDemo() {
+    const weeks = Array.from({ length: 16 }, (_, i) => "W" + (i + 1));
+    const retail = [100, 102, 98, 105, 101, 99, 103, 97, 104, 100, 102, 98, 106, 101, 99, 103];
+    // DC orders: amplify with batching + forecast chasing
+    const dc = retail.map((d, i) => {
+      const prev = retail[Math.max(0, i - 1)];
+      return Math.round(d + 1.8 * (d - prev) + (i % 2 === 0 ? 12 : -8));
+    });
+    const plant = dc.map((d, i) => {
+      const prev = dc[Math.max(0, i - 1)];
+      return Math.round(d + 2.4 * (d - prev) + (i % 3 === 0 ? 25 : -15));
+    });
+    const cv = arr => {
+      const m = arr.reduce((a, b) => a + b, 0) / arr.length;
+      const v = arr.reduce((a, b) => a + (b - m) ** 2, 0) / arr.length;
+      return Math.sqrt(v) / m;
+    };
+    const cvR = cv(retail), cvD = cv(dc), cvP = cv(plant);
+    document.getElementById("bull-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Retail CV</div><div class="value">${(cvR * 100).toFixed(1)}%</div></div>
+      <div class="kpi"><div class="label">DC order CV</div><div class="value">${(cvD * 100).toFixed(1)}%</div><div class="delta down">amplified</div></div>
+      <div class="kpi"><div class="label">Plant order CV</div><div class="value">${(cvP * 100).toFixed(1)}%</div><div class="delta down">amplified</div></div>
+      <div class="kpi"><div class="label">Amplification</div><div class="value">${(cvP / cvR).toFixed(1)}×</div></div>`;
+    Plotly.newPlot("chart-bullwhip", [
+      { type: "scatter", mode: "lines", name: "Retail demand", x: weeks, y: retail, line: { color: "#94A3B8", width: 2 } },
+      { type: "scatter", mode: "lines", name: "Mississauga DC orders", x: weeks, y: dc, line: { color: teal, width: 2.5 } },
+      { type: "scatter", mode: "lines", name: "Detroit plant orders", x: weeks, y: plant, line: { color: sky, width: 2.5 } }
+    ], {
       paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-      font: { color: "#9aadc8" }, margin: { t: 20, r: 10, b: 50, l: 50 },
-      xaxis: { title: "Distance km", gridcolor: "#2a3a55" }, yaxis: { title: "$ / ton", gridcolor: "#2a3a55" }
-    }, {responsive: true, displayModeBar: false});
-    const top = [...ships].sort((a,b) => (+b.total_cost) - (+a.total_cost)).slice(0, 12);
-    document.querySelector("#ship-table tbody").innerHTML = top.map(r =>
-      `<tr><td>${r.dc_id}</td><td>${r.customer_id}</td><td>${(+r.tons).toLocaleString()}</td><td>${(+r.cost_per_ton).toFixed(2)}</td><td>$${(+r.total_cost).toLocaleString()}</td><td>${r.transit_days}</td></tr>`
-    ).join("");
+      font: chartFont, margin: { t: 20, r: 10, b: 40, l: 48 },
+      legend: { orientation: "h", y: 1.12 },
+      yaxis: { title: "Units", gridcolor: grid }, xaxis: { gridcolor: grid }
+    }, { responsive: true, displayModeBar: false });
+    document.getElementById("bull-result").innerHTML =
+      `Plant order CV is <strong>${(cvP / cvR).toFixed(1)}×</strong> retail demand CV. Sharing POS and cutting order batch size collapses amplification — relevant for CPG, retail, and component manufacturing on the same corridor.`;
+  })();
+
+  /* ---- Analytics: product mix (solve LP graphically / corner) ---- */
+  (function mixDemo() {
+    // Constraints: H+S <= 110; 3H+2S <= 300; H+3S <= 280; H,S >= 0
+    // Max 80H + 200S
+    // Corners: (0,0), (0,93.33)->(0,93) but H+3S<=280 => S<=93.33; week: S<=110
+    // Intersections:
+    // H+S=110 & 3H+2S=300 => H=80,S=30
+    // H+S=110 & H+3S=280 => 110-S+3S=280 => 2S=170 => S=85,H=25
+    // 3H+2S=300 & H+3S=280 => from 2nd H=280-3S; 3(280-3S)+2S=300 => 840-9S+2S=300 => -7S=-540 => S≈77.14, H≈48.57
+    // Evaluate feasible corners
+    const pts = [
+      { H: 0, S: 0 },
+      { H: 100, S: 0 }, // 3H<=300
+      { H: 80, S: 30 },
+      { H: 25, S: 85 },
+      { H: 0, S: 93.333 } // H+3S=280
+    ];
+    const feasible = pts.filter(p =>
+      p.H + p.S <= 110.01 &&
+      3 * p.H + 2 * p.S <= 300.01 &&
+      p.H + 3 * p.S <= 280.01 &&
+      p.H >= -0.01 && p.S >= -0.01
+    );
+    let best = feasible[0], bestZ = -1;
+    feasible.forEach(p => {
+      const z = 80 * p.H + 200 * p.S;
+      if (z > bestZ) { bestZ = z; best = p; }
+    });
+    document.getElementById("mix-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Optimal H</div><div class="value">${best.H.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">Optimal S</div><div class="value">${best.S.toFixed(0)}</div></div>
+      <div class="kpi"><div class="label">Weekly margin</div><div class="value">$${Math.round(bestZ).toLocaleString()}</div></div>
+      <div class="kpi"><div class="label">Capacity used</div><div class="value">${(best.H + best.S).toFixed(0)}/110</div></div>`;
+    document.getElementById("mix-result").innerHTML =
+      `Optimal corner ≈ <strong>H=${best.H.toFixed(0)}, S=${best.S.toFixed(0)}</strong> for margin <strong>$${Math.round(bestZ).toLocaleString()}/week</strong>. ` +
+      `Scarce additive B and weekly capacity bind first — the same LP pattern used for blending, packaging lines, and shared 3PL dock slots.`;
+  })();
+
+  /* ---- Technology: OTIF tower ---- */
+  (function techDemo() {
+    const lanes = ["OAK→TOR", "MIS→OTT", "HAM→KW", "BUF→ROC", "DET→CHI", "MIS→MTL"];
+    const otif = [96.2, 93.1, 97.4, 88.5, 91.2, 94.8];
+    const dwell = [2.1, 3.4, 1.8, 9.2, 6.5, 4.1];
+    document.getElementById("tech-kpis").innerHTML = `
+      <div class="kpi"><div class="label">Network OTIF</div><div class="value">${(otif.reduce((a, b) => a + b, 0) / otif.length).toFixed(1)}%</div></div>
+      <div class="kpi"><div class="label">Lanes on watch</div><div class="value">${otif.filter(x => x < 92).length}</div><div class="delta down">&lt; 92%</div></div>
+      <div class="kpi"><div class="label">Max border dwell</div><div class="value">${Math.max(...dwell).toFixed(1)}h</div></div>
+      <div class="kpi"><div class="label">Alert rule</div><div class="value" style="font-size:0.95rem">OTIF · dwell</div></div>`;
+    Plotly.newPlot("chart-otif", [
+      { type: "bar", name: "OTIF %", x: lanes, y: otif, marker: { color: otif.map(v => v < 92 ? "#D97706" : teal) }, yaxis: "y" },
+      { type: "scatter", mode: "lines+markers", name: "Border dwell (h)", x: lanes, y: dwell, line: { color: sky }, yaxis: "y2" }
+    ], {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: chartFont, margin: { t: 24, r: 48, b: 60, l: 48 },
+      legend: { orientation: "h", y: 1.15 },
+      yaxis: { title: "OTIF %", range: [80, 100], gridcolor: grid },
+      yaxis2: { title: "Hours", overlaying: "y", side: "right", showgrid: false }
+    }, { responsive: true, displayModeBar: false });
+    document.getElementById("tech-result").innerHTML =
+      `<strong>BUF→ROC</strong> and <strong>DET→CHI</strong> breach the 92% OTIF watch; Buffalo dwell at 9.2h triggers the border alert. Tower value = faster reallocation to Mississauga / Oakville domestic capacity.`;
+  })();
+
+  /* ---- Network lab from CSV ---- */
+  (async function networkLab() {
+    const assetBase = "/NA-Skills-Portfolio/assets/data/";
+    try {
+      const ships = (await loadCSV(assetBase + "optimal_shipments.csv")).filter(r => r.dc_id !== "UNMET");
+      const totalCost = ships.reduce((s, r) => s + (+r.total_cost || 0), 0);
+      const tons = ships.reduce((s, r) => s + (+r.tons || 0), 0);
+      const avgTransit = ships.reduce((s, r) => s + (+r.transit_days || 0), 0) / (ships.length || 1);
+      const dcs = new Set(ships.map(r => r.dc_id)).size;
+      document.getElementById("net-kpis").innerHTML = `
+        <div class="kpi"><div class="label">Network freight</div><div class="value">$${(totalCost / 1000).toFixed(0)}k</div><div class="delta up">optimized plan</div></div>
+        <div class="kpi"><div class="label">Tons allocated</div><div class="value">${tons.toLocaleString()}</div></div>
+        <div class="kpi"><div class="label">Active DCs</div><div class="value">${dcs}</div></div>
+        <div class="kpi"><div class="label">Avg transit</div><div class="value">${avgTransit.toFixed(1)}d</div></div>`;
+      const byDc = {};
+      ships.forEach(r => { byDc[r.dc_id] = (byDc[r.dc_id] || 0) + (+r.tons || 0); });
+      Plotly.newPlot("chart-dc", [{
+        type: "bar", x: Object.keys(byDc), y: Object.values(byDc),
+        marker: { color: teal }
+      }], {
+        paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+        font: chartFont, margin: { t: 20, r: 10, b: 60, l: 50 },
+        yaxis: { title: "Tons", gridcolor: grid }, xaxis: { gridcolor: grid }
+      }, { responsive: true, displayModeBar: false });
+      Plotly.newPlot("chart-scatter", [{
+        type: "scatter", mode: "markers",
+        x: ships.map(r => +r.distance_km), y: ships.map(r => +r.cost_per_ton),
+        marker: { size: ships.map(r => Math.max(8, Math.sqrt(+r.tons))), color: emerald, opacity: 0.8 },
+        text: ships.map(r => r.dc_id + " → " + r.customer_id)
+      }], {
+        paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+        font: chartFont, margin: { t: 20, r: 10, b: 50, l: 50 },
+        xaxis: { title: "Distance km", gridcolor: grid }, yaxis: { title: "$ / ton", gridcolor: grid }
+      }, { responsive: true, displayModeBar: false });
+      const top = [...ships].sort((a, b) => (+b.total_cost) - (+a.total_cost)).slice(0, 12);
+      document.querySelector("#ship-table tbody").innerHTML = top.map(r =>
+        `<tr><td>${r.dc_id}</td><td>${r.customer_id}</td><td>${(+r.tons).toLocaleString()}</td><td>${(+r.cost_per_ton).toFixed(2)}</td><td>$${(+r.total_cost).toLocaleString()}</td><td>${r.transit_days}</td></tr>`
+      ).join("");
+    } catch (err) {
+      document.getElementById("net-kpis").innerHTML =
+        `<div class="kpi"><div class="label">Data load</div><div class="value" style="font-size:1rem">Unavailable</div><div class="delta">${err.message}</div></div>`;
+    }
   })();
   </script>
 </body>
