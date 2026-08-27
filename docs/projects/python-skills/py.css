@@ -1,4 +1,4 @@
-﻿/* Statistical Computing in R â€” consulting aesthetic aligned with hub.css */
+﻿/* Python Skills Showcase — consulting aesthetic aligned with r.css / hub.css */
 
 :root {
   --ink: #12151c;
@@ -7,16 +7,22 @@
   --line: rgba(18, 21, 28, 0.1);
   --line-strong: rgba(18, 21, 28, 0.16);
   --surface: #ffffff;
-  --bg: #eef1f5;
-  --accent: #16324f;
-  --accent-hover: #0f2438;
-  --py: #2b6a6e;
-  --py-soft: rgba(43, 106, 110, 0.08);
-  --ok: #2f5d50;
+  --bg: #e8eef5;
+  --accent: #3776AB;
+  --accent-hover: #2d5f8a;
+  --accent-deep: #2d5f8a;
+  --py: #3776AB;
+  --py-yellow: #FFD43B;
+  --py-soft: rgba(55, 118, 171, 0.1);
+  --py-pale: #e8f2fa;
+  --ok: #1e6b4f;
   --warn: #8a6a2f;
+  --nb-input-bg: #f4f7fb;
+  --nb-output-bg: #ffffff;
+  --nb-border: #3776AB;
   --radius: 14px;
   --radius-sm: 10px;
-  --shadow: 0 1px 2px rgba(18, 21, 28, 0.04), 0 12px 40px rgba(18, 21, 28, 0.06);
+  --shadow: 0 1px 2px rgba(18, 21, 28, 0.04), 0 12px 40px rgba(55, 118, 171, 0.08);
   --font: "Figtree", "Segoe UI", sans-serif;
   --display: "Newsreader", Georgia, "Times New Roman", serif;
   --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
@@ -70,7 +76,7 @@ body.py-page a:hover {
   height: min(70vw, 720px);
   top: -18%;
   left: -12%;
-  background: radial-gradient(circle, rgba(140, 170, 200, 0.5) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(55, 118, 171, 0.24) 0%, transparent 70%);
 }
 
 .mesh-b {
@@ -78,7 +84,7 @@ body.py-page a:hover {
   height: min(50vw, 520px);
   top: 12%;
   right: -8%;
-  background: radial-gradient(circle, rgba(120, 155, 175, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 212, 59, 0.22) 0%, transparent 70%);
 }
 
 .geo-plane {
@@ -90,8 +96,8 @@ body.py-page a:hover {
       -18deg,
       transparent,
       transparent 48px,
-      rgba(22, 50, 79, 0.016) 48px,
-      rgba(22, 50, 79, 0.016) 49px
+      rgba(55, 118, 171, 0.014) 48px,
+      rgba(55, 118, 171, 0.014) 49px
     );
   mask-image: linear-gradient(180deg, #000 0%, #000 50%, transparent 100%);
 }
@@ -103,7 +109,7 @@ body.py-page a:hover {
   z-index: 40;
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  background: rgba(238, 241, 245, 0.82);
+  background: rgba(232, 238, 245, 0.88);
   border-bottom: 1px solid var(--line);
 }
 
@@ -199,8 +205,27 @@ body.py-page a:hover {
 
 .breadcrumb a { color: var(--muted); font-weight: 500; }
 
+.hero-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 0.85rem;
+}
+
+.py-logo {
+  flex-shrink: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(55, 118, 171, 0.28);
+}
+
+.hero-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
 .py-kicker {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 0.72rem;
   font-weight: 650;
   letter-spacing: 0.14em;
@@ -209,7 +234,7 @@ body.py-page a:hover {
 }
 
 .py-brand {
-  margin: 0 0 0.85rem;
+  margin: 0;
   font-family: var(--display);
   font-size: clamp(2.2rem, 5vw, 3.25rem);
   font-weight: 500;
@@ -225,7 +250,7 @@ body.py-page a:hover {
   font-weight: 550;
   color: var(--ink-soft);
   letter-spacing: -0.015em;
-  max-width: 36ch;
+  max-width: 40ch;
   line-height: 1.4;
 }
 
@@ -256,15 +281,15 @@ body.py-page a:hover {
 
 .pill.accent {
   background: var(--py-soft);
-  border-color: rgba(43, 106, 110, 0.22);
-  color: var(--py);
+  border-color: rgba(55, 118, 171, 0.28);
+  color: var(--accent-deep);
 }
 
 .disclaimer {
   margin: 0;
   padding: 0.85rem 1rem;
-  border-left: 3px solid var(--py);
-  background: rgba(255, 255, 255, 0.65);
+  border-left: 3px solid var(--accent);
+  background: rgba(255, 255, 255, 0.75);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.88rem;
   color: var(--muted);
@@ -368,7 +393,7 @@ body.py-page a:hover {
   color: #f7f8fa;
 }
 
-/* Problem table */
+/* Skills table */
 .table-wrap {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -404,7 +429,7 @@ body.py-page a:hover {
 
 .skills-table tbody tr.problem-row:hover,
 .skills-table tbody tr.problem-row.is-open {
-  background: rgba(43, 106, 110, 0.04);
+  background: var(--py-soft);
 }
 
 .skills-table tbody tr.problem-row[hidden] { display: none; }
@@ -416,7 +441,7 @@ body.py-page a:hover {
 }
 
 .skills-table td.col-topic {
-  width: 12%;
+  width: 14%;
   font-weight: 650;
   color: var(--py);
   font-size: 0.82rem;
@@ -480,35 +505,52 @@ body.py-page a:hover {
   transform: rotate(180deg);
 }
 
-/* Detail panel */
-.detail-row td {
-  padding: 0 !important;
-  background: #f7f8fa;
-  border-bottom: 1px solid var(--line);
-}
-
+/* Detail panel — Jupyter notebook cells */
 .detail-row[hidden] { display: none; }
-
-.detail-panel {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 1.25rem;
-  padding: 1.25rem 1.35rem 1.45rem;
-  animation: fadeIn 0.3s var(--ease);
-}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: none; }
 }
 
-.detail-block h4 {
-  margin: 0 0 0.55rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
+.detail-row td {
+  padding: 0 !important;
+  background: var(--py-pale);
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-panel {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem 1.35rem;
+  animation: fadeIn 0.3s var(--ease);
+}
+
+.detail-block.nb-input,
+.detail-block.nb-output {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 3px rgba(55, 118, 171, 0.06);
+}
+
+.detail-block.nb-input {
+  background: var(--nb-input-bg);
+  border-left: 3px solid var(--nb-border);
+}
+
+.detail-block.nb-output {
+  background: var(--nb-output-bg);
+}
+
+.nb-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 0.5rem 0.85rem 0;
+  letter-spacing: 0.02em;
 }
 
 .detail-block p {
@@ -520,28 +562,65 @@ body.py-page a:hover {
 
 .code-block {
   margin: 0;
-  padding: 1rem 1.1rem;
-  background: #1a2330;
-  color: #d8e0ea;
-  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem 0.85rem;
+  background: transparent;
+  color: #1e2a38;
+  border-radius: 0;
   font-family: var(--mono);
-  font-size: 0.78rem;
-  line-height: 1.55;
+  font-size: 0.76rem;
+  line-height: 1.6;
   overflow-x: auto;
   white-space: pre;
+  border: none;
 }
 
-.code-block .cm { color: #7a8a9a; }
-.code-block .kw { color: #8ec4e8; }
-.code-block .fn { color: #b8d4a8; }
-.code-block .st { color: #e0c090; }
+.code-block .cm { color: #6b7a8a; font-style: italic; }
+.code-block .kw { color: #306998; font-weight: 600; }
+.code-block .fn { color: #3776AB; }
+.code-block .st { color: #b45309; }
+
+.nb-output .concept-row,
+.nb-output .use-cases,
+.nb-output .metric-grid,
+.nb-output .result-callout,
+.nb-output .chart-box {
+  padding-left: 0.85rem;
+  padding-right: 0.85rem;
+}
+
+.nb-output > p:first-of-type {
+  padding: 0.15rem 0.85rem 0;
+}
+
+.concept-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+}
+
+.use-cases {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.use-cases li { margin-bottom: 0.35rem; }
+
+.nb-output .metric-grid {
+  padding-top: 0.15rem;
+}
+
+.nb-output .result-callout {
+  margin: 0.65rem 0.85rem 0.85rem;
+}
 
 .result-callout {
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--py-pale);
+  border: 1px solid rgba(55, 118, 171, 0.15);
   border-radius: var(--radius-sm);
-  padding: 0.95rem 1.05rem;
-  margin-bottom: 0.85rem;
+  padding: 0.85rem 0.95rem;
 }
 
 .result-callout strong {
@@ -576,7 +655,7 @@ body.py-page a:hover {
   font-family: var(--display);
   font-size: 1.15rem;
   font-weight: 550;
-  color: var(--ink);
+  color: var(--accent-deep);
 }
 
 .metric span {
@@ -591,7 +670,23 @@ body.py-page a:hover {
   border-radius: var(--radius-sm);
   padding: 0.5rem;
   min-height: 200px;
+  margin-bottom: 0.85rem;
 }
+
+.capstone-note {
+  margin: 1.5rem 0 0;
+  padding: 1rem 1.15rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-size: 0.92rem;
+  color: var(--muted);
+  max-width: 62ch;
+  line-height: 1.55;
+}
+
+.capstone-note strong { color: var(--ink); }
 
 /* Mobile cards */
 .mobile-cards { display: none; }
@@ -643,7 +738,7 @@ body.py-page a:hover {
   display: none;
   padding: 0 1.1rem 1.15rem;
   border-top: 1px solid var(--line);
-  background: #f7f8fa;
+  background: var(--py-pale);
 }
 
 .m-card.is-open .m-card-body { display: block; padding-top: 1rem; }
@@ -651,6 +746,14 @@ body.py-page a:hover {
 .m-card-body .detail-panel {
   grid-template-columns: 1fr;
   padding: 0;
+}
+
+.course-toggle {
+  font-size: 0.72rem;
+  font-weight: 650;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 /* Charts section */
@@ -746,9 +849,9 @@ body.py-page a:hover {
     margin-bottom: 0.15rem;
   }
 
-  .skills-table td.col-topic::before { content: "Topic"; }
-  .skills-table td.col-problem::before { content: "Problem"; }
-  .skills-table td.col-approach::before { content: "Approach"; }
+  .skills-table td.col-topic::before { content: "Skill area"; }
+  .skills-table td.col-problem::before { content: "Module"; }
+  .skills-table td.col-approach::before { content: "Concepts"; }
   .skills-table td.col-tech::before { content: "Techniques"; }
   .skills-table td.col-result::before { content: "Result"; }
 
@@ -773,146 +876,4 @@ body.py-page a:hover {
   .nav-links { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   .table-desktop { display: none; }
   .mobile-cards { display: block; }
-}
-
-/* Course section cards (8 modules) */
-.course-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.course-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.course-card[hidden] { display: none; }
-
-.course-head {
-  padding: 1.15rem 1.25rem 1.05rem;
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 1rem;
-  align-items: start;
-  transition: background 0.2s ease;
-}
-
-.course-head:hover,
-.course-card.is-open .course-head {
-  background: rgba(43, 106, 110, 0.04);
-}
-
-.course-index {
-  font-family: var(--display);
-  font-size: 1.35rem;
-  font-weight: 550;
-  color: var(--py);
-  letter-spacing: -0.02em;
-  min-width: 2.2rem;
-}
-
-.course-head h3 {
-  margin: 0 0 0.25rem;
-  font-family: var(--display);
-  font-size: 1.22rem;
-  font-weight: 550;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-}
-
-.course-code {
-  margin: 0 0 0.45rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.course-frame {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.55;
-  max-width: 62ch;
-}
-
-.course-toggle {
-  font-size: 0.72rem;
-  font-weight: 650;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  margin-top: 0.35rem;
-}
-
-.course-toggle::before {
-  content: "";
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-right: 0.4rem;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid var(--muted);
-  transition: transform 0.25s var(--ease);
-  vertical-align: middle;
-}
-
-.course-card.is-open .course-toggle::before {
-  transform: rotate(180deg);
-}
-
-.course-body {
-  display: none;
-  padding: 0 1.25rem 1.35rem;
-  border-top: 1px solid var(--line);
-  background: #f7f8fa;
-}
-
-.course-card.is-open .course-body {
-  display: block;
-  padding-top: 1.15rem;
-  animation: fadeIn 0.3s var(--ease);
-}
-
-.concept-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0 0 1rem;
-}
-
-.use-cases {
-  margin: 0 0 1.1rem;
-  padding-left: 1.1rem;
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-}
-
-.use-cases li { margin-bottom: 0.35rem; }
-
-.capstone-note {
-  margin: 1.5rem 0 0;
-  padding: 1rem 1.15rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  font-size: 0.92rem;
-  color: var(--muted);
-  max-width: 62ch;
-}
-
-.capstone-note strong { color: var(--ink); }
-
-@media (max-width: 720px) {
-  .course-head {
-    grid-template-columns: auto 1fr;
-  }
-  .course-toggle { grid-column: 2; }
 }

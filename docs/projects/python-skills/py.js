@@ -167,7 +167,7 @@
             type: "bar",
             x: ["Fold 1", "Fold 2", "Fold 3", "Fold 4", "Fold 5"],
             y: [0.79, 0.84, 0.8, 0.83, 0.78],
-            marker: { color: "#2b6a6e" },
+            marker: { color: "#3776AB" },
             hovertemplate: "%{x}: %{y:.2f}<extra></extra>",
           },
         ],

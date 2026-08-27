@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/hub.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/hub.css?v=20260827" />
 </head>
 <body class="hub">
   <a class="skip-link" href="#work">Skip to work</a>
@@ -44,22 +44,41 @@
 
   <main>
     <section class="hero">
-      <div class="hero-inner reveal">
-        <p class="hero-product">NA Skills Portfolio</p>
-        <p class="hero-brand">Afolabi Adesina</p>
-        <h1>Applied analytics for operations, systems, and decisions.</h1>
-        <p class="lead">
-          Six focused tracks spanning AI/ML, Python skills, supply chain, SAP migration, business intelligence, and statistical computing in R — built for North American delivery contexts.
-        </p>
-        <div class="hero-cta" aria-label="Portfolio tracks">
-          <a class="btn btn-primary" href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">AI / ML</a>
-          <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/python-skills/">Python Skills</a>
-          <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/supply-chain/">Supply Chain</a>
-          <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/sap-migration/">SAP Migration</a>
-          <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
-          <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/r-analytics/">R Analytics</a>
+      <div class="hero-layout reveal">
+        <div class="hero-inner">
+          <p class="hero-product">NA Skills Portfolio</p>
+          <p class="hero-brand">Afolabi Adesina</p>
+          <h1>Applied analytics for operations, systems, and decisions.</h1>
+          <p class="lead">
+            Six focused tracks spanning AI/ML, Python, supply chain, SAP migration, business intelligence, and statistical computing in R &mdash; built for North American delivery contexts.
+          </p>
+          <div class="hub-metrics" aria-label="Portfolio at a glance">
+            <div class="hub-metric"><strong>6</strong><span>Portfolio tracks</span></div>
+            <div class="hub-metric"><strong>NA</strong><span>Canada&ndash;US focus</span></div>
+            <div class="hub-metric"><strong>Live</strong><span>Interactive demos</span></div>
+            <div class="hub-metric"><strong>6</strong><span>Skill branches</span></div>
+          </div>
+          <div class="hero-cta" aria-label="Portfolio tracks">
+            <a class="btn btn-primary" href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">AI / ML</a>
+            <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/python-skills/">Python Skills</a>
+            <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/supply-chain/">Supply Chain</a>
+            <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/sap-migration/">SAP Migration</a>
+            <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
+            <a class="btn btn-secondary" href="/NA-Skills-Portfolio/projects/r-analytics/">R Analytics</a>
+          </div>
+          <p class="hero-meta">Oakville / GTA &middot; Canada&ndash;US corridors</p>
         </div>
-        <p class="hero-meta">Oakville / GTA · Canada–US corridors</p>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-orbit">
+            <span class="orbit-node orbit-ai">AI</span>
+            <span class="orbit-node orbit-py">Py</span>
+            <span class="orbit-node orbit-sc">SC</span>
+            <span class="orbit-node orbit-sap">SAP</span>
+            <span class="orbit-node orbit-bi">BI</span>
+            <span class="orbit-node orbit-r">R</span>
+            <div class="orbit-core">Explore<br />tracks</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -72,6 +91,9 @@
 
       <div class="track-grid" id="project-grid">
         <article class="track-card track-ai reveal" data-type="ai">
+          <div class="track-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.2 4.5L15 12l-2.8 2.5L12 21l-2.2-4.5L9 12l2.8-2.5L12 3z"/><circle cx="12" cy="12" r="2.5"/></svg>
+          </div>
           <div class="track-card-top">
             <span class="role-label">AI / ML</span>
             <span class="track-index">01</span>
@@ -90,16 +112,19 @@
         </article>
 
         <article class="track-card track-py reveal" data-type="py">
+          <div class="track-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="#3776AB"/><path fill="#FFD43B" d="M12 7c-3 0-5 1.5-5 3v2h5v1H6c-3 0-5 2-5 5s2 5 5 5h3v-2c0-3 2-5 5-5h3c2.5 0 4-2 4-4V10c0-3-2-5-5-5h-5z"/></svg>
+          </div>
           <div class="track-card-top">
-            <span class="role-label">Python / PAIDA</span>
+            <span class="role-label">Python Skills</span>
             <span class="track-index">02</span>
           </div>
           <h3>Python Skills Showcase</h3>
-          <p class="outcome">Eight Sheridan modules — ML pipelines, viz, data science, big data, ethics, social mining, deep learning, and NLP — as an expandable skills catalog.</p>
+          <p class="outcome">Eight skill modules &mdash; ML pipelines, visualization, data science, big data, ethics, social mining, deep learning, and NLP &mdash; as an expandable catalog.</p>
           <div class="meta">
             <span class="chip">sklearn</span>
             <span class="chip">torch / NLP</span>
-            <span class="chip">8 courses</span>
+            <span class="chip">8 modules</span>
           </div>
           <div class="card-actions">
             <a class="btn btn-primary" href="/NA-Skills-Portfolio/projects/python-skills/">Open project</a>
@@ -108,6 +133,9 @@
         </article>
 
         <article class="track-card track-sc reveal" data-type="sc">
+          <div class="track-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17h18M6 13l3-6 3 4 3-5 3 7"/><circle cx="6" cy="17" r="1.5"/><circle cx="18" cy="17" r="1.5"/></svg>
+          </div>
           <div class="track-card-top">
             <span class="role-label">Supply Chain</span>
             <span class="track-index">03</span>
@@ -126,6 +154,9 @@
         </article>
 
         <article class="track-card track-sap reveal" data-type="sap">
+          <div class="track-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#1f5f82"/><text x="12" y="15" text-anchor="middle" font-size="7" font-weight="700" fill="#fff">SAP</text></svg>
+          </div>
           <div class="track-card-top">
             <span class="role-label">SAP Migration</span>
             <span class="track-index">04</span>
@@ -144,6 +175,9 @@
         </article>
 
         <article class="track-card track-bi reveal" data-type="bi">
+          <div class="track-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="6" width="4" height="14" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg>
+          </div>
           <div class="track-card-top">
             <span class="role-label">BI Dashboard</span>
             <span class="track-index">05</span>
@@ -162,12 +196,15 @@
         </article>
 
         <article class="track-card track-r reveal" data-type="r">
+          <div class="track-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="#276DC3"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" fill="#C8CDD3">R</text></svg>
+          </div>
           <div class="track-card-top">
-            <span class="role-label">R / Analytics Edge</span>
+            <span class="role-label">R Analytics</span>
             <span class="track-index">06</span>
           </div>
           <h3>Statistical Computing in R</h3>
-          <p class="outcome">Fourteen applied problems - regression, classification, trees, text, clustering, visualization, and LP - as an expandable skills table.</p>
+          <p class="outcome">Fourteen applied problems &mdash; regression, classification, trees, text, clustering, visualization, and LP &mdash; as an expandable skills table.</p>
           <div class="meta">
             <span class="chip">lm / glm</span>
             <span class="chip">CART / RF</span>
@@ -199,7 +236,7 @@
           <span class="approach-num">02</span>
           <div>
             <strong>project/python-skills</strong>
-            <p>Eight-course Python skills catalog from PAIDA modules — pipelines, viz, DS, big data, ethics, social mining, DL, NLP.</p>
+            <p>Eight-module Python skills catalog &mdash; pipelines, visualization, data science, big data, ethics, social mining, deep learning, and NLP.</p>
           </div>
         </li>
         <li>
@@ -227,7 +264,7 @@
           <span class="approach-num">06</span>
           <div>
             <strong>project/r-analytics</strong>
-            <p>Statistical Computing in R - expandable problem catalog from Analytics Edge unit themes.</p>
+            <p>Statistical Computing in R &mdash; expandable problem catalog across regression, classification, trees, and optimization.</p>
           </div>
         </li>
         <li>
@@ -245,7 +282,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <strong>Afolabi Adesina</strong>
-        <span>Oakville, ON · Greater Toronto Area</span>
+        <span>Oakville, ON &middot; Greater Toronto Area</span>
       </div>
       <div class="footer-links">
         <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a>
@@ -255,6 +292,6 @@
     </div>
   </footer>
 
-  <script src="/NA-Skills-Portfolio/js/hub.js"></script>
+  <script src="/NA-Skills-Portfolio/js/hub.js?v=20260827"></script>
 </body>
 </html>
