@@ -39,27 +39,11 @@
   backdrop-filter: blur(12px);
 }
 
-.theme-sc .brand { color: var(--sc-ink); text-decoration: none; }
-.theme-sc .brand:hover { text-decoration: none; }
+.theme-sc .brand { color: var(--sc-ink); }
 .theme-sc .nav-links a { color: var(--sc-muted); }
 .theme-sc .nav-links a:hover { color: var(--sc-teal-deep); }
 
-.theme-sc .brand-mark {
-  background: linear-gradient(135deg, var(--sc-teal), var(--sc-emerald));
-  color: #fff;
-  border-radius: 8px;
-}
-
 .theme-sc a { color: var(--sc-teal-deep); }
-
-.nav-sc-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: block;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35);
-}
 
 .sc-hero {
   max-width: 1120px;
