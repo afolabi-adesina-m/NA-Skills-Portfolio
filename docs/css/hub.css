@@ -398,16 +398,6 @@ body.hub a:hover { text-decoration: underline; text-underline-offset: 3px; }
   background: var(--surface-solid);
 }
 
-.hero-photo-caption {
-  margin: 0.85rem 0 0;
-  text-align: center;
-  font-size: 0.78rem;
-  font-weight: 550;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 .hero-primary-cta {
   display: flex;
   flex-wrap: wrap;
