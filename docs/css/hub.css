@@ -572,12 +572,14 @@ body.hub a.btn-cta:hover,
 /* Headline-free sections: kicker leads straight into the content */
 #work .section-head,
 #approach .section-head,
+#recommendations .section-head,
 .section-skills .section-head {
   margin-bottom: 1.5rem;
 }
 
 #work .section-head .section-kicker,
 #approach .section-head .section-kicker,
+#recommendations .section-head .section-kicker,
 .summary-copy .section-kicker {
   margin-bottom: 0.75rem;
 }
