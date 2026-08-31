@@ -583,15 +583,24 @@ body.hub a.btn-cta:hover,
   border-radius: 4px;
 }
 
-/* Track cards */
-#work .section-head {
+/* Headline-free sections: kicker leads straight into the content */
+#work .section-head,
+#approach .section-head,
+.section-skills .section-head {
   margin-bottom: 1.5rem;
 }
 
-#work .section-head .section-kicker {
+#work .section-head .section-kicker,
+#approach .section-head .section-kicker,
+.summary-copy .section-kicker {
   margin-bottom: 0.75rem;
 }
 
+.section-skills .section-head .section-kicker:only-child {
+  margin-bottom: 0;
+}
+
+/* Track cards */
 .track-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -739,10 +748,6 @@ body.hub a.btn-cta:hover,
   padding: clamp(1.5rem, 3vw, 2.25rem);
 }
 
-.summary-copy .section-kicker:first-child {
-  margin-bottom: 1rem;
-}
-
 .summary-copy h2 {
   font-family: var(--display);
   font-size: clamp(1.45rem, 2.5vw, 1.9rem);
@@ -795,14 +800,6 @@ body.hub a.btn-cta:hover,
 /* Technical Skills */
 .section-skills {
   padding-bottom: 3.5rem;
-}
-
-.section-skills .section-head {
-  margin-bottom: 1.25rem;
-}
-
-.section-skills .section-head .section-kicker:only-child {
-  margin-bottom: 0;
 }
 
 .skills-grid {
