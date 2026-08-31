@@ -374,20 +374,6 @@ body.hub .brand { color: var(--ink); }
   font-size: 0.92rem;
 }
 
-.btn-nav-cta {
-  margin-left: 0.35rem;
-  padding: 0.55rem 1rem;
-  font-size: 0.82rem;
-}
-
-.nav-links a.btn-nav-cta::after { display: none; }
-
-.nav-links a.btn-nav-cta,
-.nav-links a.btn-nav-cta:hover {
-  color: #fff;
-  text-decoration: none;
-}
-
 .hero-orbit {
   position: relative;
   width: min(100%, 320px);
@@ -791,10 +777,8 @@ body.hub a.btn-cta:hover,
   font-weight: 650;
 }
 
-.summary-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
+.summary-highlights:last-child {
+  margin-bottom: 0;
 }
 
 /* Technical Skills */
@@ -914,14 +898,8 @@ body.hub a.btn-cta:hover,
   line-height: 1;
 }
 
-.contact-actions {
-  margin-bottom: 0.65rem;
-}
-
-.contact-note {
-  margin: 0;
-  font-size: 0.86rem;
-  color: var(--muted);
+.contact-values:last-child {
+  margin-bottom: 0;
 }
 
 .contact-card {
@@ -945,20 +923,6 @@ body.hub a.btn-cta:hover,
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.6;
-}
-
-.contact-linkedin {
-  display: inline-block;
-  margin-top: 0.85rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.contact-linkedin:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 /* Recommendations */
@@ -1140,28 +1104,10 @@ body.hub a.btn-cta:hover,
   text-decoration: none;
 }
 
-.footer-links a.footer-cta {
-  background: var(--cta);
-  color: #fff;
-  padding: 0.45rem 0.9rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-}
-
-.footer-links a.footer-cta:hover {
-  background: var(--cta-hover);
-  color: #fff;
-  text-decoration: none;
-}
-
 .footer-links a:hover {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
-}
-
-.footer-links a.footer-cta:hover {
-  text-decoration: none;
 }
 
 /* Reveal motion */
@@ -1216,12 +1162,6 @@ body.hub a.btn-cta:hover,
     height: 38px;
     min-width: 38px;
     min-height: 38px;
-  }
-
-  .btn-nav-cta {
-    margin-left: 0;
-    width: 100%;
-    justify-content: center;
   }
 
   .recommendation-grid { grid-template-columns: 1fr; }
