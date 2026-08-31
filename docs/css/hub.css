@@ -584,6 +584,14 @@ body.hub a.btn-cta:hover,
 }
 
 /* Track cards */
+#work .section-head {
+  margin-bottom: 1.5rem;
+}
+
+#work .section-head .section-kicker {
+  margin-bottom: 0.75rem;
+}
+
 .track-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
