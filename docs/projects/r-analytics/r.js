@@ -14,31 +14,63 @@
   }
 
   /* ---------- expand rows ---------- */
-  function closeAll(exceptId) {
-    document.querySelectorAll(".problem-row.is-open").forEach((row) => {
-      if (row.dataset.id === exceptId) return;
-      row.classList.remove("is-open");
-      row.setAttribute("aria-expanded", "false");
-      const detail = document.querySelector(`.detail-row[data-for="${row.dataset.id}"]`);
-      if (detail) detail.hidden = true;
-    });
-    document.querySelectorAll(".m-card.is-open").forEach((card) => {
-      if (card.dataset.id === exceptId) return;
-      card.classList.remove("is-open");
-    });
+  const expandAllBtn = document.getElementById("expand-all-btn");
+  const collapseAllBtn = document.getElementById("collapse-all-btn");
+
+  function setViewMode(mode) {
+    if (expandAllBtn) expandAllBtn.classList.toggle("is-active", mode === "expanded");
+    if (collapseAllBtn) collapseAllBtn.classList.toggle("is-active", mode === "collapsed");
+  }
+
+  function openRow(row) {
+    const id = row.dataset.id;
+    row.classList.add("is-open");
+    row.setAttribute("aria-expanded", "true");
+    const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
+    if (detail) detail.hidden = false;
+    requestAnimationFrame(() => maybeDrawInlineCharts(id));
+  }
+
+  function closeRow(row) {
+    const id = row.dataset.id;
+    row.classList.remove("is-open");
+    row.setAttribute("aria-expanded", "false");
+    const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
+    if (detail) detail.hidden = true;
+  }
+
+  function openCard(card) {
+    const id = card.dataset.id;
+    card.classList.add("is-open");
+    const head = card.querySelector(".m-card-head");
+    if (head) head.setAttribute("aria-expanded", "true");
+    requestAnimationFrame(() => maybeDrawInlineCharts(id));
+  }
+
+  function closeCard(card) {
+    card.classList.remove("is-open");
+    const head = card.querySelector(".m-card-head");
+    if (head) head.setAttribute("aria-expanded", "false");
+  }
+
+  function expandAll() {
+    document.querySelectorAll(".problem-row:not([hidden])").forEach(openRow);
+    document.querySelectorAll(".m-card:not([hidden])").forEach(openCard);
+    setViewMode("expanded");
+  }
+
+  function collapseAll() {
+    document.querySelectorAll(".problem-row").forEach(closeRow);
+    document.querySelectorAll(".m-card").forEach(closeCard);
+    setViewMode("collapsed");
   }
 
   function toggleRow(row) {
-    const id = row.dataset.id;
-    const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
     const opening = !row.classList.contains("is-open");
-    closeAll(opening ? id : null);
-    row.classList.toggle("is-open", opening);
-    row.setAttribute("aria-expanded", String(opening));
-    if (detail) detail.hidden = !opening;
-    if (opening) {
-      requestAnimationFrame(() => maybeDrawInlineCharts(id));
-    }
+    if (opening) openRow(row);
+    else closeRow(row);
+    const anyOpen = document.querySelector(".problem-row.is-open, .m-card.is-open");
+    setViewMode(anyOpen ? "expanded" : "collapsed");
   }
 
   document.querySelectorAll(".problem-row").forEach((row) => {
@@ -50,6 +82,9 @@
       }
     });
   });
+
+  if (expandAllBtn) expandAllBtn.addEventListener("click", expandAll);
+  if (collapseAllBtn) collapseAllBtn.addEventListener("click", collapseAll);
 
   /* ---------- filters ---------- */
   const filterBtns = document.querySelectorAll(".filter-btn");
@@ -103,14 +138,15 @@
         </div>
         <div class="m-card-body"><div class="detail-panel">${panelHtml}</div></div>`;
       card.querySelector(".m-card-head").addEventListener("click", () => {
-        const open = !card.classList.contains("is-open");
-        closeAll(open ? id : null);
-        card.classList.toggle("is-open", open);
-        card.querySelector(".m-card-head").setAttribute("aria-expanded", String(open));
-        if (open) requestAnimationFrame(() => maybeDrawInlineCharts(id));
+        const opening = !card.classList.contains("is-open");
+        if (opening) openCard(card);
+        else closeCard(card);
+        const anyOpen = document.querySelector(".problem-row.is-open, .m-card.is-open");
+        setViewMode(anyOpen ? "expanded" : "collapsed");
       });
       mobile.appendChild(card);
     });
+    expandAll();
   }
 
   /* ---------- Plotly charts ---------- */
