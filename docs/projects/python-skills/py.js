@@ -84,7 +84,7 @@
   if (expandAllBtn) expandAllBtn.addEventListener("click", expandAll);
   if (collapseAllBtn) collapseAllBtn.addEventListener("click", collapseAll);
 
-  const filterBtns = document.querySelectorAll(".filter-btn");
+  const filterBtns = document.querySelectorAll(".filter-btn[data-filter]");
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       filterBtns.forEach((b) => b.classList.remove("is-active"));

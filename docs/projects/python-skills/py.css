@@ -328,11 +328,30 @@ body.py-page a:hover {
 }
 
 /* Filter chips */
+.catalog-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.15rem;
+}
+
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-bottom: 1.15rem;
+  margin-bottom: 0;
+  flex: 1 1 420px;
+}
+
+.expand-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0;
+  flex: 0 0 auto;
+  align-items: center;
 }
 
 .filter-btn {
@@ -350,38 +369,6 @@ body.py-page a:hover {
 
 .filter-btn:hover,
 .filter-btn.is-active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #f7f8fa;
-}
-
-.expand-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-
-.expand-btn {
-  font-family: var(--font);
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 0.42rem 0.95rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: var(--surface);
-  color: var(--ink-soft);
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.expand-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.expand-btn.is-active {
   background: var(--accent);
   border-color: var(--accent);
   color: #f7f8fa;
@@ -855,6 +842,15 @@ body.py-page a:hover {
 }
 
 @media (max-width: 720px) {
+  .catalog-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .expand-bar {
+    justify-content: flex-start;
+  }
+
   .nav-toggle { display: grid; place-items: center; }
   .nav-drawer {
     display: none;
