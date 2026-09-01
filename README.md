@@ -4,13 +4,17 @@ North America skills showcase for **AI/ML**, **Python Skills**, **Supply Chain O
 
 **Live hub:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/
 
+**Smart-Shield AI (AI/ML):** https://afolabi-adesina-m.github.io/Smart-Shield-AI/
+
 **Python Skills:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/python-skills/
+
+**Supply Chain:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/supply-chain/
+
+**SAP Migration:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/sap-migration/
 
 **BI dashboard:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/bi-dashboard/
 
 **R Analytics:** https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/r-analytics/
-
-**AI/ML project (unchanged):** https://afolabi-adesina-m.github.io/Smart-Shield-AI/
 
 Smart-Shield AI stays in its own repository. This repo only links to it.
 
