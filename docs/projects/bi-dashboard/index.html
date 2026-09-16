@@ -4,18 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>North America Ops Control Tower | BI Dashboard</title>
-  <meta name="description" content="Tableau-ready North America ops BI dashboard: OTIF, freight, inventory, regional performance, category sales, and exception management across Canada–US corridors." />
+  <meta name="description" content="Tableau-ready North America ops BI dashboard: OTIF, freight, inventory, regional performance, category sales, and exception management." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260827f" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260827f" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916c" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916c" />
   <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
   <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260827f" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260916c" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/bi-dashboard/bi.css?v=20260827f" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/bi-dashboard/bi.css?v=20260916c" />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 <body class="theme-bi">
+  <a class="skip-link" href="#executive">Skip to KPIs</a>
+
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
       <a class="brand" href="/NA-Skills-Portfolio/">
@@ -44,218 +46,246 @@
     </nav>
   </header>
 
-  <section class="bi-hero">
-    <div class="bi-logo-block">
-      <img class="bi-mark-img" src="/NA-Skills-Portfolio/projects/bi-dashboard/bi-mark.svg" width="108" height="108" alt="BI analytics mark" />
-      <span class="bi-mark-label">BI · Tableau</span>
-    </div>
-    <div>
-      <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / BI Dashboard</div>
-      <div class="eyebrow">Canada&ndash;US Great Lakes &middot; GTA plants &middot; Tableau-ready</div>
-      <h1>North America Ops Control Tower</h1>
-      <p class="lead">
-        Executive BI story for on-time in-full (OTIF), freight spend, inventory productivity, and category mix
-        across Oakville–Mississauga–Hamilton and Buffalo–Detroit corridors. Interactive Plotly views mirror the
-        sheets you would publish from the Tableau extracts in <code>tableau/extracts/</code>.
-      </p>
-      <div class="bi-pill-row">
-        <span class="bi-pill">Executive KPIs</span>
-        <span class="bi-pill">Trends</span>
-        <span class="bi-pill">Regional / Geo</span>
-        <span class="bi-pill">Category</span>
-        <span class="bi-pill accent">OTIF exceptions</span>
+  <main>
+    <section class="bi-hero" id="top">
+      <div class="bi-logo-block">
+        <img class="bi-mark-img" src="/NA-Skills-Portfolio/projects/bi-dashboard/bi-mark.svg" width="96" height="96" alt="" />
+        <span class="bi-mark-label">BI · Tableau</span>
       </div>
-    </div>
-  </section>
-
-  <nav class="bi-subnav" aria-label="Dashboard sections">
-    <div class="bi-subnav-inner">
-      <a href="#story">Story</a>
-      <a href="#executive">Executive</a>
-      <a href="#trends">Trends</a>
-      <a href="#regional">Regional</a>
-      <a href="#category">Category</a>
-      <a href="#exceptions">Exceptions</a>
-      <a href="#tableau-skills">Tableau skills</a>
-      <a href="#extracts">Extracts</a>
-    </div>
-  </nav>
-
-  <section class="section" id="story">
-    <p class="disclaimer">
-      Synthetic North America ops demo data for portfolio storytelling. Structure follows retail/ops BI patterns
-      (region &rarr; market &rarr; plant, time intelligence, exception queues) with Tableau-ready extracts.
-    </p>
-    <h2>Business question &rarr; metrics &rarr; insight</h2>
-    <p class="sub">One narrative thread so the dashboard answers an ops question instead of showing charts in isolation.</p>
-    <div class="narrative-grid">
-      <article class="narrative-card">
-        <div class="step-label">01 &middot; Question</div>
-        <h3>Where is service failing?</h3>
-        <p>Which plants and Canada&ndash;US corridors are missing the 95% OTIF target, and is freight rising as a side effect?</p>
-      </article>
-      <article class="narrative-card">
-        <div class="step-label">02 &middot; Metrics</div>
-        <h3>OTIF &middot; freight &middot; turns &middot; fill</h3>
-        <p>Plant-month KPIs, regional rollups, category revenue, and exception tickets with root cause and severity.</p>
-      </article>
-      <article class="narrative-card">
-        <div class="step-label">03 &middot; Action</div>
-        <h3>Focus the exception queue</h3>
-        <p>Prioritize Critical / Action tickets, protect GTA fill rate, and challenge high-cost cross-border lanes.</p>
-      </article>
-    </div>
-    <div class="insight-banner" id="insight-banner">Loading live insight from demo extracts&hellip;</div>
-  </section>
-
-  <section class="section" id="executive">
-    <h2>Executive KPIs</h2>
-    <p class="sub">Latest month network pulse — MoM deltas on OTIF and freight.</p>
-    <div class="kpi-grid" id="kpis"></div>
-  </section>
-
-  <section class="section" id="trends">
-    <h2>Trend &amp; productivity</h2>
-    <p class="sub">OTIF vs 95% target line, freight by plant, and inventory turns vs fill (bubble sized by orders).</p>
-    <div class="view-grid">
-      <div class="panel">
-        <h3 class="chart-title">OTIF by plant (trend)</h3>
-        <p class="chart-note">Dotted line = 95% service target</p>
-        <div id="chart-otif" class="chart"></div>
-      </div>
-      <div class="panel">
-        <h3 class="chart-title">Freight spend by plant</h3>
-        <p class="chart-note">Cyan = Canada · Deep blue = US nodes</p>
-        <div id="chart-freight" class="chart"></div>
-      </div>
-    </div>
-    <div class="panel" style="margin-top:1rem">
-      <h3 class="chart-title">Inventory turns vs fill rate</h3>
-      <p class="chart-note">Color encodes OTIF — look for high-fill / low-turn or low-OTIF outliers</p>
-      <div id="chart-inv" class="chart"></div>
-    </div>
-  </section>
-
-  <section class="section" id="regional">
-    <h2>Geographic &amp; regional view</h2>
-    <p class="sub">Ontario GTA / Golden Horseshoe vs New York Niagara and Michigan Auto Belt.</p>
-    <div class="view-grid">
-      <div class="panel">
-        <h3 class="chart-title">Regional OTIF</h3>
-        <p class="chart-note">Latest month · target awareness by region</p>
-        <div id="chart-regional" class="chart"></div>
-      </div>
-      <div class="panel">
-        <h3 class="chart-title">Plant map (Great Lakes corridor)</h3>
-        <p class="chart-note">Marker size ≈ order volume · color = OTIF</p>
-        <div id="chart-geo" class="chart"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="category">
-    <h2>Category &amp; product mix</h2>
-    <p class="sub">Revenue contribution by category and product line for the latest month.</p>
-    <div class="view-grid">
-      <div class="panel">
-        <h3 class="chart-title">Revenue by category</h3>
-        <p class="chart-note">Cementitious · Aggregates · Packaged · Logistics add-ons</p>
-        <div id="chart-category" class="chart chart-sm"></div>
-      </div>
-      <div class="panel">
-        <h3 class="chart-title">Top product lines</h3>
-        <p class="chart-note">Where mix concentration creates service or margin risk</p>
-        <div id="chart-product" class="chart chart-sm"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="exceptions">
-    <h2>OTIF exceptions queue</h2>
-    <p class="sub">Root-cause Pareto plus the highest-severity tickets for plant / transportation / customer care.</p>
-    <div class="view-grid">
-      <div class="panel">
-        <h3 class="chart-title">Orders impacted by root cause</h3>
-        <p class="chart-note">Latest month exception volume</p>
-        <div id="chart-causes" class="chart chart-sm"></div>
-      </div>
-      <div class="panel">
-        <h3 class="chart-title">Priority tickets</h3>
-        <p class="chart-note">Critical → Action → Watch</p>
-        <div class="table-wrap">
-          <table id="exceptions-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Plant</th>
-                <th>Root cause</th>
-                <th>Impact</th>
-                <th>Severity</th>
-                <th>Owner</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+      <div class="bi-hero-copy">
+        <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / BI Dashboard</div>
+        <h1>North America Ops Control Tower</h1>
+        <p class="lead">
+          Executive view of OTIF, freight spend, and exception queues across Canada–US plants.
+        </p>
+        <div class="bi-pill-row">
+          <span class="bi-pill accent">OTIF</span>
+          <span class="bi-pill accent">Freight</span>
+          <span class="bi-pill accent">Exceptions</span>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="tableau-skills">
-    <h2>Tableau skills demonstrated</h2>
-    <p class="sub">Skill-oriented synthesis from Tableau study practice — dashboard craft, not a course dump.</p>
-    <div class="skills-grid">
-      <article class="skill-card">
-        <h3>Calculated fields</h3>
-        <p>OTIF %, late-order rate, MoM variance, freight per order, and severity flags that drive color encoding.</p>
-      </article>
-      <article class="skill-card">
-        <h3>LOD concepts</h3>
-        <p>FIXED plant / region rollups for target gaps; INCLUDE product-line contribution while filtering month.</p>
-      </article>
-      <article class="skill-card">
-        <h3>Dashboard design</h3>
-        <p>KPI band → trend → geography → detail table. One question per view; action color for exceptions only.</p>
-      </article>
-      <article class="skill-card">
-        <h3>Stories &amp; context</h3>
-        <p>Guide viewers from network pulse to plant outliers to root-cause owners — the same arc as a Tableau Story.</p>
-      </article>
-      <article class="skill-card">
-        <h3>Dual-axis / combo thinking</h3>
-        <p>Pair volume with service (orders vs OTIF) and cost with reliability (freight vs late %) when publishing.</p>
-      </article>
-      <article class="skill-card">
-        <h3>Clean extracts</h3>
-        <p>Star-style CSVs (<code>dim_plants</code> + facts) ready for Tableau relationships / joins on plant and month.</p>
-      </article>
-    </div>
-  </section>
+    <section class="section skim-top" id="executive">
+      <p class="disclaimer">
+        Synthetic North America ops demo data for portfolio storytelling. Charts mirror Tableau-ready extracts under
+        <code>tableau/extracts/</code>.
+      </p>
 
-  <section class="section" id="extracts">
-    <h2>Tableau extracts &amp; publish path</h2>
-    <p class="sub">Connect Tableau Public / Desktop to these files, then optional embed below.</p>
-    <div class="panel">
-      <ol style="color:var(--bi-muted);line-height:1.65;margin:0;padding-left:1.2rem">
-        <li>Open Tableau Public or Desktop.</li>
-        <li>Connect to the CSVs under <code>tableau/extracts/</code> (also mirrored in <code>docs/assets/data/</code> for the web charts).</li>
-        <li>Relate <code>dim_plants</code> → <code>ops_control_tower</code> / <code>sales_by_category</code> / <code>otif_exceptions</code> on <code>plant</code>.</li>
-        <li>Build sheets: KPI cards, OTIF trend, regional bar, category treemap or bar, exception table, lane map from <code>optimal_shipments</code>.</li>
-        <li>Publish to Tableau Public — live embed below uses the Airbnb Athens dashboard from this profile.</li>
-      </ol>
-      <ul class="extract-list">
-        <li><code>ops_control_tower.csv</code> <span>Plant-month OTIF, freight, turns, fill, sales, lat/lon</span></li>
-        <li><code>sales_by_category.csv</code> <span>Category / product-line revenue &amp; units</span></li>
-        <li><code>otif_exceptions.csv</code> <span>Exception tickets, root cause, severity</span></li>
-        <li><code>regional_performance.csv</code> <span>Country–region rollups</span></li>
-        <li><code>dim_plants.csv</code> <span>Plant dimension (market, country, geo)</span></li>
-        <li><code>optimal_shipments.csv</code> <span>Network optimizer lanes for map overlays</span></li>
-      </ul>
-      <div class="tableau-embed-card" id="tableau-embed">
-        <h3 class="tableau-embed-heading">Tableau Public &mdash; Live Dashboard</h3>
+      <div class="insight-banner" id="insight-banner">
+        Network pulse loads from demo extracts — OTIF vs 95% target, freight, and exception drivers.
+      </div>
+
+      <h2>Executive KPIs</h2>
+      <p class="sub">Latest month network pulse — MoM deltas on OTIF and freight.</p>
+      <div class="kpi-grid" id="kpis"></div>
+    </section>
+
+    <section class="section" id="trends">
+      <h2>Key charts</h2>
+      <p class="sub">OTIF vs 95% target, freight by plant, inventory turns vs fill.</p>
+      <div class="view-grid">
+        <div class="panel">
+          <h3 class="chart-title">OTIF by plant (trend)</h3>
+          <p class="chart-note">Dotted line = 95% service target</p>
+          <div id="chart-otif" class="chart"></div>
+        </div>
+        <div class="panel">
+          <h3 class="chart-title">Freight spend by plant</h3>
+          <p class="chart-note">Cyan = Canada · Deep blue = US nodes</p>
+          <div id="chart-freight" class="chart"></div>
+        </div>
+      </div>
+      <div class="panel chart-full">
+        <h3 class="chart-title">Inventory turns vs fill rate</h3>
+        <p class="chart-note">Color encodes OTIF — look for high-fill / low-turn or low-OTIF outliers</p>
+        <div id="chart-inv" class="chart"></div>
+      </div>
+    </section>
+
+    <section class="section" id="exceptions">
+      <h2>OTIF exceptions queue</h2>
+      <p class="sub">
+        Highest-severity tickets for plant / transportation / customer care.
+        Table stays populated even if CSV fetch fails (inline demo fallback).
+      </p>
+      <div class="view-grid">
+        <div class="panel">
+          <h3 class="chart-title">Orders impacted by root cause</h3>
+          <p class="chart-note">Latest month exception volume</p>
+          <div id="chart-causes" class="chart chart-sm"></div>
+        </div>
+        <div class="panel">
+          <h3 class="chart-title">Priority tickets</h3>
+          <p class="chart-note">Critical → Action → Watch</p>
+          <div class="table-wrap">
+            <table id="exceptions-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Plant</th>
+                  <th>Root cause</th>
+                  <th>Impact</th>
+                  <th>Severity</th>
+                  <th>Owner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>EX-00076</td>
+                  <td>Oakville</td>
+                  <td>Documentation hold</td>
+                  <td>16</td>
+                  <td><span class="badge badge-bad">Critical</span></td>
+                  <td>Transportation</td>
+                </tr>
+                <tr>
+                  <td>EX-00080</td>
+                  <td>Detroit</td>
+                  <td>Yard congestion</td>
+                  <td>25</td>
+                  <td><span class="badge badge-bad">Critical</span></td>
+                  <td>Plant Ops</td>
+                </tr>
+                <tr>
+                  <td>EX-00081</td>
+                  <td>Detroit</td>
+                  <td>Short ship / pick error</td>
+                  <td>6</td>
+                  <td><span class="badge badge-bad">Critical</span></td>
+                  <td>Planning</td>
+                </tr>
+                <tr>
+                  <td>EX-00075</td>
+                  <td>Oakville</td>
+                  <td>Customer dock unavailable</td>
+                  <td>12</td>
+                  <td><span class="badge badge-warn">Action</span></td>
+                  <td>Plant Ops</td>
+                </tr>
+                <tr>
+                  <td>EX-00078</td>
+                  <td>Buffalo</td>
+                  <td>Carrier delay at border</td>
+                  <td>10</td>
+                  <td><span class="badge badge-warn">Action</span></td>
+                  <td>Customer Care</td>
+                </tr>
+                <tr>
+                  <td>EX-00079</td>
+                  <td>Buffalo</td>
+                  <td>Carrier delay at border</td>
+                  <td>4</td>
+                  <td><span class="badge badge-warn">Action</span></td>
+                  <td>Transportation</td>
+                </tr>
+                <tr>
+                  <td>EX-00077</td>
+                  <td>Hamilton</td>
+                  <td>Production slip</td>
+                  <td>3</td>
+                  <td><span class="badge badge-ok">Watch</span></td>
+                  <td>Plant Ops</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="regional">
+      <h2>Regional &amp; category</h2>
+      <p class="sub">Geography and product mix for the same latest month.</p>
+      <div class="view-grid">
+        <div class="panel">
+          <h3 class="chart-title">Regional OTIF</h3>
+          <p class="chart-note">Latest month · target awareness by region</p>
+          <div id="chart-regional" class="chart"></div>
+        </div>
+        <div class="panel">
+          <h3 class="chart-title">Plant map (Great Lakes corridor)</h3>
+          <p class="chart-note">Marker size ≈ order volume · color = OTIF</p>
+          <div id="chart-geo" class="chart"></div>
+        </div>
+      </div>
+      <div class="view-grid">
+        <div class="panel">
+          <h3 class="chart-title">Revenue by category</h3>
+          <p class="chart-note">Cementitious · Aggregates · Packaged · Logistics add-ons</p>
+          <div id="chart-category" class="chart chart-sm"></div>
+        </div>
+        <div class="panel">
+          <h3 class="chart-title">Top product lines</h3>
+          <p class="chart-note">Where mix concentration creates service or margin risk</p>
+          <div id="chart-product" class="chart chart-sm"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="more">
+      <h2>Optional detail</h2>
+      <p class="sub">Tableau craft and publish path — expand if useful; not required for the skim.</p>
+
+      <div class="bi-details-stack">
+        <details class="bi-details" id="tableau-skills">
+          <summary>Tableau skills demonstrated</summary>
+          <div class="skills-grid">
+            <article class="skill-card">
+              <h3>Calculated fields</h3>
+              <p>OTIF %, late-order rate, MoM variance, freight per order, and severity flags that drive color encoding.</p>
+            </article>
+            <article class="skill-card">
+              <h3>LOD concepts</h3>
+              <p>FIXED plant / region rollups for target gaps; INCLUDE product-line contribution while filtering month.</p>
+            </article>
+            <article class="skill-card">
+              <h3>Dashboard design</h3>
+              <p>KPI band → trend → geography → detail table. One question per view; action color for exceptions only.</p>
+            </article>
+            <article class="skill-card">
+              <h3>Stories &amp; context</h3>
+              <p>Guide viewers from network pulse to plant outliers to root-cause owners — the same arc as a Tableau Story.</p>
+            </article>
+            <article class="skill-card">
+              <h3>Dual-axis / combo thinking</h3>
+              <p>Pair volume with service (orders vs OTIF) and cost with reliability (freight vs late %) when publishing.</p>
+            </article>
+            <article class="skill-card">
+              <h3>Clean extracts</h3>
+              <p>Star-style CSVs (<code>dim_plants</code> + facts) ready for Tableau relationships / joins on plant and month.</p>
+            </article>
+          </div>
+        </details>
+
+        <details class="bi-details" id="extracts">
+          <summary>Tableau extracts &amp; publish path</summary>
+          <ol class="extract-steps">
+            <li>Open Tableau Public or Desktop.</li>
+            <li>Connect to the CSVs under <code>tableau/extracts/</code> (also mirrored in <code>docs/assets/data/</code> for the web charts).</li>
+            <li>Relate <code>dim_plants</code> → <code>ops_control_tower</code> / <code>sales_by_category</code> / <code>otif_exceptions</code> on <code>plant</code>.</li>
+            <li>Build sheets: KPI cards, OTIF trend, regional bar, category bar, exception table, lane map from <code>optimal_shipments</code>.</li>
+            <li>Publish to Tableau Public — coursework embed below is separate from this NA ops demo.</li>
+          </ol>
+          <ul class="extract-list">
+            <li><code>ops_control_tower.csv</code> <span>Plant-month OTIF, freight, turns, fill, sales, lat/lon</span></li>
+            <li><code>sales_by_category.csv</code> <span>Category / product-line revenue &amp; units</span></li>
+            <li><code>otif_exceptions.csv</code> <span>Exception tickets, root cause, severity</span></li>
+            <li><code>regional_performance.csv</code> <span>Country–region rollups</span></li>
+            <li><code>dim_plants.csv</code> <span>Plant dimension (market, country, geo)</span></li>
+            <li><code>optimal_shipments.csv</code> <span>Network optimizer lanes for map overlays</span></li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="tableau-embed">
+      <div class="tableau-embed-card">
+        <p class="coursework-label">Coursework · separate from the NA ops demo above</p>
+        <h2 class="tableau-embed-heading">Tableau Public — Airbnb Athens</h2>
         <p class="tableau-embed-note">
-          <strong>Google BI Task &mdash; Airbnb Athens Dashboard</strong> &mdash; listing performance, pricing, availability,
-          and neighborhood insights from Google Business Intelligence coursework. The Plotly control tower above uses the same NA ops narrative with portfolio demo data.
+          Google BI Task coursework: listing performance, pricing, availability, and neighborhood insights.
+          Not the North America ops control tower charts above.
         </p>
         <div class="tableau-embed-frame">
           <iframe
@@ -270,14 +300,13 @@
           <a href="https://public.tableau.com/app/profile/afolabi.adesina/vizzes" target="_blank" rel="noopener noreferrer">All vizzes on profile</a>
         </p>
       </div>
-      <p style="color:var(--bi-muted);margin:1rem 0 0">Branch: <code>project/bi-dashboard</code> &middot; Hub publishes from <code>main</code> /docs</p>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="footer">
     Afolabi A. &middot; Oakville, ON &middot; Synthetic NA ops metrics for portfolio demonstration &middot;
     <a href="/NA-Skills-Portfolio/">Back to hub</a>
   </footer>
-  <script src="/NA-Skills-Portfolio/projects/bi-dashboard/bi.js?v=20260827"></script>
+  <script src="/NA-Skills-Portfolio/projects/bi-dashboard/bi.js?v=20260916c"></script>
 </body>
 </html>
