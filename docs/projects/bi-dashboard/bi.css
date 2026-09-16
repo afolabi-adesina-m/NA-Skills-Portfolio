@@ -358,22 +358,6 @@
   cursor: pointer;
 }
 
-@media (max-width: 900px) {
-  .bi-hero { grid-template-columns: 1fr; }
-  .view-grid { grid-template-columns: 1fr; }
-  .nav-toggle { display: inline-flex; }
-  .theme-bi .nav-links {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    padding: 0.35rem 0 0.6rem;
-  }
-  .theme-bi .nav-links.open { display: flex; }
-  .theme-bi .nav { flex-wrap: wrap; }
-  .bi-subnav-inner { flex-wrap: nowrap; }
-}
-
-
 /* —— Skim redesign —— */
 .hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
 .muted { font-weight: 500; color: #94A3B8; font-size: 0.9em; }
@@ -420,6 +404,21 @@
   outline: 2px solid var(--bi-cyan);
   outline-offset: 2px;
 }
+
+@media (max-width: 900px) {
+  .bi-hero { grid-template-columns: 1fr; }
+  .view-grid { grid-template-columns: 1fr; }
+  .nav-toggle { display: inline-flex; }
+  .theme-bi .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    padding: 0.35rem 0 0.6rem;
+  }
+  .theme-bi .nav-links.open { display: flex; }
+  .theme-bi .nav { flex-wrap: wrap; }
+}
+
 .bi-acc {
   border: 1px solid var(--bi-line, #D4E2EF);
   border-radius: 12px;
