@@ -1,4 +1,4 @@
-/* Python Skills Showcase — expandable table, filters, charts */
+/* Python Skills Showcase — closed table, filters, charts-first */
 
 (function () {
   "use strict";
@@ -10,14 +10,6 @@
       const open = drawer.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(open));
     });
-  }
-
-  const expandAllBtn = document.getElementById("expand-all-btn");
-  const collapseAllBtn = document.getElementById("collapse-all-btn");
-
-  function setViewMode(mode) {
-    if (expandAllBtn) expandAllBtn.classList.toggle("is-active", mode === "expanded");
-    if (collapseAllBtn) collapseAllBtn.classList.toggle("is-active", mode === "collapsed");
   }
 
   function openRow(row) {
@@ -51,24 +43,9 @@
     if (head) head.setAttribute("aria-expanded", "false");
   }
 
-  function expandAll() {
-    document.querySelectorAll(".problem-row:not([hidden])").forEach(openRow);
-    document.querySelectorAll(".m-card:not([hidden])").forEach(openCard);
-    setViewMode("expanded");
-  }
-
-  function collapseAll() {
-    document.querySelectorAll(".problem-row").forEach(closeRow);
-    document.querySelectorAll(".m-card").forEach(closeCard);
-    setViewMode("collapsed");
-  }
-
   function toggleRow(row) {
-    const opening = !row.classList.contains("is-open");
-    if (opening) openRow(row);
-    else closeRow(row);
-    const anyOpen = document.querySelector(".problem-row.is-open, .m-card.is-open");
-    setViewMode(anyOpen ? "expanded" : "collapsed");
+    if (row.classList.contains("is-open")) closeRow(row);
+    else openRow(row);
   }
 
   document.querySelectorAll(".problem-row").forEach((row) => {
@@ -81,8 +58,10 @@
     });
   });
 
-  if (expandAllBtn) expandAllBtn.addEventListener("click", expandAll);
-  if (collapseAllBtn) collapseAllBtn.addEventListener("click", collapseAll);
+  // Keep snippet <details> clicks from toggling the parent row
+  document.querySelectorAll(".snippet-details").forEach((el) => {
+    el.addEventListener("click", (e) => e.stopPropagation());
+  });
 
   const filterBtns = document.querySelectorAll(".filter-btn[data-filter]");
   filterBtns.forEach((btn) => {
@@ -95,15 +74,13 @@
         row.hidden = !show;
         const detail = document.querySelector(`.detail-row[data-for="${row.dataset.id}"]`);
         if (!show) {
-          row.classList.remove("is-open");
-          row.setAttribute("aria-expanded", "false");
-          if (detail) detail.hidden = true;
+          closeRow(row);
         }
       });
       document.querySelectorAll(".m-card").forEach((card) => {
         const show = f === "all" || card.dataset.topic === f;
         card.hidden = !show;
-        if (!show) card.classList.remove("is-open");
+        if (!show) closeCard(card);
       });
     });
   });
@@ -112,11 +89,9 @@
   if (mobile) {
     document.querySelectorAll(".problem-row").forEach((row) => {
       const id = row.dataset.id;
-      const topic = row.querySelector(".col-topic")?.textContent?.trim() || "";
-      const problem =
-        row.querySelector(".col-problem")?.childNodes[0]?.textContent?.trim() || "";
-      const approach = row.querySelector(".col-approach")?.textContent?.trim() || "";
+      const skill = row.querySelector(".col-skill")?.textContent?.trim() || "";
       const result = row.querySelector(".col-result")?.textContent?.trim() || "";
+      const metric = row.querySelector(".col-metric")?.textContent?.trim() || "";
       const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
       const panelHtml = detail ? detail.querySelector(".detail-panel")?.innerHTML || "" : "";
 
@@ -127,10 +102,10 @@
       card.innerHTML = `
         <div class="m-card-head" tabindex="0" role="button" aria-expanded="false">
           <div>
-            <p class="m-topic">${topic}</p>
-            <h3>${problem}</h3>
-            <p style="margin:0;font-size:0.86rem;color:var(--muted)">${approach}</p>
+            <p class="m-topic">${skill}</p>
+            <h3>${skill}</h3>
             <p class="m-result">${result}</p>
+            <p class="m-metric">${metric}</p>
           </div>
           <span class="course-toggle">Details</span>
         </div>
@@ -138,11 +113,8 @@
       `;
       const head = card.querySelector(".m-card-head");
       const toggleCard = () => {
-        const opening = !card.classList.contains("is-open");
-        if (opening) openCard(card);
-        else closeCard(card);
-        const anyOpen = document.querySelector(".problem-row.is-open, .m-card.is-open");
-        setViewMode(anyOpen ? "expanded" : "collapsed");
+        if (card.classList.contains("is-open")) closeCard(card);
+        else openCard(card);
       };
       head.addEventListener("click", toggleCard);
       head.addEventListener("keydown", (e) => {
@@ -151,9 +123,12 @@
           toggleCard();
         }
       });
+      card.querySelectorAll(".snippet-details").forEach((el) => {
+        el.addEventListener("click", (e) => e.stopPropagation());
+      });
       mobile.appendChild(card);
     });
-    expandAll();
+    // Intentionally closed by default — no expandAll()
   }
 
   const plotLayout = {
