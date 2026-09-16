@@ -232,13 +232,13 @@ body.hub .brand { color: var(--ink); }
 .hero {
   max-width: var(--max);
   margin: 0 auto;
-  padding: clamp(3.5rem, 8vw, 6.5rem) 1.5rem clamp(3rem, 6vw, 4.5rem);
+  padding: clamp(2.75rem, 7vw, 5.5rem) 1.5rem clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .hero-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 2.5rem;
+  gap: 1.75rem 2.5rem;
   align-items: center;
 }
 
@@ -347,10 +347,35 @@ body.hub .brand { color: var(--ink); }
 .hero-visual {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   min-height: 280px;
+  align-self: end;
 }
 
+/* Borderless cutout — page BG shows through transparent edges */
+.hero-cutout-wrap {
+  margin: 0;
+  width: min(100%, 420px);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  line-height: 0;
+}
+
+.hero-cutout {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 18px 36px rgba(18, 21, 28, 0.16))
+          drop-shadow(0 4px 10px rgba(18, 21, 28, 0.08));
+}
+
+/* Legacy framed photo (unused on hub) */
 .hero-photo-wrap {
   margin: 0;
   width: min(100%, 340px);
@@ -373,6 +398,66 @@ body.hub .brand { color: var(--ink); }
   object-fit: cover;
   object-position: center 18%;
   background: var(--surface-solid);
+}
+
+/* Employer / affiliation logo strip under hero */
+.employer-strip {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.5rem 3.25rem;
+  text-align: center;
+}
+
+.employer-strip-label {
+  margin: 0 0 1.15rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.employer-logos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 2rem;
+}
+
+.employer-logos li {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  opacity: 0.72;
+  transition: opacity 0.25s var(--ease);
+}
+
+.employer-logos li:hover {
+  opacity: 1;
+}
+
+.employer-logos img,
+.employer-logo {
+  display: block;
+  max-height: 28px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.employer-strip-note {
+  margin: 1.1rem auto 0;
+  max-width: 42rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .hero-primary-cta {
@@ -1427,15 +1512,34 @@ body.hub a.btn-cta:hover,
     gap: 2rem;
   }
 
-  /* Text first on mobile — photo follows copy */
+  /* Text first on mobile — cutout follows copy */
   .hero-visual {
     min-height: auto;
     order: 2;
+    align-items: center;
   }
 
-  .hero-photo-wrap {
-    width: min(100%, 260px);
+  .hero-cutout-wrap {
+    width: min(100%, 280px);
     margin: 0 auto;
+  }
+
+  .hero-cutout {
+    filter: drop-shadow(0 12px 24px rgba(18, 21, 28, 0.14))
+            drop-shadow(0 3px 8px rgba(18, 21, 28, 0.07));
+  }
+
+  .employer-strip {
+    padding-bottom: 2.75rem;
+  }
+
+  .employer-logos {
+    gap: 0.55rem 1.35rem;
+  }
+
+  .employer-logos img {
+    max-height: 24px;
+    max-width: 130px;
   }
 
   .brand-photo {
@@ -1525,6 +1629,7 @@ body.hub a.btn-cta:hover,
   .nav,
   .hero,
   .section,
+  .employer-strip,
   .footer { padding-left: 1.15rem; padding-right: 1.15rem; }
 
   .hero-cta .btn {
