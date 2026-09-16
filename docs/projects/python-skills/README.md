@@ -17,9 +17,9 @@ A professional skills showcase across **eight Sheridan PAIDA course modules**: a
 
 | File | Role |
 |------|------|
-| `index.html` | Expandable eight-course skills table + interpretation panels |
-| `py.css` | Consulting light theme (Newsreader / Figtree, hub-aligned) |
-| `py.js` | Row expand, domain filters, mobile cards, Plotly charts |
+| `index.html` | Charts-first skim page + closed eight-row skills table |
+| `py.css` | Hub navy hero/nav, `#eef1f5` bg, soft `--py #3776AB` accent |
+| `py.js` | Closed-by-default expanders, Show snippet, filters, Plotly charts |
 
 ## Capstone link
 
