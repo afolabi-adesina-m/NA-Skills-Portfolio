@@ -371,3 +371,28 @@
   .theme-bi .nav-links.open { display: flex; }
   .theme-bi .nav { flex-wrap: wrap; }
 }
+
+
+/* —— Skim redesign —— */
+.hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.muted { font-weight: 500; color: #94A3B8; font-size: 0.9em; }
+.bi-acc {
+  border: 1px solid var(--bi-line, #D4E2EF);
+  border-radius: 12px;
+  background: #fff;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.bi-acc summary { cursor: pointer; font-weight: 600; color: var(--bi-navy, #0A2540); }
+.bi-acc-list { color: var(--bi-muted, #5A6F86); line-height: 1.55; margin: 0.75rem 0 0; padding-left: 1.2rem; }
+.coursework-badge {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #FEF3C7;
+  color: #92400E;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

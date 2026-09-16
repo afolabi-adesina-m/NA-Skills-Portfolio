@@ -3,405 +3,321 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SAP MDM Migration Lab | Afolabi A.</title>
-  <meta name="description" content="SAP MDM Migration Lab — ECC → S/4 style cutover practice for Material and Business Partner, with DQ scorecards, mapping, and manufacturing MDM framing. Synthetic data only." />
+  <title>SAP MDM Migration Lab | Afolabi Adesina</title>
+  <meta name="description" content="SAP MDM Migration Lab: ECC-to-S/4 style cutover swimlane, module flowchart, DQ scorecard, and Business Partner mapping — synthetic North America demo data." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916b" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916b" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260827f" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260827f" />
   <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
   <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260916b" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260827f" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/sap-migration/sap.css?v=20260916b" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/sap-migration/sap.css?v=20260916swim" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 <body class="theme-sap">
-  <a class="skip-link" href="#dq-scorecard">Skip to DQ scorecard</a>
-
   <header class="site-header">
-    <nav class="nav" aria-label="Primary">
+    <nav class="nav">
       <a class="brand" href="/NA-Skills-Portfolio/">
-        <img
-          class="brand-photo"
-          src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d"
-          alt="Afolabi A."
-          width="42"
-          height="42"
-          loading="eager"
-          decoding="async"
-        />
+        <img class="brand-photo" src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d" alt="Afolabi Adesina" width="42" height="42" loading="eager" decoding="async" />
         <span class="brand-text">
-          <span class="brand-name">Afolabi A.</span>
+          <span class="brand-name">Afolabi Adesina</span>
           <span class="brand-tag">Portfolio Hub</span>
         </span>
       </a>
       <div class="nav-links">
         <a href="/NA-Skills-Portfolio/">Hub</a>
-        <a href="#cutover">Cutover</a>
-        <a href="#dq-scorecard">DQ scorecard</a>
+        <a href="#swimlane">Cutover map</a>
+        <a href="#migration-lab">Migration Lab</a>
         <a href="#modules">Modules</a>
-        <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply Chain</a>
         <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
       </div>
     </nav>
   </header>
 
-  <main>
-    <section class="sap-hero" id="top">
-      <div class="sap-logo-block">
-        <img
-          class="sap-mark-img"
-          src="/NA-Skills-Portfolio/projects/sap-migration/sap-logo.svg"
-          width="120"
-          height="120"
-          alt=""
-          onerror="this.style.display='none';var s=this.nextElementSibling;if(s){s.classList.add('is-fallback');}"
-        />
-        <svg class="sap-mark" viewBox="0 0 96 96" role="img" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="sapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#008FD3"/>
-              <stop offset="100%" stop-color="#0A2540"/>
-            </linearGradient>
-          </defs>
-          <rect width="96" height="96" rx="18" fill="#0A2540"/>
-          <polygon points="48,10 82,30 82,66 48,86 14,66 14,30" fill="url(#sapGrad)"/>
-          <text x="48" y="55" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" letter-spacing="2">SAP</text>
-        </svg>
-        <span class="sap-mark-label">MDM lab mark</span>
-      </div>
-      <div class="sap-hero-copy">
-        <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / SAP MDM Migration Lab</div>
-        <p class="eyebrow">North America manufacturing · MDM cutover practice</p>
-        <h1>SAP MDM Migration Lab</h1>
-        <p class="lead">
-          ECC → S/4 style cutover practice for Material + Business Partner.
-        </p>
-        <div class="sap-cta-row">
-          <a class="btn-primary" href="#dq-scorecard">Jump to DQ scorecard</a>
-          <a class="btn-ghost" href="#cutover">See cutover swimlane</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section proof-first" id="cutover">
-      <p class="disclaimer">
-        Synthetic North America manufacturing demo data only — no confidential client masters.
-        Pattern mirrors MDG / LTMC-style readiness work across Material and BP objects.
+  <section class="sap-hero">
+    <div class="sap-logo-block">
+      <img class="sap-mark-img" src="/NA-Skills-Portfolio/projects/sap-migration/sap-logo.svg" width="120" height="120" alt="SAP skill showcase mark" onerror="this.style.display='none'" />
+      <span class="sap-mark-label">SAP skill mark</span>
+    </div>
+    <div>
+      <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / SAP MDM Migration Lab</div>
+      <div class="eyebrow">MDM · Data migration · ECC delivery</div>
+      <h1>SAP MDM Migration Lab</h1>
+      <p class="lead">
+        ECC → S/4 style cutover practice for Material and Business Partner masters.
+        Swimlane + module flow first; live DQ scorecard below. Synthetic North America demo data only.
       </p>
-
-      <h2>Cutover swimlane</h2>
-      <p class="sub">Who owns each stage when Material and Business Partner move from ECC to S/4.</p>
-
-      <figure class="swimlane-wrap" aria-labelledby="swimlane-caption">
-        <div class="swimlane" role="table" aria-label="Cutover roles by stage">
-          <div class="swimlane-head" role="row">
-            <div class="swim-corner" role="columnheader">Role</div>
-            <div role="columnheader">Extract</div>
-            <div role="columnheader">Profile / DQ</div>
-            <div role="columnheader">Map</div>
-            <div role="columnheader">Stage</div>
-            <div role="columnheader">Validate</div>
-            <div role="columnheader">Go-live</div>
-          </div>
-
-          <div class="swim-row" role="row">
-            <div class="swim-role" role="rowheader">Business steward</div>
-            <div class="swim-cell" role="cell"><span>Sign off scope</span></div>
-            <div class="swim-cell" role="cell"><span>Rule exceptions</span></div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell" role="cell"><span>Business UAT</span></div>
-            <div class="swim-cell" role="cell"><span>Freeze decisions</span></div>
-          </div>
-
-          <div class="swim-row you" role="row">
-            <div class="swim-role" role="rowheader">MDM / BA <em>(you)</em></div>
-            <div class="swim-cell you" role="cell"><span>Pull masters</span></div>
-            <div class="swim-cell you" role="cell"><span>DQ scorecard</span></div>
-            <div class="swim-cell you" role="cell"><span>BP / material map</span></div>
-            <div class="swim-cell you" role="cell"><span>READY loads</span></div>
-            <div class="swim-cell you" role="cell"><span>Reconcile KPIs</span></div>
-            <div class="swim-cell you" role="cell"><span>Hypercare DQ</span></div>
-          </div>
-
-          <div class="swim-row" role="row">
-            <div class="swim-role" role="rowheader">Functional (FI/MM/SD)</div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell" role="cell"><span>Field meaning</span></div>
-            <div class="swim-cell" role="cell"><span>Org / plant views</span></div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell" role="cell"><span>Process tests</span></div>
-            <div class="swim-cell" role="cell"><span>Open items</span></div>
-          </div>
-
-          <div class="swim-row" role="row">
-            <div class="swim-role" role="rowheader">Tech load (LTMC)</div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell" role="cell"><span>Template fit</span></div>
-            <div class="swim-cell" role="cell"><span>Load jobs</span></div>
-            <div class="swim-cell" role="cell"><span>Error logs</span></div>
-            <div class="swim-cell" role="cell"><span>Delta loads</span></div>
-          </div>
-
-          <div class="swim-row" role="row">
-            <div class="swim-role" role="rowheader">Analytics (BW)</div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell" role="cell"><span>Baseline KPIs</span></div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell soft" role="cell"><span>—</span></div>
-            <div class="swim-cell" role="cell"><span>Before/after packs</span></div>
-            <div class="swim-cell" role="cell"><span>EXCO views</span></div>
-          </div>
-        </div>
-        <figcaption id="swimlane-caption" class="fig-caption">
-          Your role sits in the MDM/BA lane across all stages.
-        </figcaption>
-      </figure>
-
-      <h2 class="tight-top">Four-step cutover pattern</h2>
-      <p class="sub">The repeatable MDM loop before LTMC-style staging.</p>
-      <div class="steps pattern-steps" aria-label="Cutover pattern">
-        <div class="step"><div class="step-num">1</div><div><strong>Extract</strong> — Pull legacy Material, customer/vendor BP, and ship-to grounded in MM / SD / FI views.</div></div>
-        <div class="step"><div class="step-num">2</div><div><strong>DQ</strong> — Score UOM, plant extension, orphan ship-to, tax, bank keys, duplicates, and sales-area completeness.</div></div>
-        <div class="step"><div class="step-num">3</div><div><strong>Map</strong> — Align source keys to S/4 BP / material numbers with partner roles and plant views.</div></div>
-        <div class="step"><div class="step-num">4</div><div><strong>Stage</strong> — READY / NEEDS_REVIEW loads, track pass rates, reconcile with BW-style KPI packs.</div></div>
-      </div>
-    </section>
-
-    <section class="section" id="flow">
-      <h2>How modules connect</h2>
-      <p class="sub">Click a node for a one-line skill note — not a wiki essay.</p>
-
-      <div class="flow-map" role="list">
-        <button type="button" class="flow-node" role="listitem" aria-expanded="false" data-note="Material, customer/vendor BP, and pricing masters must be clean before any LTMC-style load.">
-          <span class="flow-code">MM / SD / BP</span>
-          <span class="flow-label">Master data</span>
-        </button>
-        <span class="flow-arrow" aria-hidden="true">→</span>
-        <button type="button" class="flow-node" role="listitem" aria-expanded="false" data-note="P2P (MM-PO) and O2C (SD) define what “ready” means for open POs, orders, and partner roles.">
-          <span class="flow-code">P2P / O2C</span>
-          <span class="flow-label">Process flow</span>
-        </button>
-        <span class="flow-arrow" aria-hidden="true">→</span>
-        <button type="button" class="flow-node" role="listitem" aria-expanded="false" data-note="FI/CO hierarchies and settlements prove migrated masters still support month-end and product costing.">
-          <span class="flow-code">FI / CO</span>
-          <span class="flow-label">Control</span>
-        </button>
-        <span class="flow-arrow" aria-hidden="true">→</span>
-        <button type="button" class="flow-node" role="listitem" aria-expanded="false" data-note="BW and planning-adjacent KPIs (fill rate, cost/ton, OTIF, spend) confirm cutover quality after go-live.">
-          <span class="flow-code">BW / KPIs</span>
-          <span class="flow-label">Analytics</span>
-        </button>
-      </div>
-      <p class="flow-note" id="flow-note" hidden></p>
-      <p class="fig-caption">Master data → process → control → analytics; manufacturing MDM sits at the start of the chain.</p>
-    </section>
-
-    <section class="section section-band lab-anchor" id="dq-scorecard">
-      <h2>DQ scorecard &amp; sample BP map</h2>
-      <p class="sub">
-        Synthetic ECC → S/4 style readiness for Material, Customer BP, Vendor BP, and Ship-To.
-        Tables stay populated even if CSV fetch fails (inline demo fallback).
+      <p class="hero-cta-row">
+        <a class="btn btn-primary" href="#swimlane">See cutover swimlane</a>
+        <a class="btn btn-ghost" href="#migration-lab">Jump to DQ scorecard</a>
       </p>
+    </div>
+  </section>
 
-      <div class="kpi-grid" id="kpis" aria-live="polite"></div>
+  <section class="section" id="swimlane">
+    <h2>How MDM cutover actually runs</h2>
+    <p class="sub">My seat is the <strong>MDM / BA</strong> lane — stewarding quality and mapping while functional and tech lanes move the load.</p>
 
-      <div class="artifact-grid">
-        <div class="panel">
-          <h3 class="panel-title">DQ scorecard</h3>
-          <p class="panel-hint">Pass rate drives GO / REVIEW / BLOCK for the cutover window.</p>
-          <div class="table-wrap">
-            <table id="dq-table">
-              <thead>
-                <tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Pass rate</th><th>Status</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
+    <div class="diagram-wrap" role="img" aria-label="Swimlane diagram of MDM cutover from Extract to Go-live across five roles">
+      <svg class="swimlane-svg" viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#008FD3"/></marker>
+        </defs>
+        <!-- stage headers -->
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#0A2540">
+          <text x="180" y="28" text-anchor="middle">Extract</text>
+          <text x="310" y="28" text-anchor="middle">Profile / DQ</text>
+          <text x="440" y="28" text-anchor="middle">Map</text>
+          <text x="570" y="28" text-anchor="middle">Stage</text>
+          <text x="700" y="28" text-anchor="middle">Validate</text>
+          <text x="830" y="28" text-anchor="middle">Go-live</text>
+        </g>
+        <!-- lanes -->
+        <!-- y positions: 50, 115, 180, 245, 310 -->
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="11">
+          <!-- lane labels -->
+          <rect x="8" y="48" width="110" height="54" rx="8" fill="#EEF5FB" stroke="#D4E2EF"/>
+          <text x="63" y="80" text-anchor="middle" fill="#5A6F86">Business steward</text>
 
-        <div class="panel">
-          <h3 class="panel-title">Sample customer BP mapping</h3>
-          <p class="panel-hint">Source KUNNR → target BP with partner role and migration status.</p>
-          <div class="table-wrap">
-            <table id="map-table">
-              <thead>
-                <tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Status</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
+          <rect x="8" y="113" width="110" height="54" rx="8" fill="#D9F0FF" stroke="#008FD3" stroke-width="2"/>
+          <text x="63" y="138" text-anchor="middle" font-weight="700" fill="#0A2540">MDM / BA</text>
+          <text x="63" y="154" text-anchor="middle" fill="#0070F2">(you)</text>
+
+          <rect x="8" y="178" width="110" height="54" rx="8" fill="#EEF5FB" stroke="#D4E2EF"/>
+          <text x="63" y="202" text-anchor="middle" fill="#5A6F86">Functional</text>
+          <text x="63" y="218" text-anchor="middle" fill="#5A6F86">FI / MM / SD</text>
+
+          <rect x="8" y="243" width="110" height="54" rx="8" fill="#EEF5FB" stroke="#D4E2EF"/>
+          <text x="63" y="267" text-anchor="middle" fill="#5A6F86">Tech load</text>
+          <text x="63" y="283" text-anchor="middle" fill="#5A6F86">LTMC</text>
+
+          <rect x="8" y="308" width="110" height="54" rx="8" fill="#EEF5FB" stroke="#D4E2EF"/>
+          <text x="63" y="340" text-anchor="middle" fill="#5A6F86">Analytics · BW</text>
+        </g>
+
+        <!-- horizontal lane guides -->
+        <g stroke="#E6EEF6" stroke-width="1">
+          <line x1="130" y1="105" x2="960" y2="105"/>
+          <line x1="130" y1="170" x2="960" y2="170"/>
+          <line x1="130" y1="235" x2="960" y2="235"/>
+          <line x1="130" y1="300" x2="960" y2="300"/>
+          <line x1="130" y1="365" x2="960" y2="365"/>
+        </g>
+
+        <!-- cells helper: stage x = 140,270,400,530,660,790 -->
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#0A2540">
+          <!-- steward row -->
+          <rect x="140" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="79" text-anchor="middle">Approve scope</text>
+          <rect x="270" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="79" text-anchor="middle">Rule sign-off</text>
+          <rect x="400" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="79" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="530" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="79" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="660" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="79" text-anchor="middle">UAT accept</text>
+          <rect x="790" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="79" text-anchor="middle">Hypercare</text>
+
+          <!-- MDM/BA row highlighted -->
+          <rect x="140" y="123" width="100" height="34" rx="6" fill="#008FD3" stroke="#0070F2"/><text x="190" y="144" text-anchor="middle" fill="#fff" font-weight="700">Pull masters</text>
+          <rect x="270" y="123" width="100" height="34" rx="6" fill="#008FD3" stroke="#0070F2"/><text x="320" y="144" text-anchor="middle" fill="#fff" font-weight="700">DQ + profile</text>
+          <rect x="400" y="123" width="100" height="34" rx="6" fill="#008FD3" stroke="#0070F2"/><text x="450" y="144" text-anchor="middle" fill="#fff" font-weight="700">Map BP / Mat</text>
+          <rect x="530" y="123" width="100" height="34" rx="6" fill="#008FD3" stroke="#0070F2"/><text x="580" y="144" text-anchor="middle" fill="#fff" font-weight="700">READY queue</text>
+          <rect x="660" y="123" width="100" height="34" rx="6" fill="#008FD3" stroke="#0070F2"/><text x="710" y="144" text-anchor="middle" fill="#fff" font-weight="700">Defect triage</text>
+          <rect x="790" y="123" width="100" height="34" rx="6" fill="#008FD3" stroke="#0070F2"/><text x="840" y="144" text-anchor="middle" fill="#fff" font-weight="700">SPOC support</text>
+
+          <!-- functional -->
+          <rect x="140" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="209" text-anchor="middle">Fit-gap cues</text>
+          <rect x="270" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="209" text-anchor="middle">Rule input</text>
+          <rect x="400" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="450" y="209" text-anchor="middle">Partner roles</text>
+          <rect x="530" y="188" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="209" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="660" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="209" text-anchor="middle">Process UAT</text>
+          <rect x="790" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="209" text-anchor="middle">Config fixes</text>
+
+          <!-- tech -->
+          <rect x="140" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="274" text-anchor="middle">Extract jobs</text>
+          <rect x="270" y="253" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="320" y="274" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="400" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="450" y="274" text-anchor="middle">Transform</text>
+          <rect x="530" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="580" y="274" text-anchor="middle">LTMC load</text>
+          <rect x="660" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="274" text-anchor="middle">Re-load</text>
+          <rect x="790" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="274" text-anchor="middle">Transport</text>
+
+          <!-- analytics -->
+          <rect x="140" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="190" y="339" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="270" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="339" text-anchor="middle">Baseline KPIs</text>
+          <rect x="400" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="339" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="530" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="339" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="660" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="339" text-anchor="middle">Reconcile packs</text>
+          <rect x="790" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="339" text-anchor="middle">Post KPIs</text>
+        </g>
+
+        <!-- flow arrows between stages on MDM lane -->
+        <g stroke="#008FD3" stroke-width="2" fill="none" marker-end="url(#arrow)">
+          <path d="M240,140 H268"/>
+          <path d="M370,140 H398"/>
+          <path d="M500,140 H528"/>
+          <path d="M630,140 H658"/>
+          <path d="M760,140 H788"/>
+        </g>
+
+        <text x="490" y="400" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#5A6F86">Highlighted lane = MDM / BA ownership across the cutover</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Read left to right. Blue row is where I sit as MDM SPOC / migration BA.</p>
+  </section>
+
+  <section class="section" id="module-flow">
+    <h2>How modules connect (one picture)</h2>
+    <p class="sub">Not nine articles — one flow from masters to processes to control to KPIs.</p>
+
+    <div class="flow-row" role="list">
+      <article class="flow-node" role="listitem">
+        <span class="flow-kicker">1 · Master data</span>
+        <h3>MM · SD · BP</h3>
+        <p>Material, customer/vendor BP, ship-to — clean before any load.</p>
+      </article>
+      <div class="flow-arrow" aria-hidden="true">→</div>
+      <article class="flow-node" role="listitem">
+        <span class="flow-kicker">2 · Processes</span>
+        <h3>P2P · O2C</h3>
+        <p>Purchasing and order-to-cash define what “ready” means in ops.</p>
+      </article>
+      <div class="flow-arrow" aria-hidden="true">→</div>
+      <article class="flow-node" role="listitem">
+        <span class="flow-kicker">3 · Control</span>
+        <h3>FI · CO</h3>
+        <p>GL, AP/AR, cost objects must still close month-end after go-live.</p>
+      </article>
+      <div class="flow-arrow" aria-hidden="true">→</div>
+      <article class="flow-node" role="listitem">
+        <span class="flow-kicker">4 · Proof</span>
+        <h3>BW · KPIs</h3>
+        <p>Reporting packs confirm fill rate, spend, OTIF still reconcile.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-band lab-anchor" id="migration-lab">
+    <h2>MDM Migration Lab</h2>
+    <p class="sub">
+      Synthetic ECC → S/4 style cutover for material, customer BP, vendor BP, and ship-to.
+      DQ rules, mapping templates, and readiness scorecards — no confidential client data.
+    </p>
+
+    <div class="kpi-grid" id="kpis"></div>
+
+    <div class="two-col" style="margin-top:1rem">
+      <div class="panel"><h3 style="margin-top:0;color:var(--sap-navy)">Ready vs legacy by object</h3><div id="chart-dq" class="chart"></div></div>
+      <div class="panel"><h3 style="margin-top:0;color:var(--sap-navy)">Migration readiness</h3><div id="chart-pass" class="chart"></div></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">DQ scorecard</h3>
+      <div class="table-wrap"><table id="dq-table"><thead><tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Pass rate</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">Sample customer BP mapping</h3>
+      <div class="table-wrap"><table id="map-table"><thead><tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">Cutover pattern</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div>Extract legacy masters (MM material, SD customer/ship-to, MM-PO vendor, FI financial views).</div></div>
+        <div class="step"><div class="step-num">2</div><div>Apply DQ rules: UOM, plant extension, orphan ship-to, tax, bank keys, duplicates, sales-area completeness.</div></div>
+        <div class="step"><div class="step-num">3</div><div>Map to S/4 BP / material numbers with partner roles, purchasing org, and plant views aligned to CO/FI.</div></div>
+        <div class="step"><div class="step-num">4</div><div>Stage READY / NEEDS_REVIEW loads (LTMC-style), track pass rates, reconcile with BW-style KPI packs.</div></div>
       </div>
+    </div>
+  </section>
 
-      <figure class="readiness-visual" aria-labelledby="readiness-caption">
-        <div class="readiness-bars" id="readiness-bars" role="img" aria-label="Pass rates by master-data object"></div>
-        <figcaption id="readiness-caption" class="fig-caption">
-          One artifact visual: pass-rate bars from the same synthetic scorecard — no chart clutter.
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="section" id="modules">
-      <h2>Module skill map</h2>
-      <p class="sub">Eight areas collapsed to one line each. Open only what you need.</p>
-
-      <div class="module-accordion" id="module-accordion">
-        <details class="mod-item" id="module-bw">
-          <summary><span class="module-code bw">BW</span><span class="mod-name">Business Warehouse</span></summary>
-          <p>Turns transactional masters into management packs — BeX workbooks, EXCO views, and plant daily cockpits used to prove cutover.</p>
-        </details>
-        <details class="mod-item" id="module-fi">
-          <summary><span class="module-code fi">FI</span><span class="mod-name">Financial Accounting</span></summary>
-          <p>GL, AP/AR, and Asset Management — BP loads must preserve payment terms, tax, and bank data or aging breaks after go-live.</p>
-        </details>
-        <details class="mod-item" id="module-co">
-          <summary><span class="module-code co">CO</span><span class="mod-name">Controlling</span></summary>
-          <p>Cost centers, settlements, and CO-PA style margin structures that must stay aligned when materials and orgs move.</p>
-        </details>
-        <details class="mod-item" id="module-mm">
-          <summary><span class="module-code mm">MM</span><span class="mod-name">Materials Management</span></summary>
-          <p>Inventory + purchasing backbone — material master design, GR/GI literacy, and vendor/info-record readiness for P2P.</p>
-        </details>
-        <details class="mod-item" id="module-sd">
-          <summary><span class="module-code sd">SD</span><span class="mod-name">Sales &amp; Distribution</span></summary>
-          <p>Order-to-cash masters — customer BP partner roles, pricing conditions, and sales-area completeness on the scorecard.</p>
-        </details>
-        <details class="mod-item" id="module-pp">
-          <summary><span class="module-code pp">PP</span><span class="mod-name">Production Planning</span></summary>
-          <p>BOM / recipe / production-version quality plus PIR and MRP awareness so migrated materials can still plan and cost.</p>
-        </details>
-        <details class="mod-item" id="module-pm">
-          <summary><span class="module-code pm">PM</span><span class="mod-name">Plant Maintenance</span></summary>
-          <p>Functional locations, equipment, and work-order discipline linked to plants, cost centers, and materials.</p>
-        </details>
-        <details class="mod-item" id="module-hr">
-          <summary><span class="module-code hr">HR</span><span class="mod-name">Human Resources</span></summary>
-          <p>Org and position masters that feed approvals and cost assignment when logistics and FI masters move.</p>
-        </details>
+  <section class="section" id="modules">
+    <h2>Module detail <span class="muted">(optional)</span></h2>
+    <p class="sub">Collapsed by default — open only if you want the deeper module notes.</p>
+    <details class="module-acc">
+      <summary>BW · CO · FI · HR · MM-IM · MM-PO · PM · PP · SD</summary>
+      <div class="module-acc-body">
+        <p><strong>BW</strong> — reporting packs and post-load KPI reconciliation.</p>
+        <p><strong>CO / FI</strong> — cost objects, BP financial views, month-end awareness.</p>
+        <p><strong>MM-IM / MM-PO</strong> — material master + supplier/P2P readiness.</p>
+        <p><strong>SD</strong> — customer BP, pricing, order-to-cash literacy.</p>
+        <p><strong>PP / PM / HR</strong> — plant, technical object, and org master adjacency.</p>
       </div>
-
-      <details class="gloss">
-        <summary>Plain-English gloss (LTMC, BeX, CO-PA, PIR, FL, AUC)</summary>
-        <dl>
-          <div><dt>LTMC</dt><dd>Legacy Transfer Migration Cockpit — S/4 tool/pattern for loading staged master-data templates.</dd></div>
-          <div><dt>BeX</dt><dd>Business Explorer — classic BW workbook / query UI used for management reporting packs.</dd></div>
-          <div><dt>CO-PA</dt><dd>Profitability Analysis — margin and contribution views by product, customer, or market.</dd></div>
-          <div><dt>PIR</dt><dd>Planned Independent Requirement — demand signal that drives MRP for production planning.</dd></div>
-          <div><dt>FL</dt><dd>Functional Location — hierarchical place in the plant where equipment is maintained (PM).</dd></div>
-          <div><dt>AUC</dt><dd>Asset Under Construction — capital project asset that settles into a fixed asset at completion (FI-AA).</dd></div>
-        </dl>
-      </details>
-    </section>
-  </main>
+    </details>
+  </section>
 
   <footer class="footer">
-    Afolabi A. · SAP MDM Migration Lab · Synthetic manufacturing MDM demo only ·
-    <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/sap-migration">View source on GitHub</a>
+    Afolabi Adesina · SAP MDM Migration Lab · Synthetic demo data only ·
+    <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/sap-migration" target="_blank" rel="noopener">View source on GitHub</a>
   </footer>
 
   <script>
-  (function () {
-    const DEMO_DQ = [
-      { object: "Material", legacy_count: "80", ready_count: "54", pass_rate: "0.675" },
-      { object: "Customer BP", legacy_count: "60", ready_count: "54", pass_rate: "0.9" },
-      { object: "Vendor BP", legacy_count: "40", ready_count: "24", pass_rate: "0.6" },
-      { object: "Ship-To", legacy_count: "40", ready_count: "23", pass_rate: "0.575" }
-    ];
-    const DEMO_MAP = [
-      { source_kunnr: "70000001", target_bp: "BP70000001", name1: "NA Customer 001 Ltd", country: "US", region: "OH", migration_status: "NEEDS_REVIEW" },
-      { source_kunnr: "70000003", target_bp: "BP70000003", name1: "NA Customer 003 Ltd", country: "US", region: "IL", migration_status: "READY" },
-      { source_kunnr: "70000006", target_bp: "BP70000006", name1: "NA Customer 006 Ltd", country: "US", region: "ON", migration_status: "READY" },
-      { source_kunnr: "70000007", target_bp: "BP70000007", name1: "NA Customer 007 Ltd", country: "CA", region: "ON", migration_status: "NEEDS_REVIEW" },
-      { source_kunnr: "70000009", target_bp: "BP70000009", name1: "NA Customer 009 Ltd", country: "CA", region: "ON", migration_status: "READY" },
-      { source_kunnr: "70000011", target_bp: "BP70000011", name1: "NA Customer 011 Ltd", country: "US", region: "OH", migration_status: "READY" },
-      { source_kunnr: "70000013", target_bp: "BP70000013", name1: "NA Customer 013 Ltd", country: "CA", region: "IL", migration_status: "READY" },
-      { source_kunnr: "70000018", target_bp: "BP70000018", name1: "NA Customer 018 Ltd", country: "CA", region: "NY", migration_status: "READY" }
-    ];
-
-    async function loadCSV(path) {
-      const text = await fetch(path).then(r => {
-        if (!r.ok) throw new Error("Failed to load " + path);
-        return r.text();
-      });
-      const lines = text.trim().split(/\r?\n/);
-      const headers = lines[0].split(",");
-      return lines.slice(1).map(line => {
-        const cols = line.split(",");
-        const row = {};
-        headers.forEach((h, i) => { row[h] = cols[i]; });
-        return row;
-      });
-    }
-
-    function statusBadge(pass) {
-      if (pass >= 0.9) return { cls: "badge-ok", label: "GO" };
-      if (pass >= 0.75) return { cls: "badge-warn", label: "REVIEW" };
-      return { cls: "badge-bad", label: "BLOCK" };
-    }
-
-    function renderLab(dq, cust) {
+  async function loadCSV(path) {
+    const text = await fetch(path).then(r => {
+      if (!r.ok) throw new Error("Failed to load " + path);
+      return r.text();
+    });
+    const lines = text.trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      const row = {};
+      headers.forEach((h, i) => row[h] = cols[i]);
+      return row;
+    });
+  }
+  (async function () {
+    const assetBase = "/NA-Skills-Portfolio/assets/data/";
+    const chartFont = { color: "#5A6F86", family: "Segoe UI, Arial, sans-serif" };
+    const grid = "#D4E2EF";
+    try {
+      const dq = await loadCSV(assetBase + "dq_summary.csv");
+      const cust = await loadCSV(assetBase + "map_customers.csv");
       const avgPass = dq.reduce((s, r) => s + (+r.pass_rate), 0) / dq.length;
       const ready = dq.reduce((s, r) => s + (+r.ready_count), 0);
       const legacy = dq.reduce((s, r) => s + (+r.legacy_count), 0);
-
       document.getElementById("kpis").innerHTML = `
         <div class="kpi"><div class="label">Legacy records</div><div class="value">${legacy}</div></div>
         <div class="kpi"><div class="label">Migration-ready</div><div class="value">${ready}</div><div class="delta up">after DQ</div></div>
-        <div class="kpi"><div class="label">Avg pass rate</div><div class="value">${(avgPass * 100).toFixed(0)}%</div></div>
+        <div class="kpi"><div class="label">Avg pass rate</div><div class="value">${(avgPass*100).toFixed(0)}%</div></div>
         <div class="kpi"><div class="label">Objects in scope</div><div class="value">${dq.length}</div></div>`;
-
+      Plotly.newPlot("chart-dq", [
+        { type: "bar", name: "Legacy", x: dq.map(r => r.object), y: dq.map(r => +r.legacy_count), marker: { color: "#94A3B8" } },
+        { type: "bar", name: "Ready", x: dq.map(r => r.object), y: dq.map(r => +r.ready_count), marker: { color: "#008FD3" } }
+      ], {
+        barmode: "group",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
+        font: chartFont,
+        margin: { t: 20, r: 10, b: 60, l: 40 },
+        legend: { orientation: "h" },
+        yaxis: { gridcolor: grid }
+      }, {responsive: true, displayModeBar: false});
+      Plotly.newPlot("chart-pass", [{
+        type: "bar", orientation: "h",
+        y: dq.map(r => r.object),
+        x: dq.map(r => +r.pass_rate),
+        marker: { color: "#0070F2" },
+        text: dq.map(r => ((+r.pass_rate)*100).toFixed(0)+"%"),
+        textposition: "auto"
+      }], {
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
+        font: chartFont,
+        margin: { t: 20, r: 20, b: 40, l: 100 },
+        xaxis: { range: [0, 1], tickformat: ".0%", gridcolor: grid }
+      }, {responsive: true, displayModeBar: false});
       document.querySelector("#dq-table tbody").innerHTML = dq.map(r => {
-        const p = +r.pass_rate;
-        const badge = statusBadge(p);
-        return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${(p * 100).toFixed(1)}%</td><td><span class="badge ${badge.cls}">${badge.label}</span></td></tr>`;
+        const pass = ((+r.pass_rate)*100).toFixed(0) + "%";
+        const status = (+r.pass_rate) >= 0.9 ? "READY" : "NEEDS_REVIEW";
+        const badge = status === "READY" ? "badge-ok" : "badge-warn";
+        return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${pass}</td><td><span class="badge ${badge}">${status}</span></td></tr>`;
       }).join("");
-
       document.querySelector("#map-table tbody").innerHTML = cust.slice(0, 10).map(r =>
-        `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td><span class="badge ${r.migration_status === "READY" ? "badge-ok" : "badge-warn"}">${r.migration_status}</span></td></tr>`
+        `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td><span class="badge ${r.migration_status==="READY"?"badge-ok":"badge-warn"}">${r.migration_status}</span></td></tr>`
       ).join("");
-
-      document.getElementById("readiness-bars").innerHTML = dq.map(r => {
-        const p = +r.pass_rate;
-        const pct = Math.round(p * 100);
-        const tone = p >= 0.9 ? "ok" : p >= 0.75 ? "warn" : "bad";
-        return `<div class="rbar"><span class="rbar-label">${r.object}</span><div class="rbar-track"><div class="rbar-fill ${tone}" style="width:${pct}%"></div></div><span class="rbar-pct">${pct}%</span></div>`;
-      }).join("");
+    } catch (err) {
+      console.error(err);
+      document.getElementById("kpis").innerHTML = `<div class="kpi"><div class="label">Demo data</div><div class="value">Unavailable</div></div>`;
     }
-
-    const noteEl = document.getElementById("flow-note");
-    document.querySelectorAll(".flow-node").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const open = btn.getAttribute("aria-expanded") === "true";
-        document.querySelectorAll(".flow-node").forEach(b => b.setAttribute("aria-expanded", "false"));
-        if (open) {
-          noteEl.hidden = true;
-          noteEl.textContent = "";
-          return;
-        }
-        btn.setAttribute("aria-expanded", "true");
-        noteEl.hidden = false;
-        noteEl.textContent = btn.getAttribute("data-note");
-      });
-    });
-
-    (async function () {
-      const assetBase = "/NA-Skills-Portfolio/assets/data/";
-      try {
-        const [dq, cust] = await Promise.all([
-          loadCSV(assetBase + "dq_summary.csv"),
-          loadCSV(assetBase + "map_customers.csv")
-        ]);
-        renderLab(dq.length ? dq : DEMO_DQ, cust.length ? cust : DEMO_MAP);
-      } catch (err) {
-        renderLab(DEMO_DQ, DEMO_MAP);
-        const hint = document.createElement("p");
-        hint.className = "data-fallback-note";
-        hint.textContent = "Showing embedded synthetic demo rows (CSV unavailable in this preview).";
-        document.getElementById("dq-scorecard").querySelector(".sub").after(hint);
-      }
-    })();
   })();
   </script>
 </body>
