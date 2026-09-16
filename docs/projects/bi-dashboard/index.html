@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>North America Ops Control Tower | BI Dashboard</title>
-  <meta name="description" content="North America Ops Control Tower: OTIF, freight, inventory, regional performance, and OTIF exceptions — Tableau-ready extracts with synthetic Canada–US demo data." />
+  <meta name="description" content="North America Ops Control Tower: OTIF, freight, inventory, regional performance, and OTIF exceptions · Tableau-ready extracts with synthetic Canada-US demo data." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260827f" />
   <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260827f" />
@@ -46,7 +46,7 @@
       <div class="eyebrow">Ops BI · Great Lakes corridor · Synthetic demo</div>
       <h1>North America Ops Control Tower</h1>
       <p class="lead">
-        Where is service failing? OTIF vs 95% target, freight cost, and exception tickets across GTA and Buffalo–Detroit plants.
+        Where is service failing? OTIF vs 95% target, freight cost, and exception tickets across GTA and Buffalo-Detroit plants.
       </p>
       <div class="bi-pill-row">
         <span class="bi-pill accent">OTIF</span>
@@ -77,7 +77,7 @@
 
   <section class="section" id="executive">
     <h2>Executive KPIs</h2>
-    <p class="sub">Latest month network pulse — MoM deltas on OTIF and freight.</p>
+    <p class="sub">Latest month network pulse, with MoM deltas on OTIF and freight.</p>
     <div class="kpi-grid" id="kpis"></div>
   </section>
 
@@ -98,14 +98,14 @@
     </div>
     <div class="panel" style="margin-top:1rem">
       <h3 class="chart-title">Inventory turns vs fill rate</h3>
-      <p class="chart-note">Color encodes OTIF — look for high-fill / low-turn or low-OTIF outliers</p>
+      <p class="chart-note">Color encodes OTIF; look for high-fill and low-turn or low-OTIF outliers</p>
       <div id="chart-inv" class="chart"></div>
     </div>
   </section>
 
   <section class="section" id="regional">
     <h2>Geographic &amp; regional view</h2>
-    <p class="sub">Ontario GTA / Golden Horseshoe vs New York Niagara and Michigan Auto Belt.</p>
+    <p class="sub">Ontario GTA · Golden Horseshoe vs New York Niagara and Michigan Auto Belt.</p>
     <div class="view-grid">
       <div class="panel">
         <h3 class="chart-title">Regional OTIF</h3>
@@ -139,7 +139,7 @@
 
   <section class="section section-band" id="exceptions">
     <h2>OTIF exceptions queue</h2>
-    <p class="sub">Root-cause Pareto plus highest-severity tickets — the action layer of the control tower.</p>
+    <p class="sub">Root-cause Pareto plus highest-severity tickets, the action layer of the control tower.</p>
     <div class="view-grid">
       <div class="panel">
         <h3 class="chart-title">Orders impacted by root cause</h3>
@@ -170,14 +170,14 @@
 
   <section class="section" id="more">
     <h2>Tableau &amp; extracts <span class="muted">(optional)</span></h2>
-    <p class="sub">Collapsed by default — open if you want skills notes, CSV list, or the coursework viz.</p>
+    <p class="sub">Collapsed by default; open if you want skills notes, CSV list, or the coursework viz.</p>
 
     <details class="bi-acc">
       <summary>Tableau skills (3 bullets)</summary>
       <ul class="bi-acc-list">
-        <li><strong>Dashboard craft</strong> — KPI band → trend → geography → exception table; one question per view.</li>
-        <li><strong>Calculations &amp; LODs</strong> — OTIF %, MoM variance, FIXED plant/region gaps, severity flags for color.</li>
-        <li><strong>Clean extracts</strong> — star-style CSVs (<code>dim_plants</code> + facts) ready for Tableau relationships.</li>
+        <li><strong>Dashboard craft</strong>: KPI band → trend → geography → exception table; one question per view.</li>
+        <li><strong>Calculations &amp; LODs</strong>: OTIF %, MoM variance, FIXED plant/region gaps, severity flags for color.</li>
+        <li><strong>Clean extracts</strong>: star-style CSVs (<code>dim_plants</code> + facts) ready for Tableau relationships.</li>
       </ul>
     </details>
 
@@ -192,7 +192,7 @@
         <li><code>ops_control_tower.csv</code> <span>Plant-month OTIF, freight, turns, fill, sales, lat/lon</span></li>
         <li><code>sales_by_category.csv</code> <span>Category / product-line revenue &amp; units</span></li>
         <li><code>otif_exceptions.csv</code> <span>Exception tickets, root cause, severity</span></li>
-        <li><code>regional_performance.csv</code> <span>Country–region rollups</span></li>
+        <li><code>regional_performance.csv</code> <span>Country-region rollups</span></li>
         <li><code>dim_plants.csv</code> <span>Plant dimension (market, country, geo)</span></li>
         <li><code>optimal_shipments.csv</code> <span>Network optimizer lanes for map overlays</span></li>
       </ul>
@@ -200,7 +200,7 @@
 
     <div class="tableau-embed-card" id="tableau-embed">
       <p class="coursework-badge">Coursework · separate from the NA ops demo above</p>
-      <h3 class="tableau-embed-heading">Tableau Public — Airbnb Athens Dashboard</h3>
+      <h3 class="tableau-embed-heading">Tableau Public · Airbnb Athens Dashboard</h3>
       <p class="tableau-embed-note">
         Google Business Intelligence coursework viz (listings, pricing, neighborhoods).
         The Plotly control tower above is the North America ops story with synthetic demo data.
@@ -214,14 +214,14 @@
       </div>
       <p class="tableau-embed-link">
         <a href="https://public.tableau.com/app/profile/afolabi.adesina/viz/GoogleBITask-AirbnbAthensDashboard/AirbnbAthensDashboard" target="_blank" rel="noopener noreferrer">View on Tableau Public</a>
-        ·
+ · 
         <a href="https://public.tableau.com/app/profile/afolabi.adesina/vizzes" target="_blank" rel="noopener noreferrer">All vizzes on profile</a>
       </p>
     </div>
   </section>
 
   <footer class="footer">
-    Afolabi Adesina · Oakville, ON · Synthetic NA ops metrics for portfolio demonstration ·
+    Afolabi Adesina · Oakville, ON · Synthetic NA ops metrics for portfolio demonstration · 
     <a href="/NA-Skills-Portfolio/">Back to hub</a>
   </footer>
   <script src="/NA-Skills-Portfolio/projects/bi-dashboard/bi.js?v=20260916skim"></script>

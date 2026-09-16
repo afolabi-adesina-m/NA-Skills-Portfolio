@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SAP MDM Migration Lab | Afolabi Adesina</title>
-  <meta name="description" content="SAP MDM Migration Lab: ECC-to-S/4 style cutover swimlane, module flowchart, DQ scorecard, and Business Partner mapping — synthetic North America demo data." />
+  <meta name="description" content="SAP MDM Migration Lab: ECC-to-S/4 style cutover swimlane, module flowchart, DQ scorecard, and Business Partner mapping · synthetic North America demo data." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260827f" />
   <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260827f" />
@@ -57,7 +57,7 @@
 
   <section class="section" id="swimlane">
     <h2>How MDM cutover actually runs</h2>
-    <p class="sub">My seat is the <strong>MDM / BA</strong> lane — stewarding quality and mapping while functional and tech lanes move the load.</p>
+    <p class="sub">My seat is the <strong>MDM · BA</strong> lane: stewarding quality and mapping while functional and tech lanes move the load.</p>
 
     <div class="diagram-wrap" role="img" aria-label="Swimlane diagram of MDM cutover from Extract to Go-live across five roles">
       <svg class="swimlane-svg" viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg">
@@ -160,18 +160,18 @@
         <text x="490" y="400" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#5A6F86">Highlighted lane = MDM / BA ownership across the cutover</text>
       </svg>
     </div>
-    <p class="diagram-caption">Read left to right. Blue row is where I sit as MDM SPOC / migration BA.</p>
+    <p class="diagram-caption">Read left to right. Blue row is where I sit as MDM SPOC · migration BA.</p>
   </section>
 
   <section class="section" id="module-flow">
     <h2>How modules connect (one picture)</h2>
-    <p class="sub">Not nine articles — one flow from masters to processes to control to KPIs.</p>
+    <p class="sub">Not nine articles: one flow from masters to processes to control to KPIs.</p>
 
     <div class="flow-row" role="list">
       <article class="flow-node" role="listitem">
         <span class="flow-kicker">1 · Master data</span>
         <h3>MM · SD · BP</h3>
-        <p>Material, customer/vendor BP, ship-to — clean before any load.</p>
+        <p>Material, customer/vendor BP, ship-to. Clean before any load.</p>
       </article>
       <div class="flow-arrow" aria-hidden="true">→</div>
       <article class="flow-node" role="listitem">
@@ -198,7 +198,7 @@
     <h2>MDM Migration Lab</h2>
     <p class="sub">
       Synthetic ECC → S/4 style cutover for material, customer BP, vendor BP, and ship-to.
-      DQ rules, mapping templates, and readiness scorecards — no confidential client data.
+      DQ rules, mapping templates, and readiness scorecards. No confidential client data.
     </p>
 
     <div class="kpi-grid" id="kpis"></div>
@@ -223,29 +223,29 @@
       <div class="steps">
         <div class="step"><div class="step-num">1</div><div>Extract legacy masters (MM material, SD customer/ship-to, MM-PO vendor, FI financial views).</div></div>
         <div class="step"><div class="step-num">2</div><div>Apply DQ rules: UOM, plant extension, orphan ship-to, tax, bank keys, duplicates, sales-area completeness.</div></div>
-        <div class="step"><div class="step-num">3</div><div>Map to S/4 BP / material numbers with partner roles, purchasing org, and plant views aligned to CO/FI.</div></div>
-        <div class="step"><div class="step-num">4</div><div>Stage READY / NEEDS_REVIEW loads (LTMC-style), track pass rates, reconcile with BW-style KPI packs.</div></div>
+        <div class="step"><div class="step-num">3</div><div>Map to S/4 BP and material numbers with partner roles, purchasing org, and plant views aligned to CO and FI.</div></div>
+        <div class="step"><div class="step-num">4</div><div>Stage READY and NEEDS_REVIEW loads (LTMC-style), track pass rates, reconcile with BW-style KPI packs.</div></div>
       </div>
     </div>
   </section>
 
   <section class="section" id="modules">
     <h2>Module detail <span class="muted">(optional)</span></h2>
-    <p class="sub">Collapsed by default — open only if you want the deeper module notes.</p>
+    <p class="sub">Collapsed by default; open only if you want the deeper module notes.</p>
     <details class="module-acc">
       <summary>BW · CO · FI · HR · MM-IM · MM-PO · PM · PP · SD</summary>
       <div class="module-acc-body">
-        <p><strong>BW</strong> — reporting packs and post-load KPI reconciliation.</p>
-        <p><strong>CO / FI</strong> — cost objects, BP financial views, month-end awareness.</p>
-        <p><strong>MM-IM / MM-PO</strong> — material master + supplier/P2P readiness.</p>
-        <p><strong>SD</strong> — customer BP, pricing, order-to-cash literacy.</p>
-        <p><strong>PP / PM / HR</strong> — plant, technical object, and org master adjacency.</p>
+        <p><strong>BW</strong>: reporting packs and post-load KPI reconciliation.</p>
+        <p><strong>CO · FI</strong>: cost objects, BP financial views, month-end awareness.</p>
+        <p><strong>MM-IM · MM-PO</strong>: material master and supplier/P2P readiness.</p>
+        <p><strong>SD</strong>: customer BP, pricing, order-to-cash literacy.</p>
+        <p><strong>PP · PM · HR</strong>: plant, technical object, and org master adjacency.</p>
       </div>
     </details>
   </section>
 
   <footer class="footer">
-    Afolabi Adesina · SAP MDM Migration Lab · Synthetic demo data only ·
+    Afolabi Adesina · SAP MDM Migration Lab · Synthetic demo data only · 
     <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/sap-migration" target="_blank" rel="noopener">View source on GitHub</a>
   </footer>
 

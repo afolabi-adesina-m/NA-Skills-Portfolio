@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Python Skills Showcase | Afolabi A.</title>
-  <meta name="description" content="Applied Python analytics — eight skill modules with holdout metrics, outcome charts, and skim-first snippets. ML pipelines, viz, data science, big data, responsible AI, social mining, deep learning, NLP." />
+  <meta name="description" content="Applied Python analytics · eight skill modules with holdout metrics, outcome charts, and expandable snippets. ML pipelines, viz, data science, big data, responsible AI, social mining, deep learning, and NLP." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916p" />
   <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916p" />
@@ -73,7 +73,7 @@
           <p class="py-brand">Python Skills Showcase</p>
         </div>
       </div>
-      <h1>Eight modules — metrics and charts first, notebooks on demand.</h1>
+      <h1>Eight modules: metrics and charts first, notebooks on demand.</h1>
       <p class="lead">
         Holdout-validated demos across ML pipelines, viz, data science, big data, responsible AI, social mining, deep learning, and NLP.
       </p>
@@ -92,12 +92,12 @@
       <div class="section-head">
         <p class="section-kicker">Selected results</p>
         <h2>Outcome charts</h2>
-        <p class="sub">Two representative patterns from the catalog — synthetic data for portfolio storytelling.</p>
+        <p class="sub">Two representative patterns from the catalog. Synthetic data for portfolio storytelling.</p>
       </div>
       <div class="charts-grid">
         <div class="chart-card">
           <h3>Pipeline CV F1 by fold</h3>
-          <p>Five-fold F1 for a mixed-type logistic pipeline · mean ≈ 0.81</p>
+          <p>Five-fold F1 for a mixed-type logistic pipeline; mean ≈ 0.81</p>
           <div class="chart-box" id="chart-cv" style="min-height:260px"></div>
         </div>
         <div class="chart-card">
@@ -143,7 +143,7 @@
 
             <tr class="problem-row" data-id="c01" data-topic="ml" tabindex="0" role="button" aria-expanded="false">
               <td class="col-skill">ML pipelines</td>
-              <td class="col-result">Reusable sklearn Pipeline — no leakage in CV</td>
+              <td class="col-result">Reusable sklearn Pipeline; no leakage in CV</td>
               <td class="col-metric">CV F1 ~0.81 ±0.03</td>
               <td class="col-action"><span class="expand-hint">Details</span></td>
             </tr>
@@ -157,12 +157,12 @@
                       <span class="tech-tag">ColumnTransformer</span><span class="tech-tag">cross_val_score</span>
                     </div>
                     <ul class="use-cases">
-                      <li>Energy / facility load risk scoring with mixed numeric and zone features.</li>
-                      <li>Reusable train–serve pipelines that keep preprocessing identical in production.</li>
+                      <li>Energy and facility load risk scoring with mixed numeric and zone features.</li>
+                      <li>Reusable train-serve pipelines that keep preprocessing identical in production.</li>
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Bundle scaling and encoding inside a Pipeline so leakage stays out of validation — model choice is secondary to a clean, repeatable transform path.</p>
+                      <p>Bundle scaling and encoding inside a Pipeline so leakage stays out of validation. Model choice is secondary to a clean, repeatable transform path.</p>
                     </div>
                   </div>
                   <details class="snippet-details">
@@ -191,7 +191,7 @@ scores = <span class="fn">cross_val_score</span>(clf, X, y, cv=<span class="fn">
 
             <tr class="problem-row" data-id="c02" data-topic="viz" tabindex="0" role="button" aria-expanded="false">
               <td class="col-skill">Visualization</td>
-              <td class="col-result">Clear peak / outlier story for ops audiences</td>
+              <td class="col-result">Clear peak and outlier story for ops audiences</td>
               <td class="col-metric">Static + interactive</td>
               <td class="col-action"><span class="expand-hint">Details</span></td>
             </tr>
@@ -210,7 +210,7 @@ scores = <span class="fn">cross_val_score</span>(clf, X, y, cv=<span class="fn">
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Use seaborn for publication-clean static cuts; reserve Plotly when the audience needs hover, filter, and shared exploration — not every chart needs interactivity.</p>
+                      <p>Use seaborn for publication-clean static cuts; reserve Plotly when the audience needs hover, filter, and shared exploration. Not every chart needs interactivity.</p>
                     </div>
                   </div>
                   <details class="snippet-details">
@@ -338,12 +338,12 @@ gold.<span class="fn">to_parquet</span>(<span class="st">"gold_plant_day.parquet
                       <span class="tech-tag">model card</span><span class="tech-tag">privacy</span><span class="tech-tag">governance</span>
                     </div>
                     <ul class="use-cases">
-                      <li>Screening-model audit before production — flag region/gender selection gaps.</li>
+                      <li>Screening-model audit before production; flag region and gender selection gaps.</li>
                       <li>Policy + technical documentation for AI systems that affect people.</li>
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Metrics alone are not ethics — pair gap reports with owners, thresholds, and a written mitigation path before go-live.</p>
+                      <p>Metrics alone are not ethics. Pair gap reports with owners, thresholds, and a written mitigation path before go-live.</p>
                     </div>
                   </div>
                   <details class="snippet-details">
@@ -387,7 +387,7 @@ gap = <span class="fn">max</span>(rates.<span class="fn">values</span>()) - <spa
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Lexicon polarity is a fast triage layer; topic models explain <em>why</em> sentiment moved — always validate with sampling before executive briefings.</p>
+                      <p>Lexicon polarity is a fast triage layer; topic models explain <em>why</em> sentiment moved. Always validate with sampling before executive briefings.</p>
                     </div>
                     <div class="chart-box" id="chart-sentiment" aria-label="Sentiment distribution chart"></div>
                   </div>
@@ -436,7 +436,7 @@ terms = vec.<span class="fn">get_feature_names_out</span>()
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Start with the smallest network that fits the interaction pattern; depth without regularization is a liability — measure holdout loss, not just training loss.</p>
+                      <p>Start with the smallest network that fits the interaction pattern; depth without regularization is a liability. Measure holdout loss, not just training loss.</p>
                     </div>
                   </div>
                   <details class="snippet-details">
@@ -470,7 +470,7 @@ loss_fn = nn.<span class="fn">BCEWithLogitsLoss</span>()
 
             <tr class="problem-row" data-id="c08" data-topic="nlp" tabindex="0" role="button" aria-expanded="false">
               <td class="col-skill">NLP</td>
-              <td class="col-result">Intent / entity cues on short enterprise text</td>
+              <td class="col-result">Intent and entity cues on short enterprise text</td>
               <td class="col-metric">Macro F1 ~0.88</td>
               <td class="col-action"><span class="expand-hint">Details</span></td>
             </tr>
@@ -485,7 +485,7 @@ loss_fn = nn.<span class="fn">BCEWithLogitsLoss</span>()
                     </div>
                     <ul class="use-cases">
                       <li>Support-ticket intent routing before human escalation.</li>
-                      <li>Entity extraction (plants, POs, corridors) feeding ops dashboards — see also Smart-Shield for multimodal NLP in production-style demos.</li>
+                      <li>Entity extraction (plants, POs, corridors) feeding ops dashboards. See also Smart-Shield for multimodal NLP in production-style demos.</li>
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
@@ -525,7 +525,7 @@ pipe.<span class="fn">fit</span>(train_text, train_label)
       <p class="capstone-note">
         <strong>Live AI/ML capstone:</strong>
         See <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Smart-Shield AI</a>
-        for multimodal Python in production-style demos — NLP hazards, vision cues, and risk fusion.
+        for multimodal Python in production-style demos: NLP hazards, vision cues, and risk fusion.
       </p>
     </section>
   </main>

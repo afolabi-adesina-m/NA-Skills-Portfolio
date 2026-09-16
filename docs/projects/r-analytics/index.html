@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Statistical Computing in R | Afolabi A.</title>
-  <meta name="description" content="Applied R analytics — seven method families: regression, classification, trees, text, cluster, viz, and LP — with holdout validation and business takeaways." />
+  <meta name="description" content="Applied R analytics · seven method families: regression, classification, trees, text, cluster, viz, and LP · with holdout validation and business takeaways." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916r" />
   <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916r" />
@@ -71,7 +71,7 @@
         </div>
       </div>
       <p class="lead">
-        Seven method families — regression through linear programming — with holdout metrics and decision takeaways.
+        Seven method families, from regression through linear programming, with holdout metrics and decision takeaways.
       </p>
       <div class="pill-row" aria-label="Method families">
         <a class="pill accent" href="#fam-regression">Regression</a>
@@ -140,7 +140,7 @@ sst &lt;- <span class="fn">sum</span>((test$Price - <span class="fn">mean</span>
                     </div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Growing-season temperature and rainfall dominate price; population proxies add little once age is present &mdash; prefer a sparse, interpretable model for forecasting vintages.</p>
+                      <p>Growing-season temperature and rainfall dominate price; population proxies add little once age is present. Prefer a sparse, interpretable model for forecasting vintages.</p>
                     </div>
                   </div>
                 </div>
@@ -172,7 +172,7 @@ runs &lt;- <span class="fn">lm</span>(RS ~ OBP + SLG, data = bb)   <span class="
                     </div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Run differential tightly tracks wins; on-base and slugging explain offense better than batting average alone &mdash; a classic &ldquo;process metric&rdquo; lesson.</p>
+                      <p>Run differential tightly tracks wins; on-base and slugging explain offense better than batting average alone: a classic &ldquo;process metric&rdquo; lesson.</p>
                     </div>
                   </div>
                 </div>
@@ -244,11 +244,11 @@ perf &lt;- <span class="fn">performance</span>(<span class="fn">prediction</span
                     <div class="nb-label" aria-hidden="true">Out[]</div>
                     <div class="metric-grid">
                       <div class="metric"><b>~75%</b><span>Baseline (good care)</span></div>
-                      <div class="metric"><b>0.2&ndash;0.7</b><span>Threshold sweep</span></div>
+                      <div class="metric"><b>0.2-0.7</b><span>Threshold sweep</span></div>
                     </div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Lower thresholds catch more poor-care cases (higher sensitivity) at the cost of false alarms &mdash; pick the operating point from business cost, not 0.5 by default.</p>
+                      <p>Lower thresholds catch more poor-care cases (higher sensitivity) at the cost of false alarms. Pick the operating point from business cost, not 0.5 by default.</p>
                     </div>
                   </div>
                 </div>
@@ -310,7 +310,7 @@ pred &lt;- <span class="fn">predict</span>(mod, newdata = Test, type = <span cla
                     <div class="nb-label" aria-hidden="true">Out[]</div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Imputation unlocks incomplete poll panels; a two-variable logistic model can beat a sign-based poll baseline while staying inspectable.</p>
+                      <p>Imputation fills gaps in incomplete poll panels; a two-variable logistic model can beat a sign-based poll baseline while staying inspectable.</p>
                     </div>
                   </div>
                 </div>
@@ -390,7 +390,7 @@ pred &lt;- <span class="fn">predict</span>(tree, test, type = <span class="st">"
                     <div class="nb-label" aria-hidden="true">Out[]</div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Accuracy can rise while penalty falls if the loss matrix pushes the tree away from under-predicting high-cost patients &mdash; align the objective with dollars.</p>
+                      <p>Accuracy can rise while penalty falls if the loss matrix pushes the tree away from under-predicting high-cost patients. Align the objective with dollars.</p>
                     </div>
                   </div>
                 </div>
@@ -498,7 +498,7 @@ g &lt;- <span class="fn">cutree</span>(hc, k = 10)
                     <div class="nb-label" aria-hidden="true">Out[]</div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Clusters recover &ldquo;action-thriller,&rdquo; &ldquo;romance-comedy,&rdquo; etc. without labels &mdash; a lightweight recommender seed before collaborative filtering.</p>
+                      <p>Clusters recover &ldquo;action-thriller,&rdquo; &ldquo;romance-comedy,&rdquo; etc. without labels: a lightweight recommender seed before collaborative filtering.</p>
                     </div>
                     <div class="chart-box" id="chart-clusters" aria-label="Cluster genre profile chart"></div>
                   </div>
@@ -617,7 +617,7 @@ lp &lt;- <span class="fn">make.lp</span>(3, 2)   <span class="cm"># capacity + 2
                     </div>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
-                      <p>Protecting high-fare seats under capacity is an optimization problem, not a heuristic &mdash; dual values reveal the shadow price of each seat.</p>
+                      <p>Protecting high-fare seats under capacity is an optimization problem, not a heuristic. Dual values reveal the shadow price of each seat.</p>
                     </div>
                     <div class="chart-box" id="chart-airline" aria-label="Airline allocation chart"></div>
                   </div>
@@ -634,11 +634,11 @@ lp &lt;- <span class="fn">make.lp</span>(3, 2)   <span class="cm"># capacity + 2
       <div class="section-head">
         <p class="section-kicker">Selected results</p>
         <h2>Illustrative outcome charts</h2>
-        <p class="sub">Representative patterns from the catalog &mdash; synthetic data for portfolio storytelling.</p>
+        <p class="sub">Representative patterns from the catalog. Synthetic data for portfolio storytelling.</p>
       </div>
       <div class="charts-grid">
         <div class="chart-card">
-          <h3>Wine model &mdash; fitted vs actual</h3>
+          <h3>Wine model · fitted vs actual</h3>
           <p>Holdout-style scatter for a sparse climate model.</p>
           <div class="chart-box" id="chart-wine" style="min-height:260px"></div>
         </div>
