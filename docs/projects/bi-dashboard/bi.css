@@ -358,6 +358,53 @@
   cursor: pointer;
 }
 
+/* —— Skim redesign —— */
+.hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.muted { font-weight: 500; color: #94A3B8; font-size: 0.9em; }
+
+/* Section jump links — stay inside the content column (was unstyled / left-edge overflow) */
+.bi-subnav {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 1.25rem 0.85rem;
+  box-sizing: border-box;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.bi-subnav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.15rem;
+  padding: 0.35rem;
+  border: 1px solid var(--bi-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 6px 18px rgba(16, 42, 67, 0.04);
+}
+.bi-subnav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.75rem;
+  border-radius: 8px;
+  color: var(--bi-muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  writing-mode: horizontal-tb;
+  transform: none;
+}
+.bi-subnav a:hover {
+  color: var(--bi-cyan-deep);
+  background: rgba(14, 165, 233, 0.1);
+  text-decoration: none;
+}
+.bi-subnav a:focus-visible {
+  outline: 2px solid var(--bi-cyan);
+  outline-offset: 2px;
+}
+
 @media (max-width: 900px) {
   .bi-hero { grid-template-columns: 1fr; }
   .view-grid { grid-template-columns: 1fr; }
@@ -372,10 +419,6 @@
   .theme-bi .nav { flex-wrap: wrap; }
 }
 
-
-/* —— Skim redesign —— */
-.hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
-.muted { font-weight: 500; color: #94A3B8; font-size: 0.9em; }
 .bi-acc {
   border: 1px solid var(--bi-line, #D4E2EF);
   border-radius: 12px;
