@@ -1,4 +1,4 @@
-/* Statistical Computing in R — expandable table, filters, charts */
+/* Statistical Computing in R — family accordion, charts */
 
 (function () {
   "use strict";
@@ -13,141 +13,16 @@
     });
   }
 
-  /* ---------- expand rows ---------- */
-  const expandAllBtn = document.getElementById("expand-all-btn");
-  const collapseAllBtn = document.getElementById("collapse-all-btn");
-
-  function setViewMode(mode) {
-    if (expandAllBtn) expandAllBtn.classList.toggle("is-active", mode === "expanded");
-    if (collapseAllBtn) collapseAllBtn.classList.toggle("is-active", mode === "collapsed");
-  }
-
-  function openRow(row) {
-    const id = row.dataset.id;
-    row.classList.add("is-open");
-    row.setAttribute("aria-expanded", "true");
-    const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
-    if (detail) detail.hidden = false;
-    requestAnimationFrame(() => maybeDrawInlineCharts(id));
-  }
-
-  function closeRow(row) {
-    const id = row.dataset.id;
-    row.classList.remove("is-open");
-    row.setAttribute("aria-expanded", "false");
-    const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
-    if (detail) detail.hidden = true;
-  }
-
-  function openCard(card) {
-    const id = card.dataset.id;
-    card.classList.add("is-open");
-    const head = card.querySelector(".m-card-head");
-    if (head) head.setAttribute("aria-expanded", "true");
-    requestAnimationFrame(() => maybeDrawInlineCharts(id));
-  }
-
-  function closeCard(card) {
-    card.classList.remove("is-open");
-    const head = card.querySelector(".m-card-head");
-    if (head) head.setAttribute("aria-expanded", "false");
-  }
-
-  function expandAll() {
-    document.querySelectorAll(".problem-row:not([hidden])").forEach(openRow);
-    document.querySelectorAll(".m-card:not([hidden])").forEach(openCard);
-    setViewMode("expanded");
-  }
-
-  function collapseAll() {
-    document.querySelectorAll(".problem-row").forEach(closeRow);
-    document.querySelectorAll(".m-card").forEach(closeCard);
-    setViewMode("collapsed");
-  }
-
-  function toggleRow(row) {
-    const opening = !row.classList.contains("is-open");
-    if (opening) openRow(row);
-    else closeRow(row);
-    const anyOpen = document.querySelector(".problem-row.is-open, .m-card.is-open");
-    setViewMode(anyOpen ? "expanded" : "collapsed");
-  }
-
-  document.querySelectorAll(".problem-row").forEach((row) => {
-    row.addEventListener("click", () => toggleRow(row));
-    row.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleRow(row);
-      }
+  /* ---------- inline charts when a problem opens ---------- */
+  document.querySelectorAll("details.problem").forEach((el) => {
+    el.addEventListener("toggle", () => {
+      if (!el.open) return;
+      const id = el.dataset.id;
+      requestAnimationFrame(() => maybeDrawInlineCharts(id));
     });
   });
 
-  if (expandAllBtn) expandAllBtn.addEventListener("click", expandAll);
-  if (collapseAllBtn) collapseAllBtn.addEventListener("click", collapseAll);
-
-  /* ---------- filters ---------- */
-  const filterBtns = document.querySelectorAll(".filter-btn[data-filter]");
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const f = btn.dataset.filter;
-      document.querySelectorAll(".problem-row").forEach((row) => {
-        const show = f === "all" || row.dataset.topic === f;
-        row.hidden = !show;
-        const detail = document.querySelector(`.detail-row[data-for="${row.dataset.id}"]`);
-        if (!show) {
-          row.classList.remove("is-open");
-          row.setAttribute("aria-expanded", "false");
-          if (detail) detail.hidden = true;
-        }
-      });
-      document.querySelectorAll(".m-card").forEach((card) => {
-        const show = f === "all" || card.dataset.topic === f;
-        card.hidden = !show;
-        if (!show) card.classList.remove("is-open");
-      });
-    });
-  });
-
-  /* ---------- mobile cards from table ---------- */
-  const mobile = document.getElementById("mobile-cards");
-  if (mobile) {
-    document.querySelectorAll(".problem-row").forEach((row) => {
-      const id = row.dataset.id;
-      const topic = row.querySelector(".col-topic")?.textContent?.trim() || "";
-      const problem = row.querySelector(".col-problem")?.childNodes[0]?.textContent?.trim() || "";
-      const approach = row.querySelector(".col-approach")?.textContent?.trim() || "";
-      const result = row.querySelector(".col-result")?.textContent?.trim() || "";
-      const detail = document.querySelector(`.detail-row[data-for="${id}"]`);
-      const panelHtml = detail ? detail.querySelector(".detail-panel")?.innerHTML || "" : "";
-
-      const card = document.createElement("article");
-      card.className = "m-card";
-      card.dataset.id = id;
-      card.dataset.topic = row.dataset.topic;
-      card.innerHTML = `
-        <div class="m-card-head" tabindex="0" role="button" aria-expanded="false">
-          <div>
-            <p class="m-topic">${topic}</p>
-            <h3>${problem}</h3>
-            <p style="margin:0;font-size:0.86rem;color:var(--muted)">${approach}</p>
-            <p class="m-result">${result}</p>
-          </div>
-        </div>
-        <div class="m-card-body"><div class="detail-panel">${panelHtml}</div></div>`;
-      card.querySelector(".m-card-head").addEventListener("click", () => {
-        const opening = !card.classList.contains("is-open");
-        if (opening) openCard(card);
-        else closeCard(card);
-        const anyOpen = document.querySelector(".problem-row.is-open, .m-card.is-open");
-        setViewMode(anyOpen ? "expanded" : "collapsed");
-      });
-      mobile.appendChild(card);
-    });
-    expandAll();
-  }
+  /* Draw featured wine metrics panel is static; section charts below */
 
   /* ---------- Plotly charts ---------- */
   const plotLayout = {
@@ -157,6 +32,9 @@
     margin: { t: 24, r: 16, b: 40, l: 44 },
     legend: { orientation: "h", y: 1.12 },
   };
+
+  const accent = "#3a5a6e";
+  const navy = "#1a2b3c";
 
   function drawWine() {
     const el = document.getElementById("chart-wine");
@@ -170,7 +48,7 @@
           x: actual,
           y: fitted,
           mode: "markers",
-          marker: { size: 9, color: "#276DC3" },
+          marker: { size: 9, color: accent },
           name: "Holdout points",
         },
         {
@@ -203,7 +81,7 @@
           x: fpr,
           y: tpr,
           mode: "lines+markers",
-          line: { color: "#276DC3", width: 2.5 },
+          line: { color: accent, width: 2.5 },
           marker: { size: 7 },
           name: "Model ROC",
         },
@@ -236,14 +114,14 @@
           name: "Action share",
           x: ["C1", "C2", "C3", "C4", "C5"],
           y: [0.82, 0.15, 0.4, 0.08, 0.55],
-          marker: { color: "#276DC3" },
+          marker: { color: accent },
         },
         {
           type: "bar",
           name: "Romance share",
           x: ["C1", "C2", "C3", "C4", "C5"],
           y: [0.1, 0.78, 0.35, 0.7, 0.2],
-          marker: { color: "#165CAA" },
+          marker: { color: navy },
         },
       ],
       {
@@ -268,7 +146,7 @@
           orientation: "h",
           y: ["Regular seats", "Discount seats"],
           x: [100, 66],
-          marker: { color: ["#276DC3", "#165CAA"] },
+          marker: { color: [accent, navy] },
           text: ["100 × $617", "66 × $238"],
           textposition: "auto",
           hoverinfo: "x+y",
