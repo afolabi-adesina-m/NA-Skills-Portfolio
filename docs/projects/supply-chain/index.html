@@ -380,6 +380,18 @@
     });
   });
 
+  /* Plotly charts inside closed <details> need a resize on open */
+  document.querySelectorAll(".sc-mod").forEach(d => {
+    d.addEventListener("toggle", () => {
+      if (!d.open || !window.Plotly) return;
+      requestAnimationFrame(() => {
+        d.querySelectorAll(".js-plotly-plot").forEach(el => {
+          try { Plotly.Plots.resize(el); } catch (_) { /* ignore */ }
+        });
+      });
+    });
+  });
+
   async function loadCSV(path) {
     const text = await fetch(path).then(r => {
       if (!r.ok) throw new Error("Failed to load " + path);
