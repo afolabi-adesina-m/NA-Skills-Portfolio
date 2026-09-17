@@ -1122,13 +1122,13 @@ body.hub a.btn-cta:hover,
 
 .contact-copy h2 {
   font-family: var(--display);
-  font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
   font-weight: 500;
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.3;
   margin: 0 0 0.85rem;
   color: var(--ink);
-  max-width: 22ch;
+  max-width: 28ch;
 }
 
 .contact-lead {
