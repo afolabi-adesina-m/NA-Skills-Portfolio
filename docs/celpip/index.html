@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1c2e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="CELPIP Email" />
+  <meta name="description" content="Personal CELPIP Writing Task 1 email coach · CLB 10 practice" />
+  <meta name="robots" content="noindex" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <title>CELPIP Email Coach</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- HOME -->
+    <section id="screen-home" class="screen active" aria-label="Home">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">✉</span>
+          <h1>CELPIP Email Coach</h1>
+        </div>
+        <div class="streak-pill" id="streak-display" title="Practice streak">
+          <span class="streak-fire" aria-hidden="true">🔥</span>
+          <span id="streak-count">0</span>
+          <span class="streak-label">day streak</span>
+        </div>
+      </header>
+
+      <main class="home-main">
+        <div class="home-stats" aria-label="Progress">
+          <div class="stat-card target">
+            <span class="stat-label">Target</span>
+            <span class="stat-value" id="stat-target">CLB 10</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Last score</span>
+            <span class="stat-value" id="stat-last">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Lessons</span>
+            <span class="stat-value" id="stat-lessons">0/3</span>
+          </div>
+        </div>
+
+        <div class="path-progress" aria-label="Path progress">
+          <div class="path-label-row">
+            <span>Path to CLB 10</span>
+            <span id="path-pct">0%</span>
+          </div>
+          <div class="path-bar"><div class="path-fill" id="path-fill"></div></div>
+        </div>
+
+        <p class="tagline">Write Task 1 emails in 5 clear bites · aim for CLB 10</p>
+
+        <div class="sandwich-preview" aria-hidden="true">
+          <div class="bite-chip">1 Who</div>
+          <div class="bite-chip">2 Why</div>
+          <div class="bite-chip">3 Hurt</div>
+          <div class="bite-chip">4 Ask</div>
+          <div class="bite-chip">5 Thanks</div>
+        </div>
+
+        <div class="lesson-list" role="list">
+          <button type="button" class="lesson-card unlocked" id="btn-start-l1" role="listitem">
+            <div class="lesson-num">1</div>
+            <div class="lesson-body">
+              <h2>Fill the Gaps</h2>
+              <p>Practice each bite of the email sandwich with instant feedback.</p>
+              <span class="lesson-meta" id="l1-meta">Not started</span>
+            </div>
+            <span class="lesson-cta" id="l1-cta">Start</span>
+          </button>
+
+          <button type="button" class="lesson-card unlocked" id="btn-start-l2" role="listitem">
+            <div class="lesson-num">2</div>
+            <div class="lesson-body">
+              <h2>Tone and Grammar</h2>
+              <p>Fix you/your · cut weak openers · rewrite threats politely.</p>
+              <span class="lesson-meta" id="l2-meta">Not started</span>
+            </div>
+            <span class="lesson-cta" id="l2-cta">Start</span>
+          </button>
+
+          <button type="button" class="lesson-card unlocked" id="btn-start-l3" role="listitem">
+            <div class="lesson-num">3</div>
+            <div class="lesson-body">
+              <h2>Full Timed Draft</h2>
+              <p>27-minute Task 1 · free write subject and body · get a band estimate.</p>
+              <span class="lesson-meta" id="l3-meta">Not started</span>
+            </div>
+            <span class="lesson-cta" id="l3-cta">Start</span>
+          </button>
+        </div>
+
+        <div class="rules-card">
+          <h3>Rules to remember</h3>
+          <ul>
+            <li>No threats</li>
+            <li>Skip "I hope this email meets you well"</li>
+            <li>Firm but polite</li>
+            <li>Always write a clear subject + body</li>
+          </ul>
+        </div>
+      </main>
+    </section>
+
+    <!-- LESSON 1 -->
+    <section id="screen-lesson" class="screen" aria-label="Lesson 1" hidden>
+      <header class="topbar lesson-top">
+        <button type="button" class="icon-btn" id="btn-back-home" aria-label="Back to home">←</button>
+        <div class="progress-wrap">
+          <div class="progress-label"><span id="bite-label">Bite 1 of 5</span></div>
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1" id="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="lesson-main">
+        <div class="scenario-card" id="scenario-card">
+          <p class="scenario-eyebrow">Scenario</p>
+          <p class="scenario-text" id="scenario-text"></p>
+        </div>
+
+        <div class="bite-card" id="bite-card">
+          <p class="bite-title" id="bite-title"></p>
+          <p class="bite-hint" id="bite-hint"></p>
+          <div class="gap-block" id="gap-block"></div>
+          <div class="feedback" id="feedback" hidden></div>
+          <button type="button" class="btn-primary" id="btn-check">Check</button>
+          <button type="button" class="btn-secondary" id="btn-next" hidden>Next bite →</button>
+        </div>
+      </main>
+    </section>
+
+    <!-- LESSON 2 -->
+    <section id="screen-lesson2" class="screen" aria-label="Lesson 2" hidden>
+      <header class="topbar lesson-top">
+        <button type="button" class="icon-btn" id="btn-l2-back" aria-label="Back to home">←</button>
+        <div class="progress-wrap">
+          <div class="progress-label"><span id="l2-label">Drill 1 of 8</span></div>
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1" id="l2-progress-bar">
+            <div class="progress-fill" id="l2-progress-fill"></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="lesson-main">
+        <div class="scenario-card">
+          <p class="scenario-eyebrow" id="l2-tag">Tone fixer</p>
+          <p class="scenario-text" id="l2-prompt"></p>
+        </div>
+        <div class="bite-card">
+          <p class="bite-title" id="l2-title"></p>
+          <p class="bite-hint" id="l2-hint"></p>
+          <div class="gap-block" id="l2-gap"></div>
+          <div class="feedback" id="l2-feedback" hidden></div>
+          <button type="button" class="btn-primary" id="btn-l2-check">Check</button>
+          <button type="button" class="btn-secondary" id="btn-l2-next" hidden>Next drill →</button>
+        </div>
+      </main>
+    </section>
+
+    <!-- LESSON 3 -->
+    <section id="screen-lesson3" class="screen" aria-label="Lesson 3" hidden>
+      <header class="topbar lesson-top">
+        <button type="button" class="icon-btn" id="btn-l3-back" aria-label="Back to home">←</button>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Timed Task 1</span>
+            <span class="timer" id="l3-timer" aria-live="polite">27:00</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="lesson-main">
+        <div class="scenario-card">
+          <p class="scenario-eyebrow">Prompt</p>
+          <p class="scenario-text" id="l3-prompt"></p>
+          <p class="scenario-tip" id="l3-sandwich-tip">Use the 5 bites: Who · Why · Hurt · Ask · Thanks</p>
+        </div>
+
+        <div class="write-card">
+          <label class="field-label" for="l3-subject">Subject</label>
+          <input type="text" id="l3-subject" class="write-input" maxlength="120" placeholder="Issue + who you are (flat / unit / order)" autocomplete="off" />
+
+          <label class="field-label" for="l3-body">Email body</label>
+          <textarea id="l3-body" class="write-area" rows="12" placeholder="Dear …&#10;&#10;Who I am&#10;Why I write&#10;How it hurts me&#10;What I want (+ polite timeline)&#10;&#10;Thank you&#10;Your name"></textarea>
+          <div class="write-meta">
+            <span id="l3-words">0 words</span>
+            <span id="l3-hint-count">Aim ~150-200 words</span>
+          </div>
+
+          <button type="button" class="btn-primary" id="btn-l3-submit">Submit for feedback</button>
+          <button type="button" class="btn-secondary" id="btn-l3-finish-early">I'm done · score now</button>
+        </div>
+      </main>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen" aria-label="Your email" hidden>
+      <header class="topbar lesson-top">
+        <button type="button" class="icon-btn" id="btn-result-home" aria-label="Back to home">←</button>
+        <h2 class="screen-title" id="result-title">Your email</h2>
+      </header>
+
+      <main class="result-main">
+        <div class="score-band" id="score-band">
+          <div class="score-num" id="score-num">-</div>
+          <div class="score-label" id="score-label">CLB estimate</div>
+        </div>
+
+        <div class="coach-notes">
+          <div class="note strength" id="note-strength"></div>
+          <div class="note fix" id="note-fix"></div>
+        </div>
+
+        <article class="email-preview" id="email-preview">
+          <div class="email-row"><span class="email-key">Subject:</span> <span id="email-subject"></span></div>
+          <div class="email-body" id="email-body"></div>
+        </article>
+
+        <div class="result-actions">
+          <button type="button" class="btn-primary" id="btn-again">Practice again</button>
+          <button type="button" class="btn-secondary" id="btn-done">Done for now</button>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
