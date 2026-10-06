@@ -127,52 +127,134 @@ def greedy_optimize(lanes: list[dict]) -> list[dict]:
     return shipments
 
 
+CA_REGIONS = ["ON", "QC", "BC", "AB"]
+US_REGIONS = ["NY", "MI", "OH", "IL"]
+CA_POSTAL = ["L6H 0C3", "M5V 2T6", "H3B 1A7", "T2P 1J9"]
+US_POSTAL = ["14202", "48226", "44114", "60611"]
+
+
+def _valid_region(country: str, index: int) -> str:
+    pool = CA_REGIONS if country == "CA" else US_REGIONS
+    return pool[index % len(pool)]
+
+
+def _valid_postal(country: str, index: int) -> str:
+    pool = CA_POSTAL if country == "CA" else US_POSTAL
+    return pool[index % len(pool)]
+
+
+def _consume_legacy_sap_random() -> None:
+    """Keep the global random stream aligned with the previous SAP generator.
+
+    Ops and BI extracts are drawn after this function. Burning the same calls
+    means a full regen does not reshuffle those files.
+    """
+    for _ in range(80):
+        random.choice(["TO", "EA", "PAL"])
+        random.choice(["1000", "1100", "1200", "2000"])
+        random.choice(["PD", "VB", "ND"])
+        random.choice(["3000", "3100", "7900"])
+        random.uniform(0.5, 25)
+        random.choice(["OK", "OK", "OK", "MISSING_UOM", "DUP_DESC", "BAD_PLANT"])
+    for _ in range(60):
+        random.choice(["CA", "US"])
+        random.choice(["ON", "QC", "NY", "MI", "OH", "IL"])
+        random.choice(["L6H", "M5V", "H3B", "14202", "48226"])
+        random.choice(["1000", "2000"])
+        random.choice(["10", "20"])
+        random.choice(["SP", "SH", "BP", "PY"])
+        random.choice(["OK", "OK", "OK", "ADDR_INCOMPLETE", "BAD_TAX", "ORPHAN_SHIPTO"])
+    for _ in range(40):
+        random.choice(["CA", "US", "MX"])
+        random.choice(["NT30", "NT45", "NT60"])
+        random.choice(["CAD", "USD"])
+        random.choice(["1000", "2000"])
+        random.choice(["OK", "OK", "BANK_MISSING", "DUP_VAT", "OK"])
+    for _ in range(40):
+        random.choice(["FOB", "DAP", "EXW"])
+        random.choice(["OK", "OK", "ORPHAN_SHIPTO", "OK"])
+
+
 def generate_sap_legacy():
+    """Deterministic legacy masters. Country/region failures are explicit.
+
+    Mapping later corrects those pairs so every target row is CA+province or US+state.
+    """
+    _consume_legacy_sap_random()
     plants = ["1000", "1100", "1200", "2000"]
+    uoms = ["TO", "EA", "PAL"]
     materials = []
     for i in range(1, 81):
+        if i % 10 == 0:
+            dq = "UOM"
+            uom = ""
+        elif i % 13 == 0:
+            dq = "Duplicates"
+            uom = uoms[i % 3]
+        else:
+            dq = "OK"
+            uom = uoms[i % 3]
         materials.append(
             {
                 "legacy_matnr": f"MAT{i:05d}",
                 "description": f"NA Cementitious Blend {i:03d}",
-                "uom": random.choice(["TO", "EA", "PAL"]),
-                "plant": random.choice(plants),
-                "mrp_type": random.choice(["PD", "VB", "ND"]),
-                "valuation_class": random.choice(["3000", "3100", "7900"]),
-                "gross_weight": round(random.uniform(0.5, 25), 2),
-                "dq_flag": random.choice(["OK", "OK", "OK", "MISSING_UOM", "DUP_DESC", "BAD_PLANT"]),
+                "uom": uom,
+                "plant": plants[i % 4],
+                "mrp_type": ["PD", "VB", "ND"][i % 3],
+                "valuation_class": ["3000", "3100", "7900"][i % 3],
+                "gross_weight": round(0.5 + (i % 25), 2),
+                "dq_flag": dq,
             }
         )
 
     customers = []
     for i in range(1, 61):
-        sold = f"7{i:07d}"
+        country = "CA" if i % 2 else "US"
+        if i % 10 == 0:
+            dq = "Tax ID"
+            region = _valid_region(country, i)
+            postal = _valid_postal(country, i)
+        elif i % 11 == 0:
+            dq = "Country/region"
+            region = "NY" if country == "CA" else "ON"
+            postal = "14202" if country == "CA" else "L6H 0C3"
+        else:
+            dq = "OK"
+            region = _valid_region(country, i)
+            postal = _valid_postal(country, i)
         customers.append(
             {
-                "legacy_kunnr": sold,
+                "legacy_kunnr": f"7{i:07d}",
                 "name1": f"NA Customer {i:03d} Ltd",
-                "country": random.choice(["CA", "US"]),
-                "region": random.choice(["ON", "QC", "NY", "MI", "OH", "IL"]),
-                "postal_code": random.choice(["L6H", "M5V", "H3B", "14202", "48226"]),
-                "sales_org": random.choice(["1000", "2000"]),
-                "dist_channel": random.choice(["10", "20"]),
+                "country": country,
+                "region": region,
+                "postal_code": postal,
+                "sales_org": "1000" if i % 2 else "2000",
+                "dist_channel": "10" if i % 2 else "20",
                 "division": "00",
-                "partner_role": random.choice(["SP", "SH", "BP", "PY"]),
-                "dq_flag": random.choice(["OK", "OK", "OK", "ADDR_INCOMPLETE", "BAD_TAX", "ORPHAN_SHIPTO"]),
+                "partner_role": ["SP", "SH", "BP", "PY"][i % 4],
+                "dq_flag": dq,
             }
         )
 
     vendors = []
     for i in range(1, 41):
+        if i % 8 == 0:
+            dq = "Bank keys"
+        elif i % 9 == 0:
+            dq = "Duplicates"
+        else:
+            dq = "OK"
+        country = ["CA", "US", "MX"][i % 3]
         vendors.append(
             {
                 "legacy_lifnr": f"V{i:07d}",
                 "name1": f"Supplier {i:03d} Inc",
-                "country": random.choice(["CA", "US", "MX"]),
-                "payment_terms": random.choice(["NT30", "NT45", "NT60"]),
-                "currency": random.choice(["CAD", "USD"]),
-                "purch_org": random.choice(["1000", "2000"]),
-                "dq_flag": random.choice(["OK", "OK", "BANK_MISSING", "DUP_VAT", "OK"]),
+                "country": country,
+                "payment_terms": ["NT30", "NT45", "NT60"][i % 3],
+                "currency": "CAD" if country == "CA" else "USD",
+                "purch_org": "1000" if i % 2 else "2000",
+                "dq_flag": dq,
             }
         )
 
@@ -185,11 +267,21 @@ def generate_sap_legacy():
                 "name1": f"{c['name1']} Ship-To",
                 "country": c["country"],
                 "region": c["region"],
-                "incoterms": random.choice(["FOB", "DAP", "EXW"]),
-                "dq_flag": random.choice(["OK", "OK", "ORPHAN_SHIPTO", "OK"]),
+                "incoterms": ["FOB", "DAP", "EXW"][i % 3],
+                "dq_flag": "Orphan ship-to" if i % 8 == 0 else "OK",
             }
         )
     return materials, customers, vendors, ship_tos
+
+
+def _status(flag: str) -> str:
+    return "READY" if flag == "OK" else "NEEDS_REVIEW"
+
+
+def _target_region(country: str, region: str, flag: str, index: int) -> str:
+    if flag == "Country/region":
+        return _valid_region(country, index)
+    return region
 
 
 def clean_sap(materials, customers, vendors, ship_tos):
@@ -198,29 +290,33 @@ def clean_sap(materials, customers, vendors, ship_tos):
             "source_matnr": m["legacy_matnr"],
             "target_matnr": f"S4-{m['legacy_matnr']}",
             "description": m["description"].strip().title(),
-            "uom": m["uom"] or "TO",
+            "uom": m["uom"] or "",
             "plant": m["plant"],
             "mrp_type": m["mrp_type"],
             "valuation_class": m["valuation_class"],
-            "migration_status": "READY",
+            "migration_status": _status(m["dq_flag"]),
+            "dq_rule": "" if m["dq_flag"] == "OK" else m["dq_flag"],
         }
         for m in materials
-        if m["dq_flag"] not in {"MISSING_UOM", "BAD_PLANT"}
     ]
-    cust_map = [
-        {
+    cust_by_kunnr = {}
+    cust_map = []
+    for i, c in enumerate(customers, start=1):
+        region = _target_region(c["country"], c["region"], c["dq_flag"], i)
+        row = {
             "source_kunnr": c["legacy_kunnr"],
             "target_bp": f"BP{c['legacy_kunnr']}",
             "name1": c["name1"],
             "country": c["country"],
-            "region": c["region"],
+            "region": region,
+            "legacy_region": c["region"],
             "sales_org": c["sales_org"],
             "partner_role": c["partner_role"],
-            "migration_status": "READY" if c["dq_flag"] == "OK" else "NEEDS_REVIEW",
+            "migration_status": _status(c["dq_flag"]),
+            "dq_rule": "" if c["dq_flag"] == "OK" else c["dq_flag"],
         }
-        for c in customers
-        if c["dq_flag"] != "BAD_TAX"
-    ]
+        cust_map.append(row)
+        cust_by_kunnr[c["legacy_kunnr"]] = row
     vend_map = [
         {
             "source_lifnr": v["legacy_lifnr"],
@@ -229,24 +325,73 @@ def clean_sap(materials, customers, vendors, ship_tos):
             "country": v["country"],
             "payment_terms": v["payment_terms"],
             "currency": v["currency"],
-            "migration_status": "READY" if v["dq_flag"] == "OK" else "NEEDS_REVIEW",
+            "migration_status": _status(v["dq_flag"]),
+            "dq_rule": "" if v["dq_flag"] == "OK" else v["dq_flag"],
         }
         for v in vendors
-        if v["dq_flag"] != "DUP_VAT"
     ]
-    valid_sold = {c["source_kunnr"] for c in cust_map}
-    ship_map = [
-        {
-            "source_ship_to": s["legacy_ship_to"],
-            "target_bp": f"BP{s['legacy_ship_to']}",
-            "sold_to_bp": f"BP{s['sold_to']}",
-            "incoterms": s["incoterms"],
-            "migration_status": "READY",
-        }
-        for s in ship_tos
-        if s["sold_to"] in valid_sold and s["dq_flag"] != "ORPHAN_SHIPTO"
-    ]
+    ship_map = []
+    for s in ship_tos:
+        parent = cust_by_kunnr[s["sold_to"]]
+        ship_map.append(
+            {
+                "source_ship_to": s["legacy_ship_to"],
+                "target_bp": f"BP{s['legacy_ship_to']}",
+                "sold_to_bp": f"BP{s['sold_to']}",
+                "country": parent["country"],
+                "region": parent["region"],
+                "incoterms": s["incoterms"],
+                "migration_status": _status(s["dq_flag"]),
+                "dq_rule": "" if s["dq_flag"] == "OK" else s["dq_flag"],
+            }
+        )
     return mat_map, cust_map, vend_map, ship_map
+
+
+def sap_scorecard(materials, customers, vendors, ship_tos, mat_map, cust_map, vend_map, ship_map):
+    """Counts taken from the mapping tables, not a separate estimate."""
+    groups = [
+        ("Material", materials, mat_map),
+        ("Customer BP", customers, cust_map),
+        ("Vendor BP", vendors, vend_map),
+        ("Ship-To", ship_tos, ship_map),
+    ]
+    summary = []
+    for name, legacy, mapped in groups:
+        ready = sum(1 for row in mapped if row["migration_status"] == "READY")
+        summary.append(
+            {
+                "object": name,
+                "legacy_count": len(legacy),
+                "mapped_count": len(mapped),
+                "ready_count": ready,
+                "review_count": len(mapped) - ready,
+                "pass_rate": round(ready / len(legacy), 4) if legacy else 0,
+            }
+        )
+    return summary
+
+
+def sap_rule_failures(mat_map, cust_map, vend_map, ship_map):
+    order = [
+        ("UOM", "Material", mat_map),
+        ("Tax ID", "Customer BP", cust_map),
+        ("Bank keys", "Vendor BP", vend_map),
+        ("Duplicates", "Material", mat_map),
+        ("Duplicates", "Vendor BP", vend_map),
+        ("Orphan ship-to", "Ship-To", ship_map),
+        ("Country/region", "Customer BP", cust_map),
+    ]
+    rows = []
+    for rule, obj, mapped in order:
+        rows.append(
+            {
+                "rule": rule,
+                "object": obj,
+                "failures": sum(1 for row in mapped if row["dq_rule"] == rule),
+            }
+        )
+    return rows
 
 
 PLANTS_DIM = [
@@ -417,28 +562,7 @@ def main() -> None:
     write_csv(DOCS_DATA / "distribution_centers.csv", DCS)
     write_csv(DOCS_DATA / "customers.csv", CUSTOMERS)
 
-    materials, customers, vendors, ship_tos = generate_sap_legacy()
-    write_csv(RAW / "legacy_materials.csv", materials)
-    write_csv(RAW / "legacy_customers.csv", customers)
-    write_csv(RAW / "legacy_vendors.csv", vendors)
-    write_csv(RAW / "legacy_ship_tos.csv", ship_tos)
-
-    mat_map, cust_map, vend_map, ship_map = clean_sap(materials, customers, vendors, ship_tos)
-    write_csv(PROC / "map_materials.csv", mat_map)
-    write_csv(PROC / "map_customers.csv", cust_map)
-    write_csv(PROC / "map_vendors.csv", vend_map)
-    write_csv(PROC / "map_ship_tos.csv", ship_map)
-    write_csv(DOCS_DATA / "map_materials.csv", mat_map)
-    write_csv(DOCS_DATA / "map_customers.csv", cust_map)
-    write_csv(
-        DOCS_DATA / "dq_summary.csv",
-        [
-            {"object": "Material", "legacy_count": len(materials), "ready_count": len(mat_map), "pass_rate": round(len(mat_map) / len(materials), 3)},
-            {"object": "Customer BP", "legacy_count": len(customers), "ready_count": len(cust_map), "pass_rate": round(len(cust_map) / len(customers), 3)},
-            {"object": "Vendor BP", "legacy_count": len(vendors), "ready_count": len(vend_map), "pass_rate": round(len(vend_map) / len(vendors), 3)},
-            {"object": "Ship-To", "legacy_count": len(ship_tos), "ready_count": len(ship_map), "pass_rate": round(len(ship_map) / len(ship_tos), 3)},
-        ],
-    )
+    write_sap_files()
 
     bi = generate_bi(shipments)
     tableau = ROOT / "tableau" / "extracts"
@@ -453,7 +577,7 @@ def main() -> None:
     total_cost = sum(s["total_cost"] for s in shipments if s["dc_id"] != "UNMET")
     unmet = sum(s["tons"] for s in shipments if s["dc_id"] == "UNMET")
     print(f"Shipments: {len(shipments)} | Network cost: ${total_cost:,.0f} | Unmet tons: {unmet}")
-    print(f"SAP ready materials: {len(mat_map)} / {len(materials)}")
+    print("SAP files refreshed before BI extracts.")
     print(
         "BI extracts:",
         f"ops={len(bi['ops_control_tower'])}",
@@ -463,5 +587,44 @@ def main() -> None:
     )
 
 
+def write_sap_files() -> None:
+    for d in (RAW, PROC, DOCS_DATA):
+        d.mkdir(parents=True, exist_ok=True)
+    materials, customers, vendors, ship_tos = generate_sap_legacy()
+    write_csv(RAW / "legacy_materials.csv", materials)
+    write_csv(RAW / "legacy_customers.csv", customers)
+    write_csv(RAW / "legacy_vendors.csv", vendors)
+    write_csv(RAW / "legacy_ship_tos.csv", ship_tos)
+
+    mat_map, cust_map, vend_map, ship_map = clean_sap(materials, customers, vendors, ship_tos)
+    write_csv(PROC / "map_materials.csv", mat_map)
+    write_csv(PROC / "map_customers.csv", cust_map)
+    write_csv(PROC / "map_vendors.csv", vend_map)
+    write_csv(PROC / "map_ship_tos.csv", ship_map)
+    for name, rows in (
+        ("map_materials.csv", mat_map),
+        ("map_customers.csv", cust_map),
+        ("map_vendors.csv", vend_map),
+        ("map_ship_tos.csv", ship_map),
+    ):
+        write_csv(DOCS_DATA / name, rows)
+    summary = sap_scorecard(materials, customers, vendors, ship_tos, mat_map, cust_map, vend_map, ship_map)
+    failures = sap_rule_failures(mat_map, cust_map, vend_map, ship_map)
+    write_csv(PROC / "dq_summary.csv", summary)
+    write_csv(DOCS_DATA / "dq_summary.csv", summary)
+    write_csv(PROC / "dq_rule_failures.csv", failures)
+    write_csv(DOCS_DATA / "dq_rule_failures.csv", failures)
+    ready = sum(row["ready_count"] for row in summary)
+    legacy = sum(row["legacy_count"] for row in summary)
+    print("SAP scorecard:", summary)
+    print("SAP rule failures:", failures)
+    print(f"SAP ready rows: {ready} / {legacy}")
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if "--sap-only" in sys.argv:
+        write_sap_files()
+    else:
+        main()

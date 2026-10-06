@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Supplier master process | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</title>
+  <meta name="description" content="Supplier master create and change on synthetic data: SIPOC, RACI, as-is and to-be swimlanes, controls, example KPI targets, and an SOP excerpt. Afolabi Adesina." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20261006" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20261006" />
+  <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Supplier master process | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta property="og:description" content="Supplier master create and change on synthetic data, with SIPOC, RACI, swimlanes, and an SOP excerpt. Afolabi Adesina." />
+  <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
+  <meta property="og:url" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/process-documentation/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Supplier master process | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta name="twitter:description" content="Supplier master create and change on synthetic data, with SIPOC, RACI, swimlanes, and an SOP excerpt. Afolabi Adesina." />
+  <meta name="twitter:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20261006" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/process-documentation/proc.css?v=20261006" />
+</head>
+<body class="theme-proc">
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <img class="brand-photo" src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d" alt="Afolabi Adesina" width="42" height="42" />
+        <span class="brand-text">
+          <span class="brand-name">Afolabi Adesina</span>
+          <span class="brand-tag">Portfolio</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">Menu</button>
+      <div class="nav-links" id="site-nav">
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+        <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP</a>
+        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI</a>
+        <a href="/NA-Skills-Portfolio/projects/power-bi-fabric/">Power BI</a>
+        <a href="/NA-Skills-Portfolio/projects/process-documentation/" aria-current="page">Process</a>
+        <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply chain</a>
+        <a href="/NA-Skills-Portfolio/projects/python-skills/">Python</a>
+        <a href="/NA-Skills-Portfolio/projects/r-analytics/">R</a>
+        <a href="mailto:adesiafo@sheridancollege.ca">Email</a>
+        <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="proc-hero">
+    <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP MDM</a> / Process</div>
+    <p class="portfolio-headline">Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</p>
+    <h1>Supplier master create and change</h1>
+    <p class="lead">
+      A documented path for creating or changing a supplier record. The names, RACI letters, and targets on this page are a synthetic case.
+    </p>
+    <p class="note">
+      The shape of the case draws on supplier master file work at Lafarge Africa, ISO 9001 Lead Implementer training, and SOP writing at Medifield.
+      It does not report cycle times, error rates, or headcount from those roles.
+      Related readiness checks are on the <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP MDM Migration Lab</a>.
+    </p>
+  </section>
+
+  <section class="section" id="sipoc">
+    <h2>SIPOC</h2>
+    <p class="sub">One row for the create and change path. Synthetic scope: a vendor used by procurement and paid by finance.</p>
+    <div class="table-wrap panel">
+      <table class="matrix">
+        <thead>
+          <tr><th>Suppliers</th><th>Inputs</th><th>Process</th><th>Outputs</th><th>Customers</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Requester, vendor, bank, tax authority</td>
+            <td>Request form, vendor documents, bank letter, tax ID</td>
+            <td>Check duplicates, verify bank and tax ID, approve, post, notify</td>
+            <td>Supplier master record, change log, confirmation to AP</td>
+            <td>Procurement, finance and AP, the plant that will buy</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="raci">
+    <h2>RACI</h2>
+    <p class="sub">R is responsible, A is accountable, C is consulted, I is informed. One A on each row. Example only.</p>
+    <div class="table-wrap panel">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Requester</th>
+            <th>Procurement</th>
+            <th>MDM team</th>
+            <th>Finance / AP</th>
+            <th>Approver</th>
+            <th>IT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Submit request</td><td class="r">R/A</td><td>C</td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+          <tr><td>Commercial review</td><td>C</td><td class="r">R</td><td>I</td><td>I</td><td class="a">A</td><td>I</td></tr>
+          <tr><td>Duplicate check</td><td>I</td><td>C</td><td class="r">R</td><td>I</td><td class="a">A</td><td>I</td></tr>
+          <tr><td>Bank detail verification</td><td>I</td><td>I</td><td>C</td><td class="r">R</td><td class="a">A</td><td>I</td></tr>
+          <tr><td>Tax ID check</td><td>C</td><td>I</td><td class="r">R</td><td>C</td><td class="a">A</td><td>I</td></tr>
+          <tr><td>Approve create or change</td><td>I</td><td>C</td><td class="r">R</td><td>C</td><td class="a">A</td><td>I</td></tr>
+          <tr><td>Post to SAP</td><td>I</td><td>I</td><td>C</td><td>I</td><td class="a">A</td><td class="r">R</td></tr>
+          <tr><td>Confirm to AP and requester</td><td>I</td><td>I</td><td class="r">R</td><td>I</td><td class="a">A</td><td>C</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="as-is">
+    <h2>As-is flow</h2>
+    <p class="sub">What the synthetic case looks like before the controls. Bank details travel in email, and the person who keys the vendor can also approve it.</p>
+    <div class="lane-wrap">
+      <svg viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="As-is swimlane for supplier create and change">
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#1c2834">
+          <text x="200" y="24" text-anchor="middle">Request</text>
+          <text x="340" y="24" text-anchor="middle">Capture</text>
+          <text x="480" y="24" text-anchor="middle">Duplicate</text>
+          <text x="620" y="24" text-anchor="middle">Bank</text>
+          <text x="760" y="24" text-anchor="middle">Approve</text>
+          <text x="890" y="24" text-anchor="middle">SAP</text>
+        </g>
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="11">
+          <rect x="8" y="40" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="70" text-anchor="middle">Requester</text>
+          <rect x="8" y="100" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="130" text-anchor="middle">Procurement</text>
+          <rect x="8" y="160" width="112" height="50" rx="6" fill="#d9e8f6" stroke="#1f4e79"/><text x="64" y="190" text-anchor="middle" font-weight="700">MDM team</text>
+          <rect x="8" y="220" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="250" text-anchor="middle">Finance / AP</text>
+          <rect x="8" y="280" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="310" text-anchor="middle">Approver</text>
+          <rect x="8" y="340" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="370" text-anchor="middle">IT</text>
+        </g>
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#1c2834">
+          <rect x="140" y="48" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="200" y="69" text-anchor="middle">Email request</text>
+          <rect x="280" y="48" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="48" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="48" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="620" y="69" text-anchor="middle">Bank letter in mail</text>
+          <rect x="700" y="48" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="48" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="890" y="69" text-anchor="middle">Chase status</text>
+
+          <rect x="140" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="108" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="340" y="129" text-anchor="middle">Retype into sheet</text>
+          <rect x="420" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="108" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="168" width="120" height="34" rx="6" fill="#1f4e79"/><text x="480" y="189" text-anchor="middle" fill="#fff">Ask around</text>
+          <rect x="560" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="168" width="110" height="34" rx="6" fill="#1f4e79"/><text x="755" y="189" text-anchor="middle" fill="#fff">Key the vendor</text>
+          <rect x="830" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="228" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="620" y="249" text-anchor="middle">Read the email</text>
+          <rect x="700" y="228" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="288" width="110" height="34" rx="6" fill="#fff4d6" stroke="#e0c36a"/><text x="755" y="309" text-anchor="middle">Approves keying</text>
+          <rect x="830" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="348" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="348" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="890" y="369" text-anchor="middle">Ticket after</text>
+        </g>
+        <text x="490" y="416" text-anchor="middle" font-family="Segoe UI, Arial" font-size="12" fill="#5c6b7a">As-is. The approver is looking at a record the MDM seat already keyed.</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="section" id="to-be">
+    <h2>To-be flow</h2>
+    <p class="sub">Same roles. The duplicate check, bank check, and approval happen before anyone posts the vendor. The approver is not the person who keys it.</p>
+    <div class="lane-wrap">
+      <svg viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="To-be swimlane for supplier create and change">
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#1c2834">
+          <text x="200" y="24" text-anchor="middle">Request</text>
+          <text x="340" y="24" text-anchor="middle">Need</text>
+          <text x="480" y="24" text-anchor="middle">Duplicate</text>
+          <text x="620" y="24" text-anchor="middle">Bank</text>
+          <text x="760" y="24" text-anchor="middle">Approve</text>
+          <text x="890" y="24" text-anchor="middle">Post</text>
+        </g>
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="11">
+          <rect x="8" y="40" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="70" text-anchor="middle">Requester</text>
+          <rect x="8" y="100" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="130" text-anchor="middle">Procurement</text>
+          <rect x="8" y="160" width="112" height="50" rx="6" fill="#d9e8f6" stroke="#1f4e79"/><text x="64" y="190" text-anchor="middle" font-weight="700">MDM team</text>
+          <rect x="8" y="220" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="250" text-anchor="middle">Finance / AP</text>
+          <rect x="8" y="280" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="310" text-anchor="middle">Approver</text>
+          <rect x="8" y="340" width="112" height="50" rx="6" fill="#eef3f8" stroke="#d5dde6"/><text x="64" y="370" text-anchor="middle">IT</text>
+        </g>
+        <g font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#1c2834">
+          <rect x="140" y="48" width="120" height="34" rx="6" fill="#1f4e79"/><text x="200" y="69" text-anchor="middle" fill="#fff">Submit the form</text>
+          <rect x="280" y="48" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="48" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="48" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="48" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="69" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="48" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="890" y="69" text-anchor="middle">Get confirmation</text>
+
+          <rect x="140" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="108" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="340" y="129" text-anchor="middle">Confirm the buy</text>
+          <rect x="420" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="108" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="108" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="129" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="168" width="120" height="34" rx="6" fill="#1f4e79"/><text x="480" y="183" text-anchor="middle" fill="#fff">Duplicate check</text><text x="480" y="197" text-anchor="middle" fill="#fff">and tax ID</text>
+          <rect x="560" y="168" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="168" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="189" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="168" width="120" height="34" rx="6" fill="#1f4e79"/><text x="890" y="189" text-anchor="middle" fill="#fff">File the record</text>
+
+          <rect x="140" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="228" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="620" y="249" text-anchor="middle">Verify bank letter</text>
+          <rect x="700" y="228" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="228" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="249" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="288" width="110" height="34" rx="6" fill="#fff4d6" stroke="#e0c36a"/><text x="755" y="309" text-anchor="middle">Separate approver</text>
+          <rect x="830" y="288" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="890" y="309" text-anchor="middle" fill="#94a3b8">·</text>
+
+          <rect x="140" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="200" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="280" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="340" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="420" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="480" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="560" y="348" width="120" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="620" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="700" y="348" width="110" height="34" rx="6" fill="#f7f9fb" stroke="#e6edf3"/><text x="755" y="369" text-anchor="middle" fill="#94a3b8">·</text>
+          <rect x="830" y="348" width="120" height="34" rx="6" fill="#fff" stroke="#d5dde6"/><text x="890" y="369" text-anchor="middle">Post the vendor</text>
+        </g>
+        <text x="490" y="416" text-anchor="middle" font-family="Segoe UI, Arial" font-size="12" fill="#5c6b7a">To-be. Posting waits until duplicate, tax ID, bank, and a separate approval are done.</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="section" id="controls">
+    <h2>Controls checklist</h2>
+    <p class="sub">Tick these as you read the to-be flow. They are the controls on the synthetic case, not a live workflow tool.</p>
+    <ul class="checks">
+      <li><input type="checkbox" id="c1" /> <label for="c1"><strong>Duplicate check.</strong> Match the supplier name and tax ID to records already on the file before a new number is issued.</label></li>
+      <li><input type="checkbox" id="c2" /> <label for="c2"><strong>Bank detail verification.</strong> Use a bank letter or equivalent document. Do not take account numbers from the body of an email.</label></li>
+      <li><input type="checkbox" id="c3" /> <label for="c3"><strong>Tax ID.</strong> The ID is present and fits the supplier country before the record is approved.</label></li>
+      <li><input type="checkbox" id="c4" /> <label for="c4"><strong>Approval segregation.</strong> The approver is not the requester and is not the person who posts the SAP vendor.</label></li>
+    </ul>
+  </section>
+
+  <section class="section" id="kpis">
+    <h2>Example targets</h2>
+    <p class="sub">These are targets for the synthetic case. They are not measured results from Lafarge Africa, IHS Towers, or Medifield.</p>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <span class="kpi-flag">Example target</span>
+        <div class="label">Cycle time</div>
+        <div class="value">5 business days</div>
+        <div class="delta">From complete request to confirmation. Not a measured close time.</div>
+      </div>
+      <div class="kpi">
+        <span class="kpi-flag">Example target</span>
+        <div class="label">First-time-right rate</div>
+        <div class="value">95%</div>
+        <div class="delta">Share of requests that pass duplicate, bank, and tax checks on the first submit.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="log">
+    <h2>Synthetic request log</h2>
+    <p class="sub">Sample rows so the controls have something to sit on. Not a Lafarge or IHS extract.</p>
+    <div class="table-wrap panel">
+      <table class="matrix">
+        <thead>
+          <tr><th>Request</th><th>Supplier</th><th>Type</th><th>Duplicate</th><th>Bank</th><th>Tax ID</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SM-1001</td><td>Sample Supplier 001</td><td>Create</td><td>Clear</td><td>Letter on file</td><td>Present</td><td>Ready for approval</td></tr>
+          <tr><td>SM-1002</td><td>Sample Supplier 002</td><td>Create</td><td>Possible match</td><td>Missing</td><td>Present</td><td>Needs review</td></tr>
+          <tr><td>SM-1003</td><td>Sample Supplier 003</td><td>Change</td><td>Clear</td><td>Letter on file</td><td>Present</td><td>Ready for approval</td></tr>
+          <tr><td>SM-1004</td><td>Sample Supplier 004</td><td>Change</td><td>Clear</td><td>Email only</td><td>Missing</td><td>Needs review</td></tr>
+          <tr><td>SM-1005</td><td>Sample Supplier 005</td><td>Create</td><td>Clear</td><td>Letter on file</td><td>Present</td><td>Posted</td></tr>
+          <tr><td>SM-1006</td><td>Sample Supplier 006</td><td>Create</td><td>Clear</td><td>Letter on file</td><td>Format fail</td><td>Needs review</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="sop">
+    <h2>SOP excerpt</h2>
+    <p class="sub">One page. Written for this case. It is not a controlled copy of a Medifield or Lafarge procedure.</p>
+    <article class="sop">
+      <header>
+        <h2>SOP-SM-01 Supplier master create and change</h2>
+        <p class="sop-meta">Status: portfolio excerpt · Synthetic data · Not a controlled document</p>
+      </header>
+      <h3>Purpose</h3>
+      <p>Create or change a supplier master record only after duplicate, bank, and tax checks, and after an approver who did not key the record has signed off.</p>
+      <h3>Scope</h3>
+      <p>New suppliers and changes to name, bank, tax ID, or payment terms. Blocking a vendor for quality or safety is out of scope.</p>
+      <h3>Roles</h3>
+      <p>Requester, procurement, MDM team, finance/AP, approver, IT. See the RACI above. The approver is not the requester and not the person who posts the SAP record.</p>
+      <h3>Procedure</h3>
+      <ol>
+        <li>The requester submits the form with the legal name, country, tax ID, and the reason for the create or change.</li>
+        <li>Procurement confirms there is a buying need.</li>
+        <li>MDM runs the duplicate check on name and tax ID. A possible match stops the request.</li>
+        <li>Finance/AP verifies bank details from a bank letter. An account number typed into an email is not enough.</li>
+        <li>MDM checks that the tax ID is present and fits the supplier country.</li>
+        <li>The approver accepts or returns the pack. The approver does not post the record.</li>
+        <li>IT posts the SAP vendor. MDM files the confirmation and tells AP and the requester.</li>
+      </ol>
+      <h3>Records</h3>
+      <p>Keep the form, the duplicate result, the bank letter reference, the approval, and the SAP vendor number. Example targets for the path are 5 business days cycle time and a 95% first-time-right rate. Those figures are example targets for this case, not measured history.</p>
+    </article>
+  </section>
+
+  <footer class="footer">
+    Afolabi Adesina · Oakville, ON (GTA) · Synthetic case only ·
+    <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a> ·
+    <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a> ·
+    <a href="/NA-Skills-Portfolio/">Hub</a>
+  </footer>
+  <script src="/NA-Skills-Portfolio/js/site-nav.js?v=20261006"></script>
+</body>
+</html>

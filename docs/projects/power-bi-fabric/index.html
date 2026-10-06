@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Power BI and Fabric | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</title>
+  <meta name="description" content="Power BI and Fabric design on synthetic ops data: medallion flow, gold SQL, a star schema, DAX measures, and a report rendered in the browser. Not a published Power BI service report. Afolabi Adesina." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20261006" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20261006" />
+  <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Power BI and Fabric | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta property="og:description" content="Power BI and Fabric design on synthetic ops data, with the report rendered in the browser. Afolabi Adesina." />
+  <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
+  <meta property="og:url" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/power-bi-fabric/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Power BI and Fabric | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta name="twitter:description" content="Power BI and Fabric design on synthetic ops data, with the report rendered in the browser. Afolabi Adesina." />
+  <meta name="twitter:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20261006" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/power-bi-fabric/pbi.css?v=20261006" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body class="theme-pbi">
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <img class="brand-photo" src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d" alt="Afolabi Adesina" width="42" height="42" />
+        <span class="brand-text">
+          <span class="brand-name">Afolabi Adesina</span>
+          <span class="brand-tag">Portfolio</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">Menu</button>
+      <div class="nav-links" id="site-nav">
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+        <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP</a>
+        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI</a>
+        <a href="/NA-Skills-Portfolio/projects/power-bi-fabric/" aria-current="page">Power BI</a>
+        <a href="/NA-Skills-Portfolio/projects/process-documentation/">Process</a>
+        <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply chain</a>
+        <a href="/NA-Skills-Portfolio/projects/python-skills/">Python</a>
+        <a href="/NA-Skills-Portfolio/projects/r-analytics/">R</a>
+        <a href="mailto:adesiafo@sheridancollege.ca">Email</a>
+        <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="pbi-hero">
+    <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Power BI and Fabric</div>
+    <p class="portfolio-headline">Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</p>
+    <h1>Power BI and Fabric design</h1>
+    <p class="lead">
+      Same synthetic Great Lakes ops files as the BI page. This is the Microsoft-stack shape I would use for them: bronze to silver to gold, a star schema, and the DAX for the service and freight measures.
+    </p>
+    <p class="honesty">Power BI and Fabric design on synthetic data; report rendered in the browser for public viewing.</p>
+  </section>
+
+  <section class="section" id="medallion">
+    <h2>Medallion flow</h2>
+    <p class="sub">Bronze keeps the CSV landing. Silver types the columns and drops blank keys. Gold is the star the report reads.</p>
+    <div class="diagram-wrap">
+      <svg class="flow-svg" viewBox="0 0 980 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bronze to silver to gold medallion flow">
+        <rect x="20" y="30" width="280" height="220" rx="12" fill="#F4E1C1" stroke="#C4A574"/>
+        <rect x="350" y="30" width="280" height="220" rx="12" fill="#D9E4F5" stroke="#7E96C4"/>
+        <rect x="680" y="30" width="280" height="220" rx="12" fill="#F8E7A2" stroke="#C6A322"/>
+        <text x="160" y="58" text-anchor="middle" font-family="Segoe UI, Arial" font-size="16" font-weight="700" fill="#252423">Bronze</text>
+        <text x="490" y="58" text-anchor="middle" font-family="Segoe UI, Arial" font-size="16" font-weight="700" fill="#252423">Silver</text>
+        <text x="820" y="58" text-anchor="middle" font-family="Segoe UI, Arial" font-size="16" font-weight="700" fill="#252423">Gold</text>
+        <g font-family="Segoe UI, Arial" font-size="13" fill="#252423">
+          <text x="40" y="96">ops_control_tower.csv</text>
+          <text x="40" y="124">sales_by_category.csv</text>
+          <text x="40" y="152">otif_exceptions.csv</text>
+          <text x="40" y="180">dim_plants.csv</text>
+          <text x="40" y="220" fill="#605e5c">Landed files. No renames.</text>
+          <text x="370" y="96">Typed plant-month rows</text>
+          <text x="370" y="124">Typed sales rows</text>
+          <text x="370" y="152">Typed exception rows</text>
+          <text x="370" y="180">Blank plant or month dropped</text>
+          <text x="370" y="220" fill="#605e5c">Still one row per source grain.</text>
+          <text x="700" y="96">dim_plant, dim_date, dim_product</text>
+          <text x="700" y="124">fact_plant_month</text>
+          <text x="700" y="152">fact_sales</text>
+          <text x="700" y="180">fact_exception</text>
+          <text x="700" y="220" fill="#605e5c">What the DAX sums.</text>
+        </g>
+        <path d="M300 140 H348" stroke="#252423" stroke-width="2" marker-end="url(#arr)"/>
+        <path d="M630 140 H678" stroke="#252423" stroke-width="2" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#252423"/></marker>
+        </defs>
+      </svg>
+    </div>
+  </section>
+
+  <section class="section" id="sql">
+    <h2>SQL for the gold tables</h2>
+    <p class="sub">The script assumes the CSVs are already loaded as bronze tables. Download it and read it next to the files.</p>
+    <p><a class="btn btn-primary" href="/NA-Skills-Portfolio/projects/power-bi-fabric/gold_model.sql" download>Download gold_model.sql</a></p>
+    <ul class="download-list">
+      <li><a href="/NA-Skills-Portfolio/assets/data/ops_control_tower.csv">ops_control_tower.csv</a></li>
+      <li><a href="/NA-Skills-Portfolio/assets/data/sales_by_category.csv">sales_by_category.csv</a></li>
+      <li><a href="/NA-Skills-Portfolio/assets/data/otif_exceptions.csv">otif_exceptions.csv</a></li>
+      <li><a href="/NA-Skills-Portfolio/assets/data/dim_plants.csv">dim_plants.csv</a></li>
+      <li><a href="/NA-Skills-Portfolio/assets/data/regional_performance.csv">regional_performance.csv</a></li>
+    </ul>
+  </section>
+
+  <section class="section" id="star">
+    <h2>Star schema</h2>
+    <p class="sub">Three facts share plant and month. Sales also joins product. The browser report below uses fact_plant_month and fact_exception only.</p>
+    <div class="diagram-wrap">
+      <svg class="star-svg" viewBox="0 0 980 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Star schema with date, plant, and product dimensions">
+        <g font-family="Segoe UI, Arial" font-size="13" fill="#252423">
+          <rect x="390" y="16" width="200" height="64" rx="8" fill="#F8E7A2" stroke="#C6A322"/>
+          <text x="490" y="42" text-anchor="middle" font-weight="700">dim_date</text>
+          <text x="490" y="62" text-anchor="middle">month_key</text>
+          <rect x="40" y="140" width="210" height="78" rx="8" fill="#D9E4F5" stroke="#7E96C4"/>
+          <text x="145" y="168" text-anchor="middle" font-weight="700">dim_plant</text>
+          <text x="145" y="190" text-anchor="middle">plant_code</text>
+          <rect x="730" y="140" width="210" height="78" rx="8" fill="#D9E4F5" stroke="#7E96C4"/>
+          <text x="835" y="168" text-anchor="middle" font-weight="700">dim_product</text>
+          <text x="835" y="190" text-anchor="middle">sku_family</text>
+          <rect x="300" y="130" width="180" height="90" rx="8" fill="#fff" stroke="#252423"/>
+          <text x="390" y="162" text-anchor="middle" font-weight="700">fact_plant_month</text>
+          <text x="390" y="184" text-anchor="middle">orders, otif, freight</text>
+          <text x="390" y="204" text-anchor="middle">fill, sales, tonnes</text>
+          <rect x="300" y="240" width="180" height="72" rx="8" fill="#fff" stroke="#252423"/>
+          <text x="390" y="270" text-anchor="middle" font-weight="700">fact_exception</text>
+          <text x="390" y="292" text-anchor="middle">order impact, cause</text>
+          <rect x="520" y="240" width="180" height="72" rx="8" fill="#fff" stroke="#252423"/>
+          <text x="610" y="270" text-anchor="middle" font-weight="700">fact_sales</text>
+          <text x="610" y="292" text-anchor="middle">units, revenue</text>
+        </g>
+        <g stroke="#605e5c" fill="none" stroke-width="1.5">
+          <path d="M490 80 V118 H390"/>
+          <path d="M250 176 H300"/>
+          <path d="M480 176 H730"/>
+          <path d="M390 220 V240"/>
+          <path d="M520 276 H480"/>
+          <path d="M610 240 V80 H590"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section class="section" id="dax">
+    <h2>DAX measures</h2>
+    <p class="sub">Eight measures for the semantic model. OTIF and fill rate in the extract are already rates, so the measures weight them by orders. Freight per tonne uses inventory tonnes on the plant-month row, not a weighed shipment.</p>
+    <div class="measure-list">
+      <article class="measure">
+        <h3>Orders</h3>
+        <pre>Orders = SUM ( fact_plant_month[orders] )</pre>
+        <p>Order count on the plant-month fact.</p>
+      </article>
+      <article class="measure">
+        <h3>OTIF %</h3>
+        <pre>OTIF % =
+DIVIDE (
+    SUMX ( fact_plant_month, fact_plant_month[otif] * fact_plant_month[orders] ),
+    [Orders]
+)</pre>
+        <p>Order-weighted on-time in-full rate. A small plant does not count the same as a large one.</p>
+      </article>
+      <article class="measure">
+        <h3>Fill rate</h3>
+        <pre>Fill Rate =
+DIVIDE (
+    SUMX ( fact_plant_month, fact_plant_month[fill_rate] * fact_plant_month[orders] ),
+    [Orders]
+)</pre>
+        <p>Same weighting as OTIF, using the fill rate column.</p>
+      </article>
+      <article class="measure">
+        <h3>Freight spend</h3>
+        <pre>Freight Spend = SUM ( fact_plant_month[freight_spend_cad] )</pre>
+        <p>Freight dollars on the plant-month fact, in CAD as stored in the extract.</p>
+      </article>
+      <article class="measure">
+        <h3>Freight per tonne</h3>
+        <pre>Freight per Tonne =
+DIVIDE (
+    [Freight Spend],
+    SUM ( fact_plant_month[inventory_tons] )
+)</pre>
+        <p>Freight spend divided by inventory tonnes on the same rows. It is not a cost per tonne shipped.</p>
+      </article>
+      <article class="measure">
+        <h3>Sales</h3>
+        <pre>Sales = SUM ( fact_plant_month[sales_cad] )</pre>
+        <p>Sales dollars on the plant-month fact.</p>
+      </article>
+      <article class="measure">
+        <h3>OTIF vs target</h3>
+        <pre>OTIF vs Target pp = [OTIF %] - 0.95</pre>
+        <p>Gap to a 95% OTIF target, in percentage points. The target is a label on this demo, not a contract.</p>
+      </article>
+      <article class="measure">
+        <h3>Exception orders</h3>
+        <pre>Exception Orders = SUM ( fact_exception[order_impact] )</pre>
+        <p>Orders touched by exception tickets in the filtered month and plant.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="report">
+    <h2>Report</h2>
+    <p class="sub">Slicers filter the same measures. Nothing here is published to the Power BI service.</p>
+    <div class="pbi-report">
+      <div class="pbi-top">
+        <span>Great Lakes ops</span>
+        <span class="pbi-badge">Browser render</span>
+      </div>
+      <div class="pbi-layout">
+        <aside class="pbi-slicers" aria-label="Report slicers">
+          <h3>Plant</h3>
+          <button class="slicer-all" type="button" data-target="plants" aria-pressed="true">All plants</button>
+          <div class="slicer" id="slicer-plants"></div>
+          <h3>Month</h3>
+          <button class="slicer-all" type="button" data-target="months" aria-pressed="true">All months</button>
+          <div class="slicer" id="slicer-months"></div>
+        </aside>
+        <div class="pbi-canvas">
+          <div class="pbi-kpis">
+            <div class="pbi-kpi"><span>OTIF %</span><strong id="kpi-otif">…</strong></div>
+            <div class="pbi-kpi"><span>Fill rate</span><strong id="kpi-fill">…</strong></div>
+            <div class="pbi-kpi"><span>Freight per tonne</span><strong id="kpi-freight">…</strong></div>
+            <div class="pbi-kpi"><span>Sales</span><strong id="kpi-sales">…</strong></div>
+          </div>
+          <p class="sub" id="kpi-note">Loading the synthetic extract.</p>
+          <div class="pbi-charts">
+            <div class="pbi-visual"><h3>OTIF by month</h3><div id="chart-otif" class="chart"></div></div>
+            <div class="pbi-visual"><h3>Freight spend by plant</h3><div id="chart-freight" class="chart"></div></div>
+            <div class="pbi-visual"><h3>Fill rate and OTIF</h3><div id="chart-fill" class="chart"></div></div>
+            <div class="pbi-visual"><h3>Exception order impact</h3><div id="chart-cause" class="chart"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Afolabi Adesina · Oakville, ON (GTA) · Synthetic ops data only ·
+    <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a> ·
+    <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a> ·
+    <a href="/NA-Skills-Portfolio/">Hub</a>
+  </footer>
+  <script src="/NA-Skills-Portfolio/js/site-nav.js?v=20261006"></script>
+  <script src="/NA-Skills-Portfolio/projects/power-bi-fabric/pbi.js?v=20261006"></script>
+</body>
+</html>

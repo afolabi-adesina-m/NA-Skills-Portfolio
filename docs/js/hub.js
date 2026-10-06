@@ -7,7 +7,7 @@
       drawer.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
       toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      document.body.style.overflow = open && window.matchMedia("(max-width: 860px)").matches
+      document.body.style.overflow = open && window.matchMedia("(max-width: 1100px)").matches
         ? "hidden"
         : "";
     }
@@ -18,12 +18,12 @@
 
     drawer.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
-        if (window.matchMedia("(max-width: 860px)").matches) setOpen(false);
+        if (window.matchMedia("(max-width: 1100px)").matches) setOpen(false);
       });
     });
 
     window.addEventListener("resize", function () {
-      if (!window.matchMedia("(max-width: 860px)").matches) setOpen(false);
+      if (!window.matchMedia("(max-width: 1100px)").matches) setOpen(false);
     });
 
     document.addEventListener("keydown", function (e) {

@@ -1,4 +1,4 @@
-/* SAP skill showcase — enterprise blue/navy theme (original mark; not trademark assets) */
+/* SAP skill showcase. Enterprise blue and navy. No SAP logo artwork. */
 .theme-sap {
   --sap-blue: #008FD3;
   --sap-blue-deep: #0070F2;
@@ -38,18 +38,40 @@
 
 .theme-sap .brand { color: var(--sap-navy); }
 .theme-sap .nav-links a { color: var(--sap-muted); }
-.theme-sap .nav-links a:hover { color: var(--sap-blue-deep); }
+.theme-sap .nav-links a:hover,
+.theme-sap .nav-links a[aria-current="page"] { color: var(--sap-blue-deep); }
+
+.theme-sap .nav-toggle {
+  display: none;
+  border: 1px solid var(--sap-line);
+  background: #fff;
+  color: var(--sap-navy);
+  border-radius: 10px;
+  padding: 0.45rem 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.theme-sap .nav-links {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 0.75rem;
+}
+
+.theme-sap .nav-links a { font-size: 0.82rem; }
 
 .theme-sap a { color: var(--sap-blue-deep); }
+.theme-sap a.btn-primary,
+.theme-sap a.btn-primary:hover {
+  background: #0A2540;
+  background-image: none;
+  color: #ffffff;
+}
 
 .sap-hero {
   max-width: 1120px;
   margin: 0 auto;
   padding: 2.5rem 1.25rem 1.5rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1.75rem;
-  align-items: start;
 }
 
 .sap-logo-block {
@@ -355,19 +377,38 @@
   line-height: 1.5;
 }
 
-@media (max-width: 720px) {
-  .sap-hero {
-    grid-template-columns: 1fr;
-    justify-items: start;
+.real-work {
+  margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--sap-line);
+  border-left: 4px solid var(--sap-blue);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.real-work h2 { margin-top: 0; }
+
+.reconcile {
+  margin: 0.35rem 0 0;
+  color: var(--sap-muted);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 1100px) {
+  .theme-sap .nav { flex-wrap: wrap; }
+  .theme-sap .nav-toggle { display: inline-flex; }
+  .theme-sap .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.35rem 0 0.5rem;
   }
-  .sap-logo-block { flex-direction: row; align-items: center; gap: 0.85rem; }
-  .sap-mark-img,
-  .sap-mark { width: 84px; height: 84px; border-radius: 16px; }
-  .sap-mark-label { text-align: left; max-width: none; }
+  .theme-sap .nav-links.open { display: flex; }
 }
 
 
-/* —— Swimlane + module flow (skim redesign) —— */
+/* Swimlane and module flow */
 .hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
 .diagram-wrap {
   overflow-x: auto;

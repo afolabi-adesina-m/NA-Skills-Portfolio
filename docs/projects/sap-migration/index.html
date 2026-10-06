@@ -3,61 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SAP MDM Migration Lab | Afolabi Adesina</title>
-  <meta name="description" content="SAP MDM Migration Lab: ECC-to-S/4 style cutover swimlane, module flowchart, DQ scorecard, and Business Partner mapping · synthetic North America demo data." />
+  <title>SAP MDM Migration Lab | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</title>
+  <meta name="description" content="SAP MDM Migration Lab on synthetic data: readiness checks, a DQ scorecard, and customer mapping with valid country and region pairs. Afolabi Adesina." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260827f" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260827f" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20261006" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20261006" />
   <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SAP MDM Migration Lab | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta property="og:description" content="SAP MDM Migration Lab on synthetic data: readiness checks, a DQ scorecard, and customer mapping with valid country and region pairs. Afolabi Adesina." />
   <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260827f" />
+  <meta property="og:url" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/sap-migration/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SAP MDM Migration Lab | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta name="twitter:description" content="SAP MDM Migration Lab on synthetic data: readiness checks, a DQ scorecard, and customer mapping with valid country and region pairs. Afolabi Adesina." />
+  <meta name="twitter:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20261006" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/sap-migration/sap.css?v=20260916swim" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/sap-migration/sap.css?v=20261006" />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 <body class="theme-sap">
   <header class="site-header">
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
       <a class="brand" href="/NA-Skills-Portfolio/">
         <img class="brand-photo" src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d" alt="Afolabi Adesina" width="42" height="42" loading="eager" decoding="async" />
         <span class="brand-text">
           <span class="brand-name">Afolabi Adesina</span>
-          <span class="brand-tag">Portfolio Hub</span>
+          <span class="brand-tag">Portfolio</span>
         </span>
       </a>
-      <div class="nav-links">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">Menu</button>
+      <div class="nav-links" id="site-nav">
         <a href="/NA-Skills-Portfolio/">Hub</a>
-        <a href="#swimlane">Cutover map</a>
-        <a href="#migration-lab">Migration Lab</a>
-        <a href="#modules">Modules</a>
-        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI Dashboard</a>
+        <a href="/NA-Skills-Portfolio/projects/sap-migration/" aria-current="page">SAP</a>
+        <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI</a>
+        <a href="/NA-Skills-Portfolio/projects/power-bi-fabric/">Power BI</a>
+        <a href="/NA-Skills-Portfolio/projects/process-documentation/">Process</a>
+        <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply chain</a>
+        <a href="/NA-Skills-Portfolio/projects/python-skills/">Python</a>
+        <a href="/NA-Skills-Portfolio/projects/r-analytics/">R</a>
+        <a href="mailto:adesiafo@sheridancollege.ca">Email</a>
+        <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a>
       </div>
     </nav>
   </header>
 
   <section class="sap-hero">
-    <div class="sap-logo-block">
-      <img class="sap-mark-img" src="/NA-Skills-Portfolio/projects/sap-migration/sap-logo.svg" width="120" height="120" alt="SAP skill showcase mark" onerror="this.style.display='none'" />
-      <span class="sap-mark-label">SAP skill mark</span>
-    </div>
-    <div>
-      <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / SAP MDM Migration Lab</div>
-      <div class="eyebrow">MDM · Data migration · ECC delivery</div>
-      <h1>SAP MDM Migration Lab</h1>
-      <p class="lead">
-        ECC → S/4 style cutover practice for Material and Business Partner masters.
-        Swimlane + module flow first; live DQ scorecard below. Synthetic North America demo data only.
-      </p>
-      <p class="hero-cta-row">
-        <a class="btn btn-primary" href="#swimlane">See cutover swimlane</a>
-        <a class="btn btn-ghost" href="#migration-lab">Jump to DQ scorecard</a>
-      </p>
-    </div>
+    <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / SAP MDM Migration Lab</div>
+    <p class="portfolio-headline">Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</p>
+    <div class="eyebrow">MDM · synthetic data</div>
+    <h1>SAP MDM Migration Lab</h1>
+    <p class="lead">
+      A practice run of material, customer, vendor, and ship-to readiness checks. Synthetic North America data only. No client records.
+    </p>
+    <p class="hero-cta-row">
+      <a class="btn btn-primary" href="#swimlane">See the swimlane</a>
+      <a class="btn btn-ghost" href="#migration-lab">Jump to the scorecard</a>
+    </p>
   </section>
 
   <section class="section" id="swimlane">
-    <h2>How MDM cutover actually runs</h2>
-    <p class="sub">My seat is the <strong>MDM · BA</strong> lane: stewarding quality and mapping while functional and tech lanes move the load.</p>
+    <h2>Practice swimlane, extract to go-live</h2>
+    <p class="sub">The highlighted seat is <strong>MDM · BA</strong>. Functional and tech lanes are on the diagram so the handoffs are visible.</p>
 
     <div class="diagram-wrap" role="img" aria-label="Swimlane diagram of MDM cutover from Extract to Go-live across five roles">
       <svg class="swimlane-svg" viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +90,7 @@
 
           <rect x="8" y="113" width="110" height="54" rx="8" fill="#D9F0FF" stroke="#008FD3" stroke-width="2"/>
           <text x="63" y="138" text-anchor="middle" font-weight="700" fill="#0A2540">MDM / BA</text>
-          <text x="63" y="154" text-anchor="middle" fill="#0070F2">(you)</text>
+          <text x="63" y="154" text-anchor="middle" fill="#0070F2">(me)</text>
 
           <rect x="8" y="178" width="110" height="54" rx="8" fill="#EEF5FB" stroke="#D4E2EF"/>
           <text x="63" y="202" text-anchor="middle" fill="#5A6F86">Functional</text>
@@ -110,8 +118,8 @@
           <!-- steward row -->
           <rect x="140" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="79" text-anchor="middle">Approve scope</text>
           <rect x="270" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="79" text-anchor="middle">Rule sign-off</text>
-          <rect x="400" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="79" text-anchor="middle" fill="#94A3B8">—</text>
-          <rect x="530" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="79" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="400" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="79" text-anchor="middle" fill="#94A3B8">·</text>
+          <rect x="530" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="79" text-anchor="middle" fill="#94A3B8">·</text>
           <rect x="660" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="79" text-anchor="middle">UAT accept</text>
           <rect x="790" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="79" text-anchor="middle">Hypercare</text>
 
@@ -127,23 +135,23 @@
           <rect x="140" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="209" text-anchor="middle">Fit-gap cues</text>
           <rect x="270" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="209" text-anchor="middle">Rule input</text>
           <rect x="400" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="450" y="209" text-anchor="middle">Partner roles</text>
-          <rect x="530" y="188" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="209" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="530" y="188" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="209" text-anchor="middle" fill="#94A3B8">·</text>
           <rect x="660" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="209" text-anchor="middle">Process UAT</text>
           <rect x="790" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="209" text-anchor="middle">Config fixes</text>
 
           <!-- tech -->
           <rect x="140" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="274" text-anchor="middle">Extract jobs</text>
-          <rect x="270" y="253" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="320" y="274" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="270" y="253" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="320" y="274" text-anchor="middle" fill="#94A3B8">·</text>
           <rect x="400" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="450" y="274" text-anchor="middle">Transform</text>
           <rect x="530" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="580" y="274" text-anchor="middle">LTMC load</text>
           <rect x="660" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="274" text-anchor="middle">Re-load</text>
           <rect x="790" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="274" text-anchor="middle">Transport</text>
 
           <!-- analytics -->
-          <rect x="140" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="190" y="339" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="140" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="190" y="339" text-anchor="middle" fill="#94A3B8">·</text>
           <rect x="270" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="339" text-anchor="middle">Baseline KPIs</text>
-          <rect x="400" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="339" text-anchor="middle" fill="#94A3B8">—</text>
-          <rect x="530" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="339" text-anchor="middle" fill="#94A3B8">—</text>
+          <rect x="400" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="339" text-anchor="middle" fill="#94A3B8">·</text>
+          <rect x="530" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="339" text-anchor="middle" fill="#94A3B8">·</text>
           <rect x="660" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="339" text-anchor="middle">Reconcile packs</text>
           <rect x="790" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="339" text-anchor="middle">Post KPIs</text>
         </g>
@@ -164,8 +172,8 @@
   </section>
 
   <section class="section" id="module-flow">
-    <h2>How modules connect (one picture)</h2>
-    <p class="sub">Not nine articles: one flow from masters to processes to control to KPIs.</p>
+    <h2>How master data flows into P2P, O2C, finance and reporting.</h2>
+    <p class="sub">Clean material, customer, and vendor records before purchasing, order-to-cash, finance close, or the reporting pack.</p>
 
     <div class="flow-row" role="list">
       <article class="flow-node" role="listitem">
@@ -197,8 +205,7 @@
   <section class="section section-band lab-anchor" id="migration-lab">
     <h2>MDM Migration Lab</h2>
     <p class="sub">
-      Synthetic ECC → S/4 style cutover for material, customer BP, vendor BP, and ship-to.
-      DQ rules, mapping templates, and readiness scorecards. No confidential client data.
+      Synthetic material, customer, vendor, and ship-to files. The scorecard counts rows in the mapping tables. Every target country and region pair is a Canadian province with CA, or a US state with US.
     </p>
 
     <div class="kpi-grid" id="kpis"></div>
@@ -210,12 +217,31 @@
 
     <div class="panel">
       <h3 style="margin-top:0;color:var(--sap-navy)">DQ scorecard</h3>
-      <div class="table-wrap"><table id="dq-table"><thead><tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Pass rate</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+      <p class="sub">Ready counts are rows marked READY in the mapping files. Legacy counts are the same files, every row.</p>
+      <div class="table-wrap"><table id="dq-table"><thead><tr><th>Object</th><th>Legacy</th><th>Ready</th><th>Needs review</th><th>Pass rate</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+      <p class="reconcile" id="dq-reconcile"></p>
     </div>
 
     <div class="panel">
-      <h3 style="margin-top:0;color:var(--sap-navy)">Sample customer BP mapping</h3>
-      <div class="table-wrap"><table id="map-table"><thead><tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+      <h3 style="margin-top:0;color:var(--sap-navy)">Failures by rule</h3>
+      <div class="table-wrap"><table id="rule-table"><thead><tr><th>Rule</th><th>Object</th><th>Failures</th></tr></thead><tbody></tbody></table></div>
+      <p class="reconcile" id="rule-reconcile"></p>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--sap-navy)">Customer BP mapping</h3>
+      <p class="sub" id="map-caption">Loading mapping rows.</p>
+      <div class="table-wrap"><table id="map-table"><thead><tr><th>Source KUNNR</th><th>Target BP</th><th>Name</th><th>Country</th><th>Region</th><th>Rule</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="real-work" id="real-work">
+      <h2>How this maps to my real work</h2>
+      <p>
+        At Lafarge Africa I worked in master data from January 2018 to October 2021, including the supplier master file.
+        At IHS Towers I was the SAP Discovery lead for Procurement, between procurement and IT, and much of that work was documentation.
+        This page is a practice run of those readiness checks on synthetic data.
+        The supplier master create and change write-up is on the <a href="/NA-Skills-Portfolio/projects/process-documentation/">process documentation</a> page.
+      </p>
     </div>
 
     <div class="panel">
@@ -245,43 +271,84 @@
   </section>
 
   <footer class="footer">
-    Afolabi Adesina · SAP MDM Migration Lab · Synthetic demo data only · 
-    <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/project/sap-migration" target="_blank" rel="noopener">View source on GitHub</a>
+    Afolabi Adesina · Oakville, ON (GTA) · Synthetic demo data only ·
+    <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a> ·
+    <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a> ·
+    <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio/tree/main/docs/projects/sap-migration" target="_blank" rel="noopener">View source on GitHub</a>
   </footer>
 
+  <script src="/NA-Skills-Portfolio/js/site-nav.js?v=20261006"></script>
   <script>
-  async function loadCSV(path) {
-    const text = await fetch(path).then(r => {
-      if (!r.ok) throw new Error("Failed to load " + path);
-      return r.text();
-    });
+  function parseCSV(text) {
     const lines = text.trim().split(/\r?\n/);
     const headers = lines[0].split(",");
-    return lines.slice(1).map(line => {
+    return lines.slice(1).filter(Boolean).map(line => {
       const cols = line.split(",");
       const row = {};
-      headers.forEach((h, i) => row[h] = cols[i]);
+      headers.forEach((h, i) => row[h] = cols[i] || "");
       return row;
     });
+  }
+  async function loadCSV(path) {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error("Failed to load " + path);
+    return parseCSV(await res.text());
+  }
+  function readyCount(rows) {
+    return rows.filter(r => r.migration_status === "READY").length;
+  }
+  function pct(ready, total) {
+    return ((ready / total) * 100).toFixed(1) + "%";
+  }
+  const CA = new Set(["ON","QC","BC","AB","MB","SK","NB","NS","PE","NL","NT","NU","YT"]);
+  const US = new Set(["NY","MI","OH","IL","TX","WA","PA","FL","NJ","MA","GA","NC"]);
+  function pairOk(country, region) {
+    if (country === "CA") return CA.has(region);
+    if (country === "US") return US.has(region);
+    return false;
   }
   (async function () {
     const assetBase = "/NA-Skills-Portfolio/assets/data/";
     const chartFont = { color: "#5A6F86", family: "Segoe UI, Arial, sans-serif" };
     const grid = "#D4E2EF";
+    const rules = [
+      ["UOM", "Material"],
+      ["Tax ID", "Customer BP"],
+      ["Bank keys", "Vendor BP"],
+      ["Duplicates", "Material"],
+      ["Duplicates", "Vendor BP"],
+      ["Orphan ship-to", "Ship-To"],
+      ["Country/region", "Customer BP"]
+    ];
     try {
-      const dq = await loadCSV(assetBase + "dq_summary.csv");
-      const cust = await loadCSV(assetBase + "map_customers.csv");
-      const avgPass = dq.reduce((s, r) => s + (+r.pass_rate), 0) / dq.length;
-      const ready = dq.reduce((s, r) => s + (+r.ready_count), 0);
-      const legacy = dq.reduce((s, r) => s + (+r.legacy_count), 0);
+      const [materials, customers, vendors, ships] = await Promise.all([
+        loadCSV(assetBase + "map_materials.csv"),
+        loadCSV(assetBase + "map_customers.csv"),
+        loadCSV(assetBase + "map_vendors.csv"),
+        loadCSV(assetBase + "map_ship_tos.csv")
+      ]);
+      const groups = [
+        ["Material", materials],
+        ["Customer BP", customers],
+        ["Vendor BP", vendors],
+        ["Ship-To", ships]
+      ];
+      const dq = groups.map(([name, rows]) => ({
+        object: name,
+        legacy_count: rows.length,
+        ready_count: readyCount(rows),
+        review_count: rows.length - readyCount(rows)
+      }));
+      const legacy = dq.reduce((s, r) => s + r.legacy_count, 0);
+      const ready = dq.reduce((s, r) => s + r.ready_count, 0);
       document.getElementById("kpis").innerHTML = `
-        <div class="kpi"><div class="label">Legacy records</div><div class="value">${legacy}</div></div>
-        <div class="kpi"><div class="label">Migration-ready</div><div class="value">${ready}</div><div class="delta up">after DQ</div></div>
-        <div class="kpi"><div class="label">Avg pass rate</div><div class="value">${(avgPass*100).toFixed(0)}%</div></div>
-        <div class="kpi"><div class="label">Objects in scope</div><div class="value">${dq.length}</div></div>`;
+        <div class="kpi"><div class="label">Mapping rows</div><div class="value">${legacy}</div></div>
+        <div class="kpi"><div class="label">Ready</div><div class="value">${ready}</div></div>
+        <div class="kpi"><div class="label">Needs review</div><div class="value">${legacy - ready}</div></div>
+        <div class="kpi"><div class="label">Objects</div><div class="value">${dq.length}</div></div>`;
       Plotly.newPlot("chart-dq", [
-        { type: "bar", name: "Legacy", x: dq.map(r => r.object), y: dq.map(r => +r.legacy_count), marker: { color: "#94A3B8" } },
-        { type: "bar", name: "Ready", x: dq.map(r => r.object), y: dq.map(r => +r.ready_count), marker: { color: "#008FD3" } }
+        { type: "bar", name: "Legacy", x: dq.map(r => r.object), y: dq.map(r => r.legacy_count), marker: { color: "#94A3B8" } },
+        { type: "bar", name: "Ready", x: dq.map(r => r.object), y: dq.map(r => r.ready_count), marker: { color: "#008FD3" } }
       ], {
         barmode: "group",
         paper_bgcolor: "rgba(0,0,0,0)",
@@ -294,25 +361,42 @@
       Plotly.newPlot("chart-pass", [{
         type: "bar", orientation: "h",
         y: dq.map(r => r.object),
-        x: dq.map(r => +r.pass_rate),
+        x: dq.map(r => r.ready_count / r.legacy_count),
         marker: { color: "#0070F2" },
-        text: dq.map(r => ((+r.pass_rate)*100).toFixed(0)+"%"),
+        text: dq.map(r => pct(r.ready_count, r.legacy_count)),
         textposition: "auto"
       }], {
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         font: chartFont,
-        margin: { t: 20, r: 20, b: 40, l: 100 },
+        margin: { t: 20, r: 20, b: 40, l: 110 },
         xaxis: { range: [0, 1], tickformat: ".0%", gridcolor: grid }
       }, {responsive: true, displayModeBar: false});
       document.querySelector("#dq-table tbody").innerHTML = dq.map(r => {
-        const pass = ((+r.pass_rate)*100).toFixed(0) + "%";
-        const status = (+r.pass_rate) >= 0.9 ? "READY" : "NEEDS_REVIEW";
+        const status = r.review_count === 0 ? "READY" : "NEEDS_REVIEW";
         const badge = status === "READY" ? "badge-ok" : "badge-warn";
-        return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${pass}</td><td><span class="badge ${badge}">${status}</span></td></tr>`;
+        return `<tr><td>${r.object}</td><td>${r.legacy_count}</td><td>${r.ready_count}</td><td>${r.review_count}</td><td>${pct(r.ready_count, r.legacy_count)}</td><td><span class="badge ${badge}">${status}</span></td></tr>`;
       }).join("");
-      document.querySelector("#map-table tbody").innerHTML = cust.slice(0, 10).map(r =>
-        `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td><span class="badge ${r.migration_status==="READY"?"badge-ok":"badge-warn"}">${r.migration_status}</span></td></tr>`
+      const byName = Object.fromEntries(groups);
+      const failureRows = rules.map(([rule, object]) => {
+        const n = byName[object].filter(r => r.dq_rule === rule).length;
+        return { rule, object, n };
+      });
+      document.querySelector("#rule-table tbody").innerHTML = failureRows.map(r =>
+        `<tr><td>${r.rule}</td><td>${r.object}</td><td>${r.n}</td></tr>`
+      ).join("");
+      const checks = groups.map(([name, rows]) => {
+        const failed = rows.filter(r => r.dq_rule).length;
+        return `${name}: ${rows.length - failed} ready + ${failed} failed = ${rows.length}`;
+      });
+      document.getElementById("dq-reconcile").textContent = checks.join(". ") + ".";
+      document.getElementById("rule-reconcile").textContent = "Rule counts are taken from the dq_rule column on the same mapping files as the scorecard.";
+      const badPairs = customers.filter(r => !pairOk(r.country, r.region)).length
+        + ships.filter(r => !pairOk(r.country, r.region)).length;
+      document.getElementById("map-caption").textContent =
+        `Showing 12 of ${customers.length} customer rows. Ready ${readyCount(customers)} of ${customers.length}. Invalid target country/region pairs: ${badPairs}.`;
+      document.querySelector("#map-table tbody").innerHTML = customers.slice(0, 12).map(r =>
+        `<tr><td class="mono">${r.source_kunnr}</td><td class="mono">${r.target_bp}</td><td>${r.name1}</td><td>${r.country}</td><td>${r.region}</td><td>${r.dq_rule || "·"}</td><td><span class="badge ${r.migration_status==="READY"?"badge-ok":"badge-warn"}">${r.migration_status}</span></td></tr>`
       ).join("");
     } catch (err) {
       console.error(err);

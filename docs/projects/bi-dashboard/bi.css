@@ -1,4 +1,4 @@
-/* BI Dashboard — clean blues / cyan analytics identity (distinct from SC teal & SAP blue) */
+/* BI Dashboard. Clean blues and cyan, separate from the supply chain and SAP pages. */
 .theme-bi {
   --bi-navy: #0B1F33;
   --bi-ink: #102A43;
@@ -62,6 +62,12 @@
 .theme-bi .nav-links a:hover,
 .theme-bi .nav-links a[aria-current="page"] { color: var(--bi-cyan-deep); font-weight: 650; }
 .theme-bi a { color: var(--bi-cyan-deep); }
+.theme-bi a.btn-primary,
+.theme-bi a.btn-primary:hover {
+  background: #0B1F33;
+  background-image: none;
+  color: #ffffff;
+}
 
 .bi-hero {
   max-width: 1160px;
@@ -358,11 +364,11 @@
   cursor: pointer;
 }
 
-/* —— Skim redesign —— */
+/* Skim redesign */
 .hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
 .muted { font-weight: 500; color: #94A3B8; font-size: 0.9em; }
 
-/* Section jump links — stay inside the content column (was unstyled / left-edge overflow) */
+/* Section jump links stay inside the content column. */
 .bi-subnav {
   max-width: 1160px;
   margin: 0 auto;
@@ -405,9 +411,7 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 900px) {
-  .bi-hero { grid-template-columns: 1fr; }
-  .view-grid { grid-template-columns: 1fr; }
+@media (max-width: 1100px) {
   .nav-toggle { display: inline-flex; }
   .theme-bi .nav-links {
     display: none;
@@ -417,6 +421,11 @@
   }
   .theme-bi .nav-links.open { display: flex; }
   .theme-bi .nav { flex-wrap: wrap; }
+}
+
+@media (max-width: 900px) {
+  .bi-hero { grid-template-columns: 1fr; }
+  .view-grid { grid-template-columns: 1fr; }
 }
 
 .bi-acc {

@@ -468,7 +468,7 @@
         fmtPct(summary.otif) + " with " + summary.late + " late orders. " +
         (weak ? (weak.plant + " is the softest plant at " + fmtPct(+weak.otif) + ". ") : "") +
         "Top exception driver: <em>" + topCause + "</em>. Freight at " +
-        fmtMoney(summary.freight) + " — review US cross-border lanes before the next planning cycle."
+        fmtMoney(summary.freight) + ". Review US cross-border lanes before the next planning cycle."
       );
     } catch (err) {
       console.error(err);
@@ -476,7 +476,7 @@
       showFallbackNote();
       setInsight(
         "<strong>Insight (demo fallback):</strong> Showing embedded synthetic exception rows. " +
-        "Full KPI/chart CSVs could not load from assets — table remains populated for portfolio review."
+        "Full KPI/chart CSVs could not load from assets. Table remains populated for portfolio review."
       );
     }
   })();

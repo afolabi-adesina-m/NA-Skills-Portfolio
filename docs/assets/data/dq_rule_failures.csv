@@ -1,0 +1,8 @@
+rule,object,failures
+UOM,Material,8
+Tax ID,Customer BP,6
+Bank keys,Vendor BP,5
+Duplicates,Material,6
+Duplicates,Vendor BP,4
+Orphan ship-to,Ship-To,5
+Country/region,Customer BP,5
