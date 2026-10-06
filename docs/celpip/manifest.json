@@ -1,13 +1,13 @@
 {
-  "name": "CELPIP Email Coach",
-  "short_name": "Email Coach",
-  "description": "Personal CELPIP Writing Task 1 email practice · CLB 10",
+  "name": "CELPIP Coach",
+  "short_name": "CELPIP Coach",
+  "description": "Personal CELPIP Writing practice · Task 1 and Task 2 · CLB 10",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0f1c2e",
-  "theme_color": "#0f1c2e",
+  "background_color": "#1d3557",
+  "theme_color": "#1d3557",
   "icons": [
     {
       "src": "icons/icon-192.png",

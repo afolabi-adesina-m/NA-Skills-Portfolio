@@ -1,59 +1,66 @@
-# CELPIP Email Coach
+# CELPIP Coach v4
 
-Personal, mobile-first PWA for **CELPIP Writing Task 1** (emails). Target: **CLB 10**.  
-No accounts. No backend. Progress stays in the browser (`localStorage`).
+A small offline study app for Afolabi's 30-day CELPIP Writing challenge (Oct 5 to Nov 3, 2026, target CLB 10+).
+Plain HTML, CSS and JavaScript. No frameworks, no build step, no server code.
 
-## Lessons
+Live path when deployed: `https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/celpip/`
+(the page has `<meta name="robots" content="noindex">`, so search engines skip it).
 
-1. **Fill the Gaps** · email sandwich in 5 bites with instant feedback  
-2. **Tone and Grammar** · you/your · cut weak openers · rewrite threats politely  
-3. **Full Timed Draft** · 27-minute free write · subject + body · band estimate  
+## What is inside
 
-### Email sandwich (5 bites)
+| Tab | What you can do |
+|---|---|
+| Home | Streak, latest CLB estimate and 30-day progress rings, today's plan, the Daily Brain Warm-up (3 short games), and the watch list from the Day 1 baseline. |
+| Learn | Lessons 1 to 3 from v2/v3, two baby-step guides, and the swipeable phrase bank (36 cards in 6 groups, with favourite stars). |
+| Games | Six brain games: Tone Swap, Sandwich Sort, Word Upgrade, Error Hunt, Memory Match, Connector Rush. Each is scored and keeps your best score. |
+| Write | 12 Task 1 email prompts (27 min) and 6 Task 2 survey prompts (26 min) in the CELPIP layout. Task 2 has a 5-step planner. A timed writer runs the draft checker, then shows a CLB estimate with 4 parts. The CLB 10 model answers (150 to 200 words, with highlighted phrases and notes) unlock after you try. |
+| Progress | 30-day calendar (today ringed, tap a day to mark it done, Days 1 to 4 are baselines), best game scores, and recent attempts. |
 
-1. Who I am  
-2. Why I write  
-3. How it hurts me  
-4. What I want (clear ask + polite timeline)  
-5. Thank you + name  
+There is also a dark mode (the moon button), a reduced-motion setting (it also follows the phone's setting), confetti, progress rings and card flips.
 
-Rules: no threats · skip "I hope this email meets you well" · firm but polite · subject + body.
+The CLB number is an **estimate** from simple rules in `checker.js`. It is not an official CELPIP score.
 
-## Open on your phone
+## Files (everything goes into `docs/celpip/`)
 
-Same Wi-Fi is fastest:
-
-```bash
-cd celpip-email-coach
-python3 -m http.server 8765
-# or: npx --yes serve -l 8765
+```
+index.html      app shell, screens, tab bar, toasts
+styles.css      soft navy theme, light and dark
+content.js      prompts, model answers, phrases, game data, watch list
+checker.js      draft checker and CLB estimate (also runs in Node)
+fx.js           confetti, rings, shake, toasts, coach line
+games.js        the six games and the daily warm-up
+lessons.js      Lessons 1 to 3 (carried over from v3)
+app.js          state, migration, tabs, calendar, writer, review
+sw.js           offline cache
+manifest.json   install info (scope ./)
+icons/          app icons
 ```
 
-Open `http://YOUR_LAN_IP:8765` on the phone → **Add to Home Screen**.  
-After the first load, the service worker (cache `v3`) works offline.  
-If the phone shows an old build, hard-refresh or clear site data once so `v3` installs.
+## Offline cache and updates
 
-### GitHub Pages
+* `sw.js` uses cache `celpip-email-coach-v4`, scope `./` (only the celpip folder).
+* It calls `skipWaiting()` and `clients.claim()`, and removes older `celpip-email-coach-*` caches.
+* Files come cache-first, so HTML, CSS and JS always match one version.
+* **To ship a change:** edit the files, then bump `CACHE` in `sw.js` (for example to `celpip-email-coach-v5`).
+  Open pages will show "Update available, tap to refresh".
+* The first visit after v4 goes live may still show v3 for one load while the new worker installs. The next load is v4.
 
-Unlisted path on the portfolio site (`docs/` → Pages): `/NA-Skills-Portfolio/celpip/`.  
-Not linked from the hub, nav, or project pages. Paths in the page, manifest (`start_url` / `scope`), and service worker registration are relative, and the worker is scoped to this folder only (cache `v3`).
+## Saved progress
 
-Prefer HTTP over `file://` so the service worker can register.
+* v4 stores everything in localStorage key `celpip-coach-v4`.
+* On first run it copies progress from the v2/v3 key `celpip-email-coach-v1`
+  (it also checks `celpip-email-coach-v3` and `-v2`): lesson counts, scenarios, last score and band.
+  It rebuilds the streak days from the old streak.
+* The old key is left alone as a backup.
 
-## Files
+## Run it locally
 
-- `index.html` · screens (home, L1, L2, L3, result)  
-- `styles.css` · mobile-first soft navy UI  
-- `app.js` · lessons, scoring, localStorage  
-- `manifest.json` / `sw.js` · PWA (cache **v3**, folder scope only)  
-- `icons/` · home-screen icons  
+```bash
+mkdir -p /tmp/site/NA-Skills-Portfolio && cp -r celpip-v4 /tmp/site/NA-Skills-Portfolio/celpip
+cd /tmp/site && python3 -m http.server 8765
+# open http://localhost:8765/NA-Skills-Portfolio/celpip/
+```
 
-Viewport target: **390px**.
+## Deploy
 
-## Progress
-
-Stored under `celpip-email-coach-v1`: streak, per-lesson completions, last band, path progress (0/3 lessons).
-
-## Personal use
-
-Built for Afolabi's CELPIP practice only.
+Copy the contents of this folder into `docs/celpip/` in the `NA-Skills-Portfolio` repo, replacing the v3 files, then commit and push. GitHub Pages serves it under `/NA-Skills-Portfolio/celpip/`. All paths are relative.

@@ -1,7 +1,7 @@
-/* CELPIP Email Coach · offline cache
-   Scope is this folder only (the script directory). Do not cache or
-   claim requests outside /celpip/, so the rest of the portfolio is untouched. */
-const CACHE = "celpip-email-coach-v3";
+/* CELPIP Coach v4 · offline cache
+   Scope is this folder only (the script directory). Requests outside /celpip/ are never
+   cached or claimed, so the rest of the portfolio is untouched. */
+const CACHE = "celpip-email-coach-v4";
 const SCOPE_URL = new URL("./", self.location);
 
 function inScope(url) {
@@ -12,6 +12,11 @@ const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./content.js",
+  "./checker.js",
+  "./fx.js",
+  "./games.js",
+  "./lessons.js",
   "./app.js",
   "./manifest.json",
   "./icons/icon-192.png",
@@ -20,7 +25,11 @@ const ASSETS = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches
+      .open(CACHE)
+      // cache: "reload" skips the HTTP cache so a new version never stores stale files
+      .then((cache) => cache.addAll(ASSETS.map((u) => new Request(u, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -39,14 +48,17 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+/* Cache first within a version so HTML, CSS and JS always match.
+   New versions arrive by changing CACHE above, which triggers the in-app update toast. */
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (!inScope(url) || url.pathname.endsWith("/sw.js")) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
+    caches.match(event.request, { ignoreSearch: event.request.mode === "navigate" }).then((cached) => {
+      if (cached) return cached;
+      return fetch(event.request)
         .then((res) => {
           if (res && res.ok && inScope(new URL(res.url))) {
             const copy = res.clone();
@@ -54,8 +66,9 @@ self.addEventListener("fetch", (event) => {
           }
           return res;
         })
-        .catch(() => cached);
-      return cached || network;
+        .catch(() =>
+          event.request.mode === "navigate" ? caches.match("./index.html") : Response.error()
+        );
     })
   );
 });

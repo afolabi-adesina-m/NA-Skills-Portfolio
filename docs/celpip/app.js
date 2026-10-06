@@ -1,764 +1,38 @@
 /**
- * CELPIP Email Coach · Lessons 1-3 (gaps, tone, timed draft)
- * Personal use · localStorage only · no backend
+ * CELPIP Coach v4 · core: state + migration, navigation, home, learn, write, progress, phrase bank, PWA
+ * Personal use · localStorage only · no backend · vanilla JS
  */
+"use strict";
 
-const STORAGE_KEY = "celpip-email-coach-v1";
+const STORAGE_KEY = "celpip-coach-v4";
+/* v2 and v3 both stored progress under "celpip-email-coach-v1". The others are checked just in case. */
+const LEGACY_KEYS = ["celpip-email-coach-v1", "celpip-email-coach-v3", "celpip-email-coach-v2"];
+const TABS = ["home", "learn", "games", "write", "progress"];
+const TAB_TITLES = { home: "Home", learn: "Learn", games: "Brain games", write: "Write", progress: "Progress" };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-const BITE_NAMES = [
-  "Who I am",
-  "Why I write",
-  "How it hurts me",
-  "What I want",
-  "Thank you + name",
-];
-
-const THREAT_WORDS = [
-  "sue", "lawyer", "lawsuit", "court", "police", "report you",
-  "or else", "demand", "immediately or", "you'll regret", "you will regret",
-  "complaint to the media", "expose you",
-];
-
-const WEAK_OPENERS = [
-  "i hope this email meets you well",
-  "i hope this email finds you well",
-  "hope this email finds you well",
-  "hope you're doing well",
-];
-
-/** @type {Array<{id:string,title:string,prompt:string,context:object,bites:Array}>} */
-const SCENARIOS = [
-  {
-    id: "lobby-light",
-    title: "Broken lobby light",
-    prompt:
-      "You live in Flat 12B at Oakwood Apartments. The lobby light on your floor has been broken for a week. It is dark and unsafe at night. Write to the building manager.",
-    context: {
-      name: "Afolabi Adesina",
-      role: "tenant in Flat 12B",
-      place: "Oakwood Apartments",
-      problem: "broken lobby light",
-      impact: "dark and unsafe at night",
-      ask: "repair the light",
-      timeline: "within 3 days",
-      subjectGood: ["lobby light", "flat 12b", "broken", "repair", "light"],
-    },
-    bites: [
-      {
-        type: "choice",
-        title: "Bite 1 · Who I am",
-        hint: "Say who you are and where you live. Keep it short.",
-        promptLine: "Pick the strongest opening:",
-        choices: [
-          {
-            text: "I am a tenant in Flat 12B at Oakwood Apartments.",
-            good: true,
-            tip: null,
-          },
-          {
-            text: "I hope this email meets you well. I live here.",
-            good: false,
-            tip: "Skip the empty greeting. Name your flat and building.",
-          },
-          {
-            text: "Hi, someone from the building here.",
-            good: false,
-            tip: "Too vague. State your flat number clearly.",
-          },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "choice",
-        title: "Bite 2 · Why I write",
-        hint: "State the problem in one clear sentence.",
-        promptLine: "Why are you writing?",
-        choices: [
-          {
-            text: "I am writing because the lobby light on my floor has been broken for a week.",
-            good: true,
-            tip: null,
-          },
-          {
-            text: "There might be something wrong with the lights maybe.",
-            good: false,
-            tip: "Be specific: which light, how long, and that it is broken.",
-          },
-          {
-            text: "Fix the light or I will call a lawyer.",
-            good: false,
-            tip: "No threats. CELPIP wants firm and polite · not aggressive.",
-          },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "fill",
-        title: "Bite 3 · How it hurts me",
-        hint: "Explain the impact on you. Use the blanks.",
-        template: "This is a problem because the hallway is {impact}, so I feel {feeling} when I come home at night.",
-        fields: [
-          {
-            key: "impact",
-            kind: "select",
-            options: [
-              { value: "dark and hard to see", good: true },
-              { value: "a bit annoying", good: false, tip: "Stronger: safety and visibility matter more than mild annoyance." },
-              { value: "fine during the day", good: false, tip: "Focus on the night-time risk." },
-            ],
-          },
-          {
-            key: "feeling",
-            kind: "select",
-            options: [
-              { value: "unsafe", good: true },
-              { value: "slightly bored", good: false, tip: "Link the feeling to safety or inconvenience." },
-              { value: "ready to sue", good: false, tip: "Threat language hurts your score. Stay polite." },
-            ],
-          },
-        ],
-        assemble: (vals) =>
-          `This is a problem because the hallway is ${vals.impact}, so I feel ${vals.feeling} when I come home at night.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 4 · What I want",
-        hint: "Clear ask + polite timeline. No threats.",
-        template: "Could you please {ask} {timeline}?",
-        fields: [
-          {
-            key: "ask",
-            kind: "select",
-            options: [
-              { value: "arrange for the lobby light to be repaired", good: true },
-              { value: "do something about this somehow", good: false, tip: "Name the action: repair or replace the light." },
-              { value: "fix it right now or face consequences", good: false, tip: "Drop the threat. Ask politely for a repair." },
-            ],
-          },
-          {
-            key: "timeline",
-            kind: "select",
-            options: [
-              { value: "within the next three days", good: true },
-              { value: "whenever you feel like it", good: false, tip: "Add a polite, realistic timeline." },
-              { value: "immediately or I will move out tomorrow", good: false, tip: "Too harsh. Try a calm deadline." },
-            ],
-          },
-        ],
-        assemble: (vals) => `Could you please ${vals.ask} ${vals.timeline}?`,
-      },
-      {
-        type: "fill",
-        title: "Bite 5 · Thank you + name",
-        hint: "Close politely and sign with your name.",
-        template: "{thanks}\n\n{name}",
-        fields: [
-          {
-            key: "thanks",
-            kind: "select",
-            options: [
-              { value: "Thank you for your prompt attention to this matter.", good: true },
-              { value: "Whatever.", good: false, tip: "A short thank-you keeps the tone polite." },
-              { value: "I hope this email meets you well. Bye.", good: false, tip: "Avoid that filler phrase. Use a clear thank-you." },
-            ],
-          },
-          {
-            key: "name",
-            kind: "text",
-            placeholder: "Your full name",
-            className: "wide",
-            validate: (v) => {
-              const t = (v || "").trim();
-              if (t.length < 2) return { ok: false, tip: "Type your name so the email is complete." };
-              if (t.toLowerCase() === "name") return { ok: false, tip: "Use your real name, not the word Name." };
-              return { ok: true };
-            },
-          },
-        ],
-        assemble: (vals) => `${vals.thanks}\n\n${vals.name.trim()}`,
-      },
-    ],
-    subjectOptions: [
-      { text: "Broken lobby light · Flat 12B · request for repair", good: true },
-      { text: "Hello", good: false, tip: "Subject should name the issue and your flat." },
-      { text: "URGENT!!! FIX NOW OR ELSE", good: false, tip: "No shouting or threats in the subject." },
-    ],
-  },
-
-  {
-    id: "noisy-neighbor",
-    title: "Noisy neighbour",
-    prompt:
-      "You live in Unit 4A. For two weeks, the neighbour above you has played loud music after 11 p.m. You cannot sleep. Write to the property manager.",
-    context: {
-      name: "Afolabi Adesina",
-      role: "resident of Unit 4A",
-      place: "your building",
-      problem: "loud music after 11 p.m.",
-      impact: "cannot sleep",
-      ask: "speak with the neighbour / enforce quiet hours",
-      timeline: "this week",
-    },
-    bites: [
-      {
-        type: "choice",
-        title: "Bite 1 · Who I am",
-        hint: "Identify yourself with your unit number.",
-        promptLine: "Best opening:",
-        choices: [
-          { text: "I am a resident of Unit 4A.", good: true, tip: null },
-          { text: "Someone who lives in this building.", good: false, tip: "Add your unit number." },
-          { text: "I hope this email finds you well.", good: false, tip: "Skip filler. Say who you are." },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "choice",
-        title: "Bite 2 · Why I write",
-        hint: "Name the problem and how long it has lasted.",
-        promptLine: "Why write?",
-        choices: [
-          {
-            text: "I am writing because the neighbour above me has played loud music after 11 p.m. for two weeks.",
-            good: true,
-            tip: null,
-          },
-          {
-            text: "Things are loud sometimes.",
-            good: false,
-            tip: "Be specific: who, what, when, and how long.",
-          },
-          {
-            text: "Tell them to shut up or I will call the police.",
-            good: false,
-            tip: "No threats. Stay firm and polite.",
-          },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "fill",
-        title: "Bite 3 · How it hurts me",
-        hint: "Show the personal impact.",
-        template: "As a result, I {impact}, which affects my {feeling} the next day.",
-        fields: [
-          {
-            key: "impact",
-            kind: "select",
-            options: [
-              { value: "cannot sleep properly", good: true },
-              { value: "sometimes notice noise", good: false, tip: "Stronger: state a clear impact like lost sleep." },
-              { value: "want revenge", good: false, tip: "Keep the tone calm and professional." },
-            ],
-          },
-          {
-            key: "feeling",
-            kind: "select",
-            options: [
-              { value: "work and concentration", good: true },
-              { value: "plan to complain on social media", good: false, tip: "Avoid threats. Focus on sleep or work." },
-              { value: "hobby of collecting stamps", good: false, tip: "Link impact to sleep, health, or work." },
-            ],
-          },
-        ],
-        assemble: (vals) =>
-          `As a result, I ${vals.impact}, which affects my ${vals.feeling} the next day.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 4 · What I want",
-        hint: "Clear ask + polite timeline.",
-        template: "I would appreciate it if you could {ask} {timeline}.",
-        fields: [
-          {
-            key: "ask",
-            kind: "select",
-            options: [
-              { value: "remind the neighbour about quiet hours and follow up", good: true },
-              { value: "maybe look into it", good: false, tip: "Make the ask concrete." },
-              { value: "evict them tomorrow or I will sue", good: false, tip: "Threats lower your score. Ask politely." },
-            ],
-          },
-          {
-            key: "timeline",
-            kind: "select",
-            options: [
-              { value: "this week", good: true },
-              { value: "someday", good: false, tip: "Give a polite, realistic timeline." },
-              { value: "in the next five minutes", good: false, tip: "Unrealistic. Try this week." },
-            ],
-          },
-        ],
-        assemble: (vals) =>
-          `I would appreciate it if you could ${vals.ask} ${vals.timeline}.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 5 · Thank you + name",
-        hint: "Polite close + your name.",
-        template: "{thanks}\n\n{name}",
-        fields: [
-          {
-            key: "thanks",
-            kind: "select",
-            options: [
-              { value: "Thank you for your help with this.", good: true },
-              { value: "Do it now.", good: false, tip: "Add a thank-you to stay polite." },
-              { value: "I hope this email meets you well.", good: false, tip: "Avoid that phrase. Thank them instead." },
-            ],
-          },
-          {
-            key: "name",
-            kind: "text",
-            placeholder: "Your full name",
-            className: "wide",
-            validate: (v) => {
-              const t = (v || "").trim();
-              if (t.length < 2) return { ok: false, tip: "Add your name." };
-              return { ok: true };
-            },
-          },
-        ],
-        assemble: (vals) => `${vals.thanks}\n\n${vals.name.trim()}`,
-      },
-    ],
-    subjectOptions: [
-      { text: "Noise after 11 p.m. · Unit 4A · request for quiet hours", good: true },
-      { text: "Hey", good: false, tip: "Subject needs the issue and unit." },
-      { text: "CALL THE POLICE ON 4B", good: false, tip: "No threats or shouting." },
-    ],
-  },
-
-  {
-    id: "parking-permit",
-    title: "Missing parking permit",
-    prompt:
-      "You are a tenant in Apt 8. Your visitor parking permit never arrived after you requested it two weeks ago. Guests keep getting tickets. Write to the condo office.",
-    context: {
-      name: "Afolabi Adesina",
-      role: "tenant in Apt 8",
-      problem: "visitor parking permit not received",
-      impact: "guests getting tickets",
-      ask: "issue or re-send the permit",
-      timeline: "by Friday",
-    },
-    bites: [
-      {
-        type: "choice",
-        title: "Bite 1 · Who I am",
-        hint: "State who you are and your apartment.",
-        promptLine: "Opening:",
-        choices: [
-          { text: "I am a tenant in Apt 8.", good: true, tip: null },
-          { text: "A person who parks here sometimes.", good: false, tip: "Give your apartment number." },
-          { text: "Hope you're well!", good: false, tip: "Lead with who you are, not a fluff greeting." },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "choice",
-        title: "Bite 2 · Why I write",
-        hint: "Explain the missing permit and the wait.",
-        promptLine: "Reason:",
-        choices: [
-          {
-            text: "I am writing because the visitor parking permit I requested two weeks ago has not arrived.",
-            good: true,
-            tip: null,
-          },
-          {
-            text: "Parking is confusing.",
-            good: false,
-            tip: "Mention the permit request and the two-week wait.",
-          },
-          {
-            text: "If I do not get a permit today I will hire a lawyer.",
-            good: false,
-            tip: "No threats. Stay firm and polite.",
-          },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "fill",
-        title: "Bite 3 · How it hurts me",
-        hint: "Show the consequence for you and guests.",
-        template: "This matters because my guests {impact}, and I {feeling}.",
-        fields: [
-          {
-            key: "impact",
-            kind: "select",
-            options: [
-              { value: "keep receiving parking tickets", good: true },
-              { value: "sometimes visit", good: false, tip: "State the real harm: tickets or denied parking." },
-              { value: "will sue the office", good: false, tip: "Remove threat language." },
-            ],
-          },
-          {
-            key: "feeling",
-            kind: "select",
-            options: [
-              { value: "feel responsible for costs they should not have", good: true },
-              { value: "am only slightly curious", good: false, tip: "Show a real inconvenience." },
-              { value: "want to threaten the staff", good: false, tip: "Stay polite." },
-            ],
-          },
-        ],
-        assemble: (vals) =>
-          `This matters because my guests ${vals.impact}, and I ${vals.feeling}.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 4 · What I want",
-        hint: "Ask clearly with a polite deadline.",
-        template: "Please {ask} {timeline}.",
-        fields: [
-          {
-            key: "ask",
-            kind: "select",
-            options: [
-              { value: "issue or re-send my visitor parking permit", good: true },
-              { value: "fix parking in general", good: false, tip: "Ask for the specific permit." },
-              { value: "refund every ticket ever or else", good: false, tip: "No threats. Focus on the permit." },
-            ],
-          },
-          {
-            key: "timeline",
-            kind: "select",
-            options: [
-              { value: "by this Friday", good: true },
-              { value: "eventually", good: false, tip: "Add a clear, polite timeline." },
-              { value: "before I destroy your reputation", good: false, tip: "Threats hurt CLB scores." },
-            ],
-          },
-        ],
-        assemble: (vals) => `Please ${vals.ask} ${vals.timeline}.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 5 · Thank you + name",
-        hint: "Close and sign.",
-        template: "{thanks}\n\n{name}",
-        fields: [
-          {
-            key: "thanks",
-            kind: "select",
-            options: [
-              { value: "Thank you for resolving this promptly.", good: true },
-              { value: "K.", good: false, tip: "Write a short thank-you." },
-              { value: "I hope this email meets you well.", good: false, tip: "Skip that phrase." },
-            ],
-          },
-          {
-            key: "name",
-            kind: "text",
-            placeholder: "Your full name",
-            className: "wide",
-            validate: (v) => {
-              const t = (v || "").trim();
-              if (t.length < 2) return { ok: false, tip: "Add your name." };
-              return { ok: true };
-            },
-          },
-        ],
-        assemble: (vals) => `${vals.thanks}\n\n${vals.name.trim()}`,
-      },
-    ],
-    subjectOptions: [
-      { text: "Visitor parking permit · Apt 8 · follow-up request", good: true },
-      { text: "Parking", good: false, tip: "Add apartment number and that it is a permit follow-up." },
-      { text: "YOU OWE ME MONEY", good: false, tip: "Stay calm and specific." },
-    ],
-  },
-
-  {
-    id: "gym-hours",
-    title: "Gym closed early",
-    prompt:
-      "You are a member of FitLife Gym. The evening class schedule was cut without notice, and you can no longer train after work. Write to the gym manager.",
-    context: {
-      name: "Afolabi Adesina",
-      role: "FitLife Gym member",
-      problem: "evening classes cut without notice",
-      impact: "cannot train after work",
-      ask: "restore evening hours or offer an alternative",
-      timeline: "within two weeks",
-    },
-    bites: [
-      {
-        type: "choice",
-        title: "Bite 1 · Who I am",
-        hint: "Say you are a member.",
-        promptLine: "Opening:",
-        choices: [
-          { text: "I am a member of FitLife Gym.", good: true, tip: null },
-          { text: "A person who likes exercise.", good: false, tip: "Name the gym and your membership." },
-          { text: "I hope this email meets you well.", good: false, tip: "Avoid that opener. Identify yourself." },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "choice",
-        title: "Bite 2 · Why I write",
-        hint: "State the schedule change clearly.",
-        promptLine: "Reason:",
-        choices: [
-          {
-            text: "I am writing because the evening class schedule was cut without notice.",
-            good: true,
-            tip: null,
-          },
-          {
-            text: "The gym feels different lately.",
-            good: false,
-            tip: "Name the evening schedule change.",
-          },
-          {
-            text: "Cancel my membership threats incoming.",
-            good: false,
-            tip: "No threats. Explain the problem politely.",
-          },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "fill",
-        title: "Bite 3 · How it hurts me",
-        hint: "Connect the change to your routine.",
-        template: "This affects me because I {impact}, and I {feeling}.",
-        fields: [
-          {
-            key: "impact",
-            kind: "select",
-            options: [
-              { value: "can only train after work in the evening", good: true },
-              { value: "sometimes go to the gym", good: false, tip: "Be specific about the evening need." },
-              { value: "will smear the gym online", good: false, tip: "No threats." },
-            ],
-          },
-          {
-            key: "feeling",
-            kind: "select",
-            options: [
-              { value: "have had to skip workouts for two weeks", good: true },
-              { value: "am mildly entertained", good: false, tip: "Show a real inconvenience." },
-              { value: "demand a lawsuit", good: false, tip: "Stay polite." },
-            ],
-          },
-        ],
-        assemble: (vals) =>
-          `This affects me because I ${vals.impact}, and I ${vals.feeling}.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 4 · What I want",
-        hint: "Clear ask + timeline.",
-        template: "Could you please {ask} {timeline}?",
-        fields: [
-          {
-            key: "ask",
-            kind: "select",
-            options: [
-              { value: "restore at least two evening classes or suggest an alternative schedule", good: true },
-              { value: "make the gym better", good: false, tip: "Ask for a concrete schedule fix." },
-              { value: "refund everything forever or I will destroy your reviews", good: false, tip: "Remove threats." },
-            ],
-          },
-          {
-            key: "timeline",
-            kind: "select",
-            options: [
-              { value: "within the next two weeks", good: true },
-              { value: "never mind the timing", good: false, tip: "Add a polite timeline." },
-              { value: "tonight at midnight", good: false, tip: "Unrealistic. Try two weeks." },
-            ],
-          },
-        ],
-        assemble: (vals) => `Could you please ${vals.ask} ${vals.timeline}?`,
-      },
-      {
-        type: "fill",
-        title: "Bite 5 · Thank you + name",
-        hint: "Polite close.",
-        template: "{thanks}\n\n{name}",
-        fields: [
-          {
-            key: "thanks",
-            kind: "select",
-            options: [
-              { value: "Thank you for considering my request.", good: true },
-              { value: "Whatever happens.", good: false, tip: "Add a clear thank-you." },
-              { value: "Hope this email finds you well. Thanks maybe.", good: false, tip: "Skip the filler phrase." },
-            ],
-          },
-          {
-            key: "name",
-            kind: "text",
-            placeholder: "Your full name",
-            className: "wide",
-            validate: (v) => {
-              const t = (v || "").trim();
-              if (t.length < 2) return { ok: false, tip: "Add your name." };
-              return { ok: true };
-            },
-          },
-        ],
-        assemble: (vals) => `${vals.thanks}\n\n${vals.name.trim()}`,
-      },
-    ],
-    subjectOptions: [
-      { text: "Evening class schedule · member request for options", good: true },
-      { text: "Gym", good: false, tip: "Name the evening schedule issue." },
-      { text: "BAD GYM ALERT", good: false, tip: "Stay professional." },
-    ],
-  },
-
-  {
-    id: "delivery-delay",
-    title: "Late package delivery",
-    prompt:
-      "You ordered a laptop stand from ShopEase two weeks ago. Tracking still says in transit, and you need it for work. Write to customer service.",
-    context: {
-      name: "Afolabi Adesina",
-      role: "ShopEase customer",
-      problem: "order still in transit after two weeks",
-      impact: "need it for work",
-      ask: "update on delivery or replacement / refund option",
-      timeline: "within 5 business days",
-    },
-    bites: [
-      {
-        type: "choice",
-        title: "Bite 1 · Who I am",
-        hint: "Identify yourself as a customer.",
-        promptLine: "Opening:",
-        choices: [
-          { text: "I am a ShopEase customer who placed an order two weeks ago.", good: true, tip: null },
-          { text: "Someone waiting for a box.", good: false, tip: "Name the store and that you are a customer." },
-          { text: "I hope this email meets you well.", good: false, tip: "Skip filler. Say who you are." },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "choice",
-        title: "Bite 2 · Why I write",
-        hint: "State the delay clearly.",
-        promptLine: "Reason:",
-        choices: [
-          {
-            text: "I am writing because my laptop stand order is still marked in transit after two weeks.",
-            good: true,
-            tip: null,
-          },
-          {
-            text: "Shipping is weird.",
-            good: false,
-            tip: "Mention the product, status, and two-week wait.",
-          },
-          {
-            text: "Send my item now or I will sue ShopEase.",
-            good: false,
-            tip: "No threats.",
-          },
-        ],
-        assemble: (c) => c,
-      },
-      {
-        type: "fill",
-        title: "Bite 3 · How it hurts me",
-        hint: "Explain why the delay matters.",
-        template: "This is inconvenient because I {impact}, so I {feeling}.",
-        fields: [
-          {
-            key: "impact",
-            kind: "select",
-            options: [
-              { value: "need the stand for daily remote work", good: true },
-              { value: "like packages", good: false, tip: "Link the delay to work or a real need." },
-              { value: "will report you to every forum", good: false, tip: "No threats." },
-            ],
-          },
-          {
-            key: "feeling",
-            kind: "select",
-            options: [
-              { value: "have been working without proper setup", good: true },
-              { value: "am only browsing casually", good: false, tip: "Show a real impact." },
-              { value: "plan to threaten staff", good: false, tip: "Stay polite." },
-            ],
-          },
-        ],
-        assemble: (vals) =>
-          `This is inconvenient because I ${vals.impact}, so I ${vals.feeling}.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 4 · What I want",
-        hint: "Ask for an update or remedy + timeline.",
-        template: "Please {ask} {timeline}.",
-        fields: [
-          {
-            key: "ask",
-            kind: "select",
-            options: [
-              { value: "provide a delivery update or offer a replacement or refund", good: true },
-              { value: "do better shipping", good: false, tip: "Ask for update, replacement, or refund." },
-              { value: "pay me damages immediately or face court", good: false, tip: "No threats." },
-            ],
-          },
-          {
-            key: "timeline",
-            kind: "select",
-            options: [
-              { value: "within five business days", good: true },
-              { value: "whenever", good: false, tip: "Give a polite timeline." },
-              { value: "in one hour or else", good: false, tip: "Drop the threat and soften the deadline." },
-            ],
-          },
-        ],
-        assemble: (vals) => `Please ${vals.ask} ${vals.timeline}.`,
-      },
-      {
-        type: "fill",
-        title: "Bite 5 · Thank you + name",
-        hint: "Close politely.",
-        template: "{thanks}\n\n{name}",
-        fields: [
-          {
-            key: "thanks",
-            kind: "select",
-            options: [
-              { value: "Thank you for your assistance.", good: true },
-              { value: "Hurry up.", good: false, tip: "Thank them instead." },
-              { value: "I hope this email meets you well.", good: false, tip: "Avoid that phrase." },
-            ],
-          },
-          {
-            key: "name",
-            kind: "text",
-            placeholder: "Your full name",
-            className: "wide",
-            validate: (v) => {
-              const t = (v || "").trim();
-              if (t.length < 2) return { ok: false, tip: "Add your name." };
-              return { ok: true };
-            },
-          },
-        ],
-        assemble: (vals) => `${vals.thanks}\n\n${vals.name.trim()}`,
-      },
-    ],
-    subjectOptions: [
-      { text: "Order delay · laptop stand · delivery update request", good: true },
-      { text: "Help", good: false, tip: "Name the order issue in the subject." },
-      { text: "LAWSUIT COMING", good: false, tip: "No threats." },
-    ],
-  },
-];
+/* ---------- Dates ---------- */
+function iso(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function todayISO() { return iso(new Date()); }
+function fromISO(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
+function addDays(s, n) { const d = fromISO(s); d.setDate(d.getDate() + n); return iso(d); }
+/* v1 to v3 wrote dates as "2026-10-5" (no zero padding) */
+function normalizeDate(s) {
+  if (!s || typeof s !== "string") return null;
+  const m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  return m ? `${m[1]}-${m[2].padStart(2, "0")}-${m[3].padStart(2, "0")}` : null;
+}
+function legacyKey(d) { return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
 
 /* ---------- State ---------- */
 function defaultState() {
   return {
+    schema: 4,
+    migratedFrom: null,
+    // v1 to v3 fields (kept so nothing is lost)
     streak: 0,
     lastPracticeDate: null,
     lesson1Completions: 0,
@@ -771,1077 +45,998 @@ function defaultState() {
     l3ScenarioIndex: 0,
     completedScenarioIds: [],
     lessonsTouched: { 1: false, 2: false, 3: false },
+    // v4 fields
+    activeDays: [],
+    challengeDone: {},
+    challengeSeeded: false,
+    games: {},
+    warmups: {},
+    attempts: [],
+    attempted: {},
+    bestClb: {},
+    drafts: {},
+    lastSubmission: {},
+    favPhrases: [],
+    lastClb: null,
+    settings: { theme: null, reduceMotion: false },
+    welcomed: false,
   };
+}
+
+function bandToNumber(band) {
+  if (!band) return null;
+  const nums = String(band).match(/\d+/g);
+  if (!nums) return null;
+  return Number(nums[0]); // "CLB 9-10" counts as 9 so the ring never overstates
+}
+
+function migrateLegacy(old, key) {
+  const s = defaultState();
+  const keep = ["streak", "lastPracticeDate", "lesson1Completions", "lesson2Completions", "lesson3Completions", "lastScore", "lastBand", "lastLesson", "scenarioIndex", "l3ScenarioIndex", "completedScenarioIds"];
+  keep.forEach((k) => { if (old[k] !== undefined && old[k] !== null) s[k] = old[k]; });
+  s.lessonsTouched = { ...s.lessonsTouched, ...(old.lessonsTouched || {}) };
+  s.migratedFrom = key;
+  // Rebuild practice days from the old streak counter
+  const last = normalizeDate(old.lastPracticeDate);
+  if (last) {
+    const n = Math.max(1, Math.min(60, Number(old.streak) || 1));
+    for (let i = 0; i < n; i++) s.activeDays.push(addDays(last, -i));
+    s.lastPracticeDate = old.lastPracticeDate;
+  }
+  s.lastClb = bandToNumber(old.lastBand);
+  return s;
 }
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultState();
-    const parsed = JSON.parse(raw);
-    const base = defaultState();
-    return {
-      ...base,
-      ...parsed,
-      lessonsTouched: { ...base.lessonsTouched, ...(parsed.lessonsTouched || {}) },
-    };
-  } catch {
-    return defaultState();
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const base = defaultState();
+      return {
+        ...base,
+        ...parsed,
+        lessonsTouched: { ...base.lessonsTouched, ...(parsed.lessonsTouched || {}) },
+        settings: { ...base.settings, ...(parsed.settings || {}) },
+      };
+    }
+    for (const key of LEGACY_KEYS) {
+      const old = localStorage.getItem(key);
+      if (old) {
+        const s = migrateLegacy(JSON.parse(old), key);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); // legacy key is left untouched as a backup
+        return s;
+      }
+    }
+  } catch (e) {
+    console.warn("Could not read saved progress", e);
   }
+  return defaultState();
 }
 
-function saveState(state) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+function saveState(s) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch (e) { console.warn("Save failed", e); }
 }
 
 let state = loadState();
-let session = null;
-let l2Session = null;
-let l3Session = null;
-let l3TimerId = null;
-let resultAgainHandler = null;
 
-/* ---------- Lesson 2 drills ---------- */
-const L2_DRILLS = [
-  {
-    id: "your-1",
-    tag: "Grammar · you / your",
-    title: "Pick the correct word",
-    hint: "your = belonging to you · you're = you are",
-    bad: null,
-    prompt: "I am writing about _____ building's broken elevator.",
-    choices: [
-      { text: "your", good: true, tip: null },
-      { text: "you're", good: false, tip: "Use your (possession), not you're (you are)." },
-      { text: "you", good: false, tip: "Need a possessive: your building." },
-    ],
-  },
-  {
-    id: "your-2",
-    tag: "Grammar · you / your",
-    title: "Fix the sentence",
-    hint: "Choose the polite, correct line.",
-    bad: "I hope you're office can help me soon.",
-    prompt: "Which rewrite is correct?",
-    choices: [
-      { text: "I hope your office can help me soon.", good: true, tip: null },
-      { text: "I hope you're office can help me soon.", good: false, tip: "you're = you are. Use your office." },
-      { text: "I hope you office can help me soon.", good: false, tip: "Missing the possessive your." },
-    ],
-  },
-  {
-    id: "opener-1",
-    tag: "Tone · weak opener",
-    title: "Cut the filler",
-    hint: 'Drop "I hope this email meets you well." Start with who you are.',
-    bad: "I hope this email meets you well. I am a tenant in Flat 3.",
-    prompt: "Best rewrite?",
-    choices: [
-      { text: "I am a tenant in Flat 3.", good: true, tip: null },
-      { text: "I hope this email meets you well. I am a tenant in Flat 3.", good: false, tip: "Cut the filler greeting for a higher band." },
-      { text: "Hope you're doing well!!! I live somewhere here.", good: false, tip: "Still fluff · and too vague about where you live." },
-    ],
-  },
-  {
-    id: "opener-2",
-    tag: "Tone · weak opener",
-    title: "Open with purpose",
-    hint: "Examiners prefer clear identity + reason over empty greetings.",
-    bad: "I hope this email finds you well.",
-    prompt: "What should you write instead?",
-    choices: [
-      { text: "I am writing as a member of FitLife Gym about the evening schedule.", good: true, tip: null },
-      { text: "I hope this email finds you well and that you are having a great day.", good: false, tip: "Still filler. Say who you are and why you write." },
-      { text: "Hey hope all good.", good: false, tip: "Too casual for CELPIP Task 1." },
-    ],
-  },
-  {
-    id: "threat-1",
-    tag: "Tone · no threats",
-    title: "Rewrite the threat",
-    hint: "Firm + polite beats angry. Ask clearly with a timeline.",
-    bad: "Fix the light or I will call a lawyer.",
-    prompt: "Polite rewrite?",
-    choices: [
-      { text: "Could you please arrange for the light to be repaired within three days?", good: true, tip: null },
-      { text: "Fix the light or I will call a lawyer.", good: false, tip: "Threats lower your score. Ask politely." },
-      { text: "If you ignore me I will sue and post online.", good: false, tip: "Still a threat. Stay calm and specific." },
-    ],
-  },
-  {
-    id: "threat-2",
-    tag: "Tone · no threats",
-    title: "Calm the ask",
-    hint: "Replace demands with a clear request.",
-    bad: "Send my package today or else you will regret it.",
-    prompt: "Best rewrite?",
-    choices: [
-      { text: "Please provide a delivery update or a refund option within five business days.", good: true, tip: null },
-      { text: "Send my package today or else you will regret it.", good: false, tip: "Remove the threat and add a polite timeline." },
-      { text: "I demand you ship it immediately or I call the police.", good: false, tip: "Demand + threat · rewrite as a polite request." },
-    ],
-  },
-  {
-    id: "tone-1",
-    tag: "Tone · firm but polite",
-    title: "Choose the CLB 10 tone",
-    hint: "Clear problem · personal impact · polite ask.",
-    bad: null,
-    prompt: "Which line sounds firm but polite?",
-    choices: [
-      { text: "The noise after 11 p.m. has made it hard to sleep. I would appreciate a follow-up this week.", good: true, tip: null },
-      { text: "You people never care about tenants.", good: false, tip: "Blamey tone hurts. Focus on the issue and your ask." },
-      { text: "Whatever. Just deal with it.", good: false, tip: "Too rude and vague for Task 1." },
-    ],
-  },
-  {
-    id: "grammar-close",
-    tag: "Grammar · closing",
-    title: "Close cleanly",
-    hint: "Thank you + full name. No threats. No filler openers at the end.",
-    bad: "I hope this email meets you well. Do it now. Name.",
-    prompt: "Best closing?",
-    choices: [
-      { text: "Thank you for your prompt attention.\n\nAfolabi Adesina", good: true, tip: null },
-      { text: "I hope this email meets you well. Do it now.", good: false, tip: "Cut the filler and the demand. Thank them and sign." },
-      { text: "Fix it or lawyer. Bye.", good: false, tip: "Threat + abrupt close. Stay polite." },
-    ],
-  },
-];
-
-/* ---------- Lesson 3 timed prompts ---------- */
-const L3_PROMPTS = [
-  {
-    id: "l3-heater",
-    prompt:
-      "You live in Unit 9C at Riverside Towers. The heater in your unit has not worked for five days. It is cold and you cannot work from home comfortably. Write an email to the building manager. Explain who you are, the problem, how it affects you, and what you want them to do (with a polite timeline).",
-    keywords: ["unit 9c", "heater", "riverside", "cold", "repair", "fix"],
-  },
-  {
-    id: "l3-refund",
-    prompt:
-      "You bought a noise-cancelling headset from AudioMart online. It arrived damaged. You want a replacement or a refund. Write to customer service. Be firm but polite. Include a clear subject and a clear ask with a timeline.",
-    keywords: ["headset", "damaged", "audiomart", "replacement", "refund"],
-  },
-  {
-    id: "l3-library",
-    prompt:
-      "You are a library member. Evening study rooms were closed without notice during exam week. Write to the library manager. Explain the impact on your studies and request restored hours or an alternative within one week.",
-    keywords: ["library", "study", "evening", "exam", "hours"],
-  },
-  {
-    id: "l3-parking",
-    prompt:
-      "Assigned parking spot B14 at your condo has been blocked by construction cones for ten days with no notice. Write to the condo board. Ask for temporary parking and a clear end date for the blockage.",
-    keywords: ["parking", "b14", "cones", "condo", "temporary"],
-  },
-];
-
-/* ---------- Streak ---------- */
-function todayKey() {
-  const d = new Date();
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-}
-
-function yesterdayKey() {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-}
-
-function bumpStreak() {
-  const today = todayKey();
-  if (state.lastPracticeDate === today) return;
-  if (state.lastPracticeDate === yesterdayKey()) {
-    state.streak += 1;
-  } else {
-    state.streak = 1;
-  }
-  state.lastPracticeDate = today;
+/* Seed Day 1 as done: the baseline email was written on Oct 5 */
+if (!state.challengeSeeded) {
+  state.challengeDone[LEARNER.challengeStart] = true;
+  state.challengeSeeded = true;
   saveState(state);
 }
 
-function refreshStreakDisplay() {
-  const today = todayKey();
-  let shown = state.streak;
-  if (state.lastPracticeDate && state.lastPracticeDate !== today && state.lastPracticeDate !== yesterdayKey()) {
-    shown = 0;
+/* ---------- Streak ---------- */
+function bumpStreak() {
+  const t = todayISO();
+  if (!state.activeDays.includes(t)) state.activeDays.push(t);
+  if (state.activeDays.length > 400) state.activeDays = state.activeDays.slice(-400);
+  // keep the v1 fields in sync too
+  const now = new Date();
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  if (state.lastPracticeDate !== legacyKey(now)) {
+    state.streak = state.lastPracticeDate === legacyKey(y) ? state.streak + 1 : 1;
+    state.lastPracticeDate = legacyKey(now);
   }
-  document.getElementById("streak-count").textContent = String(shown);
+  saveState(state);
 }
 
-function lessonsDoneCount() {
+function practiceDaySet() {
+  const set = new Set(state.activeDays);
+  Object.keys(state.challengeDone).forEach((k) => { if (state.challengeDone[k]) set.add(k); });
+  return set;
+}
+
+function computeStreak() {
+  const set = practiceDaySet();
+  let d = todayISO();
+  if (!set.has(d)) d = addDays(d, -1);
   let n = 0;
-  if (state.lesson1Completions > 0) n += 1;
-  if (state.lesson2Completions > 0) n += 1;
-  if (state.lesson3Completions > 0) n += 1;
+  while (set.has(d)) { n++; d = addDays(d, -1); }
   return n;
 }
 
-function refreshHomeMeta() {
-  const l1 = document.getElementById("l1-meta");
-  const l2 = document.getElementById("l2-meta");
-  const l3 = document.getElementById("l3-meta");
-  const l1cta = document.getElementById("l1-cta");
-  const l2cta = document.getElementById("l2-cta");
-  const l3cta = document.getElementById("l3-cta");
-
-  if (state.lesson1Completions > 0) {
-    l1.textContent = `Completed ${state.lesson1Completions}×`;
-    l1cta.textContent = "Again";
-  } else {
-    l1.textContent = "Not started";
-    l1cta.textContent = "Start";
+/* ---------- 30-day challenge ---------- */
+const BASELINE = [
+  { label: "Baseline: Writing", plan: "Your Day 1 email to the building manager about the heating vents and dishwasher. Done! It scored about CLB 8 to 9, and your watch list came from it.", act: { t: "prompt", id: "t1-heat", type: "t1" }, cta: "Open the heating prompt" },
+  { label: "Baseline: Speaking", plan: "Record yourself answering one CELPIP speaking task on your phone (outside this app). Then do the Daily Brain Warm-up.", act: { t: "warmup" }, cta: "Start warm-up" },
+  { label: "Baseline: Reading", plan: "Do one CELPIP reading practice set (outside this app). Then flip through 10 phrase cards.", act: { t: "phrases" }, cta: "Open phrase cards" },
+  { label: "Baseline: Listening", plan: "Do one CELPIP listening practice set (outside this app). Then play Connector Rush.", act: { t: "game", id: "connect" }, cta: "Play Connector Rush" },
+];
+const PRACTICE = [
+  { plan: "Lesson 2: Tone and Grammar. Fix the threats and you/your mistakes from Day 1.", act: { t: "lesson", n: 2 } },
+  { plan: "Rewrite your Day 1 heating email using the 5 bites. Then compare with the model answer.", act: { t: "prompt", id: "t1-heat", type: "t1" } },
+  { plan: "Task 1: Co-op deadline extension.", act: { t: "prompt", id: "t1-coop", type: "t1" } },
+  { plan: "Task 2: Oakville transit or parking. Use the planner first.", act: { t: "prompt", id: "t2-transit", type: "t2" } },
+  { plan: "Error Hunt, then Lesson 1: Fill the Gaps.", act: { t: "game", id: "errors" } },
+  { plan: "Task 1: Recruiter thank-you and next steps.", act: { t: "prompt", id: "t1-recruiter", type: "t1" } },
+  { plan: "Task 1: Reference request to your former manager.", act: { t: "prompt", id: "t1-reference", type: "t1" } },
+  { plan: "Task 2: Work from home or office?", act: { t: "prompt", id: "t2-remote", type: "t2" } },
+  { plan: "Task 1: GO Train delay made you late.", act: { t: "prompt", id: "t1-go", type: "t1" } },
+  { plan: "Brain Warm-up plus phrase bank review. Star 5 favourites.", act: { t: "warmup" } },
+  { plan: "Task 1: Rent increase notice.", act: { t: "prompt", id: "t1-rent", type: "t1" } },
+  { plan: "Task 2: Should Sheridan require co-op?", act: { t: "prompt", id: "t2-coop", type: "t2" } },
+  { plan: "Task 1: Noisy upstairs neighbour.", act: { t: "prompt", id: "t1-noise", type: "t1" } },
+  { plan: "Task 1: Reschedule an interview.", act: { t: "prompt", id: "t1-reschedule", type: "t1" } },
+  { plan: "Task 2: Community centre funding.", act: { t: "prompt", id: "t2-centre", type: "t2" } },
+  { plan: "Brain Warm-up plus Sandwich Sort.", act: { t: "game", id: "sandwich" } },
+  { plan: "Task 1: Cancel a gym membership.", act: { t: "prompt", id: "t1-gym", type: "t1" } },
+  { plan: "Task 1: Research assistant opportunity.", act: { t: "prompt", id: "t1-professor", type: "t1" } },
+  { plan: "Task 2: Building party room makeover.", act: { t: "prompt", id: "t2-room", type: "t2" } },
+  { plan: "Task 1: Recommend a Niagara weekend (informal tone).", act: { t: "prompt", id: "t1-niagara", type: "t1" } },
+  { plan: "Task 1: ServiceOntario card delay.", act: { t: "prompt", id: "t1-serviceontario", type: "t1" } },
+  { plan: "Task 2: Company training budget.", act: { t: "prompt", id: "t2-training", type: "t2" } },
+  { plan: "Lesson 3: Full timed draft, 27 minutes, no breaks.", act: { t: "lesson", n: 3 } },
+  { plan: "Watch list review, then Error Hunt. Aim for a perfect round.", act: { t: "game", id: "errors" } },
+  { plan: "Redo your weakest prompt from the writing history.", act: { t: "weakest" } },
+  { plan: "Mock test: one Task 1 and one Task 2 back to back. You are ready!", act: { t: "mock" } },
+];
+const CHALLENGE = (() => {
+  const days = [];
+  for (let i = 0; i < 30; i++) {
+    const date = addDays(LEARNER.challengeStart, i);
+    if (i < 4) days.push({ n: i + 1, date, base: true, label: BASELINE[i].label, plan: BASELINE[i].plan, act: BASELINE[i].act, cta: BASELINE[i].cta });
+    else days.push({ n: i + 1, date, base: false, label: "Practice", plan: PRACTICE[i - 4].plan, act: PRACTICE[i - 4].act, cta: "Start" });
   }
-  if (state.lesson2Completions > 0) {
-    l2.textContent = `Completed ${state.lesson2Completions}×`;
-    l2cta.textContent = "Again";
-  } else {
-    l2.textContent = "Not started";
-    l2cta.textContent = "Start";
-  }
-  if (state.lesson3Completions > 0) {
-    l3.textContent = `Completed ${state.lesson3Completions}×`;
-    l3cta.textContent = "Again";
-  } else {
-    l3.textContent = "Not started";
-    l3cta.textContent = "Start";
-  }
+  return days;
+})();
+function challengeDoneCount() { return CHALLENGE.filter((d) => state.challengeDone[d.date]).length; }
+function todayChallenge() { return CHALLENGE.find((d) => d.date === todayISO()) || null; }
 
-  const lastEl = document.getElementById("stat-last");
-  if (state.lastBand) {
-    lastEl.textContent = state.lastBand;
-  } else {
-    lastEl.textContent = "-";
-  }
-
-  const done = lessonsDoneCount();
-  document.getElementById("stat-lessons").textContent = `${done}/3`;
-  const pct = Math.round((done / 3) * 100);
-  document.getElementById("path-pct").textContent = `${pct}%`;
-  document.getElementById("path-fill").style.width = `${pct}%`;
-
-  refreshStreakDisplay();
+function runAction(a) {
+  if (!a) return;
+  if (a.t === "prompt") openPrompt(a.type, a.id);
+  else if (a.t === "warmup") Games.warmup();
+  else if (a.t === "game") Games.start(a.id, {});
+  else if (a.t === "phrases") openPhrases();
+  else if (a.t === "lesson") { if (a.n === 1) startLesson(false); else if (a.n === 2) startLesson2(); else startLesson3(false); }
+  else if (a.t === "weakest") {
+    const scored = state.attempts.filter((x) => x.kind !== "l3");
+    if (!scored.length) { FX.toast("No attempts yet. Start with the heating email."); openPrompt("t1", "t1-heat"); return; }
+    const w = scored.reduce((m, x) => (x.overall < m.overall ? x : m), scored[0]);
+    openPrompt(w.type, w.id);
+  } else if (a.t === "mock") { goTab("write"); FX.toast("Pick one Task 1, then one Task 2. Timer on!"); }
 }
 
-/* ---------- Screens ---------- */
-function showScreen(id) {
-  stopL3Timer();
-  document.querySelectorAll(".screen").forEach((el) => {
-    const on = el.id === id;
-    el.classList.toggle("active", on);
-    if (on) el.removeAttribute("hidden");
-    else el.setAttribute("hidden", "");
+/* ---------- Navigation ---------- */
+let currentTab = "home";
+
+function showScreen(id, opts = {}) {
+  if (id !== "screen-writer") stopWriterTimer();
+  const el = $(id);
+  const deep = el.classList.contains("deep");
+  document.querySelectorAll(".screen").forEach((s) => {
+    const on = s === el;
+    s.classList.toggle("active", on);
+    s.classList.remove("from-left");
+    if (on) s.removeAttribute("hidden");
+    else s.setAttribute("hidden", "");
   });
+  if (opts.fromLeft) el.classList.add("from-left");
+  document.body.classList.toggle("is-deep", deep);
+  if (deep && !(history.state && history.state.deep)) history.pushState({ deep: true }, "", location.href);
   window.scrollTo(0, 0);
 }
 
-function goHome() {
-  showScreen("screen-home");
-  refreshHomeMeta();
-}
-
-/* ---------- Lesson 1 session ---------- */
-function startLesson(advanceScenario) {
-  if (advanceScenario) {
-    state.scenarioIndex = (state.scenarioIndex + 1) % SCENARIOS.length;
-    saveState(state);
-  }
-  const scenario = SCENARIOS[state.scenarioIndex % SCENARIOS.length];
-  session = {
-    lesson: 1,
-    scenario,
-    biteIndex: 0,
-    answers: [],
-    biteScores: [],
-    subjectChoice: null,
-    phase: "bites",
-  };
-  document.getElementById("btn-check").onclick = () => checkCurrentBite();
-  document.getElementById("btn-next").onclick = () => goNext();
-  showScreen("screen-lesson");
-  renderBite();
-}
-
-function setProgress(step, total) {
-  const pct = Math.round((step / total) * 100);
-  document.getElementById("progress-fill").style.width = `${pct}%`;
-  document.getElementById("progress-bar").setAttribute("aria-valuenow", String(step));
-  document.getElementById("bite-label").textContent =
-    session.phase === "subject"
-      ? "Subject line"
-      : `Bite ${session.biteIndex + 1} of 5 · ${BITE_NAMES[session.biteIndex]}`;
-}
-
-function renderBite() {
-  const { scenario, biteIndex } = session;
-  const bite = scenario.bites[biteIndex];
-  document.getElementById("scenario-text").textContent = scenario.prompt;
-  document.getElementById("bite-title").textContent = bite.title;
-  document.getElementById("bite-hint").textContent = bite.hint;
-
-  const gap = document.getElementById("gap-block");
-  gap.innerHTML = "";
-  hideFeedback();
-  const checkBtn = document.getElementById("btn-check");
-  const nextBtn = document.getElementById("btn-next");
-  checkBtn.hidden = false;
-  checkBtn.disabled = false;
-  checkBtn.textContent = "Check";
-  nextBtn.hidden = true;
-
-  setProgress(biteIndex + 1, 6);
-
-  if (bite.type === "choice") {
-    const label = document.createElement("p");
-    label.className = "bite-hint";
-    label.style.marginBottom = "12px";
-    label.textContent = bite.promptLine;
-    gap.appendChild(label);
-
-    const grid = document.createElement("div");
-    grid.className = "choice-grid";
-    grid.dataset.mode = "choice";
-    bite.choices.forEach((ch, i) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "choice-btn";
-      btn.textContent = ch.text;
-      btn.dataset.index = String(i);
-      btn.addEventListener("click", () => {
-        grid.querySelectorAll(".choice-btn").forEach((b) => b.classList.remove("selected"));
-        btn.classList.add("selected");
-      });
-      grid.appendChild(btn);
-    });
-    gap.appendChild(grid);
-  } else if (bite.type === "fill") {
-    renderFillTemplate(gap, bite);
-  }
-}
-
-function renderFillTemplate(container, bite) {
-  const wrap = document.createElement("div");
-  wrap.className = "gap-sentence";
-  wrap.dataset.mode = "fill";
-
-  const parts = bite.template.split(/(\{[^}]+\})/g);
-  parts.forEach((part) => {
-    const m = part.match(/^\{([^}]+)\}$/);
-    if (!m) {
-      wrap.appendChild(document.createTextNode(part));
-      return;
-    }
-    const key = m[1];
-    const field = bite.fields.find((f) => f.key === key);
-    if (!field) return;
-    if (field.kind === "select") {
-      const sel = document.createElement("select");
-      sel.className = "gap-select";
-      sel.dataset.key = key;
-      const ph = document.createElement("option");
-      ph.value = "";
-      ph.textContent = "Choose...";
-      ph.disabled = true;
-      ph.selected = true;
-      sel.appendChild(ph);
-      field.options.forEach((opt, i) => {
-        const o = document.createElement("option");
-        o.value = String(i);
-        o.textContent = opt.value;
-        sel.appendChild(o);
-      });
-      wrap.appendChild(sel);
-    } else {
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = `gap-input ${field.className || "mid"}`;
-      input.dataset.key = key;
-      input.placeholder = field.placeholder || "";
-      input.autocomplete = "name";
-      wrap.appendChild(input);
-    }
+function goTab(tab) {
+  if (!TABS.includes(tab)) tab = "home";
+  Games.abort();
+  const fromLeft = TABS.indexOf(tab) < TABS.indexOf(currentTab);
+  currentTab = tab;
+  document.body.dataset.lastTab = tab;
+  renderTab(tab);
+  showScreen(`screen-${tab}`, { fromLeft });
+  document.querySelectorAll(".tab-btn").forEach((b) => {
+    const on = b.dataset.tab === tab;
+    b.classList.toggle("active", on);
+    if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
   });
-  container.appendChild(wrap);
+  $("appbar-title").textContent = TAB_TITLES[tab];
+  history.replaceState(null, "", `#${tab}`);
 }
 
-function hideFeedback() {
-  const fb = document.getElementById("feedback");
-  fb.hidden = true;
-  fb.className = "feedback";
-  fb.textContent = "";
+/* Legacy helpers used by lessons.js */
+function goHome() { goTab(document.body.dataset.lastTab || "home"); }
+function refreshHomeMeta() { refreshAll(); }
+
+function leaveDeep() {
+  stopWriterTimer();
+  Games.abort();
+  goTab(document.body.dataset.lastTab || "home");
 }
 
-function showFeedback(kind, message) {
-  const fb = document.getElementById("feedback");
-  fb.hidden = false;
-  fb.className = `feedback ${kind}`;
-  fb.textContent = message;
-}
-
-function containsThreat(text) {
-  const lower = text.toLowerCase();
-  return THREAT_WORDS.some((w) => lower.includes(w));
-}
-
-function containsWeakOpener(text) {
-  const lower = text.toLowerCase();
-  return WEAK_OPENERS.some((w) => lower.includes(w));
-}
-
-function checkCurrentBite() {
-  const bite = session.scenario.bites[session.biteIndex];
-  if (bite.type === "choice") {
-    const selected = document.querySelector("#gap-block .choice-grid .choice-btn.selected");
-    if (!selected) {
-      showFeedback("tip", "Tap one option first.");
-      return;
-    }
-    const idx = Number(selected.dataset.index);
-    const choice = bite.choices[idx];
-    document.querySelectorAll("#gap-block .choice-grid .choice-btn").forEach((b, i) => {
-      b.disabled = true;
-      if (bite.choices[i].good) b.classList.add("correct");
-      if (i === idx && !choice.good) b.classList.add("wrong");
-    });
-    if (choice.good) {
-      showFeedback("good", "Strong · clear and polite.");
-      session.answers[session.biteIndex] = bite.assemble(choice.text);
-      session.biteScores[session.biteIndex] = 1;
-    } else {
-      showFeedback("tip", choice.tip || "Try the clearer option.");
-      session.answers[session.biteIndex] = bite.assemble(choice.text);
-      session.biteScores[session.biteIndex] = 0.35;
-    }
-    afterCheck();
-    return;
+window.addEventListener("popstate", () => {
+  if (document.body.classList.contains("is-deep")) leaveDeep();
+  else {
+    const t = location.hash.slice(1);
+    if (TABS.includes(t) && t !== currentTab) goTab(t);
   }
+});
 
-  const values = {};
-  let allGood = true;
-  let tip = null;
-  let assembledPreview = "";
-
-  for (const field of bite.fields) {
-    const el = document.querySelector(`#gap-block [data-key="${field.key}"]`);
-    if (!el) continue;
-    if (field.kind === "select") {
-      if (el.value === "") {
-        showFeedback("tip", "Fill every blank before checking.");
-        return;
-      }
-      const opt = field.options[Number(el.value)];
-      values[field.key] = opt.value;
-      if (!opt.good) {
-        allGood = false;
-        tip = opt.tip || tip;
-      }
-    } else {
-      const v = el.value;
-      values[field.key] = v;
-      if (field.validate) {
-        const res = field.validate(v);
-        if (!res.ok) {
-          showFeedback("tip", res.tip);
-          return;
-        }
-      }
-      if (containsThreat(v)) {
-        allGood = false;
-        tip = "Remove threat language. Stay firm but polite.";
-      }
-      if (containsWeakOpener(v)) {
-        allGood = false;
-        tip = tip || 'Skip "I hope this email meets you well."';
-      }
-    }
-  }
-
-  assembledPreview = bite.assemble(values);
-  if (containsThreat(assembledPreview)) {
-    allGood = false;
-    tip = tip || "Remove threat words for a higher band.";
-  }
-
-  session.answers[session.biteIndex] = assembledPreview;
-  if (allGood) {
-    showFeedback("good", "Nice · this bite is clear and CLB-ready.");
-    session.biteScores[session.biteIndex] = 1;
-  } else {
-    showFeedback("tip", tip || "Almost · tighten clarity or tone.");
-    session.biteScores[session.biteIndex] = 0.45;
-  }
-  afterCheck();
+function renderTab(tab) {
+  refreshStreak();
+  if (tab === "home") renderHome();
+  else if (tab === "learn") renderLearn();
+  else if (tab === "games") renderGames();
+  else if (tab === "write") renderWriteList();
+  else if (tab === "progress") renderProgress();
 }
 
-function afterCheck() {
-  document.getElementById("btn-check").hidden = true;
-  const next = document.getElementById("btn-next");
-  next.hidden = false;
-  if (session.biteIndex >= 4) {
-    next.textContent = "Choose subject →";
-  } else {
-    next.textContent = "Next bite →";
-  }
+function refreshAll() {
+  refreshStreak();
+  const active = document.querySelector(".screen.tab.active");
+  if (active) renderTab(active.dataset.tab);
 }
 
-function goNext() {
-  if (session.phase === "subject") return;
-  if (session.biteIndex < 4) {
-    session.biteIndex += 1;
-    renderBite();
-    return;
-  }
-  renderSubjectStep();
+function refreshStreak() {
+  const n = computeStreak();
+  const el = $("streak-count");
+  if (el.textContent !== String(n)) { el.textContent = String(n); FX.pop($("streak-display")); }
+  $("streak-display").title = `${n} day practice streak`;
 }
 
-function renderSubjectStep() {
-  session.phase = "subject";
-  setProgress(6, 6);
-  document.getElementById("bite-label").textContent = "Subject line";
-  document.getElementById("bite-title").textContent = "Subject · clear and specific";
-  document.getElementById("bite-hint").textContent =
-    "A good subject names the issue and who you are (flat, unit, or order).";
-
-  const gap = document.getElementById("gap-block");
-  gap.innerHTML = "";
-  hideFeedback();
-
-  const grid = document.createElement("div");
-  grid.className = "choice-grid";
-  grid.dataset.mode = "subject";
-  session.scenario.subjectOptions.forEach((opt, i) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "choice-btn";
-    btn.textContent = opt.text;
-    btn.dataset.index = String(i);
-    btn.addEventListener("click", () => {
-      grid.querySelectorAll(".choice-btn").forEach((b) => b.classList.remove("selected"));
-      btn.classList.add("selected");
-    });
-    grid.appendChild(btn);
-  });
-  gap.appendChild(grid);
-
-  const checkBtn = document.getElementById("btn-check");
-  const nextBtn = document.getElementById("btn-next");
-  checkBtn.hidden = false;
-  checkBtn.disabled = false;
-  checkBtn.textContent = "Check subject";
-  nextBtn.hidden = true;
-
-  checkBtn.onclick = () => {
-    const selected = grid.querySelector(".choice-btn.selected");
-    if (!selected) {
-      showFeedback("tip", "Pick a subject line.");
-      return;
-    }
-    const idx = Number(selected.dataset.index);
-    const opt = session.scenario.subjectOptions[idx];
-    grid.querySelectorAll(".choice-btn").forEach((b, i) => {
-      b.disabled = true;
-      if (session.scenario.subjectOptions[i].good) b.classList.add("correct");
-      if (i === idx && !opt.good) b.classList.add("wrong");
-    });
-    session.subjectChoice = opt;
-    session.subjectScore = opt.good ? 1 : 0.3;
-    if (opt.good) showFeedback("good", "Clear subject · examiners like this.");
-    else showFeedback("tip", opt.tip || "Make the subject specific.");
-    checkBtn.hidden = true;
-    nextBtn.hidden = false;
-    nextBtn.textContent = "See full email →";
-    nextBtn.onclick = () => finishLesson1();
-  };
+/* ---------- Theme and settings ---------- */
+function applySettings() {
+  const dark = state.settings.theme === "dark";
+  document.documentElement.toggleAttribute("data-theme", false);
+  if (dark) document.documentElement.setAttribute("data-theme", "dark");
+  document.documentElement.classList.toggle("reduce-motion", !!state.settings.reduceMotion);
+  document.querySelector(".theme-icon").textContent = dark ? "☀️" : "🌙";
+  $("btn-theme").setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", dark ? "#0f1c2e" : "#1d3557");
+  $("set-dark").checked = dark;
+  $("set-motion").checked = !!state.settings.reduceMotion;
+}
+function toggleTheme(force) {
+  const dark = typeof force === "boolean" ? force : state.settings.theme !== "dark";
+  state.settings.theme = dark ? "dark" : "light";
+  saveState(state);
+  applySettings();
 }
 
-function showResult({ band, scorePct, strength, fix, subject, body, againLabel, againFn, title }) {
-  document.getElementById("result-title").textContent = title || "Your email";
-  document.getElementById("score-num").textContent = band;
-  document.getElementById("score-label").textContent = `Practice score ${scorePct}% · estimate only`;
-  document.getElementById("note-strength").innerHTML =
-    `<strong>Strength</strong>${escapeHtml(strength)}`;
-  document.getElementById("note-fix").innerHTML =
-    `<strong>One fix</strong>${escapeHtml(fix)}`;
-  document.getElementById("email-subject").textContent = subject || "(no subject)";
-  document.getElementById("email-body").textContent = body || "";
-  const again = document.getElementById("btn-again");
-  again.textContent = againLabel || "Practice again";
-  resultAgainHandler = againFn;
-  showScreen("screen-result");
-}
-
-function finishLesson1() {
-  const answers = session.answers;
-  const bodyParts = [
-    "Dear Manager,",
-    "",
-    answers[0],
-    answers[1],
-    answers[2],
-    answers[3],
-    "",
-    answers[4],
+/* ---------- Home ---------- */
+function ringsInto(container, size) {
+  container.innerHTML = "";
+  const streak = computeStreak();
+  const clb = state.lastClb;
+  const done = challengeDoneCount();
+  const items = [
+    FX.ring({ value: Math.min(streak, 30), max: 30, size, center: `🔥${streak}`, sub: "day streak", cls: "streak" }),
+    FX.ring({ value: clb || 0, max: LEARNER.target, size, center: clb ? `CLB ${clb}` : "–", sub: "target 10", cls: "clb" }),
+    FX.ring({ value: done, max: 30, size, center: `${done}/30`, sub: "days done", cls: "cal" }),
   ];
-  const body = bodyParts.join("\n");
-  const subject = session.subjectChoice ? session.subjectChoice.text : "Follow-up request";
-
-  const biteAvg =
-    session.biteScores.reduce((a, b) => a + b, 0) / session.biteScores.length;
-  const total = biteAvg * 0.85 + (session.subjectScore || 0) * 0.15;
-  const scorePct = Math.round(total * 100);
-
-  let band;
-  if (total >= 0.92) band = "CLB 10+";
-  else if (total >= 0.8) band = "CLB 9-10";
-  else if (total >= 0.65) band = "CLB 8";
-  else if (total >= 0.5) band = "CLB 7";
-  else band = "CLB 5-6";
-
-  const strengths = [];
-  const fixes = [];
-  if (session.biteScores[0] >= 1) strengths.push("You identified yourself clearly (who + where).");
-  if (session.biteScores[3] >= 1) strengths.push("Your ask and timeline were clear and polite.");
-  if (session.subjectScore >= 1) strengths.push("Your subject line was specific and useful.");
-  if (session.biteScores[2] >= 1) strengths.push("You explained the impact on you without drama.");
-  if (!strengths.length) strengths.push("You completed the full email sandwich · keep practising.");
-
-  if (session.biteScores[0] < 1) fixes.push("Open with who you are and your flat or unit number.");
-  else if (session.biteScores[1] < 1) fixes.push("State the problem in one specific sentence.");
-  else if (session.biteScores[2] < 1) fixes.push("Spell out how the problem affects you (sleep, safety, work).");
-  else if (session.biteScores[3] < 1) fixes.push("Make one clear ask with a polite timeline · no threats.");
-  else if (session.biteScores[4] < 1) fixes.push("Close with a thank-you and your full name.");
-  else if (session.subjectScore < 1) fixes.push("Tighten the subject: issue + location or order ID.");
-  else fixes.push("Next round: write the same bites a little shorter and sharper.");
-
-  bumpStreak();
-  state.lesson1Completions += 1;
-  state.lastScore = scorePct;
-  state.lastBand = band;
-  state.lastLesson = 1;
-  state.lessonsTouched[1] = true;
-  if (!state.completedScenarioIds.includes(session.scenario.id)) {
-    state.completedScenarioIds.push(session.scenario.id);
-  }
-  saveState(state);
-  refreshHomeMeta();
-
-  showResult({
-    band,
-    scorePct,
-    strength: strengths[0],
-    fix: fixes[0],
-    subject,
-    body,
-    title: "Lesson 1 · your email",
-    againLabel: "Practice another scenario",
-    againFn: () => startLesson(true),
+  const caps = ["Streak", "Latest estimate", "30-day challenge"];
+  items.forEach((r, i) => {
+    const c = document.createElement("div");
+    c.className = "ring-caption";
+    c.textContent = caps[i];
+    r.appendChild(c);
+    container.appendChild(r);
   });
 }
 
-/* ---------- Lesson 2 ---------- */
-function startLesson2() {
-  l2Session = { index: 0, scores: [] };
-  showScreen("screen-lesson2");
-  renderL2Drill();
-}
-
-function renderL2Drill() {
-  const drill = L2_DRILLS[l2Session.index];
-  const total = L2_DRILLS.length;
-  const step = l2Session.index + 1;
-  document.getElementById("l2-label").textContent = `Drill ${step} of ${total}`;
-  document.getElementById("l2-progress-fill").style.width = `${Math.round((step / total) * 100)}%`;
-  document.getElementById("l2-progress-bar").setAttribute("aria-valuenow", String(step));
-  document.getElementById("l2-progress-bar").setAttribute("aria-valuemax", String(total));
-  document.getElementById("l2-tag").textContent = drill.tag;
-  document.getElementById("l2-prompt").textContent = drill.prompt;
-  document.getElementById("l2-title").textContent = drill.title;
-  document.getElementById("l2-hint").textContent = drill.hint;
-
-  const gap = document.getElementById("l2-gap");
-  gap.innerHTML = "";
-  const fb = document.getElementById("l2-feedback");
-  fb.hidden = true;
-  fb.textContent = "";
-  fb.className = "feedback";
-
-  if (drill.bad) {
-    const bad = document.createElement("div");
-    bad.className = "drill-bad";
-    bad.innerHTML = `<span class="label">Needs a fix</span>${escapeHtml(drill.bad)}`;
-    gap.appendChild(bad);
-  }
-
-  const grid = document.createElement("div");
-  grid.className = "choice-grid";
-  drill.choices.forEach((ch, i) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "choice-btn";
-    btn.textContent = ch.text;
-    btn.dataset.index = String(i);
-    btn.addEventListener("click", () => {
-      grid.querySelectorAll(".choice-btn").forEach((b) => b.classList.remove("selected"));
-      btn.classList.add("selected");
-    });
-    grid.appendChild(btn);
-  });
-  gap.appendChild(grid);
-
-  const checkBtn = document.getElementById("btn-l2-check");
-  const nextBtn = document.getElementById("btn-l2-next");
-  checkBtn.hidden = false;
-  nextBtn.hidden = true;
-}
-
-function checkL2() {
-  const drill = L2_DRILLS[l2Session.index];
-  const selected = document.querySelector("#l2-gap .choice-btn.selected");
-  const fb = document.getElementById("l2-feedback");
-  if (!selected) {
-    fb.hidden = false;
-    fb.className = "feedback tip";
-    fb.textContent = "Tap one option first.";
-    return;
-  }
-  const idx = Number(selected.dataset.index);
-  const choice = drill.choices[idx];
-  document.querySelectorAll("#l2-gap .choice-btn").forEach((b, i) => {
-    b.disabled = true;
-    if (drill.choices[i].good) b.classList.add("correct");
-    if (i === idx && !choice.good) b.classList.add("wrong");
-  });
-  fb.hidden = false;
-  if (choice.good) {
-    fb.className = "feedback good";
-    fb.textContent = "Nice · that is firm, polite, and clear.";
-    l2Session.scores[l2Session.index] = 1;
+function renderHome() {
+  ringsInto($("home-rings"), 96);
+  // Today card
+  const t = todayChallenge();
+  const tc = $("today-card");
+  const today = todayISO();
+  if (t) {
+    const done = !!state.challengeDone[t.date];
+    tc.innerHTML = `
+      <div class="today-top">
+        <div class="day-badge"><small>Day</small><b>${t.n}</b></div>
+        <div style="flex:1;min-width:0">
+          <p class="muted tiny">${fromISO(t.date).toLocaleDateString("en-CA", { weekday: "long", month: "short", day: "numeric" })}</p>
+          <h2>${esc(t.label)}</h2>
+        </div>
+        ${done ? '<span class="chip good">Done ✓</span>' : ""}
+      </div>
+      <p class="muted" style="margin-top:8px">${esc(t.plan)}</p>
+      <div class="btn-row">
+        <button type="button" class="btn-primary" id="btn-today-go">${esc(t.cta)}</button>
+        <button type="button" class="btn-secondary" id="btn-today-done" style="margin-top:8px">${done ? "Undo" : "Mark done"}</button>
+      </div>`;
+    $("btn-today-go").onclick = () => runAction(t.act);
+    $("btn-today-done").onclick = (e) => toggleDay(t.date, e.currentTarget);
+  } else if (today < LEARNER.challengeStart) {
+    tc.innerHTML = `<h2>30-day challenge starts Oct 5</h2><p class="muted">Warm up with a brain game today.</p>`;
   } else {
-    fb.className = "feedback tip";
-    fb.textContent = choice.tip || "Almost · try the clearer rewrite.";
-    l2Session.scores[l2Session.index] = 0.3;
+    const n = challengeDoneCount();
+    tc.innerHTML = `<h2>Challenge finished 🎓</h2><p class="muted">You completed ${n} of 30 days. Keep a small daily habit going.</p>
+      <button type="button" class="btn-primary" id="btn-today-go">Write a Task 1</button>`;
+    $("btn-today-go").onclick = () => goTab("write");
   }
-  document.getElementById("btn-l2-check").hidden = true;
-  const next = document.getElementById("btn-l2-next");
-  next.hidden = false;
-  next.textContent =
-    l2Session.index >= L2_DRILLS.length - 1 ? "See results →" : "Next drill →";
+  // Warm-up
+  const ids = dailyWarmupIds(today);
+  const warmDone = !!state.warmups[today];
+  $("warmup-games").innerHTML = ids.map((id) => {
+    const g = GAMES.find((x) => x.id === id);
+    const playedToday = state.games[id] && state.games[id].lastDate === today;
+    return `<div class="warmup-game${playedToday ? " done" : ""}"><span>${g.icon}</span>${esc(g.name)}</div>`;
+  }).join("");
+  $("warmup-status").textContent = warmDone ? "Done today ✓" : "3 short games";
+  $("warmup-status").className = `chip${warmDone ? " good" : ""}`;
+  $("btn-warmup").textContent = warmDone ? "Play it again" : "Start warm-up";
+  // Watch chips
+  const wc = $("watch-chips");
+  if (!wc.dataset.ready) {
+    wc.innerHTML = WATCH_LIST.map((w) => `<button type="button" class="watch-chip" data-w="${w.id}">${w.icon} ${esc(w.title)}</button>`).join("");
+    wc.querySelectorAll(".watch-chip").forEach((b) => b.addEventListener("click", () => {
+      const wasActive = b.classList.contains("active");
+      wc.querySelectorAll(".watch-chip").forEach((x) => x.classList.remove("active"));
+      const d = $("watch-detail");
+      if (wasActive) { d.hidden = true; return; }
+      b.classList.add("active");
+      const w = WATCH_LIST.find((x) => x.id === b.dataset.w);
+      d.hidden = false;
+      d.innerHTML = watchHtml(w);
+      d.classList.remove("watch-detail"); void d.offsetWidth; d.classList.add("watch-detail");
+    }));
+    wc.dataset.ready = "1";
+  }
 }
 
-function nextL2() {
-  if (l2Session.index < L2_DRILLS.length - 1) {
-    l2Session.index += 1;
-    renderL2Drill();
+function watchHtml(w) {
+  return `<div class="bad-line"><b>Day 1</b>${esc(w.bad)}</div><div class="good-line"><b>CLB 10</b>${esc(w.good)}</div><p class="kid-line">👶 ${esc(w.kid)}</p>`;
+}
+
+function toggleDay(date, el) {
+  if (date > todayISO()) { FX.toast("That day has not arrived yet. One day at a time!"); FX.shake(el); return; }
+  const now = !state.challengeDone[date];
+  if (now) state.challengeDone[date] = true;
+  else delete state.challengeDone[date];
+  saveState(state);
+  if (now) {
+    FX.confetti({ el, count: 60 });
+    FX.coach("done", challengeDoneCount() >= 30 ? "All 30 days! You did it, Afolabi!" : `Day ${CHALLENGE.find((d) => d.date === date).n} done. Keep the chain going!`);
+  }
+  refreshAll();
+}
+
+/* ---------- Learn ---------- */
+function renderLearn() {
+  const g = $("guides");
+  if (!g.dataset.ready) {
+    g.innerHTML = GUIDES.map((x, i) => `<details class="card guide"${i === 0 ? " open" : ""}><summary>👣 ${esc(x.title)}</summary><ol>${x.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></details>`).join("");
+    $("watch-full").innerHTML = WATCH_LIST.map((w) => `<div class="card watch-item"><h3>${w.icon} ${esc(w.title)}</h3>${watchHtml(w)}</div>`).join("");
+    g.dataset.ready = "1";
+  }
+  const meta = (n, c) => {
+    const m = $(`l${n}-meta`), cta = $(`l${n}-cta`);
+    if (c > 0) { m.textContent = `Completed ${c}×`; cta.textContent = "Again"; }
+    else { m.textContent = "Not started"; cta.textContent = "Start"; }
+  };
+  meta(1, state.lesson1Completions);
+  meta(2, state.lesson2Completions);
+  meta(3, state.lesson3Completions);
+}
+
+/* ---------- Games tab ---------- */
+function renderGames() {
+  const today = todayISO();
+  const ids = dailyWarmupIds(today);
+  const warmDone = !!state.warmups[today];
+  $("warmup-list-2").textContent = `Today: ${ids.map((id) => GAMES.find((g) => g.id === id).name).join(", ")} (short versions).`;
+  $("warmup-status-2").textContent = warmDone ? "Done today ✓" : "3 short games";
+  $("warmup-status-2").className = `chip${warmDone ? " good" : ""}`;
+  $("game-grid").innerHTML = GAMES.map((g) => {
+    const r = state.games[g.id];
+    return `<button type="button" class="game-card" data-game="${g.id}">
+      <span class="game-icon" aria-hidden="true">${g.icon}</span>
+      <h3>${esc(g.name)}</h3><p>${esc(g.desc)}</p>
+      <span class="game-best">${r ? `Best ${r.best} · played ${r.plays}×` : esc(g.time)}</span></button>`;
+  }).join("");
+  $("game-grid").querySelectorAll(".game-card").forEach((b) => b.addEventListener("click", () => Games.start(b.dataset.game, {})));
+}
+
+/* ---------- Progress ---------- */
+let selectedDay = null;
+function renderProgress() {
+  ringsInto($("progress-rings"), 96);
+  const cal = $("calendar");
+  const today = todayISO();
+  const startDow = (fromISO(LEARNER.challengeStart).getDay() + 6) % 7; // Monday = 0
+  let html = "";
+  for (let i = 0; i < startDow; i++) html += `<span class="cal-day blank"></span>`;
+  CHALLENGE.forEach((d) => {
+    const cls = ["cal-day", d.base ? "base" : "prac"];
+    if (state.challengeDone[d.date]) cls.push("done");
+    if (d.date === today) cls.push("today");
+    if (d.date > today) cls.push("future");
+    if (selectedDay === d.date) cls.push("sel");
+    const tag = d.base ? { Writing: "Write", Speaking: "Speak", Reading: "Read", Listening: "Listen" }[d.label.split(": ")[1]] : `Day ${d.n}`;
+    const dt = fromISO(d.date);
+    html += `<button type="button" class="${cls.join(" ")}" data-date="${d.date}" role="gridcell"
+      aria-label="Day ${d.n}, ${dt.toLocaleDateString("en-CA", { month: "short", day: "numeric" })}, ${esc(d.label)}${state.challengeDone[d.date] ? ", done" : ""}">
+      ${dt.getDate()}<small>${esc(tag)}</small></button>`;
+  });
+  cal.innerHTML = html;
+  cal.querySelectorAll(".cal-day[data-date]").forEach((b) => b.addEventListener("click", () => {
+    selectedDay = b.dataset.date;
+    toggleDay(b.dataset.date, b);
+    const nb = cal.querySelector(`[data-date="${selectedDay}"]`);
+    if (nb) nb.classList.add("just");
+  }));
+  $("cal-count").textContent = `${challengeDoneCount()}/30`;
+  const show = CHALLENGE.find((d) => d.date === (selectedDay || today)) || CHALLENGE[0];
+  const dd = $("day-detail");
+  dd.innerHTML = `<h3>Day ${show.n} · ${fromISO(show.date).toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" })} · ${esc(show.label)}</h3>
+    <p class="muted">${esc(show.plan)}</p>
+    <button type="button" class="btn-primary" id="btn-day-go">${esc(show.cta)}</button>`;
+  $("btn-day-go").onclick = () => runAction(show.act);
+
+  $("best-list").innerHTML = GAMES.map((g) => {
+    const r = state.games[g.id];
+    return `<div class="best-row"><span>${g.icon} ${esc(g.name)}</span><b>${r ? r.best : "–"}</b></div>`;
+  }).join("");
+  const hist = state.attempts.slice(0, 8);
+  $("history").innerHTML = hist.length
+    ? hist.map((a) => `<div class="hist-row"><span>${esc(promptTitle(a))}<br><span class="muted tiny">${esc(a.date)} · ${a.words} words</span></span><b>CLB ${a.clb}</b></div>`).join("")
+    : `<p class="muted small">No timed drafts yet. Your estimates will show here.</p>`;
+  const lessons = [state.lesson1Completions, state.lesson2Completions, state.lesson3Completions];
+  $("version-note").textContent = `CELPIP Coach v4 · Lessons done ${lessons.filter((x) => x > 0).length}/3 · progress is saved on this device only${state.migratedFrom ? " · earlier progress carried over" : ""}`;
+}
+
+function promptTitle(a) {
+  const p = findPrompt(a.type, a.id);
+  if (p) return `${a.type === "t2" ? "Task 2" : "Task 1"} · ${p.title}`;
+  return "Lesson 3 · timed draft";
+}
+
+/* ---------- Phrase bank ---------- */
+const phraseKey = (p) => `${p.g}|${p.basic}`;
+let phraseFilter = "All", phraseList = PHRASES, phraseIdx = 0;
+function openPhrases() {
+  const groups = ["All", "★ Starred", ...PHRASE_GROUPS];
+  $("phrase-groups").innerHTML = groups.map((g) => `<button type="button" class="chip-btn${g === phraseFilter ? " active" : ""}" data-g="${esc(g)}">${esc(g)}</button>`).join("");
+  $("phrase-groups").querySelectorAll(".chip-btn").forEach((b) => b.addEventListener("click", () => {
+    phraseFilter = b.dataset.g;
+    phraseIdx = 0;
+    $("phrase-groups").querySelectorAll(".chip-btn").forEach((x) => x.classList.toggle("active", x === b));
+    filterPhrases();
+    renderFlash();
+  }));
+  filterPhrases();
+  showScreen("screen-phrases");
+  renderFlash();
+}
+function filterPhrases() {
+  if (phraseFilter === "All") phraseList = PHRASES;
+  else if (phraseFilter === "★ Starred") phraseList = PHRASES.filter((p) => state.favPhrases.includes(phraseKey(p)));
+  else phraseList = PHRASES.filter((p) => p.g === phraseFilter);
+}
+function renderFlash(dir) {
+  const f = $("flash");
+  f.classList.remove("flipped", "swipe-l", "swipe-r");
+  if (!phraseList.length) {
+    f.innerHTML = `<div class="flash-inner"><div class="flash-face flash-front"><p class="center muted">No starred phrases yet. Tap ☆ on any card to save it here.</p></div></div>`;
+    $("flash-pos").textContent = "";
+    $("flash-star").classList.remove("on");
+    $("flash-star").textContent = "☆";
     return;
   }
-  finishLesson2();
+  phraseIdx = (phraseIdx + phraseList.length) % phraseList.length;
+  const p = phraseList[phraseIdx];
+  f.innerHTML = `<div class="flash-inner">
+    <div class="flash-face flash-front"><span class="tag">${esc(p.g)} · instead of</span><p class="txt">${esc(p.basic)}</p><span class="hint">Tap to see the CLB 10 version</span></div>
+    <div class="flash-face flash-back"><span class="tag">CLB 10 · ${esc(p.g)}</span><p class="txt">${esc(p.clb)}</p><span class="hint">Swipe for the next card</span></div></div>`;
+  if (dir) { void f.offsetWidth; f.classList.add(dir === "next" ? "swipe-l" : "swipe-r"); }
+  $("flash-pos").textContent = `${phraseIdx + 1} of ${phraseList.length}`;
+  const on = state.favPhrases.includes(phraseKey(p));
+  $("flash-star").classList.toggle("on", on);
+  $("flash-star").textContent = on ? "★" : "☆";
+  $("flash-star").setAttribute("aria-pressed", String(on));
 }
-
-function finishLesson2() {
-  const avg =
-    l2Session.scores.reduce((a, b) => a + b, 0) / l2Session.scores.length;
-  const scorePct = Math.round(avg * 100);
-  let band;
-  if (avg >= 0.92) band = "CLB 10+";
-  else if (avg >= 0.8) band = "CLB 9-10";
-  else if (avg >= 0.65) band = "CLB 8";
-  else if (avg >= 0.5) band = "CLB 7";
-  else band = "CLB 5-6";
-
-  const misses = l2Session.scores
-    .map((s, i) => ({ s, i }))
-    .filter((x) => x.s < 1)
-    .map((x) => L2_DRILLS[x.i].tag);
-
-  let strength =
-    avg >= 0.8
-      ? "You are spotting weak tone and grammar quickly · that protects CLB 10."
-      : "You finished the tone drills · keep choosing the calm rewrite.";
-  let fix =
-    misses.length > 0
-      ? `Focus next on: ${misses[0]}. Calm asks beat threats every time.`
-      : "Keep cutting filler openers and double-checking your / you're.";
-
-  const summary = L2_DRILLS.map((d, i) => {
-    const mark = l2Session.scores[i] >= 1 ? "✓" : "·";
-    return `${mark} ${d.title}`;
-  }).join("\n");
-
-  bumpStreak();
-  state.lesson2Completions += 1;
-  state.lastScore = scorePct;
-  state.lastBand = band;
-  state.lastLesson = 2;
-  state.lessonsTouched[2] = true;
-  saveState(state);
-  refreshHomeMeta();
-
-  showResult({
-    band,
-    scorePct,
-    strength,
-    fix,
-    subject: "Lesson 2 · tone and grammar drills",
-    body: summary,
-    title: "Lesson 2 · results",
-    againLabel: "Retry tone drills",
-    againFn: () => startLesson2(),
+function flashMove(d) { if (!phraseList.length) return; phraseIdx += d; renderFlash(d > 0 ? "next" : "prev"); }
+function wirePhrases() {
+  const f = $("flash");
+  let x0 = null, y0 = null, moved = false;
+  f.addEventListener("pointerdown", (e) => { x0 = e.clientX; y0 = e.clientY; moved = false; });
+  f.addEventListener("pointermove", (e) => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0;
+    if (Math.abs(dx) > 8) { moved = true; if (!FX.reduced()) f.style.transform = `translateX(${dx * 0.4}px) rotate(${dx * 0.03}deg)`; }
   });
-}
-
-/* ---------- Lesson 3 timed ---------- */
-function startLesson3(advance) {
-  if (advance) {
-    state.l3ScenarioIndex = (state.l3ScenarioIndex + 1) % L3_PROMPTS.length;
-    saveState(state);
-  }
-  const prompt = L3_PROMPTS[state.l3ScenarioIndex % L3_PROMPTS.length];
-  l3Session = {
-    prompt,
-    secondsLeft: 27 * 60,
-    submitted: false,
+  const end = (e) => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    f.style.transform = "";
+    x0 = null;
+    if (moved && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) flashMove(dx < 0 ? 1 : -1);
+    else if (!moved) f.classList.toggle("flipped");
   };
-  document.getElementById("l3-prompt").textContent = prompt.prompt;
-  document.getElementById("l3-subject").value = "";
-  document.getElementById("l3-body").value = "";
-  document.getElementById("l3-words").textContent = "0 words";
-  updateL3TimerDisplay();
-  showScreen("screen-lesson3");
-  startL3Timer();
+  f.addEventListener("pointerup", end);
+  f.addEventListener("pointercancel", () => { x0 = null; f.style.transform = ""; });
+  f.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") flashMove(1);
+    else if (e.key === "ArrowLeft") flashMove(-1);
+    else if (e.key === " " || e.key === "Enter") { e.preventDefault(); f.classList.toggle("flipped"); }
+  });
+  $("flash-prev").onclick = () => flashMove(-1);
+  $("flash-next").onclick = () => flashMove(1);
+  $("flash-star").onclick = () => {
+    if (!phraseList.length) return;
+    const k = phraseKey(phraseList[phraseIdx]);
+    const i = state.favPhrases.indexOf(k);
+    if (i >= 0) state.favPhrases.splice(i, 1);
+    else { state.favPhrases.push(k); FX.confetti({ el: $("flash-star"), count: 18 }); }
+    saveState(state);
+    FX.pop($("flash-star"));
+    if (phraseFilter === "★ Starred") { filterPhrases(); renderFlash(); }
+    else renderFlash();
+  };
 }
 
-function wordCount(text) {
-  const t = (text || "").trim();
-  if (!t) return 0;
-  return t.split(/\s+/).length;
+/* ---------- Write: prompt list ---------- */
+let writeSeg = "t1";
+function findPrompt(type, id) { return (type === "t2" ? T2_PROMPTS : T1_PROMPTS).find((p) => p.id === id); }
+
+function renderWriteList() {
+  document.querySelectorAll(".seg").forEach((b) => {
+    const on = b.dataset.seg === writeSeg;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-selected", String(on));
+  });
+  $("write-intro").textContent = writeSeg === "t1"
+    ? "Task 1 · Writing an Email · 27 minutes · 150 to 200 words. Model answers unlock after you try."
+    : "Task 2 · Responding to Survey Questions · 26 minutes · 150 to 200 words. Choose Option A or B.";
+  const list = writeSeg === "t1" ? T1_PROMPTS : T2_PROMPTS;
+  $("prompt-list").innerHTML = list.map((p) => {
+    const tries = state.attempts.filter((a) => a.id === p.id).length;
+    const best = state.bestClb[p.id];
+    return `<button type="button" class="card prompt-card" data-id="${p.id}">
+      <span class="prompt-icon" aria-hidden="true">${p.icon}</span>
+      <span class="prompt-main"><h3>${esc(p.title)}</h3>
+        <span class="meta">${writeSeg === "t1" ? `To ${esc(p.to)} · ${esc(p.tag)}` : "Option A or B"}${tries ? ` · ${tries} ${tries === 1 ? "try" : "tries"}` : ""}</span></span>
+      ${best ? `<span class="chip good">CLB ${best}</span>` : state.attempted[p.id] ? '<span class="chip">Tried</span>' : '<span class="chevron chev">›</span>'}</button>`;
+  }).join("");
+  $("prompt-list").querySelectorAll(".prompt-card").forEach((b) => b.addEventListener("click", () => openPrompt(writeSeg, b.dataset.id)));
 }
 
-function updateL3TimerDisplay() {
-  const s = Math.max(0, l3Session ? l3Session.secondsLeft : 0);
-  const m = Math.floor(s / 60);
-  const r = s % 60;
-  const el = document.getElementById("l3-timer");
-  el.textContent = `${m}:${String(r).padStart(2, "0")}`;
-  el.classList.remove("warn", "danger");
-  if (s <= 60) el.classList.add("danger");
-  else if (s <= 5 * 60) el.classList.add("warn");
+function celpipBoxHtml(type, p) {
+  if (type === "t2") {
+    return `<div class="celpip-box"><div class="celpip-head"><span>Writing Task 2: Responding to Survey Questions</span><span class="clock">26:00</span></div>
+      <div class="celpip-body">
+        <p class="instr">Read the following information.</p>
+        <p>${esc(p.situation)}</p>
+        <div class="options"><div class="option"><b>Option A:</b> ${esc(p.optionA)}</div><div class="option"><b>Option B:</b> ${esc(p.optionB)}</div></div>
+        <p class="instr">Choose the option that you prefer. Why do you prefer your choice? Explain the reasons for your choice. Write about 150 to 200 words.</p>
+      </div></div>`;
+  }
+  return `<div class="celpip-box"><div class="celpip-head"><span>Writing Task 1: Writing an Email</span><span class="clock">27:00</span></div>
+    <div class="celpip-body">
+      <p class="instr">Read the following information.</p>
+      <p>${esc(p.situation)}</p>
+      <p class="instr">Write an email to ${esc(p.to)} in about 150 to 200 words. Your email should do the following things:</p>
+      <ul>${p.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>
+    </div></div>`;
 }
 
-function startL3Timer() {
-  stopL3Timer();
-  l3TimerId = setInterval(() => {
-    if (!l3Session || l3Session.submitted) return;
-    l3Session.secondsLeft -= 1;
-    updateL3TimerDisplay();
-    if (l3Session.secondsLeft <= 0) {
-      stopL3Timer();
-      finishLesson3(true);
-    }
+function openPrompt(type, id) {
+  const p = findPrompt(type, id);
+  if (!p) return;
+  $("prompt-title").textContent = p.title;
+  const tries = state.attempts.filter((a) => a.id === id);
+  const best = state.bestClb[id];
+  const pb = $("prompt-body");
+  pb.innerHTML = `${celpipBoxHtml(type, p)}
+    ${tries.length ? `<p class="muted small" style="margin-bottom:8px">You tried this ${tries.length}× · best estimate CLB ${best}</p>` : ""}
+    ${state.drafts[id] ? '<p class="chip warn" style="margin-bottom:8px">You have a saved draft</p>' : ""}
+    <button type="button" class="btn-primary" id="btn-prompt-start">Start timed practice (${type === "t2" ? 26 : 27} min)</button>
+    <h2 class="section-title">CLB 10 model answer</h2>
+    <div id="model-slot"></div>`;
+  $("btn-prompt-start").onclick = () => openWriter({ kind: type, type, id, prompt: p, title: p.title, minutes: type === "t2" ? 26 : 27, keywords: p.keywords });
+  renderModelSlot($("model-slot"), type, p);
+  showScreen("screen-prompt");
+}
+
+function renderModelSlot(slot, type, p) {
+  if (!state.attempted[p.id]) {
+    slot.innerHTML = `<div class="card lock-card"><div class="lock-emoji">🔒</div>
+      <p><b>Write first, then peek.</b></p><p class="muted small">The model answer unlocks after you submit a draft. Trying first is how your brain learns.</p>
+      <button type="button" class="linkish" id="btn-unlock-paper">I wrote it on paper. Unlock it.</button></div>`;
+    $("btn-unlock-paper").onclick = () => {
+      if (!confirm("Did you really write your own answer first?")) return;
+      state.attempted[p.id] = true;
+      saveState(state);
+      renderModelSlot(slot, type, p);
+    };
+    return;
+  }
+  slot.innerHTML = `<button type="button" class="btn-secondary" id="btn-reveal-model">✨ Reveal the model answer</button>`;
+  $("btn-reveal-model").onclick = () => { slot.innerHTML = ""; slot.appendChild(modelCard(type, p)); FX.confetti({ el: slot, count: 30 }); };
+}
+
+function highlightHtml(text, highlights) {
+  const ranges = [];
+  highlights.forEach((h, i) => {
+    const s = text.indexOf(h.p);
+    if (s >= 0) ranges.push({ s, e: s + h.p.length, i });
+  });
+  ranges.sort((a, b) => a.s - b.s);
+  let out = "", pos = 0;
+  ranges.forEach((r) => {
+    if (r.s < pos) return;
+    out += esc(text.slice(pos, r.s)) + `<mark data-i="${r.i}" tabindex="0">${esc(text.slice(r.s, r.e))}</mark>`;
+    pos = r.e;
+  });
+  return out + esc(text.slice(pos));
+}
+
+function modelCard(type, p) {
+  const body = type === "t2" ? p.model : p.model.body;
+  const words = CHECKER.wordCount(body);
+  const wrap = document.createElement("div");
+  wrap.className = "model";
+  wrap.innerHTML = `<div class="card model-inner" id="model-card">
+    <div class="card-head"><h2>Model answer${type === "t2" ? ` · Option ${p.choice}` : ""}</h2><span class="chip good wc-badge">${words} words ✓</span></div>
+    ${type === "t2" ? "" : `<div class="email-row"><span class="email-key">Subject:</span> <b>${esc(p.model.subject)}</b></div>`}
+    <div class="model-email">${highlightHtml(body, p.highlights)}</div>
+    <div class="hl-tip" id="hl-tip" hidden></div>
+    <p class="muted tiny" style="margin-top:8px">Tap a yellow phrase to see why it scores high. Word count is the body only (${words}, target 150 to 200).</p>
+  </div>
+  <div class="card">
+    <div class="card-head"><h2>Why these phrases score high</h2></div>
+    <ul class="hl-list">${p.highlights.map((h) => `<li><q>${esc(h.p)}</q><br>${esc(h.why)}</li>`).join("")}</ul>
+  </div>
+  <div class="card">
+    <div class="card-head"><h2>Why this is CLB 10</h2></div>
+    <ul class="why-list">${p.why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>
+  </div>`;
+  wrap.querySelectorAll("mark").forEach((m) => {
+    const show = () => {
+      wrap.querySelectorAll("mark").forEach((x) => x.classList.toggle("on", x === m));
+      const tip = wrap.querySelector("#hl-tip");
+      tip.hidden = false;
+      tip.innerHTML = `<b>Why it works:</b> ${esc(p.highlights[Number(m.dataset.i)].why)}`;
+      tip.classList.remove("hl-tip"); void tip.offsetWidth; tip.classList.add("hl-tip");
+    };
+    m.addEventListener("click", show);
+    m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(); } });
+  });
+  return wrap;
+}
+
+/* ---------- Writer (timed) ---------- */
+let writer = null;
+let writerTimerId = null;
+let saveTimer = null;
+
+function stopWriterTimer() {
+  if (writerTimerId) { clearInterval(writerTimerId); writerTimerId = null; }
+}
+
+function openWriter(cfg) {
+  stopWriterTimer();
+  writer = { cfg, total: cfg.minutes * 60, secondsLeft: cfg.minutes * 60, submitted: false };
+  const t2 = cfg.type === "t2";
+  $("writer-kind").textContent = cfg.kind === "l3" ? "Lesson 3 · Timed Task 1" : t2 ? "Timed Task 2" : "Timed Task 1";
+  $("writer-subject-wrap").hidden = t2;
+  $("writer-body-label").textContent = t2 ? "Your response" : "Email body";
+  $("writer-body").placeholder = t2
+    ? "I believe Option ... is the better choice.\n\nFirst, ...\nFor example, ...\n\nSecond, ...\n\nSome people may argue that ...\n\nFor these reasons, ..."
+    : "Dear ...,\n\nWho I am\nWhy I write\nHow it hurts me\nWhat I want (+ polite timeline)\n\nThank you\nAfolabi Adesina";
+  const p = cfg.prompt;
+  $("writer-prompt").innerHTML = cfg.kind === "l3"
+    ? `<p>${esc(cfg.promptText)}</p><p class="scenario-eyebrow" style="margin-top:8px">Use the 5 bites: Who · Why · Hurt · Ask · Thanks</p>`
+    : t2
+      ? `<p>${esc(p.situation)}</p><p style="margin-top:6px"><b>A:</b> ${esc(p.optionA)}</p><p><b>B:</b> ${esc(p.optionB)}</p>`
+      : `<p>${esc(p.situation)}</p><p style="margin-top:6px"><b>Write to ${esc(p.to)}:</b></p><ul>${p.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`;
+  $("writer-prompt-box").open = true;
+  const d = state.drafts[cfg.id] || {};
+  $("writer-subject").value = d.subject || "";
+  $("writer-body").value = d.body || "";
+  renderPlanner(t2, d);
+  $("writer-check").hidden = true;
+  updateWriterMeta();
+  updateWriterTimer();
+  showScreen("screen-writer");
+  if (d.body) FX.toast("Your saved draft is back. Timer restarted.");
+  writerTimerId = setInterval(() => {
+    if (!writer || writer.submitted) return;
+    writer.secondsLeft -= 1;
+    updateWriterTimer();
+    if (writer.secondsLeft === 300) FX.toast("5 minutes left. Check your sign-off and word count.");
+    if (writer.secondsLeft <= 0) { stopWriterTimer(); submitWriter(true); }
   }, 1000);
 }
 
-function stopL3Timer() {
-  if (l3TimerId) {
-    clearInterval(l3TimerId);
-    l3TimerId = null;
-  }
+function renderPlanner(t2, d) {
+  const pl = $("writer-planner");
+  pl.hidden = !t2;
+  if (!t2) { pl.innerHTML = ""; return; }
+  const plan = d.plan || {};
+  pl.innerHTML = `<div class="card-head"><h2>Task 2 planner</h2><span class="chip">2 to 3 minutes</span></div>
+    <p class="muted small" style="margin-bottom:8px">Pick a side, jot quick notes, then write. Notes are saved but not scored.</p>
+    <div class="options" style="grid-template-columns:1fr 1fr;margin-bottom:10px">
+      <button type="button" class="option${d.option === "A" ? " active" : ""}" data-opt="A"><b>Option A</b></button>
+      <button type="button" class="option${d.option === "B" ? " active" : ""}" data-opt="B"><b>Option B</b></button>
+    </div>
+    ${T2_PLANNER.map((s) => `<div class="plan-row"><label for="plan-${s.key}">${esc(s.label)}</label><p class="hint">${esc(s.hint)}</p><textarea id="plan-${s.key}" data-plan="${s.key}" rows="1">${esc(plan[s.key] || "")}</textarea></div>`).join("")}
+    <button type="button" class="btn-secondary" id="btn-plan-outline">Turn my plan into an outline</button>`;
+  pl.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => {
+    pl.querySelectorAll("[data-opt]").forEach((x) => x.classList.toggle("active", x === b));
+    FX.pop(b);
+    queueSave();
+  }));
+  pl.querySelectorAll("textarea").forEach((t) => t.addEventListener("input", queueSave));
+  $("btn-plan-outline").onclick = () => {
+    const opt = (pl.querySelector("[data-opt].active") || {}).dataset;
+    const choice = opt ? opt.opt : "A";
+    const v = (k) => ($(`plan-${k}`).value || "").trim();
+    const parts = [
+      `I believe Option ${choice} is the better choice. ${v("opinion")}`.trim(),
+      `First, ${v("r1") || "..."} For example, ...`,
+      `Second, ${v("r2") || "..."} For instance, ...`,
+      `Some people may argue that ${v("other") || "..."} That is a fair point, but ...`,
+      `For these reasons, I strongly support Option ${choice}. ${v("close")}`.trim(),
+    ];
+    const body = $("writer-body");
+    if (body.value.trim() && !confirm("Add the outline below what you already wrote?")) return;
+    body.value = (body.value.trim() ? body.value.trim() + "\n\n" : "") + parts.join("\n\n");
+    updateWriterMeta();
+    queueSave();
+    body.focus();
+  };
 }
 
-function scoreTimedEmail(subject, body, prompt) {
-  const sub = (subject || "").trim();
-  const text = (body || "").trim();
-  const lower = text.toLowerCase();
-  const subLower = sub.toLowerCase();
-  const words = wordCount(text);
-  let score = 0.35;
-  const notes = { strength: [], fix: [] };
-
-  // Subject
-  if (sub.length >= 8) {
-    score += 0.08;
-    const hit = (prompt.keywords || []).some((k) => subLower.includes(k));
-    if (hit) {
-      score += 0.07;
-      notes.strength.push("Subject names the real issue.");
-    } else {
-      notes.fix.push("Make the subject more specific (issue + place or order).");
-    }
-  } else {
-    notes.fix.push("Add a clear subject line before the body.");
-  }
-
-  // Threats / weak opener
-  if (containsThreat(text) || containsThreat(sub)) {
-    score -= 0.25;
-    notes.fix.push("Remove threat language. Ask politely with a timeline.");
-  } else {
-    score += 0.1;
-    notes.strength.push("Tone stays firm without threats.");
-  }
-  if (containsWeakOpener(text)) {
-    score -= 0.12;
-    notes.fix.push('Cut "I hope this email meets you well" and open with who you are.');
-  } else {
-    score += 0.06;
-  }
-
-  // Sandwich signals
-  const whoSignals = /(i am|i'm|my name|tenant|resident|member|customer|unit|flat|apt)/i;
-  const whySignals = /(i am writing|i'm writing|because|regarding|about the)/i;
-  const hurtSignals = /(because|affect|cannot|can't|unable|difficult|problem for me|makes it hard)/i;
-  const askSignals = /(please|could you|would you|i would appreciate|request|within|by |by this)/i;
-  const thanksSignals = /(thank you|thanks|regards|sincerely)/i;
-
-  let bites = 0;
-  if (whoSignals.test(text)) { bites++; score += 0.06; }
-  if (whySignals.test(text)) { bites++; score += 0.06; }
-  if (hurtSignals.test(text)) { bites++; score += 0.06; }
-  if (askSignals.test(text)) { bites++; score += 0.08; }
-  if (thanksSignals.test(text)) { bites++; score += 0.05; }
-
-  if (bites >= 4) notes.strength.push("Your email covers most of the sandwich bites.");
-  else notes.fix.push("Use all 5 bites: Who · Why · Hurt · Ask (+ timeline) · Thanks.");
-
-  // Keyword coverage from prompt
-  const kwHits = (prompt.keywords || []).filter((k) => lower.includes(k) || subLower.includes(k)).length;
-  if (kwHits >= 2) {
-    score += 0.08;
-    notes.strength.push("You stayed on the prompt details.");
-  } else {
-    notes.fix.push("Weave in key prompt details (place, problem, what you want).");
-  }
-
-  // Length
-  if (words >= 120 && words <= 220) {
-    score += 0.1;
-    notes.strength.push("Length looks exam-ready.");
-  } else if (words >= 80 && words < 120) {
-    score += 0.04;
-    notes.fix.push("Add a bit more detail on impact and your polite ask.");
-  } else if (words > 220 && words <= 280) {
-    score += 0.04;
-    notes.fix.push("A little long · trim filler but keep the 5 bites.");
-  } else if (words < 80) {
-    score -= 0.08;
-    notes.fix.push("Write more: aim around 150-200 words with all 5 bites.");
-  } else {
-    notes.fix.push("Tighten length toward about 150-200 words.");
-  }
-
-  // Name-ish close
-  if (/\n\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)+\s*$/.test(text) || /afolabi/i.test(text)) {
-    score += 0.04;
-  }
-
-  score = Math.max(0.15, Math.min(0.98, score));
-  const scorePct = Math.round(score * 100);
-  let band;
-  if (score >= 0.9) band = "CLB 10+";
-  else if (score >= 0.8) band = "CLB 9-10";
-  else if (score >= 0.68) band = "CLB 8";
-  else if (score >= 0.55) band = "CLB 7";
-  else band = "CLB 5-6";
-
-  const strength = notes.strength[0] || "You submitted a full timed email · that builds exam stamina.";
-  const fix = notes.fix[0] || "Next time: one clear ask with a polite timeline.";
-  return { band, scorePct, strength, fix, words };
+function writerValues() {
+  const plan = {};
+  document.querySelectorAll("#writer-planner [data-plan]").forEach((t) => { plan[t.dataset.plan] = t.value; });
+  const opt = document.querySelector("#writer-planner [data-opt].active");
+  return { subject: $("writer-subject").value, body: $("writer-body").value, plan, option: opt ? opt.dataset.opt : null };
 }
 
-function finishLesson3(fromTimer) {
-  if (!l3Session || l3Session.submitted) return;
-  l3Session.submitted = true;
-  stopL3Timer();
+function queueSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    if (!writer || writer.submitted) return;
+    state.drafts[writer.cfg.id] = { ...writerValues(), t: Date.now() };
+    saveState(state);
+  }, 400);
+}
 
-  const subject = document.getElementById("l3-subject").value;
-  const body = document.getElementById("l3-body").value;
-  if (!subject.trim() && !body.trim()) {
-    if (!fromTimer) {
-      l3Session.submitted = false;
-      const tip = document.getElementById("l3-hint-count");
-      tip.textContent = "Add a subject and body, then submit.";
-      tip.style.color = "var(--warn)";
-      startL3Timer();
-      return;
-    }
-    // timer ended with empty draft · still score gently
+function updateWriterTimer() {
+  if (!writer) return;
+  const s = Math.max(0, writer.secondsLeft);
+  const el = $("writer-timer");
+  el.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  el.classList.toggle("danger", s <= 60);
+  el.classList.toggle("warn", s > 60 && s <= 300);
+  const fill = $("writer-time-fill");
+  fill.style.width = `${(s / writer.total) * 100}%`;
+  fill.classList.toggle("low", s <= 300);
+}
+
+function updateWriterMeta() {
+  const { subject, body } = writerValues();
+  const n = CHECKER.wordCount(body.replace(/^\s*subject\s*:.*\n/i, ""));
+  const chip = $("writer-words");
+  chip.textContent = `${n} words`;
+  chip.classList.toggle("ok", n >= 150 && n <= 200);
+  chip.classList.toggle("over", n > 200);
+  if (!writer) return;
+  const quick = CHECKER.analyze({ subject, body, type: writer.cfg.type, prompt: writer.cfg.prompt || { keywords: writer.cfg.keywords } });
+  const bad = quick.flags.filter((f) => f.level === "bad" && f.id !== "count" && f.id !== "subject" && f.id !== "signoff").length;
+  $("writer-live").textContent = n < 150 ? `${150 - n} more to reach 150` : n > 200 ? `${n - 200} over 200` : bad ? `${bad} watch-list flag${bad > 1 ? "s" : ""}` : "Looking good";
+}
+
+function flagsHtml(flags) {
+  if (!flags.length) return `<div class="flag good" style="background:var(--good-bg)"><span class="fi">✅</span><div><b>No watch-list problems found</b>Clean draft. Proud of you!</div></div>`;
+  return flags.map((f, i) => `<div class="flag ${f.level}" style="animation-delay:${i * 0.04}s"><span class="fi">${f.level === "bad" ? "⛔" : "⚠️"}</span><div><b>${esc(f.title)}</b>${esc(f.detail)}</div></div>`).join("");
+}
+
+function checkWriterInline() {
+  const v = writerValues();
+  const r = CHECKER.analyze({ subject: v.subject, body: v.body, type: writer.cfg.type, prompt: writer.cfg.prompt || { keywords: writer.cfg.keywords } });
+  const box = $("writer-check");
+  box.hidden = false;
+  box.innerHTML = `<div class="card-head"><h2>Draft checker</h2><span class="chip">${esc(r.label)} estimate</span></div>${flagsHtml(r.flags)}`;
+  box.classList.remove("inline-check"); void box.offsetWidth; box.classList.add("inline-check");
+  if (!r.flags.length) FX.confetti({ el: box, count: 40 });
+  else FX.shake(box);
+}
+
+function submitWriter(fromTimer) {
+  if (!writer || writer.submitted) return;
+  const v = writerValues();
+  if (!v.body.trim() && !fromTimer) {
+    FX.shake($("writer-body"));
+    FX.toast("Write your email first, then submit.");
+    return;
   }
-
-  const result = scoreTimedEmail(subject, body, l3Session.prompt);
-  const timeNote = fromTimer
-    ? "\n\n(Time ended · scored automatically.)"
-    : `\n\n(Time left: ${document.getElementById("l3-timer").textContent})`;
-
+  writer.submitted = true;
+  stopWriterTimer();
+  const cfg = writer.cfg;
+  const r = CHECKER.analyze({ subject: v.subject, body: v.body, type: cfg.type, prompt: cfg.prompt || { keywords: cfg.keywords } });
+  const used = writer.total - Math.max(0, writer.secondsLeft);
+  state.attempts.unshift({ id: cfg.id, kind: cfg.kind, type: cfg.type, date: todayISO(), clb: r.clb, overall: r.overall, words: r.words, secs: used, t: Date.now() });
+  state.attempts = state.attempts.slice(0, 100);
+  state.attempted[cfg.id] = true;
+  state.bestClb[cfg.id] = Math.max(state.bestClb[cfg.id] || 0, r.clb);
+  state.lastClb = r.clb;
+  state.lastBand = r.label;
+  state.lastScore = r.overall;
+  state.lastSubmission[cfg.id] = { subject: v.subject, body: v.body, t: Date.now() };
+  delete state.drafts[cfg.id];
+  if (cfg.kind === "l3") {
+    state.lesson3Completions += 1;
+    state.lastLesson = 3;
+    state.lessonsTouched[3] = true;
+  }
   bumpStreak();
-  state.lesson3Completions += 1;
-  state.lastScore = result.scorePct;
-  state.lastBand = result.band;
-  state.lastLesson = 3;
-  state.lessonsTouched[3] = true;
   saveState(state);
-  refreshHomeMeta();
-
-  showResult({
-    band: result.band,
-    scorePct: result.scorePct,
-    strength: result.strength,
-    fix: result.fix,
-    subject: subject.trim() || "(no subject)",
-    body: (body.trim() || "(empty body)") + timeNote + `\n\nWord count: ${result.words}`,
-    title: "Lesson 3 · timed draft",
-    againLabel: "Another timed prompt",
-    againFn: () => startLesson3(true),
-  });
+  renderReview(r, cfg, v, fromTimer, used);
 }
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+function renderReview(r, cfg, v, fromTimer, used) {
+  $("review-title").textContent = cfg.kind === "l3" ? "Lesson 3 · your estimate" : `${cfg.type === "t2" ? "Task 2" : "Task 1"} · your estimate`;
+  const rb = $("review-body");
+  const mm = `${Math.floor(used / 60)}:${String(used % 60).padStart(2, "0")}`;
+  rb.innerHTML = `
+    <div class="score-hero"><div id="score-ring"></div>
+      <div><h3>${esc(r.label)}</h3><p>Estimate only, not an official CELPIP score. It comes from the simple rules below.</p>
+      <p style="margin-top:4px">${r.words} words · ${fromTimer ? "time ran out" : `finished in ${mm}`}</p></div></div>
+    <div class="card"><div class="card-head"><h2>Breakdown</h2><span class="chip">${r.overall}/100</span></div>
+      ${r.cats.map((c) => `<div class="cat"><div class="cat-top"><span>${esc(c.label)}</span><span>CLB ${c.clb}${c.clb >= 10 && c.score >= 88 ? "+" : ""} · ${c.score}</span></div>
+        <div class="cat-bar"><div class="cat-fill" data-w="${c.score}"></div></div>
+        <details><summary>How this was scored</summary><ul>${c.notes.map((n) => `<li class="${n.ok ? "" : "no"}"><span>${n.ok ? "✓" : "·"} ${esc(n.text)}</span><span class="pts">${n.pts > 0 ? "+" : ""}${n.pts}${n.max && n.max !== n.pts ? ` of ${n.max}` : ""}</span></li>`).join("")}</ul></details></div>`).join("")}
+      <p class="muted tiny">Weights: content 30%, vocabulary 25%, readability 20%, task 25%. A threat caps the estimate at CLB 9.</p>
+    </div>
+    <div class="card" id="review-flags"><div class="card-head"><h2>Draft checker · watch list</h2><span class="chip ${r.flags.length ? "warn" : "good"}">${r.flags.length} flag${r.flags.length === 1 ? "" : "s"}</span></div>${flagsHtml(r.flags)}</div>
+    ${r.good.length ? `<div class="card"><div class="card-head"><h2>What you did well</h2></div><div class="good-chips">${r.good.map((g) => `<span class="chip good">✓ ${esc(g)}</span>`).join("")}</div></div>` : ""}
+    <article class="email-preview">
+      ${cfg.type === "t2" ? "" : `<div class="email-row"><span class="email-key">Subject:</span> <span id="email-subject-rv">${esc(r.subject || "(no subject)")}</span></div>`}
+      <div class="email-body">${esc(v.body.trim() || "(empty)")}</div>
+    </article>
+    <div id="review-model"></div>
+    <div class="result-actions">
+      <button type="button" class="btn-primary" id="btn-rv-again">${cfg.kind === "l3" ? "Another timed prompt" : "Try this prompt again"}</button>
+      <button type="button" class="btn-secondary" id="btn-rv-done">Done for now</button>
+    </div>`;
+  const ring = FX.ring({ value: r.overall, max: 100, size: 96, center: `${r.clb}${r.clb >= 10 && r.overall >= 88 ? "+" : ""}`, sub: "CLB est." });
+  $("score-ring").appendChild(ring);
+  requestAnimationFrame(() => requestAnimationFrame(() => rb.querySelectorAll(".cat-fill").forEach((f) => { f.style.width = `${f.dataset.w}%`; })));
+  if (cfg.prompt && cfg.prompt.model) {
+    const slot = $("review-model");
+    slot.innerHTML = `<button type="button" class="btn-secondary" id="btn-reveal-model" style="margin-bottom:14px">✨ Reveal the CLB 10 model answer</button>`;
+    $("btn-reveal-model").onclick = () => { slot.innerHTML = '<h2 class="section-title">CLB 10 model answer</h2>'; slot.appendChild(modelCard(cfg.type, cfg.prompt)); FX.confetti({ el: slot, count: 30 }); };
+  }
+  $("btn-rv-again").onclick = () => (cfg.kind === "l3" ? startLesson3(true) : openWriter(cfg));
+  $("btn-rv-done").onclick = () => goTab(cfg.kind === "l3" ? "learn" : "write");
+  showScreen("screen-review");
+  if (r.clb >= 9) setTimeout(() => FX.confetti({ big: true, count: 130 }), 300);
+  FX.coach(r.clb >= 10 ? "done" : "hello", r.clb >= 10 ? "CLB 10 range! That is the target, Afolabi!" : `CLB ${r.clb} estimate. Fix the flags and try again. You are close.`);
 }
+
+/* ---------- Micro-interactions ---------- */
+document.addEventListener("pointerdown", (e) => {
+  const b = e.target.closest(".btn-primary, .quick, .game-card, .tab-btn, .lesson-card");
+  if (!b || FX.reduced()) return;
+  const r = b.getBoundingClientRect();
+  const s = document.createElement("span");
+  const size = Math.max(r.width, r.height);
+  s.className = "ripple";
+  s.style.width = s.style.height = `${size}px`;
+  s.style.left = `${e.clientX - r.left - size / 2}px`;
+  s.style.top = `${e.clientY - r.top - size / 2}px`;
+  if (getComputedStyle(b).position === "static") b.style.position = "relative";
+  b.style.overflow = "hidden";
+  b.appendChild(s);
+  setTimeout(() => s.remove(), 600);
+});
 
 /* ---------- Wire UI ---------- */
 function wire() {
-  document.getElementById("btn-start-l1").addEventListener("click", () => startLesson(false));
-  document.getElementById("btn-start-l2").addEventListener("click", () => startLesson2());
-  document.getElementById("btn-start-l3").addEventListener("click", () => startLesson3(false));
+  document.querySelectorAll(".tab-btn").forEach((b) => b.addEventListener("click", () => goTab(b.dataset.tab)));
+  document.querySelectorAll("[data-back]").forEach((b) => b.addEventListener("click", leaveDeep));
+  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => {
+    const g = b.dataset.go;
+    if (g === "phrases") openPhrases();
+    else goTab(g);
+  }));
+  $("btn-theme").addEventListener("click", () => { toggleTheme(); FX.pop($("btn-theme")); });
+  $("set-dark").addEventListener("change", (e) => toggleTheme(e.target.checked));
+  $("set-motion").addEventListener("change", (e) => { state.settings.reduceMotion = e.target.checked; saveState(state); applySettings(); });
+  $("btn-warmup").addEventListener("click", () => Games.warmup());
+  $("btn-warmup-2").addEventListener("click", () => Games.warmup());
+  $("btn-open-phrases").addEventListener("click", openPhrases);
+  document.querySelectorAll(".seg").forEach((b) => b.addEventListener("click", () => { writeSeg = b.dataset.seg; renderWriteList(); }));
 
-  document.getElementById("btn-back-home").addEventListener("click", goHome);
-  document.getElementById("btn-l2-back").addEventListener("click", goHome);
-  document.getElementById("btn-l3-back").addEventListener("click", () => {
-    if (l3Session && !l3Session.submitted) {
-      const ok = confirm("Leave timed practice? Your draft will not be saved.");
-      if (!ok) return;
-    }
-    goHome();
-  });
-  document.getElementById("btn-result-home").addEventListener("click", goHome);
-  document.getElementById("btn-done").addEventListener("click", goHome);
-  document.getElementById("btn-again").addEventListener("click", () => {
+  // Lessons (v2/v3 behaviour)
+  $("btn-start-l1").addEventListener("click", () => startLesson(false));
+  $("btn-start-l2").addEventListener("click", () => startLesson2());
+  $("btn-start-l3").addEventListener("click", () => startLesson3(false));
+  $("btn-back-home").addEventListener("click", leaveDeep);
+  $("btn-l2-back").addEventListener("click", leaveDeep);
+  $("btn-result-home").addEventListener("click", leaveDeep);
+  $("btn-done").addEventListener("click", leaveDeep);
+  $("btn-again").addEventListener("click", () => {
     if (typeof resultAgainHandler === "function") resultAgainHandler();
     else startLesson(true);
   });
+  $("btn-l2-check").addEventListener("click", checkL2);
+  $("btn-l2-next").addEventListener("click", nextL2);
 
-  document.getElementById("btn-l2-check").addEventListener("click", checkL2);
-  document.getElementById("btn-l2-next").addEventListener("click", nextL2);
-
-  document.getElementById("btn-l3-submit").addEventListener("click", () => finishLesson3(false));
-  document.getElementById("btn-l3-finish-early").addEventListener("click", () => finishLesson3(false));
-  document.getElementById("l3-body").addEventListener("input", () => {
-    document.getElementById("l3-words").textContent =
-      `${wordCount(document.getElementById("l3-body").value)} words`;
+  // Writer
+  $("btn-writer-back").addEventListener("click", () => {
+    if (writer && !writer.submitted && $("writer-body").value.trim()) {
+      if (!confirm("Leave timed practice? Your draft is saved on this device.")) return;
+      state.drafts[writer.cfg.id] = { ...writerValues(), t: Date.now() };
+      saveState(state);
+    }
+    leaveDeep();
   });
+  $("writer-body").addEventListener("input", () => { updateWriterMeta(); queueSave(); });
+  $("writer-subject").addEventListener("input", () => { updateWriterMeta(); queueSave(); });
+  $("btn-writer-check").addEventListener("click", checkWriterInline);
+  $("btn-writer-submit").addEventListener("click", () => submitWriter(false));
 
-  refreshHomeMeta();
+  // Games
+  $("btn-game-back").addEventListener("click", () => Games.quit());
+
+  wirePhrases();
+  $("update-toast").addEventListener("click", () => location.reload());
 }
 
-/* ---------- PWA ---------- */
+/* ---------- PWA: service worker + update toast ---------- */
+function showUpdateToast() {
+  const b = $("update-toast");
+  b.hidden = false;
+  requestAnimationFrame(() => b.classList.add("show"));
+}
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
+    const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.register("./sw.js", { scope: "./" }).then((reg) => {
+      if (reg.waiting && hadController) showUpdateToast();
+      reg.addEventListener("updatefound", () => {
+        const nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener("statechange", () => {
+          if ((nw.state === "installed" || nw.state === "activated") && hadController) showUpdateToast();
+        });
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") reg.update().catch(() => {});
+      });
+    }).catch(() => {});
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadController) showUpdateToast(); });
   });
 }
 
+/* ---------- Boot ---------- */
+applySettings();
 wire();
+const startTab = location.hash.slice(1);
+currentTab = TABS.includes(startTab) ? startTab : "home";
+goTab(currentTab);
+FX.coach("hello");
+if (state.migratedFrom && !state.welcomed) {
+  setTimeout(() => FX.toast("Welcome to v4! Your earlier progress came with you."), 600);
+}
+if (!state.welcomed) { state.welcomed = true; saveState(state); }
+/* Small hook for debugging and automated tests */
+window.CELPIP = { get state() { return state; }, CHECKER, version: 4 };
