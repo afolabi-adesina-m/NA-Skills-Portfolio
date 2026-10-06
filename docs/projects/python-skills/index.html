@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Python Skills Showcase | Afolabi A.</title>
-  <meta name="description" content="Applied Python analytics · eight skill modules with holdout metrics, outcome charts, and expandable snippets. ML pipelines, viz, data science, big data, responsible AI, social mining, deep learning, and NLP." />
+  <title>Python Skills Showcase | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</title>
+  <meta name="description" content="Eight short Python examples from Sheridan coursework, each with its metric and code. Afolabi Adesina." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916p" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916p" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20261006" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20261006" />
   <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Python Skills Showcase | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta property="og:description" content="Eight short Python examples from Sheridan coursework, each with its metric and code. Afolabi Adesina." />
   <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
+  <meta property="og:url" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/python-skills/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Python Skills Showcase | Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics" />
+  <meta name="twitter:description" content="Eight short Python examples from Sheridan coursework, each with its metric and code. Afolabi Adesina." />
+  <meta name="twitter:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/assets/og-image.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet" />
@@ -32,14 +40,14 @@
         <img
           class="brand-photo"
           src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d"
-          alt="Afolabi A."
+          alt="Afolabi Adesina"
           width="42"
           height="42"
           loading="eager"
           decoding="async"
         />
         <span class="brand-text">
-          <span class="brand-name">Afolabi A.</span>
+          <span class="brand-name">Afolabi Adesina</span>
           <span class="brand-tag">Portfolio Hub</span>
         </span>
       </a>
@@ -47,10 +55,15 @@
       <div class="nav-drawer" id="py-nav">
         <div class="nav-links">
           <a href="/NA-Skills-Portfolio/">Hub</a>
-          <a href="#charts">Charts</a>
-          <a href="#skills">Skills</a>
-          <a href="/NA-Skills-Portfolio/projects/r-analytics/">R Analytics</a>
-          <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Smart-Shield</a>
+          <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP</a>
+          <a href="/NA-Skills-Portfolio/projects/bi-dashboard/">BI</a>
+          <a href="/NA-Skills-Portfolio/projects/power-bi-fabric/">Power BI</a>
+          <a href="/NA-Skills-Portfolio/projects/process-documentation/">Process</a>
+          <a href="/NA-Skills-Portfolio/projects/supply-chain/">Supply chain</a>
+          <a href="/NA-Skills-Portfolio/projects/python-skills/" aria-current="page">Python</a>
+          <a href="/NA-Skills-Portfolio/projects/r-analytics/">R</a>
+          <a href="mailto:adesiafo@sheridancollege.ca">Email</a>
+          <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a>
         </div>
       </div>
     </nav>
@@ -59,6 +72,7 @@
   <main>
     <section class="py-hero">
       <p class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Python Skills</p>
+      <p class="portfolio-headline">Business &amp; Data Analyst · SAP MDM · S/4HANA Migration · Applied AI/ML · ERP Transformation · BI · Supply Chain · MSc Statistics</p>
       <div class="hero-brand-row">
         <svg class="py-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="64" height="64" role="img" aria-label="Python logo">
           <title>Python</title>
@@ -167,7 +181,7 @@
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — reusable sklearn pipeline (synthetic)</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  reusable sklearn pipeline (synthetic)</span>
 <span class="kw">from</span> sklearn.compose <span class="kw">import</span> ColumnTransformer
 <span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> Pipeline
 <span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler, OneHotEncoder
@@ -215,17 +229,17 @@ scores = <span class="fn">cross_val_score</span>(clf, X, y, cv=<span class="fn">
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — seaborn + plotly pattern (synthetic ops series)</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  seaborn + plotly pattern (synthetic ops series)</span>
 <span class="kw">import</span> seaborn <span class="kw">as</span> sns
 <span class="kw">import</span> plotly.express <span class="kw">as</span> px
 
 sns.<span class="fn">set_theme</span>(style=<span class="st">"whitegrid"</span>)
 ax = sns.<span class="fn">lineplot</span>(data=df, x=<span class="st">"hour"</span>, y=<span class="st">"otif"</span>, hue=<span class="st">"region"</span>)
-ax.<span class="fn">set_title</span>(<span class="st">"OTIF by hour — GTA corridors"</span>)
+ax.<span class="fn">set_title</span>(<span class="st">"OTIF by hour  ·  GTA corridors"</span>)
 
 fig = px.<span class="fn">scatter</span>(df, x=<span class="st">"freight_cost"</span>, y=<span class="st">"fill_rate"</span>,
                  color=<span class="st">"exception"</span>, hover_data=[<span class="st">"plant"</span>],
-                 title=<span class="st">"Cost vs fill — exception overlay"</span>)
+                 title=<span class="st">"Cost vs fill  ·  exception overlay"</span>)
 fig.<span class="fn">show</span>()</pre>
                   </details>
                 </div>
@@ -258,7 +272,7 @@ fig.<span class="fn">show</span>()</pre>
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — A/B conversion test + holdout classifier</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  A/B conversion test + holdout classifier</span>
 <span class="kw">from</span> scipy <span class="kw">import</span> stats
 <span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
 <span class="kw">from</span> sklearn.metrics <span class="kw">import</span> roc_auc_score
@@ -303,7 +317,7 @@ auc = <span class="fn">roc_auc_score</span>(y_test, clf.<span class="fn">predict
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — medallion layers at demo scale (pandas stand-in for Spark)</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  medallion layers at demo scale (pandas stand-in for Spark)</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 bronze = pd.<span class="fn">read_csv</span>(<span class="st">"events_raw.csv"</span>)          <span class="cm"># append-only ingest</span>
@@ -348,7 +362,7 @@ gold.<span class="fn">to_parquet</span>(<span class="st">"gold_plant_day.parquet
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — demographic parity gap on synthetic scores</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  demographic parity gap on synthetic scores</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 def <span class="fn">selection_rate</span>(df, group_col, group, yhat=<span class="st">"y_hat"</span>):
@@ -393,7 +407,7 @@ gap = <span class="fn">max</span>(rates.<span class="fn">values</span>()) - <spa
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — synthetic posts → TF-IDF topics + lexicon polarity</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  synthetic posts → TF-IDF topics + lexicon polarity</span>
 <span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
 <span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> NMF
 
@@ -441,7 +455,7 @@ terms = vec.<span class="fn">get_feature_names_out</span>()
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — tiny PyTorch MLP (XOR-style non-linearity)</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  tiny PyTorch MLP (XOR-style non-linearity)</span>
 <span class="kw">import</span> torch
 <span class="kw">import</span> torch.nn <span class="kw">as</span> nn
 
@@ -485,7 +499,7 @@ loss_fn = nn.<span class="fn">BCEWithLogitsLoss</span>()
                     </div>
                     <ul class="use-cases">
                       <li>Support-ticket intent routing before human escalation.</li>
-                      <li>Entity extraction (plants, POs, corridors) feeding ops dashboards. See also Smart-Shield for multimodal NLP in production-style demos.</li>
+                      <li>Entity extraction (plants, POs, corridors) feeding ops dashboards. See also the Sheridan team Safety Score explorer for text, vision, and collision signals together.</li>
                     </ul>
                     <div class="result-callout">
                       <strong>Decision takeaway</strong>
@@ -494,7 +508,7 @@ loss_fn = nn.<span class="fn">BCEWithLogitsLoss</span>()
                   </div>
                   <details class="snippet-details">
                     <summary>Show snippet</summary>
-<pre class="code-block"><span class="cm"># Skill demo — text → vectors → intent classifier (synthetic tickets)</span>
+<pre class="code-block"><span class="cm"># Skill demo  ·  text → vectors → intent classifier (synthetic tickets)</span>
 <span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
 <span class="kw">from</span> sklearn.svm <span class="kw">import</span> LinearSVC
 <span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> make_pipeline
@@ -523,9 +537,9 @@ pipe.<span class="fn">fit</span>(train_text, train_label)
       <div class="mobile-cards" id="mobile-cards" aria-label="Module cards"></div>
 
       <p class="capstone-note">
-        <strong>Live AI/ML capstone:</strong>
-        See <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Smart-Shield AI</a>
-        for multimodal Python in production-style demos: NLP hazards, vision cues, and risk fusion.
+        <strong>Sheridan team project:</strong>
+        See the <a href="https://afolabi-adesina-m.github.io/Smart-Shield-AI/" target="_blank" rel="noopener">Interactive Safety Score explorer</a>
+        for NLP hazards, vision cues, and risk fusion.
       </p>
     </section>
   </main>
@@ -533,11 +547,12 @@ pipe.<span class="fn">fit</span>(train_text, train_label)
   <footer class="footer" id="contact">
     <div class="footer-inner">
       <div class="footer-brand">
-        <strong>Afolabi A.</strong>
-        <span>Oakville, ON · Python Skills Showcase</span>
+        <strong>Afolabi Adesina</strong>
+        <span>Oakville, ON (GTA) · Python Skills Showcase</span>
       </div>
       <div class="footer-links">
-        <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">Book a Call</a>
+        <a href="mailto:adesiafo@sheridancollege.ca">adesiafo@sheridancollege.ca</a>
+        <a href="https://calendly.com/afolabi-adesina-m/30min" target="_blank" rel="noopener noreferrer">30-minute call</a>
         <a href="https://github.com/afolabi-adesina-m/NA-Skills-Portfolio" target="_blank" rel="noopener">GitHub</a>
         <a href="/NA-Skills-Portfolio/">Hub</a>
       </div>

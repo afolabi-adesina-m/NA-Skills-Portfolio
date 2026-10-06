@@ -1,4 +1,4 @@
-/* Python Skills Showcase — closed table, filters, charts-first */
+/* Python Skills Showcase. Closed table, filters, charts first. */
 
 (function () {
   "use strict";
@@ -128,7 +128,7 @@
       });
       mobile.appendChild(card);
     });
-    // Intentionally closed by default — no expandAll()
+    // Intentionally closed by default. No expandAll().
   }
 
   const plotLayout = {

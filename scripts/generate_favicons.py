@@ -38,44 +38,45 @@ def save_favicons(square: Image.Image) -> None:
 
 
 def save_og_image(square: Image.Image) -> None:
-    """1200x630 social preview: photo left, name + tagline right."""
+    """1200x630 social preview: photo left, name + shortened headline."""
     og_w, og_h = 1200, 630
-    bg_color = (15, 23, 42)  # slate-900
-    accent = (59, 130, 246)  # blue-500
+    bg_color = (26, 43, 60)
+    accent = (217, 119, 6)
 
     canvas = Image.new("RGB", (og_w, og_h), bg_color)
     draw = ImageDraw.Draw(canvas)
 
-    photo_size = og_h - 80
+    photo_size = 470
     photo = square.resize((photo_size, photo_size), Image.Resampling.LANCZOS)
-    photo_x = 60
+    photo_x = 48
     photo_y = (og_h - photo_size) // 2
     canvas.paste(photo, (photo_x, photo_y))
 
-    text_x = photo_x + photo_size + 50
+    text_x = photo_x + photo_size + 48
+    font_dir = "/usr/share/fonts/truetype/dejavu/"
     try:
-        title_font = ImageFont.truetype("arial.ttf", 52)
-        sub_font = ImageFont.truetype("arial.ttf", 28)
+        title_font = ImageFont.truetype(font_dir + "DejaVuSans-Bold.ttf", 48)
+        sub_font = ImageFont.truetype(font_dir + "DejaVuSans.ttf", 26)
     except OSError:
-        title_font = ImageFont.load_default()
-        sub_font = ImageFont.load_default()
+        try:
+            title_font = ImageFont.truetype("arial.ttf", 48)
+            sub_font = ImageFont.truetype("arial.ttf", 26)
+        except OSError:
+            title_font = ImageFont.load_default()
+            sub_font = ImageFont.load_default()
 
-    draw.text((text_x, photo_y + 40), "Afolabi Adesina", fill=(248, 250, 252), font=title_font)
-    draw.text(
-        (text_x, photo_y + 120),
-        "Applied analytics for operations,",
-        fill=(148, 163, 184),
-        font=sub_font,
-    )
-    draw.text((text_x, photo_y + 160), "systems, and decisions.", fill=(148, 163, 184), font=sub_font)
-
-    draw.rectangle([(text_x, photo_y + 220), (text_x + 120, photo_y + 224)], fill=accent)
-    draw.text(
-        (text_x, photo_y + 240),
-        "Portfolio Hub",
-        fill=accent,
-        font=sub_font,
-    )
+    lines = [
+        "Business & Data Analyst",
+        "SAP MDM · S/4HANA Migration",
+        "Applied AI/ML · ERP · BI",
+        "Supply Chain · MSc Statistics",
+    ]
+    draw.text((text_x, photo_y + 36), "Afolabi Adesina", fill=(248, 250, 252), font=title_font)
+    draw.rectangle([(text_x, photo_y + 108), (text_x + 96, photo_y + 112)], fill=accent)
+    y = photo_y + 136
+    for line in lines:
+        draw.text((text_x, y), line, fill=(226, 232, 240), font=sub_font)
+        y += 40
 
     canvas.save(ASSETS / "og-image.jpg", format="JPEG", quality=88, optimize=True)
 

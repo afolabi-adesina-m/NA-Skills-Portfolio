@@ -1,4 +1,4 @@
-/* Statistical Computing in R — family accordion, charts */
+/* Statistical Computing in R. Family accordion and charts. */
 
 (function () {
   "use strict";
