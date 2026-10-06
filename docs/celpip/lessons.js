@@ -2,7 +2,7 @@
  * CELPIP Coach v4 · Lessons 1 to 3 (kept from v2/v3)
  * Lesson 1 and 2 logic is unchanged apart from animation hooks.
  * Lesson 3 now opens the shared timed writer with the v4 draft checker.
- * Uses globals from app.js at runtime: state, saveState, bumpStreak, showScreen, goHome, refreshHomeMeta.
+ * Uses globals from app.js at runtime: state, saveState, bumpStreak, showPage, go, navBack, UI (v5 wizard pages).
  */
 "use strict";
 
@@ -911,20 +911,38 @@ function startLesson(advanceScenario) {
     subjectChoice: null,
     phase: "bites",
   };
-  document.getElementById("btn-check").onclick = () => checkCurrentBite();
-  document.getElementById("btn-next").onclick = () => goNext();
-  showScreen("screen-lesson");
+  showPage("lesson1", { title: "Lesson 1" });
+  renderBite();
+}
+
+const L1_STEPS = ["Who I am", "Why I write", "How it hurts me", "What I want", "Thank you", "Subject line"];
+
+/* Footer for the Lesson 1 wizard: Previous on the left, one primary on the right (Check, then Next) */
+function l1Footer(checked) {
+  const step = session.phase === "subject" ? 5 : session.biteIndex;
+  const nextLabel = session.phase === "subject" ? "See my email" : session.biteIndex >= 4 ? "Next: subject" : "Next";
+  UI.setFooter([
+    { id: "btn-prev", label: "Previous", type: "default", disabled: step === 0, onClick: l1Prev },
+    checked
+      ? { id: "btn-next", label: nextLabel, type: "emph", onClick: () => (session.phase === "subject" ? finishLesson1() : goNext()) }
+      : { id: "btn-check", label: session.phase === "subject" ? "Check subject" : "Check", type: "emph", onClick: () => (session.phase === "subject" ? checkSubject() : checkCurrentBite()) },
+  ]);
+}
+
+function l1Prev() {
+  if (session.phase === "subject") { session.phase = "bites"; session.biteIndex = 4; }
+  else if (session.biteIndex > 0) session.biteIndex -= 1;
+  else return;
   renderBite();
 }
 
 function setProgress(step, total) {
-  const pct = Math.round((step / total) * 100);
-  document.getElementById("progress-fill").style.width = `${pct}%`;
-  document.getElementById("progress-bar").setAttribute("aria-valuenow", String(step));
-  document.getElementById("bite-label").textContent =
-    session.phase === "subject"
-      ? "Subject line"
-      : `Bite ${session.biteIndex + 1} of 5 · ${BITE_NAMES[session.biteIndex]}`;
+  const idx = step - 1;
+  document.getElementById("bite-label").innerHTML = UI.status("info", `Step ${step} of ${total}`) +
+    `<span class="muted small">${escapeHtml(session.scenario.title || "Scenario")}</span>`;
+  document.getElementById("l1-wizard").innerHTML = UI.wizard(L1_STEPS, idx, {
+    done: (i) => (i < 5 ? session.biteScores[i] != null : session.subjectChoice != null) && i !== idx,
+  });
 }
 
 function renderBite() {
@@ -937,14 +955,8 @@ function renderBite() {
   const gap = document.getElementById("gap-block");
   gap.innerHTML = "";
   hideFeedback();
-  const checkBtn = document.getElementById("btn-check");
-  const nextBtn = document.getElementById("btn-next");
-  checkBtn.hidden = false;
-  checkBtn.disabled = false;
-  checkBtn.textContent = "Check";
-  nextBtn.hidden = true;
-
   setProgress(biteIndex + 1, 6);
+  l1Footer(false);
 
   if (bite.type === "choice") {
     const label = document.createElement("p");
@@ -1022,17 +1034,16 @@ function renderFillTemplate(container, bite) {
 function hideFeedback() {
   const fb = document.getElementById("feedback");
   fb.hidden = true;
-  fb.className = "feedback";
-  fb.textContent = "";
+  fb.innerHTML = "";
 }
 
+/* Feedback as a message strip: good = success (green), tip = warning (orange) */
 function showFeedback(kind, message) {
   const fb = document.getElementById("feedback");
   fb.hidden = false;
   fb.className = `feedback ${kind}`;
-  fb.textContent = message;
-  if (kind === "good") { FX.confetti({ el: fb, count: 36 }); FX.coach("correct"); }
-  else { FX.shake(document.getElementById("bite-card")); }
+  fb.innerHTML = UI.strip(kind === "good" ? "success" : "warning", escapeHtml(message));
+  if (kind !== "good") FX.shake(document.getElementById("bite-card"));
 }
 
 function containsThreat(text) {
@@ -1131,14 +1142,8 @@ function checkCurrentBite() {
 }
 
 function afterCheck() {
-  document.getElementById("btn-check").hidden = true;
-  const next = document.getElementById("btn-next");
-  next.hidden = false;
-  if (session.biteIndex >= 4) {
-    next.textContent = "Choose subject →";
-  } else {
-    next.textContent = "Next bite →";
-  }
+  setProgress(session.biteIndex + 1, 6);
+  l1Footer(true);
 }
 
 function goNext() {
@@ -1154,7 +1159,6 @@ function goNext() {
 function renderSubjectStep() {
   session.phase = "subject";
   setProgress(6, 6);
-  document.getElementById("bite-label").textContent = "Subject line";
   document.getElementById("bite-title").textContent = "Subject · clear and specific";
   document.getElementById("bite-hint").textContent =
     "A good subject names the issue and who you are (flat, unit, or order).";
@@ -1179,52 +1183,53 @@ function renderSubjectStep() {
     grid.appendChild(btn);
   });
   gap.appendChild(grid);
-
-  const checkBtn = document.getElementById("btn-check");
-  const nextBtn = document.getElementById("btn-next");
-  checkBtn.hidden = false;
-  checkBtn.disabled = false;
-  checkBtn.textContent = "Check subject";
-  nextBtn.hidden = true;
-
-  checkBtn.onclick = () => {
-    const selected = grid.querySelector(".choice-btn.selected");
-    if (!selected) {
-      showFeedback("tip", "Pick a subject line.");
-      return;
-    }
-    const idx = Number(selected.dataset.index);
-    const opt = session.scenario.subjectOptions[idx];
-    grid.querySelectorAll(".choice-btn").forEach((b, i) => {
-      b.disabled = true;
-      if (session.scenario.subjectOptions[i].good) b.classList.add("correct");
-      if (i === idx && !opt.good) b.classList.add("wrong");
-    });
-    session.subjectChoice = opt;
-    session.subjectScore = opt.good ? 1 : 0.3;
-    if (opt.good) showFeedback("good", "Clear subject · examiners like this.");
-    else showFeedback("tip", opt.tip || "Make the subject specific.");
-    checkBtn.hidden = true;
-    nextBtn.hidden = false;
-    nextBtn.textContent = "See full email →";
-    nextBtn.onclick = () => finishLesson1();
-  };
+  l1Footer(false);
 }
 
+function checkSubject() {
+  const grid = document.querySelector('#gap-block [data-mode="subject"]');
+  const selected = grid.querySelector(".choice-btn.selected");
+  if (!selected) {
+    showFeedback("tip", "Pick a subject line.");
+    return;
+  }
+  const idx = Number(selected.dataset.index);
+  const opt = session.scenario.subjectOptions[idx];
+  grid.querySelectorAll(".choice-btn").forEach((b, i) => {
+    b.disabled = true;
+    if (session.scenario.subjectOptions[i].good) b.classList.add("correct");
+    if (i === idx && !opt.good) b.classList.add("wrong");
+  });
+  session.subjectChoice = opt;
+  session.subjectScore = opt.good ? 1 : 0.3;
+  if (opt.good) showFeedback("good", "Clear subject · examiners like this.");
+  else showFeedback("tip", opt.tip || "Make the subject specific.");
+  setProgress(6, 6);
+  l1Footer(true);
+}
+
+let resultReady = false;
 function showResult({ band, scorePct, strength, fix, subject, body, againLabel, againFn, title }) {
+  resultReady = true;
   document.getElementById("result-title").textContent = title || "Your email";
   document.getElementById("score-num").textContent = band;
   document.getElementById("score-label").textContent = `Practice score ${scorePct}% · estimate only`;
-  document.getElementById("note-strength").innerHTML =
-    `<strong>Strength</strong>${escapeHtml(strength)}`;
-  document.getElementById("note-fix").innerHTML =
-    `<strong>One fix</strong>${escapeHtml(fix)}`;
+  document.getElementById("result-check").innerHTML = UI.successCheck(56);
+  document.getElementById("note-strength").innerHTML = UI.strip("success", escapeHtml(strength), "Strength:");
+  document.getElementById("note-fix").innerHTML = UI.strip("warning", escapeHtml(fix), "One fix:");
   document.getElementById("email-subject").textContent = subject || "(no subject)";
   document.getElementById("email-body").textContent = body || "";
-  const again = document.getElementById("btn-again");
-  again.textContent = againLabel || "Practice again";
   resultAgainHandler = againFn;
-  showScreen("screen-result");
+  go({ p: "result" }, { replace: true });
+  UI.setFooter([
+    { id: "btn-done", label: "Done", type: "default", onClick: navBack },
+    { id: "btn-again", label: againLabel || "Practice again", type: "emph", onClick: () => {
+      const n = title && title.startsWith("Lesson 2") ? 2 : 1;
+      route = { p: "lesson", n };
+      history.replaceState({ r: route, depth }, "", hashOf(route));
+      if (typeof resultAgainHandler === "function") resultAgainHandler(); else startLesson(true);
+    } },
+  ]);
   FX.coach("done");
   setTimeout(() => FX.confetti({ big: true, count: 110 }), 250);
 }
@@ -1282,7 +1287,6 @@ function finishLesson1() {
     state.completedScenarioIds.push(session.scenario.id);
   }
   saveState(state);
-  refreshHomeMeta();
 
   showResult({
     band,
@@ -1300,18 +1304,30 @@ function finishLesson1() {
 /* ---------- Lesson 2 ---------- */
 function startLesson2() {
   l2Session = { index: 0, scores: [] };
-  showScreen("screen-lesson2");
+  showPage("lesson2", { title: "Lesson 2" });
   renderL2Drill();
+}
+
+function l2Footer(checked) {
+  const last = l2Session.index >= L2_DRILLS.length - 1;
+  UI.setFooter([
+    { id: "btn-l2-prev", label: "Previous", type: "default", disabled: l2Session.index === 0, onClick: () => { if (l2Session.index > 0) { l2Session.index -= 1; renderL2Drill(); } } },
+    checked
+      ? { id: "btn-l2-next", label: last ? "See results" : "Next", type: "emph", onClick: nextL2 }
+      : { id: "btn-l2-check", label: "Check", type: "emph", onClick: checkL2 },
+  ]);
+}
+
+function l2Progress() {
+  const total = L2_DRILLS.length;
+  const idx = l2Session.index;
+  document.getElementById("l2-label").innerHTML = UI.status("info", `Step ${idx + 1} of ${total}`);
+  document.getElementById("l2-wizard").innerHTML = UI.wizard(L2_DRILLS.map((d) => d.tag), idx, { done: (i) => l2Session.scores[i] != null && i !== idx });
 }
 
 function renderL2Drill() {
   const drill = L2_DRILLS[l2Session.index];
-  const total = L2_DRILLS.length;
-  const step = l2Session.index + 1;
-  document.getElementById("l2-label").textContent = `Drill ${step} of ${total}`;
-  document.getElementById("l2-progress-fill").style.width = `${Math.round((step / total) * 100)}%`;
-  document.getElementById("l2-progress-bar").setAttribute("aria-valuenow", String(step));
-  document.getElementById("l2-progress-bar").setAttribute("aria-valuemax", String(total));
+  l2Progress();
   document.getElementById("l2-tag").textContent = drill.tag;
   document.getElementById("l2-prompt").textContent = drill.prompt;
   document.getElementById("l2-title").textContent = drill.title;
@@ -1321,8 +1337,7 @@ function renderL2Drill() {
   gap.innerHTML = "";
   const fb = document.getElementById("l2-feedback");
   fb.hidden = true;
-  fb.textContent = "";
-  fb.className = "feedback";
+  fb.innerHTML = "";
 
   if (drill.bad) {
     const bad = document.createElement("div");
@@ -1346,11 +1361,7 @@ function renderL2Drill() {
     grid.appendChild(btn);
   });
   gap.appendChild(grid);
-
-  const checkBtn = document.getElementById("btn-l2-check");
-  const nextBtn = document.getElementById("btn-l2-next");
-  checkBtn.hidden = false;
-  nextBtn.hidden = true;
+  l2Footer(false);
 }
 
 function checkL2() {
@@ -1359,8 +1370,7 @@ function checkL2() {
   const fb = document.getElementById("l2-feedback");
   if (!selected) {
     fb.hidden = false;
-    fb.className = "feedback tip";
-    fb.textContent = "Tap one option first.";
+    fb.innerHTML = UI.strip("warning", "Tap one option first.");
     FX.shake(document.getElementById("l2-card"));
     return;
   }
@@ -1373,22 +1383,16 @@ function checkL2() {
   });
   fb.hidden = false;
   if (choice.good) {
-    fb.className = "feedback good";
-    fb.textContent = "Nice · that is firm, polite, and clear.";
-    FX.confetti({ el: fb, count: 36 });
+    fb.innerHTML = UI.strip("success", "Nice · that is firm, polite, and clear.");
     FX.coach("correct");
     l2Session.scores[l2Session.index] = 1;
   } else {
-    fb.className = "feedback tip";
-    fb.textContent = choice.tip || "Almost · try the clearer rewrite.";
+    fb.innerHTML = UI.strip("warning", escapeHtml(choice.tip || "Almost · try the clearer rewrite."));
     FX.shake(document.getElementById("l2-card"));
     l2Session.scores[l2Session.index] = 0.3;
   }
-  document.getElementById("btn-l2-check").hidden = true;
-  const next = document.getElementById("btn-l2-next");
-  next.hidden = false;
-  next.textContent =
-    l2Session.index >= L2_DRILLS.length - 1 ? "See results →" : "Next drill →";
+  l2Progress();
+  l2Footer(true);
 }
 
 function nextL2() {
@@ -1402,7 +1406,7 @@ function nextL2() {
 
 function finishLesson2() {
   const avg =
-    l2Session.scores.reduce((a, b) => a + b, 0) / l2Session.scores.length;
+    L2_DRILLS.reduce((a, _d, i) => a + (l2Session.scores[i] || 0), 0) / L2_DRILLS.length;
   const scorePct = Math.round(avg * 100);
   let band;
   if (avg >= 0.92) band = "CLB 10+";
@@ -1437,7 +1441,6 @@ function finishLesson2() {
   state.lastLesson = 2;
   state.lessonsTouched[2] = true;
   saveState(state);
-  refreshHomeMeta();
 
   showResult({
     band,
@@ -1459,12 +1462,12 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
-/* ---------- Lesson 3 · now uses the shared timed writer ---------- */
+/* ---------- Lesson 3 · opens the shared object page (Prompt, Plan, Write, Review) ---------- */
 function startLesson3(advance) {
   if (advance) {
     state.l3ScenarioIndex = (state.l3ScenarioIndex + 1) % L3_PROMPTS.length;
     saveState(state);
   }
   const p = L3_PROMPTS[state.l3ScenarioIndex % L3_PROMPTS.length];
-  openWriter({ kind: "l3", id: p.id, type: "t1", title: "Lesson 3 · Full timed draft", promptText: p.prompt, keywords: p.keywords, minutes: 27 });
+  openObject("l3", p.id, "prompt", { replace: advance && route.p === "object" });
 }

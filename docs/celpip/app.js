@@ -1,5 +1,6 @@
 /**
- * CELPIP Coach v4 · core: state + migration, navigation, home, learn, write, progress, phrase bank, PWA
+ * CELPIP Coach v5 · core: state + migration (unchanged from v4), router, launchpad, dynamic pages,
+ * list report + object page for prompts, timed writer, review, phrase bank, plan, settings, PWA.
  * Personal use · localStorage only · no backend · vanilla JS
  */
 "use strict";
@@ -7,8 +8,6 @@
 const STORAGE_KEY = "celpip-coach-v4";
 /* v2 and v3 both stored progress under "celpip-email-coach-v1". The others are checked just in case. */
 const LEGACY_KEYS = ["celpip-email-coach-v1", "celpip-email-coach-v3", "celpip-email-coach-v2"];
-const TABS = ["home", "learn", "games", "write", "progress"];
-const TAB_TITLES = { home: "Home", learn: "Learn", games: "Brain games", write: "Write", progress: "Progress" };
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -204,109 +203,156 @@ const CHALLENGE = (() => {
 function challengeDoneCount() { return CHALLENGE.filter((d) => state.challengeDone[d.date]).length; }
 function todayChallenge() { return CHALLENGE.find((d) => d.date === todayISO()) || null; }
 
+const APP_VERSION = 5;
+const WIZ5 = ["Who I am", "Why I write", "How it hurts me", "What I want", "Thank you"];
+const GAME_ICONS = { tone: "chat", sandwich: "layers", words: "zap", errors: "search", memory: "grid", connect: "link" };
+
+function actionLabel(a) {
+  if (!a) return "Open";
+  if (a.t === "prompt") { const p = findPrompt(a.type, a.id); return `${a.type === "t2" ? "Task 2" : "Task 1"}: ${p ? p.title : "prompt"}`; }
+  if (a.t === "warmup") return "Daily Warm-up";
+  if (a.t === "game") return `Play ${GAMES.find((g) => g.id === a.id).name}`;
+  if (a.t === "phrases") return "Phrase Bank";
+  if (a.t === "lesson") return `Lesson ${a.n}`;
+  if (a.t === "weakest") return "Redo your weakest prompt";
+  if (a.t === "mock") return "Mock test: Task 1 + Task 2";
+  return "Open";
+}
+
 function runAction(a) {
   if (!a) return;
-  if (a.t === "prompt") openPrompt(a.type, a.id);
-  else if (a.t === "warmup") Games.warmup();
-  else if (a.t === "game") Games.start(a.id, {});
-  else if (a.t === "phrases") openPhrases();
-  else if (a.t === "lesson") { if (a.n === 1) startLesson(false); else if (a.n === 2) startLesson2(); else startLesson3(false); }
+  if (a.t === "prompt") openObject(a.type, a.id, "prompt");
+  else if (a.t === "warmup") go({ p: "warmup" });
+  else if (a.t === "game") go({ p: "game", id: a.id });
+  else if (a.t === "phrases") go({ p: "phrases" });
+  else if (a.t === "lesson") { if (a.n === 3) startLesson3(false); else go({ p: "lesson", n: a.n }); }
   else if (a.t === "weakest") {
     const scored = state.attempts.filter((x) => x.kind !== "l3");
-    if (!scored.length) { FX.toast("No attempts yet. Start with the heating email."); openPrompt("t1", "t1-heat"); return; }
+    if (!scored.length) { FX.toast("No attempts yet. Start with the heating email."); openObject("t1", "t1-heat", "prompt"); return; }
     const w = scored.reduce((m, x) => (x.overall < m.overall ? x : m), scored[0]);
-    openPrompt(w.type, w.id);
-  } else if (a.t === "mock") { goTab("write"); FX.toast("Pick one Task 1, then one Task 2. Timer on!"); }
+    openObject(w.type, w.id, "prompt");
+  } else if (a.t === "mock") { go({ p: "list", type: "t1" }); FX.toast("Pick one Task 1, then one Task 2. Timer on!"); }
 }
 
-/* ---------- Navigation ---------- */
-let currentTab = "home";
+/* ---------- Router: launchpad -> app -> back ---------- */
+let route = { p: "launchpad" };
+let depth = 0;
+let skipGuard = false;
 
-function showScreen(id, opts = {}) {
-  if (id !== "screen-writer") stopWriterTimer();
-  const el = $(id);
-  const deep = el.classList.contains("deep");
-  document.querySelectorAll(".screen").forEach((s) => {
-    const on = s === el;
-    s.classList.toggle("active", on);
-    s.classList.remove("from-left");
-    if (on) s.removeAttribute("hidden");
-    else s.setAttribute("hidden", "");
-  });
-  if (opts.fromLeft) el.classList.add("from-left");
-  document.body.classList.toggle("is-deep", deep);
-  if (deep && !(history.state && history.state.deep)) history.pushState({ deep: true }, "", location.href);
-  window.scrollTo(0, 0);
+function hashOf(r) {
+  const parts = [r.p];
+  if (r.type) parts.push(r.type);
+  if (r.id) parts.push(r.id);
+  if (r.tab) parts.push(r.tab);
+  if (r.n) parts.push(r.n);
+  return "#/" + parts.join("/");
+}
+function parseHash(h) {
+  const parts = (h || "").replace(/^#\/?/, "").split("/").filter(Boolean);
+  const p = parts[0];
+  if (!p) return { p: "launchpad" };
+  if (p === "list") return { p, type: parts[1] === "t2" ? "t2" : "t1" };
+  if (p === "object") return { p, type: parts[1], id: parts[2], tab: parts[3] };
+  if (p === "game") return { p, id: parts[1] };
+  if (p === "lesson") return { p, n: Number(parts[1]) || 1 };
+  if (["launchpad", "today", "settings", "phrases", "watch", "guides", "plan", "history", "warmup"].includes(p)) return { p };
+  return { p: "launchpad" };
 }
 
-function goTab(tab) {
-  if (!TABS.includes(tab)) tab = "home";
-  Games.abort();
-  const fromLeft = TABS.indexOf(tab) < TABS.indexOf(currentTab);
-  currentTab = tab;
-  document.body.dataset.lastTab = tab;
-  renderTab(tab);
-  showScreen(`screen-${tab}`, { fromLeft });
-  document.querySelectorAll(".tab-btn").forEach((b) => {
-    const on = b.dataset.tab === tab;
-    b.classList.toggle("active", on);
-    if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
-  });
-  $("appbar-title").textContent = TAB_TITLES[tab];
-  history.replaceState(null, "", `#${tab}`);
+function go(r, opts = {}) {
+  if (opts.replace) history.replaceState({ r, depth }, "", hashOf(r));
+  else { depth += 1; history.pushState({ r, depth }, "", hashOf(r)); }
+  render(r, opts);
 }
 
-/* Legacy helpers used by lessons.js */
-function goHome() { goTab(document.body.dataset.lastTab || "home"); }
-function refreshHomeMeta() { refreshAll(); }
-
-function leaveDeep() {
-  stopWriterTimer();
-  Games.abort();
-  goTab(document.body.dataset.lastTab || "home");
+function needsGuard() {
+  return route.p === "object" && writer && writerTimerId && !writer.submitted && (currentBody() || "").trim().length > 0;
 }
-
-window.addEventListener("popstate", () => {
-  if (document.body.classList.contains("is-deep")) leaveDeep();
-  else {
-    const t = location.hash.slice(1);
-    if (TABS.includes(t) && t !== currentTab) goTab(t);
+async function confirmLeaveDraft() {
+  return UI.confirm({ title: "Leave the timed draft?", text: "The timer stops. Your draft is saved on this device, so you can finish it later.", ok: "Leave", cancel: "Keep writing" });
+}
+async function navBack() {
+  if (needsGuard() && !(await confirmLeaveDraft())) return;
+  flushDraft();
+  if (depth > 0) { skipGuard = true; history.back(); }
+  else go({ p: "launchpad" }, { replace: true, back: true });
+}
+window.addEventListener("popstate", async (e) => {
+  if (!skipGuard && needsGuard()) {
+    history.pushState({ r: route, depth }, "", hashOf(route));
+    if (await confirmLeaveDraft()) { flushDraft(); skipGuard = true; history.back(); }
+    return;
   }
+  skipGuard = false;
+  const st = e.state;
+  depth = st ? st.depth : 0;
+  render(st ? st.r : parseHash(location.hash), { back: true });
 });
 
-function renderTab(tab) {
-  refreshStreak();
-  if (tab === "home") renderHome();
-  else if (tab === "learn") renderLearn();
-  else if (tab === "games") renderGames();
-  else if (tab === "write") renderWriteList();
-  else if (tab === "progress") renderProgress();
+function leaveCurrent(next) {
+  if (route.p === "object" && !(next.p === "object" && next.id === route.id && next.type === route.type)) {
+    flushDraft();
+    stopWriterTimer();
+    writer = null;
+    obj = null;
+  }
+  if ((route.p === "game" || route.p === "warmup") && next.p !== route.p) Games.abort();
 }
 
-function refreshAll() {
-  refreshStreak();
-  const active = document.querySelector(".screen.tab.active");
-  if (active) renderTab(active.dataset.tab);
+function render(r, opts = {}) {
+  leaveCurrent(r);
+  route = r;
+  switch (r.p) {
+    case "today": renderToday(opts); break;
+    case "settings": renderSettings(opts); break;
+    case "list": renderList(r.type, opts); break;
+    case "object": renderObject(r, opts); break;
+    case "phrases": openPhrases(opts); break;
+    case "watch": renderWatch(opts); break;
+    case "guides": renderGuides(opts); break;
+    case "plan": renderPlan(opts); break;
+    case "history": renderHistory(opts); break;
+    case "game": Games.start(r.id, {}); break;
+    case "warmup": Games.warmup(); break;
+    case "lesson": if (r.n === 2) startLesson2(); else startLesson(false); break;
+    case "result": if (resultReady) showPage("result", { title: "Lesson result" }); else go({ p: "launchpad" }, { replace: true }); break;
+    default: route = { p: "launchpad" }; renderLaunchpad(opts);
+  }
 }
 
-function refreshStreak() {
-  const n = computeStreak();
-  const el = $("streak-count");
-  if (el.textContent !== String(n)) { el.textContent = String(n); FX.pop($("streak-display")); }
-  $("streak-display").title = `${n} day practice streak`;
+/* Called by every renderer once its content is in place */
+function showPage(id, opts = {}) {
+  document.querySelectorAll(".page").forEach((s) => {
+    const on = s.id === `page-${id}`;
+    s.classList.toggle("active", on);
+    s.classList.toggle("back", on && !!opts.back);
+  });
+  const home = id === "launchpad";
+  $("btn-back").hidden = home;
+  $("sb-logo").hidden = !home;
+  $("sb-title").textContent = home ? "CELPIP Coach" : opts.title || "CELPIP Coach";
+  $("btn-settings").hidden = id === "settings";
+  document.title = home ? "CELPIP Coach" : `${opts.title || ""} · CELPIP Coach`;
+  if (!opts.keepFooter) UI.setFooter([]);
+  if (!opts.keepScroll) window.scrollTo(0, 0);
 }
+
+/* Legacy helpers still used by lessons.js and games.js */
+function goHome() { go({ p: "launchpad" }, { replace: true }); }
+function refreshHomeMeta() {}
+function refreshAll() { if (route.p === "launchpad") renderLaunchpad({ keep: true }); }
+function backBtn(id = "btn-foot-back", label = "Back") { return { id, label, type: "default", onClick: navBack }; }
 
 /* ---------- Theme and settings ---------- */
 function applySettings() {
   const dark = state.settings.theme === "dark";
-  document.documentElement.toggleAttribute("data-theme", false);
+  document.documentElement.removeAttribute("data-theme");
   if (dark) document.documentElement.setAttribute("data-theme", "dark");
   document.documentElement.classList.toggle("reduce-motion", !!state.settings.reduceMotion);
-  document.querySelector(".theme-icon").textContent = dark ? "☀️" : "🌙";
-  $("btn-theme").setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
-  document.querySelector('meta[name="theme-color"]').setAttribute("content", dark ? "#0f1c2e" : "#1d3557");
-  $("set-dark").checked = dark;
-  $("set-motion").checked = !!state.settings.reduceMotion;
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", dark ? "#0e1318" : "#1d2d3e");
+  const sd = $("set-dark"), sm = $("set-motion");
+  if (sd) sd.checked = dark;
+  if (sm) sm.checked = !!state.settings.reduceMotion;
 }
 function toggleTheme(force) {
   const dark = typeof force === "boolean" ? force : state.settings.theme !== "dark";
@@ -315,151 +361,261 @@ function toggleTheme(force) {
   applySettings();
 }
 
-/* ---------- Home ---------- */
-function ringsInto(container, size) {
-  container.innerHTML = "";
-  const streak = computeStreak();
-  const clb = state.lastClb;
-  const done = challengeDoneCount();
-  const items = [
-    FX.ring({ value: Math.min(streak, 30), max: 30, size, center: `🔥${streak}`, sub: "day streak", cls: "streak" }),
-    FX.ring({ value: clb || 0, max: LEARNER.target, size, center: clb ? `CLB ${clb}` : "–", sub: "target 10", cls: "clb" }),
-    FX.ring({ value: done, max: 30, size, center: `${done}/30`, sub: "days done", cls: "cal" }),
-  ];
-  const caps = ["Streak", "Latest estimate", "30-day challenge"];
-  items.forEach((r, i) => {
-    const c = document.createElement("div");
-    c.className = "ring-caption";
-    c.textContent = caps[i];
-    r.appendChild(c);
-    container.appendChild(r);
-  });
+/* ---------- Launchpad ---------- */
+function promptStatus(id) {
+  if (state.bestClb[id]) return { k: "done", label: `Done · CLB ${state.bestClb[id]}`, cls: "positive" };
+  if (state.drafts[id] || state.attempted[id]) return { k: "progress", label: "In progress", cls: "critical" };
+  return { k: "new", label: "Not started", cls: "neutral" };
 }
+function clbColor(n) { return n == null ? "" : n >= 10 ? "good" : n >= 8 ? "critical" : "error"; }
 
-function renderHome() {
-  ringsInto($("home-rings"), 96);
-  // Today card
-  const t = todayChallenge();
-  const tc = $("today-card");
+function renderLaunchpad(opts = {}) {
   const today = todayISO();
-  if (t) {
-    const done = !!state.challengeDone[t.date];
-    tc.innerHTML = `
-      <div class="today-top">
-        <div class="day-badge"><small>Day</small><b>${t.n}</b></div>
-        <div style="flex:1;min-width:0">
-          <p class="muted tiny">${fromISO(t.date).toLocaleDateString("en-CA", { weekday: "long", month: "short", day: "numeric" })}</p>
-          <h2>${esc(t.label)}</h2>
-        </div>
-        ${done ? '<span class="chip good">Done ✓</span>' : ""}
-      </div>
-      <p class="muted" style="margin-top:8px">${esc(t.plan)}</p>
-      <div class="btn-row">
-        <button type="button" class="btn-primary" id="btn-today-go">${esc(t.cta)}</button>
-        <button type="button" class="btn-secondary" id="btn-today-done" style="margin-top:8px">${done ? "Undo" : "Mark done"}</button>
-      </div>`;
-    $("btn-today-go").onclick = () => runAction(t.act);
-    $("btn-today-done").onclick = (e) => toggleDay(t.date, e.currentTarget);
-  } else if (today < LEARNER.challengeStart) {
-    tc.innerHTML = `<h2>30-day challenge starts Oct 5</h2><p class="muted">Warm up with a brain game today.</p>`;
-  } else {
-    const n = challengeDoneCount();
-    tc.innerHTML = `<h2>Challenge finished 🎓</h2><p class="muted">You completed ${n} of 30 days. Keep a small daily habit going.</p>
-      <button type="button" class="btn-primary" id="btn-today-go">Write a Task 1</button>`;
-    $("btn-today-go").onclick = () => goTab("write");
-  }
-  // Warm-up
+  const t = todayChallenge();
+  const streak = computeStreak();
   const ids = dailyWarmupIds(today);
   const warmDone = !!state.warmups[today];
-  $("warmup-games").innerHTML = ids.map((id) => {
-    const g = GAMES.find((x) => x.id === id);
-    const playedToday = state.games[id] && state.games[id].lastDate === today;
-    return `<div class="warmup-game${playedToday ? " done" : ""}"><span>${g.icon}</span>${esc(g.name)}</div>`;
-  }).join("");
-  $("warmup-status").textContent = warmDone ? "Done today ✓" : "3 short games";
-  $("warmup-status").className = `chip${warmDone ? " good" : ""}`;
-  $("btn-warmup").textContent = warmDone ? "Play it again" : "Start warm-up";
-  // Watch chips
-  const wc = $("watch-chips");
-  if (!wc.dataset.ready) {
-    wc.innerHTML = WATCH_LIST.map((w) => `<button type="button" class="watch-chip" data-w="${w.id}">${w.icon} ${esc(w.title)}</button>`).join("");
-    wc.querySelectorAll(".watch-chip").forEach((b) => b.addEventListener("click", () => {
-      const wasActive = b.classList.contains("active");
-      wc.querySelectorAll(".watch-chip").forEach((x) => x.classList.remove("active"));
-      const d = $("watch-detail");
-      if (wasActive) { d.hidden = true; return; }
-      b.classList.add("active");
-      const w = WATCH_LIST.find((x) => x.id === b.dataset.w);
-      d.hidden = false;
-      d.innerHTML = watchHtml(w);
-      d.classList.remove("watch-detail"); void d.offsetWidth; d.classList.add("watch-detail");
-    }));
-    wc.dataset.ready = "1";
+  const t1Done = T1_PROMPTS.filter((p) => state.bestClb[p.id]).length;
+  const t2Done = T2_PROMPTS.filter((p) => state.bestClb[p.id]).length;
+  const best = (list) => { const v = list.map((p) => state.bestClb[p.id] || 0); const m = Math.max(0, ...v); return m || null; };
+  const daysDone = challengeDoneCount();
+
+  let todayTile;
+  if (t) {
+    const done = !!state.challengeDone[t.date];
+    todayTile = { id: "tile-today", title: "Today's task", sub: t.label === "Practice" ? t.plan : t.label, kpi: `Day ${t.n}`, unit: "of 30", cls: "featured",
+      foot: done ? "Done today" : `Next: ${actionLabel(t.act)}`, footCls: done ? "positive" : "action", footIcon: done ? "check" : "play" };
+  } else if (today < LEARNER.challengeStart) {
+    todayTile = { id: "tile-today", title: "Today's task", sub: "The 30-day challenge starts Oct 5", icon: "calendar", foot: "Next: Daily Warm-up", footCls: "action", footIcon: "play" };
+  } else {
+    todayTile = { id: "tile-today", title: "Today's task", sub: "Challenge finished. Keep a small daily habit.", kpi: daysDone, unit: "of 30 done", foot: "Next: Task 1 Emails", footCls: "action", footIcon: "play" };
   }
+  const groups = [
+    { name: "Today", tiles: [
+      todayTile,
+      { id: "tile-warmup", title: "Daily Warm-up", sub: ids.map((id) => GAMES.find((g) => g.id === id).name).join(", "), icon: "activity",
+        kpi: warmDone ? "" : 3, unit: warmDone ? "" : "games", foot: warmDone ? "Done today" : "About 4 minutes", footCls: warmDone ? "positive" : "", footIcon: warmDone ? "check" : "" },
+      { id: "tile-streak", title: "Streak", sub: "Days in a row", kpi: streak, unit: streak === 1 ? "day" : "days", icon: "flame",
+        foot: practiceDaySet().has(today) ? "Today counts" : "Practice today to keep it", footCls: practiceDaySet().has(today) ? "positive" : "" },
+    ] },
+    { name: "Learn", tiles: [
+      { id: "tile-l1", title: "Lesson 1", sub: "Fill the Gaps · email sandwich", kpi: state.lesson1Completions, unit: "done", icon: "layers", foot: "5 steps + subject" },
+      { id: "tile-l2", title: "Lesson 2", sub: "Tone and Grammar drills", kpi: state.lesson2Completions, unit: "done", icon: "edit", foot: `${L2_DRILLS.length} drills` },
+      { id: "tile-l3", title: "Lesson 3", sub: "Full Timed Draft", kpi: state.lesson3Completions, unit: "done", icon: "clock", foot: "27 minutes" },
+      { id: "tile-phrases", title: "Phrase Bank", sub: "Swipe CLB 10 phrases", kpi: PHRASES.length, unit: "cards", icon: "cards", foot: `${state.favPhrases.length} starred` },
+      { id: "tile-watch", title: "Watch List", sub: "From your Day 1 email", kpi: WATCH_LIST.length, unit: "habits", icon: "eye", foot: "In the draft checker" },
+      { id: "tile-guides", title: "Baby Steps", sub: "Task 1 and Task 2, step by step", kpi: GUIDES.length, unit: "guides", icon: "list", foot: "Start here" },
+    ] },
+    { name: "Practice", tiles: [
+      { id: "tile-t1", title: "Task 1 Emails", sub: "27 min · 150 to 200 words", kpi: t1Done, unit: `/ ${T1_PROMPTS.length} done`, icon: "mail", foot: best(T1_PROMPTS) ? `Best CLB ${best(T1_PROMPTS)}` : `${T1_PROMPTS.length} prompts` },
+      { id: "tile-t2", title: "Task 2 Surveys", sub: "26 min · Option A or B", kpi: t2Done, unit: `/ ${T2_PROMPTS.length} done`, icon: "survey", foot: best(T2_PROMPTS) ? `Best CLB ${best(T2_PROMPTS)}` : `${T2_PROMPTS.length} prompts` },
+      { id: "tile-timed", title: "Timed Draft", sub: "A Task 1 you have not finished, clock on", icon: "clock", foot: "27 minute timer" },
+    ] },
+    { name: "Games", note: "Best score", tiles: GAMES.map((g) => {
+      const rec = state.games[g.id];
+      return { id: `tile-game-${g.id}`, title: g.name, sub: g.desc, kpi: rec ? rec.best : "", unit: rec ? "best" : "", icon: GAME_ICONS[g.id],
+        foot: rec ? `Played ${rec.plays} ${rec.plays === 1 ? "time" : "times"}` : `New · ${g.time}` };
+    }) },
+    { name: "Progress", tiles: [
+      { id: "tile-plan", title: "30-Day Plan", sub: "Oct 5 to Nov 3, 2026", kpi: daysDone, unit: "/ 30 days", icon: "calendar", foot: t ? `Today is Day ${t.n}` : "Calendar and best scores" },
+      { id: "tile-clb", title: "CLB Estimate", sub: "Latest timed draft", kpi: state.lastClb != null ? state.lastClb : "", unit: state.lastClb != null ? "target 10" : "", kpiColor: clbColor(state.lastClb),
+        icon: "trend", foot: state.attempts.length ? `${state.attempts.length} drafts · estimate only` : "No drafts yet" },
+    ] },
+  ];
+  $("lp-groups").innerHTML = groups.map((g) => `<section class="lp-group" aria-label="${g.name}"><h2>${g.name}${g.note ? ` <small>${g.note}</small>` : ""}</h2>
+    <div class="tile-grid">${g.tiles.map(UI.tile).join("")}</div></section>`).join("");
+  $("lp-foot").textContent = `CELPIP Coach v${APP_VERSION} · progress is saved on this device only`;
+  if (!opts.keep) showPage("launchpad", opts);
 }
 
-function watchHtml(w) {
-  return `<div class="bad-line"><b>Day 1</b>${esc(w.bad)}</div><div class="good-line"><b>CLB 10</b>${esc(w.good)}</div><p class="kid-line">👶 ${esc(w.kid)}</p>`;
+const TILE_ACTIONS = {
+  "tile-today": () => go({ p: "today" }),
+  "tile-warmup": () => go({ p: "warmup" }),
+  "tile-streak": () => go({ p: "plan" }),
+  "tile-l1": () => go({ p: "lesson", n: 1 }),
+  "tile-l2": () => go({ p: "lesson", n: 2 }),
+  "tile-l3": () => startLesson3(false),
+  "tile-phrases": () => go({ p: "phrases" }),
+  "tile-watch": () => go({ p: "watch" }),
+  "tile-guides": () => go({ p: "guides" }),
+  "tile-t1": () => go({ p: "list", type: "t1" }),
+  "tile-t2": () => go({ p: "list", type: "t2" }),
+  "tile-timed": () => {
+    const pick = T1_PROMPTS.find((p) => !state.bestClb[p.id]) || T1_PROMPTS[Math.floor(Math.random() * T1_PROMPTS.length)];
+    openObject("t1", pick.id, "write");
+  },
+  "tile-plan": () => go({ p: "plan" }),
+  "tile-clb": () => go({ p: "history" }),
+};
+
+/* ---------- Today's task ---------- */
+function renderToday(opts) {
+  const t = todayChallenge();
+  const head = $("today-head"), body = $("today-body");
+  if (!t) {
+    head.innerHTML = `<h2 class="dp-title">Today's task</h2><p class="dp-sub">${todayISO() < LEARNER.challengeStart ? "The 30-day challenge starts on Oct 5." : "The 30-day challenge is finished. Well done, Afolabi."}</p>`;
+    body.innerHTML = UI.strip("info", "Keep a small daily habit: one warm-up and one Task 1 a week keeps your writing sharp.");
+    showPage("today", { ...opts, title: "Today's task" });
+    UI.setFooter([backBtn(), { id: "btn-today-go", label: "Daily Warm-up", type: "emph", onClick: () => go({ p: "warmup" }) }]);
+    return;
+  }
+  const done = !!state.challengeDone[t.date];
+  const outside = t.base && t.n > 1;
+  head.innerHTML = `<p class="dp-eyebrow">${fromISO(t.date).toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" })}</p>
+    <h2 class="dp-title">Day ${t.n} of 30</h2>
+    <p class="dp-sub">${esc(t.label)}</p>
+    <div class="dp-status">${done ? UI.status("positive", "Done") : UI.status("critical", "Open")}${t.base ? UI.status("info", "Baseline") : ""}</div>`;
+  body.innerHTML = `
+    ${done ? UI.strip("success", "Today is marked done. Your streak is safe.") : ""}
+    <div class="panel"><h3>What to do</h3><p>${esc(t.plan)}</p></div>
+    ${outside ? UI.strip("info", "This baseline happens outside the app. Do it first, then mark today done.") : ""}
+    <div class="panel"><h3>Recommended next action</h3>
+      <p class="row" style="border:0"><span>${UI.icon("play")}${esc(actionLabel(t.act))}</span></p>
+      <p class="muted small">Use the button at the bottom right to start it.</p>
+    </div>`;
+  showPage("today", { ...opts, title: "Today's task" });
+  UI.setFooter([
+    { id: "btn-today-done", label: done ? "Undo done" : "Mark done", type: "default", onClick: () => { toggleDay(t.date); renderToday({ keepScroll: true }); } },
+    { id: "btn-today-go", label: t.cta === "Start" ? "Start" : t.cta, type: "emph", onClick: () => runAction(t.act) },
+  ]);
 }
 
 function toggleDay(date, el) {
-  if (date > todayISO()) { FX.toast("That day has not arrived yet. One day at a time!"); FX.shake(el); return; }
+  if (date > todayISO()) { FX.toast("That day has not arrived yet. One day at a time."); if (el) FX.shake(el); return false; }
   const now = !state.challengeDone[date];
   if (now) state.challengeDone[date] = true;
   else delete state.challengeDone[date];
   saveState(state);
-  if (now) {
-    FX.confetti({ el, count: 60 });
-    FX.coach("done", challengeDoneCount() >= 30 ? "All 30 days! You did it, Afolabi!" : `Day ${CHALLENGE.find((d) => d.date === date).n} done. Keep the chain going!`);
+  const d = CHALLENGE.find((x) => x.date === date);
+  FX.toast(now ? (challengeDoneCount() >= 30 ? "All 30 days done. You did it, Afolabi!" : `Day ${d.n} marked done`) : `Day ${d.n} marked not done`);
+  return true;
+}
+
+/* ---------- Settings ---------- */
+function renderSettings(opts) {
+  $("settings-head").innerHTML = `<div class="profile"><span class="big-avatar" aria-hidden="true">AA</span>
+    <div><h2 class="dp-title">Afolabi Adesina</h2><p class="dp-sub">Oakville · Sheridan · Target CLB 10+</p></div></div>`;
+  const lessons = [state.lesson1Completions, state.lesson2Completions, state.lesson3Completions];
+  $("settings-body").innerHTML = `
+    <div class="panel"><h3>Appearance</h3>
+      <label class="switch-row"><span>Dark theme<small>Easier on the eyes at night</small></span><input type="checkbox" id="set-dark" /><i class="switch" aria-hidden="true"></i></label>
+      <label class="switch-row"><span>Reduce motion<small>Turns off slides, flips and confetti</small></span><input type="checkbox" id="set-motion" /><i class="switch" aria-hidden="true"></i></label>
+    </div>
+    <div class="panel"><h3>Your challenge</h3>
+      <ul class="row-list">
+        <li class="row"><span>Dates</span><b>Oct 5 to Nov 3, 2026</b></li>
+        <li class="row"><span>Days done</span><b>${challengeDoneCount()} of 30</b></li>
+        <li class="row"><span>Streak</span><b>${computeStreak()} days</b></li>
+        <li class="row"><span>Lessons tried</span><b>${lessons.filter((x) => x > 0).length} of 3</b></li>
+      </ul>
+    </div>
+    <div class="panel"><h3>About</h3>
+      <p class="small muted" id="version-note">CELPIP Coach v${APP_VERSION} · progress is saved on this device only${state.migratedFrom ? " · earlier progress carried over" : ""}. CLB numbers are estimates from simple rules, not official CELPIP scores.</p>
+    </div>`;
+  applySettings();
+  $("set-dark").addEventListener("change", (e) => { toggleTheme(e.target.checked); FX.toast(e.target.checked ? "Dark theme on" : "Light theme on"); });
+  $("set-motion").addEventListener("change", (e) => { state.settings.reduceMotion = e.target.checked; saveState(state); applySettings(); FX.toast(e.target.checked ? "Motion reduced" : "Motion on"); });
+  showPage("settings", { ...opts, title: "Settings" });
+  UI.setFooter([{ id: "btn-settings-done", label: "Done", type: "emph", onClick: navBack }]);
+}
+
+/* ---------- Watch list ---------- */
+function watchHtml(w) {
+  return `<div class="bad-line"><b>Day 1</b>${esc(w.bad)}</div><div class="good-line"><b>CLB 10</b>${esc(w.good)}</div><p class="kid-line">${esc(w.kid)}</p>`;
+}
+function renderWatch(opts) {
+  $("watch-head").innerHTML = `<h2 class="dp-title">Watch List</h2><p class="dp-sub">Six habits from your Day 1 email. The draft checker looks for every one.</p>
+    <div class="kpi-row"><div class="kpi"><span class="kpi-num">${WATCH_LIST.length}</span><span class="kpi-lbl">habits</span></div><div class="kpi"><span class="kpi-num">CLB 8 to 9</span><span class="kpi-lbl">Day 1 baseline</span></div></div>`;
+  $("watch-body").innerHTML = `
+    ${UI.strip("info", "Fix these six and your emails move toward CLB 10.")}
+    <div id="watch-full">${WATCH_LIST.map((w, i) => `<details class="panel watch-item" ${i === 0 ? "open" : ""}><summary>${esc(w.title)}</summary>${watchHtml(w)}</details>`).join("")}</div>
+    <div class="panel"><h3>Rules to remember</h3><ul class="rule-list">
+      ${["No threats", "Skip \"I hope this email meets you well\"", "Firm but polite", "Always write a clear subject and body", "Sign as Afolabi"].map((r) => `<li>${UI.icon("check")}${esc(r)}</li>`).join("")}
+    </ul></div>`;
+  showPage("watch", { ...opts, title: "Watch List" });
+  UI.setFooter([backBtn(), { id: "btn-watch-game", label: "Practice in Error Hunt", type: "emph", onClick: () => go({ p: "game", id: "errors" }) }]);
+}
+
+/* ---------- Baby steps ---------- */
+function renderGuides(opts) {
+  $("guides-head").innerHTML = `<h2 class="dp-title">Baby Steps</h2><p class="dp-sub">Tiny steps, one at a time. Read one guide before you write.</p>`;
+  $("guides-body").innerHTML = `<div id="guides">${GUIDES.map((g) => `<div class="panel guide"><h3>${esc(g.title)}</h3><ol class="steps">${g.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></div>`).join("")}</div>`;
+  showPage("guides", { ...opts, title: "Baby Steps" });
+  UI.setFooter([backBtn(), { id: "btn-guides-go", label: "Start Lesson 1", type: "emph", onClick: () => go({ p: "lesson", n: 1 }) }]);
+}
+
+/* ---------- List report: Task 1 and Task 2 ---------- */
+function findPrompt(type, id) { return (type === "t2" ? T2_PROMPTS : T1_PROMPTS).find((p) => p.id === id); }
+const listState = { t1: { f: "all", q: "" }, t2: { f: "all", q: "" } };
+const FILTERS = [["all", "All"], ["new", "Not started"], ["progress", "In progress"], ["done", "Done"]];
+
+function renderList(type, opts = {}) {
+  const list = type === "t2" ? T2_PROMPTS : T1_PROMPTS;
+  const ls = listState[type];
+  const counts = { all: list.length, new: 0, progress: 0, done: 0 };
+  list.forEach((p) => { counts[promptStatus(p.id).k] += 1; });
+  $("list-head").innerHTML = `<h2 class="dp-title">${type === "t2" ? "Task 2 Surveys" : "Task 1 Emails"}</h2>
+    <p class="dp-sub">${type === "t2" ? "Responding to Survey Questions · 26 minutes · 150 to 200 words" : "Writing an Email · 27 minutes · 150 to 200 words"}</p>
+    <div class="kpi-row">
+      <div class="kpi"><span class="kpi-num positive" id="list-done">${counts.done}</span><span class="kpi-lbl">done of ${list.length}</span></div>
+      <div class="kpi"><span class="kpi-num">${counts.progress}</span><span class="kpi-lbl">in progress</span></div>
+      <div class="kpi"><span class="kpi-num">${(() => { const b = Math.max(0, ...list.map((p) => state.bestClb[p.id] || 0)); return b ? `CLB ${b}` : "-"; })()}</span><span class="kpi-lbl">best estimate</span></div>
+    </div>`;
+  if (!opts.keepToolbar) {
+    $("list-toolbar").innerHTML = `<div class="search">${UI.icon("search")}<input type="search" id="list-search" placeholder="Search prompts" aria-label="Search prompts" value="${esc(ls.q)}" autocomplete="off" /></div>
+      <div class="chip-row" id="list-filters" role="group" aria-label="Filter by status">${FILTERS.map(([k, l]) => `<button type="button" class="chip-btn" data-f="${k}" aria-pressed="${ls.f === k}">${l}<span class="n">${counts[k]}</span></button>`).join("")}</div>`;
+    $("list-search").addEventListener("input", (e) => { ls.q = e.target.value; renderListItems(type); });
+    $("list-filters").querySelectorAll(".chip-btn").forEach((b) => b.addEventListener("click", () => {
+      ls.f = b.dataset.f;
+      $("list-filters").querySelectorAll(".chip-btn").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      renderListItems(type);
+    }));
   }
-  refreshAll();
-}
-
-/* ---------- Learn ---------- */
-function renderLearn() {
-  const g = $("guides");
-  if (!g.dataset.ready) {
-    g.innerHTML = GUIDES.map((x, i) => `<details class="card guide"${i === 0 ? " open" : ""}><summary>👣 ${esc(x.title)}</summary><ol>${x.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></details>`).join("");
-    $("watch-full").innerHTML = WATCH_LIST.map((w) => `<div class="card watch-item"><h3>${w.icon} ${esc(w.title)}</h3>${watchHtml(w)}</div>`).join("");
-    g.dataset.ready = "1";
+  renderListItems(type);
+  if (!opts.keepToolbar) {
+    showPage("list", { ...opts, title: type === "t2" ? "Task 2 Surveys" : "Task 1 Emails" });
+    UI.setFooter([backBtn(), { id: "btn-list-next", label: "Start next prompt", type: "emph", onClick: () => {
+      const next = list.find((p) => promptStatus(p.id).k === "progress") || list.find((p) => promptStatus(p.id).k === "new") || list[0];
+      openObject(type, next.id, "prompt");
+    } }]);
   }
-  const meta = (n, c) => {
-    const m = $(`l${n}-meta`), cta = $(`l${n}-cta`);
-    if (c > 0) { m.textContent = `Completed ${c}×`; cta.textContent = "Again"; }
-    else { m.textContent = "Not started"; cta.textContent = "Start"; }
-  };
-  meta(1, state.lesson1Completions);
-  meta(2, state.lesson2Completions);
-  meta(3, state.lesson3Completions);
 }
 
-/* ---------- Games tab ---------- */
-function renderGames() {
-  const today = todayISO();
-  const ids = dailyWarmupIds(today);
-  const warmDone = !!state.warmups[today];
-  $("warmup-list-2").textContent = `Today: ${ids.map((id) => GAMES.find((g) => g.id === id).name).join(", ")} (short versions).`;
-  $("warmup-status-2").textContent = warmDone ? "Done today ✓" : "3 short games";
-  $("warmup-status-2").className = `chip${warmDone ? " good" : ""}`;
-  $("game-grid").innerHTML = GAMES.map((g) => {
-    const r = state.games[g.id];
-    return `<button type="button" class="game-card" data-game="${g.id}">
-      <span class="game-icon" aria-hidden="true">${g.icon}</span>
-      <h3>${esc(g.name)}</h3><p>${esc(g.desc)}</p>
-      <span class="game-best">${r ? `Best ${r.best} · played ${r.plays}×` : esc(g.time)}</span></button>`;
-  }).join("");
-  $("game-grid").querySelectorAll(".game-card").forEach((b) => b.addEventListener("click", () => Games.start(b.dataset.game, {})));
+function renderListItems(type) {
+  const list = type === "t2" ? T2_PROMPTS : T1_PROMPTS;
+  const ls = listState[type];
+  const q = ls.q.trim().toLowerCase();
+  const items = list.filter((p) => (ls.f === "all" || promptStatus(p.id).k === ls.f)
+    && (!q || [p.title, p.situation, p.tag || "", p.to || "", p.optionA || "", p.optionB || ""].join(" ").toLowerCase().includes(q)));
+  const body = $("list-body");
+  body.innerHTML = `<p class="list-count" aria-live="polite">${items.length} ${items.length === 1 ? "prompt" : "prompts"}</p>` + (items.length
+    ? `<ul class="list" id="prompt-list">${items.map((p) => {
+        const st = promptStatus(p.id);
+        const tries = state.attempts.filter((a) => a.id === p.id).length;
+        return `<li><button type="button" class="li prompt-card" data-id="${p.id}">
+          <span class="li-ico">${UI.icon(type === "t2" ? "survey" : "mail")}</span>
+          <span class="li-main"><span class="li-title">${esc(p.title)}</span>
+            <span class="li-meta">${type === "t1" ? `To ${esc(p.to)} · ${esc(p.tag)}` : "Option A or B"}${tries ? ` · ${tries} ${tries === 1 ? "try" : "tries"}` : ""}</span></span>
+          <span class="li-side">${UI.status(st.cls, st.label)}</span>${UI.icon("chevron", "chev")}</button></li>`;
+      }).join("")}</ul>`
+    : `<div class="list-empty">No prompts match. Try another filter or search word.</div>`);
+  body.querySelectorAll(".li").forEach((b) => b.addEventListener("click", () => openObject(type, b.dataset.id, "prompt")));
 }
 
-/* ---------- Progress ---------- */
+/* ---------- 30-Day Plan ---------- */
 let selectedDay = null;
-function renderProgress() {
-  ringsInto($("progress-rings"), 96);
-  const cal = $("calendar");
+function renderPlan(opts = {}) {
   const today = todayISO();
-  const startDow = (fromISO(LEARNER.challengeStart).getDay() + 6) % 7; // Monday = 0
-  let html = "";
-  for (let i = 0; i < startDow; i++) html += `<span class="cal-day blank"></span>`;
+  const t = todayChallenge();
+  $("plan-head").innerHTML = `<h2 class="dp-title">30-Day Plan</h2><p class="dp-sub">Oct 5 to Nov 3, 2026 · tap a day to mark it done</p>
+    <div class="kpi-row">
+      <div class="kpi"><span class="kpi-num" id="cal-count">${challengeDoneCount()}/30</span><span class="kpi-lbl">days done</span></div>
+      <div class="kpi"><span class="kpi-num" id="streak-count">${computeStreak()}</span><span class="kpi-lbl">day streak</span></div>
+      <div class="kpi"><span class="kpi-num">${t ? `Day ${t.n}` : "-"}</span><span class="kpi-lbl">today</span></div>
+    </div>`;
+  const startDow = (fromISO(LEARNER.challengeStart).getDay() + 6) % 7;
+  let cal = "";
+  for (let i = 0; i < startDow; i++) cal += `<span class="cal-day blank"></span>`;
   CHALLENGE.forEach((d) => {
     const cls = ["cal-day", d.base ? "base" : "prac"];
     if (state.challengeDone[d.date]) cls.push("done");
@@ -468,73 +624,105 @@ function renderProgress() {
     if (selectedDay === d.date) cls.push("sel");
     const tag = d.base ? { Writing: "Write", Speaking: "Speak", Reading: "Read", Listening: "Listen" }[d.label.split(": ")[1]] : `Day ${d.n}`;
     const dt = fromISO(d.date);
-    html += `<button type="button" class="${cls.join(" ")}" data-date="${d.date}" role="gridcell"
-      aria-label="Day ${d.n}, ${dt.toLocaleDateString("en-CA", { month: "short", day: "numeric" })}, ${esc(d.label)}${state.challengeDone[d.date] ? ", done" : ""}">
-      ${dt.getDate()}<small>${esc(tag)}</small></button>`;
+    cal += `<button type="button" class="${cls.join(" ")}" data-date="${d.date}" aria-pressed="${!!state.challengeDone[d.date]}"
+      aria-label="Day ${d.n}, ${dt.toLocaleDateString("en-CA", { month: "short", day: "numeric" })}, ${esc(d.label)}${state.challengeDone[d.date] ? ", done" : ""}${d.date === today ? ", today" : ""}">${dt.getDate()}<small>${esc(tag)}</small></button>`;
   });
-  cal.innerHTML = html;
-  cal.querySelectorAll(".cal-day[data-date]").forEach((b) => b.addEventListener("click", () => {
-    selectedDay = b.dataset.date;
-    toggleDay(b.dataset.date, b);
-    const nb = cal.querySelector(`[data-date="${selectedDay}"]`);
-    if (nb) nb.classList.add("just");
-  }));
-  $("cal-count").textContent = `${challengeDoneCount()}/30`;
   const show = CHALLENGE.find((d) => d.date === (selectedDay || today)) || CHALLENGE[0];
-  const dd = $("day-detail");
-  dd.innerHTML = `<h3>Day ${show.n} · ${fromISO(show.date).toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" })} · ${esc(show.label)}</h3>
-    <p class="muted">${esc(show.plan)}</p>
-    <button type="button" class="btn-primary" id="btn-day-go">${esc(show.cta)}</button>`;
-  $("btn-day-go").onclick = () => runAction(show.act);
-
-  $("best-list").innerHTML = GAMES.map((g) => {
-    const r = state.games[g.id];
-    return `<div class="best-row"><span>${g.icon} ${esc(g.name)}</span><b>${r ? r.best : "–"}</b></div>`;
-  }).join("");
-  const hist = state.attempts.slice(0, 8);
-  $("history").innerHTML = hist.length
-    ? hist.map((a) => `<div class="hist-row"><span>${esc(promptTitle(a))}<br><span class="muted tiny">${esc(a.date)} · ${a.words} words</span></span><b>CLB ${a.clb}</b></div>`).join("")
-    : `<p class="muted small">No timed drafts yet. Your estimates will show here.</p>`;
-  const lessons = [state.lesson1Completions, state.lesson2Completions, state.lesson3Completions];
-  $("version-note").textContent = `CELPIP Coach v4 · Lessons done ${lessons.filter((x) => x > 0).length}/3 · progress is saved on this device only${state.migratedFrom ? " · earlier progress carried over" : ""}`;
+  const showDone = !!state.challengeDone[show.date];
+  $("plan-body").innerHTML = `
+    <div class="panel"><h3>Calendar</h3>
+      <div class="cal-dow" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+      <div class="calendar" id="calendar">${cal}</div>
+      <div class="cal-legend"><span><i class="lg base"></i>Baseline</span><span><i class="lg prac"></i>Practice</span><span><i class="lg done"></i>Done</span><span><i class="lg today"></i>Today</span></div>
+    </div>
+    <div class="panel" id="day-detail"><h3>Day ${show.n} · ${fromISO(show.date).toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" })}</h3>
+      <div class="dp-status" style="margin:0 0 .5rem">${showDone ? UI.status("positive", "Done") : show.date > today ? UI.status("neutral", "Not yet") : UI.status("critical", "Open")}<span class="muted small">${esc(show.label)}</span></div>
+      <p>${esc(show.plan)}</p>
+      ${show.date > today ? UI.strip("info", "This day has not arrived yet. You can look ahead, but you can only mark it done on the day.") : ""}
+    </div>
+    <div class="panel"><h3>Best game scores</h3><ul class="row-list" id="best-list">${GAMES.map((g) => {
+      const r = state.games[g.id];
+      return `<li class="row"><span>${UI.icon(GAME_ICONS[g.id])}${esc(g.name)}</span><b>${r ? r.best : "-"}</b></li>`;
+    }).join("")}</ul></div>`;
+  $("calendar").querySelectorAll(".cal-day[data-date]").forEach((b) => b.addEventListener("click", () => {
+    selectedDay = b.dataset.date;
+    const changed = toggleDay(b.dataset.date, b);
+    renderPlan({ keepScroll: true, refresh: true });
+    const nb = $("calendar").querySelector(`[data-date="${selectedDay}"]`);
+    if (nb) { if (changed) FX.pop(nb); nb.focus({ preventScroll: true }); }
+  }));
+  if (!opts.refresh) showPage("plan", { ...opts, title: "30-Day Plan" });
+  UI.setFooter([backBtn(), { id: "btn-day-go", label: show.date === today ? "Start today's task" : `Open Day ${show.n} task`, type: "emph", onClick: () => runAction(show.act) }]);
 }
 
+/* ---------- CLB estimate / writing history ---------- */
 function promptTitle(a) {
+  if (a.kind === "l3") return "Lesson 3 · timed draft";
   const p = findPrompt(a.type, a.id);
-  if (p) return `${a.type === "t2" ? "Task 2" : "Task 1"} · ${p.title}`;
-  return "Lesson 3 · timed draft";
+  return p ? `${a.type === "t2" ? "Task 2" : "Task 1"} · ${p.title}` : "Timed draft";
+}
+function renderHistory(opts) {
+  const best = state.attempts.reduce((m, a) => Math.max(m, a.clb || 0), 0);
+  $("history-head").innerHTML = `<h2 class="dp-title">CLB Estimate</h2><p class="dp-sub">From your timed drafts. Target CLB 10.</p>
+    <div class="kpi-row">
+      <div class="kpi"><span class="kpi-num ${state.lastClb >= 10 ? "positive" : state.lastClb >= 8 ? "critical" : ""}" id="hist-latest">${state.lastClb != null ? `CLB ${state.lastClb}` : "-"}</span><span class="kpi-lbl">latest</span></div>
+      <div class="kpi"><span class="kpi-num">${best ? `CLB ${best}` : "-"}</span><span class="kpi-lbl">best</span></div>
+      <div class="kpi"><span class="kpi-num">${state.attempts.length}</span><span class="kpi-lbl">drafts</span></div>
+    </div>`;
+  const hist = state.attempts.slice(0, 20);
+  $("history-body").innerHTML = `${UI.strip("info", "Estimate only, not an official CELPIP score. It comes from simple rules: content, vocabulary, readability and task.")}
+    <div class="panel"><h3>Writing history</h3>
+    ${hist.length ? `<div id="history">${hist.map((a, i) => `<button type="button" class="row hist-row" data-i="${i}"><span>${esc(promptTitle(a))}<br><span class="muted tiny">${esc(a.date)} · ${a.words} words</span></span><span>${UI.status(a.clb >= 10 ? "positive" : a.clb >= 8 ? "critical" : "negative", `CLB ${a.clb}`)}</span></button>`).join("")}</div>`
+      : `<p class="muted small" id="history">No timed drafts yet. Your estimates will show here.</p>`}
+    </div>`;
+  $("history-body").querySelectorAll(".hist-row").forEach((b) => b.addEventListener("click", () => {
+    const a = hist[Number(b.dataset.i)];
+    openObject(a.kind === "l3" ? "l3" : a.type, a.id, "review");
+  }));
+  showPage("history", { ...opts, title: "CLB Estimate" });
+  UI.setFooter([backBtn(), { id: "btn-hist-write", label: "Write a Task 1", type: "emph", onClick: () => go({ p: "list", type: "t1" }) }]);
 }
 
 /* ---------- Phrase bank ---------- */
 const phraseKey = (p) => `${p.g}|${p.basic}`;
 let phraseFilter = "All", phraseList = PHRASES, phraseIdx = 0;
-function openPhrases() {
-  const groups = ["All", "★ Starred", ...PHRASE_GROUPS];
-  $("phrase-groups").innerHTML = groups.map((g) => `<button type="button" class="chip-btn${g === phraseFilter ? " active" : ""}" data-g="${esc(g)}">${esc(g)}</button>`).join("");
+function openPhrases(opts = {}) {
+  const groups = ["All", "Starred", ...PHRASE_GROUPS];
+  $("phrase-groups").innerHTML = groups.map((g) => `<button type="button" class="chip-btn" data-g="${esc(g)}" aria-pressed="${g === phraseFilter}">${esc(g)}</button>`).join("");
   $("phrase-groups").querySelectorAll(".chip-btn").forEach((b) => b.addEventListener("click", () => {
     phraseFilter = b.dataset.g;
     phraseIdx = 0;
-    $("phrase-groups").querySelectorAll(".chip-btn").forEach((x) => x.classList.toggle("active", x === b));
+    $("phrase-groups").querySelectorAll(".chip-btn").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
     filterPhrases();
     renderFlash();
   }));
   filterPhrases();
-  showScreen("screen-phrases");
+  showPage("phrases", { ...opts, title: "Phrase Bank" });
   renderFlash();
 }
 function filterPhrases() {
   if (phraseFilter === "All") phraseList = PHRASES;
-  else if (phraseFilter === "★ Starred") phraseList = PHRASES.filter((p) => state.favPhrases.includes(phraseKey(p)));
+  else if (phraseFilter === "Starred") phraseList = PHRASES.filter((p) => state.favPhrases.includes(phraseKey(p)));
   else phraseList = PHRASES.filter((p) => p.g === phraseFilter);
+  $("phr-count").textContent = phraseList.length;
+  $("phr-starred").textContent = state.favPhrases.length;
+}
+function phraseFooter() {
+  const has = phraseList.length > 0;
+  const on = has && state.favPhrases.includes(phraseKey(phraseList[phraseIdx]));
+  UI.setFooter([
+    { id: "flash-prev", label: "Previous", type: "default", disabled: !has, onClick: () => flashMove(-1) },
+    { id: "flash-star", icon: "star", type: "default", aria: on ? "Remove star" : "Star this phrase", pressed: on, disabled: !has, onClick: toggleStar },
+    { id: "flash-next", label: "Next", type: "emph", disabled: !has, onClick: () => flashMove(1) },
+  ]);
 }
 function renderFlash(dir) {
   const f = $("flash");
   f.classList.remove("flipped", "swipe-l", "swipe-r");
   if (!phraseList.length) {
-    f.innerHTML = `<div class="flash-inner"><div class="flash-face flash-front"><p class="center muted">No starred phrases yet. Tap ☆ on any card to save it here.</p></div></div>`;
+    f.innerHTML = `<div class="flash-inner"><div class="flash-face flash-front"><p class="center muted">No starred phrases yet. Tap the star on any card to save it here.</p></div></div>`;
     $("flash-pos").textContent = "";
-    $("flash-star").classList.remove("on");
-    $("flash-star").textContent = "☆";
+    phraseFooter();
     return;
   }
   phraseIdx = (phraseIdx + phraseList.length) % phraseList.length;
@@ -544,12 +732,20 @@ function renderFlash(dir) {
     <div class="flash-face flash-back"><span class="tag">CLB 10 · ${esc(p.g)}</span><p class="txt">${esc(p.clb)}</p><span class="hint">Swipe for the next card</span></div></div>`;
   if (dir) { void f.offsetWidth; f.classList.add(dir === "next" ? "swipe-l" : "swipe-r"); }
   $("flash-pos").textContent = `${phraseIdx + 1} of ${phraseList.length}`;
-  const on = state.favPhrases.includes(phraseKey(p));
-  $("flash-star").classList.toggle("on", on);
-  $("flash-star").textContent = on ? "★" : "☆";
-  $("flash-star").setAttribute("aria-pressed", String(on));
+  phraseFooter();
 }
 function flashMove(d) { if (!phraseList.length) return; phraseIdx += d; renderFlash(d > 0 ? "next" : "prev"); }
+function toggleStar() {
+  if (!phraseList.length) return;
+  const k = phraseKey(phraseList[phraseIdx]);
+  const i = state.favPhrases.indexOf(k);
+  if (i >= 0) { state.favPhrases.splice(i, 1); FX.toast("Removed from starred"); }
+  else { state.favPhrases.push(k); FX.toast("Starred"); }
+  saveState(state);
+  if (phraseFilter === "Starred") filterPhrases();
+  $("phr-starred").textContent = state.favPhrases.length;
+  renderFlash();
+}
 function wirePhrases() {
   const f = $("flash");
   let x0 = null, y0 = null, moved = false;
@@ -557,7 +753,7 @@ function wirePhrases() {
   f.addEventListener("pointermove", (e) => {
     if (x0 === null) return;
     const dx = e.clientX - x0;
-    if (Math.abs(dx) > 8) { moved = true; if (!FX.reduced()) f.style.transform = `translateX(${dx * 0.4}px) rotate(${dx * 0.03}deg)`; }
+    if (Math.abs(dx) > 8) { moved = true; if (!FX.reduced()) f.style.transform = `translateX(${dx * 0.35}px)`; }
   });
   const end = (e) => {
     if (x0 === null) return;
@@ -574,45 +770,85 @@ function wirePhrases() {
     else if (e.key === "ArrowLeft") flashMove(-1);
     else if (e.key === " " || e.key === "Enter") { e.preventDefault(); f.classList.toggle("flipped"); }
   });
-  $("flash-prev").onclick = () => flashMove(-1);
-  $("flash-next").onclick = () => flashMove(1);
-  $("flash-star").onclick = () => {
-    if (!phraseList.length) return;
-    const k = phraseKey(phraseList[phraseIdx]);
-    const i = state.favPhrases.indexOf(k);
-    if (i >= 0) state.favPhrases.splice(i, 1);
-    else { state.favPhrases.push(k); FX.confetti({ el: $("flash-star"), count: 18 }); }
-    saveState(state);
-    FX.pop($("flash-star"));
-    if (phraseFilter === "★ Starred") { filterPhrases(); renderFlash(); }
-    else renderFlash();
-  };
 }
 
-/* ---------- Write: prompt list ---------- */
-let writeSeg = "t1";
-function findPrompt(type, id) { return (type === "t2" ? T2_PROMPTS : T1_PROMPTS).find((p) => p.id === id); }
+/* ---------- Object page: one prompt, sections as tabs ---------- */
+let obj = null;          // { cfg, tab, revealed }
+let writer = null;       // { cfg, total, secondsLeft, submitted, restored }
+let writerTimerId = null;
+let saveTimer = null;
+const TAB_LABELS = { prompt: "Prompt", plan: "Plan", write: "Write", model: "Model answer", review: "Review" };
+const T1_PLAN = [
+  { key: "who", label: "1. Who I am", hint: "Your name and your link to the reader: unit, class, or job." },
+  { key: "why", label: "2. Why I write", hint: "The problem or the request, in one sentence." },
+  { key: "hurt", label: "3. How it hurts me", hint: "How it affects you: sleep, study, work, money. Add one real detail." },
+  { key: "ask", label: "4. What I want", hint: "One polite request with a date. No threats." },
+  { key: "thanks", label: "5. Thank you", hint: "Thank them, then sign as Afolabi." },
+];
 
-function renderWriteList() {
-  document.querySelectorAll(".seg").forEach((b) => {
-    const on = b.dataset.seg === writeSeg;
-    b.classList.toggle("active", on);
-    b.setAttribute("aria-selected", String(on));
-  });
-  $("write-intro").textContent = writeSeg === "t1"
-    ? "Task 1 · Writing an Email · 27 minutes · 150 to 200 words. Model answers unlock after you try."
-    : "Task 2 · Responding to Survey Questions · 26 minutes · 150 to 200 words. Choose Option A or B.";
-  const list = writeSeg === "t1" ? T1_PROMPTS : T2_PROMPTS;
-  $("prompt-list").innerHTML = list.map((p) => {
-    const tries = state.attempts.filter((a) => a.id === p.id).length;
-    const best = state.bestClb[p.id];
-    return `<button type="button" class="card prompt-card" data-id="${p.id}">
-      <span class="prompt-icon" aria-hidden="true">${p.icon}</span>
-      <span class="prompt-main"><h3>${esc(p.title)}</h3>
-        <span class="meta">${writeSeg === "t1" ? `To ${esc(p.to)} · ${esc(p.tag)}` : "Option A or B"}${tries ? ` · ${tries} ${tries === 1 ? "try" : "tries"}` : ""}</span></span>
-      ${best ? `<span class="chip good">CLB ${best}</span>` : state.attempted[p.id] ? '<span class="chip">Tried</span>' : '<span class="chevron chev">›</span>'}</button>`;
-  }).join("");
-  $("prompt-list").querySelectorAll(".prompt-card").forEach((b) => b.addEventListener("click", () => openPrompt(writeSeg, b.dataset.id)));
+function cfgFor(type, id) {
+  if (type === "l3") {
+    const p = L3_PROMPTS.find((x) => x.id === id);
+    return p ? { kind: "l3", type: "t1", routeType: "l3", id: p.id, title: "Lesson 3 · Full timed draft", promptText: p.prompt, keywords: p.keywords, minutes: 27 } : null;
+  }
+  const p = findPrompt(type, id);
+  return p ? { kind: type, type, routeType: type, id, prompt: p, title: p.title, minutes: type === "t2" ? 26 : 27, keywords: p.keywords } : null;
+}
+function openObject(type, id, tab, opts = {}) { go({ p: "object", type, id, tab: tab || "prompt" }, opts); }
+function objTabs(cfg) { return cfg.kind === "l3" ? ["prompt", "plan", "write", "review"] : ["prompt", "plan", "write", "model", "review"]; }
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.max(0, s) % 60).padStart(2, "0")}`;
+
+function renderObject(r, opts = {}) {
+  const cfg = cfgFor(r.type, r.id);
+  if (!cfg) { go({ p: "launchpad" }, { replace: true }); return; }
+  if (!obj || obj.cfg.id !== cfg.id) obj = { cfg, tab: "prompt", revealed: false };
+  obj.tab = objTabs(cfg).includes(r.tab) ? r.tab : "prompt";
+  renderObjHead();
+  renderObjTabs();
+  showPage("object", { ...opts, title: cfg.kind === "l3" ? "Lesson 3" : cfg.type === "t2" ? "Task 2 Survey" : "Task 1 Email" });
+  renderObjTab();
+}
+
+function renderObjHead() {
+  const c = obj.cfg, p = c.prompt;
+  const st = promptStatus(c.id);
+  const tries = state.attempts.filter((a) => a.id === c.id).length;
+  const best = state.bestClb[c.id];
+  $("obj-head").innerHTML = `
+    <p class="dp-eyebrow">${c.kind === "l3" ? "Lesson 3 · Full timed draft" : c.type === "t2" ? "Task 2 · Responding to Survey Questions" : `Task 1 · Email to ${esc(p.to)}`}</p>
+    <h2 class="dp-title" id="obj-title">${c.kind === "l3" ? "Timed Task 1 email" : esc(p.title)}</h2>
+    <div class="dp-status">${UI.status(st.cls, st.label)}</div>
+    <div class="kpi-row">
+      <div class="kpi"><span class="kpi-num" id="obj-time"><span class="timer" id="writer-timer">${fmt(c.minutes * 60)}</span></span><span class="kpi-lbl" id="writer-timer-lbl">timer starts in Write</span></div>
+      <div class="kpi"><span class="kpi-num ${best >= 10 ? "positive" : best >= 8 ? "critical" : ""}" id="obj-best">${best ? `CLB ${best}` : "-"}</span><span class="kpi-lbl">best estimate</span></div>
+      <div class="kpi"><span class="kpi-num">${tries}</span><span class="kpi-lbl">${tries === 1 ? "try" : "tries"}</span></div>
+    </div>`;
+  updateWriterTimer();
+}
+
+function renderObjTabs() {
+  const hasDraft = !!state.drafts[obj.cfg.id];
+  $("obj-tabs").innerHTML = objTabs(obj.cfg).map((t) => `<button type="button" class="tab" role="tab" id="tab-${t}" data-tab="${t}" aria-selected="${obj.tab === t}" aria-controls="obj-body">
+    ${TAB_LABELS[t]}${t === "write" && hasDraft && obj.tab !== "write" ? '<span class="dot" aria-label="saved draft"></span>' : ""}${t === "model" && !state.attempted[obj.cfg.id] ? " " + UI.icon("lock") : ""}</button>`).join("");
+  $("obj-tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => setObjTab(b.dataset.tab)));
+}
+
+function setObjTab(tab, opts = {}) {
+  if (!opts.noFlush) flushDraft();
+  obj.tab = tab;
+  route = { ...route, tab };
+  history.replaceState({ r: route, depth }, "", hashOf(route));
+  renderObjTabs();
+  renderObjTab();
+  updateWriterTimer();
+  const tabsTop = $("obj-tabs").offsetTop - $("shellbar").offsetHeight;
+  if (window.scrollY > tabsTop) window.scrollTo(0, Math.max(0, tabsTop));
+}
+
+function renderObjTab() {
+  const b = $("obj-body");
+  b.classList.remove("model-reveal"); void b.offsetWidth; b.classList.add("model-reveal");
+  ({ prompt: renderPromptTab, plan: renderPlanTab, write: renderWriteTab, model: renderModelTab, review: renderReviewTab })[obj.tab]();
 }
 
 function celpipBoxHtml(type, p) {
@@ -630,130 +866,116 @@ function celpipBoxHtml(type, p) {
       <p class="instr">Read the following information.</p>
       <p>${esc(p.situation)}</p>
       <p class="instr">Write an email to ${esc(p.to)} in about 150 to 200 words. Your email should do the following things:</p>
-      <ul>${p.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>
+      <ul>${p.bullets.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
     </div></div>`;
 }
-
-function openPrompt(type, id) {
-  const p = findPrompt(type, id);
-  if (!p) return;
-  $("prompt-title").textContent = p.title;
-  const tries = state.attempts.filter((a) => a.id === id);
-  const best = state.bestClb[id];
-  const pb = $("prompt-body");
-  pb.innerHTML = `${celpipBoxHtml(type, p)}
-    ${tries.length ? `<p class="muted small" style="margin-bottom:8px">You tried this ${tries.length}× · best estimate CLB ${best}</p>` : ""}
-    ${state.drafts[id] ? '<p class="chip warn" style="margin-bottom:8px">You have a saved draft</p>' : ""}
-    <button type="button" class="btn-primary" id="btn-prompt-start">Start timed practice (${type === "t2" ? 26 : 27} min)</button>
-    <h2 class="section-title">CLB 10 model answer</h2>
-    <div id="model-slot"></div>`;
-  $("btn-prompt-start").onclick = () => openWriter({ kind: type, type, id, prompt: p, title: p.title, minutes: type === "t2" ? 26 : 27, keywords: p.keywords });
-  renderModelSlot($("model-slot"), type, p);
-  showScreen("screen-prompt");
+function promptMiniHtml(c) {
+  if (c.kind === "l3") return `<p>${esc(c.promptText)}</p>`;
+  const p = c.prompt;
+  return c.type === "t2"
+    ? `<p>${esc(p.situation)}</p><p><b>A:</b> ${esc(p.optionA)}</p><p><b>B:</b> ${esc(p.optionB)}</p>`
+    : `<p>${esc(p.situation)}</p><p><b>Write to ${esc(p.to)}:</b></p><ul>${p.bullets.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
 }
 
-function renderModelSlot(slot, type, p) {
-  if (!state.attempted[p.id]) {
-    slot.innerHTML = `<div class="card lock-card"><div class="lock-emoji">🔒</div>
-      <p><b>Write first, then peek.</b></p><p class="muted small">The model answer unlocks after you submit a draft. Trying first is how your brain learns.</p>
-      <button type="button" class="linkish" id="btn-unlock-paper">I wrote it on paper. Unlock it.</button></div>`;
-    $("btn-unlock-paper").onclick = () => {
-      if (!confirm("Did you really write your own answer first?")) return;
-      state.attempted[p.id] = true;
-      saveState(state);
-      renderModelSlot(slot, type, p);
-    };
-    return;
+/* Prompt tab */
+function renderPromptTab() {
+  const c = obj.cfg;
+  const tries = state.attempts.filter((a) => a.id === c.id).length;
+  $("obj-body").innerHTML = `
+    ${c.kind === "l3"
+      ? `<div class="celpip-box"><div class="celpip-head"><span>Lesson 3: Timed Task 1</span><span class="clock">27:00</span></div><div class="celpip-body"><p>${esc(c.promptText)}</p><p class="instr">Write about 150 to 200 words. Use the 5 bites: Who I am, Why I write, How it hurts me, What I want, Thank you.</p></div></div>`
+      : celpipBoxHtml(c.type, c.prompt)}
+    ${tries ? UI.strip("info", `You tried this ${tries} ${tries === 1 ? "time" : "times"}. Best estimate CLB ${state.bestClb[c.id]}.`) : ""}
+    ${state.drafts[c.id] ? UI.strip("warning", "You have a saved draft. It comes back when you open Write.") : ""}`;
+  UI.setFooter([
+    { id: "btn-to-plan", label: "Plan first", type: "default", onClick: () => setObjTab("plan") },
+    { id: "btn-prompt-start", label: `Start writing (${c.minutes} min)`, type: "emph", onClick: () => setObjTab("write") },
+  ]);
+}
+
+/* Plan tab */
+function renderPlanTab() {
+  const c = obj.cfg;
+  const t2 = c.type === "t2";
+  const d = state.drafts[c.id] || {};
+  const plan = d.plan || {};
+  const rows = t2 ? T2_PLANNER : T1_PLAN;
+  $("obj-body").innerHTML = `
+    ${UI.strip("info", t2 ? "Pick a side, then jot quick notes. Two or three minutes is enough. Notes are saved, not scored." : "Jot one quick note for each bite. Two or three minutes is enough. Notes are saved, not scored.")}
+    <div class="panel planner" id="writer-planner">
+      ${t2 ? `<p class="field-label">Your choice</p><div class="options" style="grid-template-columns:1fr 1fr;margin:0 0 .75rem">
+        <button type="button" class="option" data-opt="A" aria-pressed="${d.option === "A"}"><b>Option A</b></button>
+        <button type="button" class="option" data-opt="B" aria-pressed="${d.option === "B"}"><b>Option B</b></button></div>` : ""}
+      ${rows.map((s) => `<div class="plan-row"><label class="field-label" for="plan-${s.key}">${esc(s.label)}</label><p class="hint">${esc(s.hint)}</p>
+        <textarea class="textarea short" id="plan-${s.key}" data-plan="${s.key}" rows="2">${esc(plan[s.key] || "")}</textarea></div>`).join("")}
+    </div>`;
+  const pl = $("writer-planner");
+  pl.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => {
+    pl.querySelectorAll("[data-opt]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    queueSave();
+  }));
+  pl.querySelectorAll("textarea").forEach((t) => t.addEventListener("input", queueSave));
+  UI.setFooter([
+    { id: "btn-plan-outline", label: "Outline into draft", type: "default", onClick: outlineIntoDraft },
+    { id: "btn-plan-write", label: "Start writing", type: "emph", onClick: () => setObjTab("write") },
+  ]);
+}
+
+async function outlineIntoDraft() {
+  const c = obj.cfg;
+  const d = collectDraft();
+  const v = (k) => ((d.plan || {})[k] || "").trim();
+  let parts;
+  if (c.type === "t2") {
+    const choice = d.option || "A";
+    parts = [
+      `I believe Option ${choice} is the better choice. ${v("opinion")}`.trim(),
+      `First, ${v("r1") || "..."} For example, ...`,
+      `Second, ${v("r2") || "..."} For instance, ...`,
+      `Some people may argue that ${v("other") || "..."} That is a fair point, but ...`,
+      `For these reasons, I strongly support Option ${choice}. ${v("close")}`.trim(),
+    ];
+  } else {
+    parts = ["Dear ...,", v("who") || "My name is Afolabi Adesina, and ...", v("why") || "I am writing to ...", v("hurt") || "Because of this, ...", v("ask") || "Could you please ... by ...?", `${v("thanks") || "Thank you for your help."}\n\nSincerely,\nAfolabi Adesina`];
   }
-  slot.innerHTML = `<button type="button" class="btn-secondary" id="btn-reveal-model">✨ Reveal the model answer</button>`;
-  $("btn-reveal-model").onclick = () => { slot.innerHTML = ""; slot.appendChild(modelCard(type, p)); FX.confetti({ el: slot, count: 30 }); };
+  if (d.body.trim() && !(await UI.confirm({ title: "Add the outline?", text: "The outline goes below what you already wrote. Nothing is deleted.", ok: "Add outline", cancel: "Cancel" }))) return;
+  d.body = (d.body.trim() ? d.body.trim() + "\n\n" : "") + parts.join("\n\n");
+  state.drafts[c.id] = { ...d, t: Date.now() };
+  saveState(state);
+  FX.toast("Outline added to your draft");
+  setObjTab("write", { noFlush: true });
 }
 
-function highlightHtml(text, highlights) {
-  const ranges = [];
-  highlights.forEach((h, i) => {
-    const s = text.indexOf(h.p);
-    if (s >= 0) ranges.push({ s, e: s + h.p.length, i });
-  });
-  ranges.sort((a, b) => a.s - b.s);
-  let out = "", pos = 0;
-  ranges.forEach((r) => {
-    if (r.s < pos) return;
-    out += esc(text.slice(pos, r.s)) + `<mark data-i="${r.i}" tabindex="0">${esc(text.slice(r.s, r.e))}</mark>`;
-    pos = r.e;
-  });
-  return out + esc(text.slice(pos));
+/* Drafts */
+function collectDraft() {
+  if (!obj) return null;
+  const d = { subject: "", body: "", plan: {}, option: null, ...(state.drafts[obj.cfg.id] || {}) };
+  d.plan = { ...(d.plan || {}) };
+  const s = $("writer-subject"), b = $("writer-body");
+  if (s) d.subject = s.value;
+  if (b) d.body = b.value;
+  document.querySelectorAll("#obj-body [data-plan]").forEach((t) => { d.plan[t.dataset.plan] = t.value; });
+  const opt = document.querySelector('#obj-body [data-opt][aria-pressed="true"]');
+  if (opt) d.option = opt.dataset.opt;
+  return d;
 }
-
-function modelCard(type, p) {
-  const body = type === "t2" ? p.model : p.model.body;
-  const words = CHECKER.wordCount(body);
-  const wrap = document.createElement("div");
-  wrap.className = "model";
-  wrap.innerHTML = `<div class="card model-inner" id="model-card">
-    <div class="card-head"><h2>Model answer${type === "t2" ? ` · Option ${p.choice}` : ""}</h2><span class="chip good wc-badge">${words} words ✓</span></div>
-    ${type === "t2" ? "" : `<div class="email-row"><span class="email-key">Subject:</span> <b>${esc(p.model.subject)}</b></div>`}
-    <div class="model-email">${highlightHtml(body, p.highlights)}</div>
-    <div class="hl-tip" id="hl-tip" hidden></div>
-    <p class="muted tiny" style="margin-top:8px">Tap a yellow phrase to see why it scores high. Word count is the body only (${words}, target 150 to 200).</p>
-  </div>
-  <div class="card">
-    <div class="card-head"><h2>Why these phrases score high</h2></div>
-    <ul class="hl-list">${p.highlights.map((h) => `<li><q>${esc(h.p)}</q><br>${esc(h.why)}</li>`).join("")}</ul>
-  </div>
-  <div class="card">
-    <div class="card-head"><h2>Why this is CLB 10</h2></div>
-    <ul class="why-list">${p.why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>
-  </div>`;
-  wrap.querySelectorAll("mark").forEach((m) => {
-    const show = () => {
-      wrap.querySelectorAll("mark").forEach((x) => x.classList.toggle("on", x === m));
-      const tip = wrap.querySelector("#hl-tip");
-      tip.hidden = false;
-      tip.innerHTML = `<b>Why it works:</b> ${esc(p.highlights[Number(m.dataset.i)].why)}`;
-      tip.classList.remove("hl-tip"); void tip.offsetWidth; tip.classList.add("hl-tip");
-    };
-    m.addEventListener("click", show);
-    m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(); } });
-  });
-  return wrap;
+function saveDraftNow() {
+  if (!obj) return;
+  const d = collectDraft();
+  const any = d.body.trim() || d.subject.trim() || d.option || Object.values(d.plan).some((x) => x && x.trim());
+  if (!any) return;
+  state.drafts[obj.cfg.id] = { ...d, t: Date.now() };
+  saveState(state);
 }
+function queueSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveDraftNow, 400); }
+function flushDraft() { clearTimeout(saveTimer); saveDraftNow(); }
+function currentBody() { const b = $("writer-body"); return b ? b.value : obj && state.drafts[obj.cfg.id] ? state.drafts[obj.cfg.id].body || "" : ""; }
 
-/* ---------- Writer (timed) ---------- */
-let writer = null;
-let writerTimerId = null;
-let saveTimer = null;
-
-function stopWriterTimer() {
-  if (writerTimerId) { clearInterval(writerTimerId); writerTimerId = null; }
-}
-
-function openWriter(cfg) {
+/* Write tab + timer */
+function stopWriterTimer() { if (writerTimerId) { clearInterval(writerTimerId); writerTimerId = null; } }
+function startWriter() {
   stopWriterTimer();
-  writer = { cfg, total: cfg.minutes * 60, secondsLeft: cfg.minutes * 60, submitted: false };
-  const t2 = cfg.type === "t2";
-  $("writer-kind").textContent = cfg.kind === "l3" ? "Lesson 3 · Timed Task 1" : t2 ? "Timed Task 2" : "Timed Task 1";
-  $("writer-subject-wrap").hidden = t2;
-  $("writer-body-label").textContent = t2 ? "Your response" : "Email body";
-  $("writer-body").placeholder = t2
-    ? "I believe Option ... is the better choice.\n\nFirst, ...\nFor example, ...\n\nSecond, ...\n\nSome people may argue that ...\n\nFor these reasons, ..."
-    : "Dear ...,\n\nWho I am\nWhy I write\nHow it hurts me\nWhat I want (+ polite timeline)\n\nThank you\nAfolabi Adesina";
-  const p = cfg.prompt;
-  $("writer-prompt").innerHTML = cfg.kind === "l3"
-    ? `<p>${esc(cfg.promptText)}</p><p class="scenario-eyebrow" style="margin-top:8px">Use the 5 bites: Who · Why · Hurt · Ask · Thanks</p>`
-    : t2
-      ? `<p>${esc(p.situation)}</p><p style="margin-top:6px"><b>A:</b> ${esc(p.optionA)}</p><p><b>B:</b> ${esc(p.optionB)}</p>`
-      : `<p>${esc(p.situation)}</p><p style="margin-top:6px"><b>Write to ${esc(p.to)}:</b></p><ul>${p.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`;
-  $("writer-prompt-box").open = true;
-  const d = state.drafts[cfg.id] || {};
-  $("writer-subject").value = d.subject || "";
-  $("writer-body").value = d.body || "";
-  renderPlanner(t2, d);
-  $("writer-check").hidden = true;
-  updateWriterMeta();
-  updateWriterTimer();
-  showScreen("screen-writer");
-  if (d.body) FX.toast("Your saved draft is back. Timer restarted.");
+  writer = { cfg: obj.cfg, total: obj.cfg.minutes * 60, secondsLeft: obj.cfg.minutes * 60, submitted: false };
   writerTimerId = setInterval(() => {
     if (!writer || writer.submitted) return;
     writer.secondsLeft -= 1;
@@ -762,106 +984,89 @@ function openWriter(cfg) {
     if (writer.secondsLeft <= 0) { stopWriterTimer(); submitWriter(true); }
   }, 1000);
 }
-
-function renderPlanner(t2, d) {
-  const pl = $("writer-planner");
-  pl.hidden = !t2;
-  if (!t2) { pl.innerHTML = ""; return; }
-  const plan = d.plan || {};
-  pl.innerHTML = `<div class="card-head"><h2>Task 2 planner</h2><span class="chip">2 to 3 minutes</span></div>
-    <p class="muted small" style="margin-bottom:8px">Pick a side, jot quick notes, then write. Notes are saved but not scored.</p>
-    <div class="options" style="grid-template-columns:1fr 1fr;margin-bottom:10px">
-      <button type="button" class="option${d.option === "A" ? " active" : ""}" data-opt="A"><b>Option A</b></button>
-      <button type="button" class="option${d.option === "B" ? " active" : ""}" data-opt="B"><b>Option B</b></button>
-    </div>
-    ${T2_PLANNER.map((s) => `<div class="plan-row"><label for="plan-${s.key}">${esc(s.label)}</label><p class="hint">${esc(s.hint)}</p><textarea id="plan-${s.key}" data-plan="${s.key}" rows="1">${esc(plan[s.key] || "")}</textarea></div>`).join("")}
-    <button type="button" class="btn-secondary" id="btn-plan-outline">Turn my plan into an outline</button>`;
-  pl.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => {
-    pl.querySelectorAll("[data-opt]").forEach((x) => x.classList.toggle("active", x === b));
-    FX.pop(b);
-    queueSave();
-  }));
-  pl.querySelectorAll("textarea").forEach((t) => t.addEventListener("input", queueSave));
-  $("btn-plan-outline").onclick = () => {
-    const opt = (pl.querySelector("[data-opt].active") || {}).dataset;
-    const choice = opt ? opt.opt : "A";
-    const v = (k) => ($(`plan-${k}`).value || "").trim();
-    const parts = [
-      `I believe Option ${choice} is the better choice. ${v("opinion")}`.trim(),
-      `First, ${v("r1") || "..."} For example, ...`,
-      `Second, ${v("r2") || "..."} For instance, ...`,
-      `Some people may argue that ${v("other") || "..."} That is a fair point, but ...`,
-      `For these reasons, I strongly support Option ${choice}. ${v("close")}`.trim(),
-    ];
-    const body = $("writer-body");
-    if (body.value.trim() && !confirm("Add the outline below what you already wrote?")) return;
-    body.value = (body.value.trim() ? body.value.trim() + "\n\n" : "") + parts.join("\n\n");
-    updateWriterMeta();
-    queueSave();
-    body.focus();
-  };
-}
-
-function writerValues() {
-  const plan = {};
-  document.querySelectorAll("#writer-planner [data-plan]").forEach((t) => { plan[t.dataset.plan] = t.value; });
-  const opt = document.querySelector("#writer-planner [data-opt].active");
-  return { subject: $("writer-subject").value, body: $("writer-body").value, plan, option: opt ? opt.dataset.opt : null };
-}
-
-function queueSave() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    if (!writer || writer.submitted) return;
-    state.drafts[writer.cfg.id] = { ...writerValues(), t: Date.now() };
-    saveState(state);
-  }, 400);
-}
-
 function updateWriterTimer() {
-  if (!writer) return;
+  const el = $("writer-timer"), lbl = $("writer-timer-lbl");
+  if (!el || !obj) return;
+  if (!writer) {
+    const last = (state.lastSubmission || {})[obj.cfg.id];
+    const showLast = last && typeof last.secs === "number" && obj.tab !== "write";
+    el.textContent = showLast ? fmt(last.secs) : fmt(obj.cfg.minutes * 60);
+    lbl.textContent = showLast ? "last time used" : "timer starts in Write";
+    el.parentElement.className = "kpi-num timer"; return;
+  }
   const s = Math.max(0, writer.secondsLeft);
-  const el = $("writer-timer");
-  el.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-  el.classList.toggle("danger", s <= 60);
-  el.classList.toggle("warn", s > 60 && s <= 300);
-  const fill = $("writer-time-fill");
-  fill.style.width = `${(s / writer.total) * 100}%`;
-  fill.classList.toggle("low", s <= 300);
+  el.textContent = writer.submitted ? fmt(Math.max(0, writer.total - s)) : fmt(s);
+  lbl.textContent = writer.submitted ? "time used" : "left";
+  el.parentElement.className = `kpi-num timer${!writer.submitted && s <= 60 ? " danger" : !writer.submitted && s <= 300 ? " warn" : ""}`;
+}
+
+function renderWriteTab() {
+  const c = obj.cfg;
+  const t2 = c.type === "t2";
+  const fresh = !writer || writer.submitted;
+  if (fresh) startWriter();
+  const d = state.drafts[c.id] || {};
+  const planNotes = Object.entries(d.plan || {}).filter(([, x]) => x && x.trim());
+  $("obj-body").innerHTML = `
+    <details class="panel prompt-mini"><summary>Prompt</summary>${promptMiniHtml(c)}</details>
+    ${planNotes.length ? `<details class="panel prompt-mini"><summary>Your plan</summary><ul>${d.option ? `<li>Option ${esc(d.option)}</li>` : ""}${planNotes.map(([, x]) => `<li>${esc(x)}</li>`).join("")}</ul></details>` : ""}
+    <div class="panel">
+      ${t2 ? "" : `<label class="field-label" for="writer-subject">Subject</label><input type="text" class="input" id="writer-subject" maxlength="140" placeholder="Issue + who you are (unit, role, order)" autocomplete="off" />`}
+      <label class="field-label" for="writer-body">${t2 ? "Your response" : "Email body"}</label>
+      <textarea class="textarea" id="writer-body" rows="12"></textarea>
+      <div class="write-meta"><span class="wc-chip" id="writer-words">0 words</span><span id="writer-live" aria-live="polite">Aim for 150 to 200 words</span></div>
+    </div>
+    <div id="writer-check" aria-live="polite"></div>`;
+  const body = $("writer-body");
+  body.placeholder = t2
+    ? "I believe Option ... is the better choice.\n\nFirst, ...\nFor example, ...\n\nSecond, ...\n\nSome people may argue that ...\n\nFor these reasons, ..."
+    : "Dear ...,\n\nWho I am\nWhy I write\nHow it hurts me\nWhat I want (+ polite timeline)\n\nThank you\nAfolabi Adesina";
+  body.value = d.body || "";
+  if (!t2) $("writer-subject").value = d.subject || "";
+  body.addEventListener("input", () => { updateWriterMeta(); queueSave(); });
+  if (!t2) $("writer-subject").addEventListener("input", () => { updateWriterMeta(); queueSave(); });
+  updateWriterMeta();
+  updateWriterTimer();
+  if (fresh) FX.toast(d.body ? "Your saved draft is back. Timer started." : `Timer started: ${c.minutes} minutes`);
+  UI.setFooter([
+    { id: "btn-writer-check", label: "Check", type: "default", onClick: checkWriterInline },
+    { id: "btn-writer-submit", label: "Submit", type: "emph", onClick: () => submitWriter(false) },
+  ]);
 }
 
 function updateWriterMeta() {
-  const { subject, body } = writerValues();
-  const n = CHECKER.wordCount(body.replace(/^\s*subject\s*:.*\n/i, ""));
+  const b = $("writer-body");
+  if (!b || !obj) return;
+  const s = $("writer-subject");
+  const n = CHECKER.wordCount(b.value.replace(/^\s*subject\s*:.*\n/i, ""));
   const chip = $("writer-words");
   chip.textContent = `${n} words`;
   chip.classList.toggle("ok", n >= 150 && n <= 200);
   chip.classList.toggle("over", n > 200);
-  if (!writer) return;
-  const quick = CHECKER.analyze({ subject, body, type: writer.cfg.type, prompt: writer.cfg.prompt || { keywords: writer.cfg.keywords } });
-  const bad = quick.flags.filter((f) => f.level === "bad" && f.id !== "count" && f.id !== "subject" && f.id !== "signoff").length;
+  const quick = CHECKER.analyze({ subject: s ? s.value : "", body: b.value, type: obj.cfg.type, prompt: obj.cfg.prompt || { keywords: obj.cfg.keywords } });
+  const bad = quick.flags.filter((f) => f.level === "bad" && !["count", "subject", "signoff"].includes(f.id)).length;
   $("writer-live").textContent = n < 150 ? `${150 - n} more to reach 150` : n > 200 ? `${n - 200} over 200` : bad ? `${bad} watch-list flag${bad > 1 ? "s" : ""}` : "Looking good";
 }
 
-function flagsHtml(flags) {
-  if (!flags.length) return `<div class="flag good" style="background:var(--good-bg)"><span class="fi">✅</span><div><b>No watch-list problems found</b>Clean draft. Proud of you!</div></div>`;
-  return flags.map((f, i) => `<div class="flag ${f.level}" style="animation-delay:${i * 0.04}s"><span class="fi">${f.level === "bad" ? "⛔" : "⚠️"}</span><div><b>${esc(f.title)}</b>${esc(f.detail)}</div></div>`).join("");
+function flagsStrips(flags) {
+  if (!flags.length) return UI.strip("success", "Clean draft. Proud of you!", "No watch-list problems found.");
+  return flags.map((f) => UI.strip(f.level === "bad" ? "error" : "warning", esc(f.detail), esc(f.title) + ".")).join("");
 }
 
 function checkWriterInline() {
-  const v = writerValues();
-  const r = CHECKER.analyze({ subject: v.subject, body: v.body, type: writer.cfg.type, prompt: writer.cfg.prompt || { keywords: writer.cfg.keywords } });
+  const v = collectDraft();
+  const r = CHECKER.analyze({ subject: v.subject, body: v.body, type: obj.cfg.type, prompt: obj.cfg.prompt || { keywords: obj.cfg.keywords } });
   const box = $("writer-check");
-  box.hidden = false;
-  box.innerHTML = `<div class="card-head"><h2>Draft checker</h2><span class="chip">${esc(r.label)} estimate</span></div>${flagsHtml(r.flags)}`;
-  box.classList.remove("inline-check"); void box.offsetWidth; box.classList.add("inline-check");
-  if (!r.flags.length) FX.confetti({ el: box, count: 40 });
-  else FX.shake(box);
+  box.innerHTML = `<h3 class="section-title">Draft checker</h3>
+    ${UI.strip("info", `${esc(r.label)} estimate right now · ${r.words} words. Estimate only.`)}
+    ${flagsStrips(r.flags)}`;
+  if (r.flags.length) FX.shake(box);
+  box.scrollIntoView({ behavior: FX.reduced() ? "auto" : "smooth", block: "start" });
 }
 
 function submitWriter(fromTimer) {
-  if (!writer || writer.submitted) return;
-  const v = writerValues();
+  if (!writer || writer.submitted || !obj) return;
+  const v = collectDraft();
   if (!v.body.trim() && !fromTimer) {
     FX.shake($("writer-body"));
     FX.toast("Write your email first, then submit.");
@@ -879,7 +1084,7 @@ function submitWriter(fromTimer) {
   state.lastClb = r.clb;
   state.lastBand = r.label;
   state.lastScore = r.overall;
-  state.lastSubmission[cfg.id] = { subject: v.subject, body: v.body, t: Date.now() };
+  state.lastSubmission[cfg.id] = { subject: v.subject, body: v.body, t: Date.now(), secs: used, fromTimer: !!fromTimer };
   delete state.drafts[cfg.id];
   if (cfg.kind === "l3") {
     state.lesson3Completions += 1;
@@ -888,117 +1093,133 @@ function submitWriter(fromTimer) {
   }
   bumpStreak();
   saveState(state);
-  renderReview(r, cfg, v, fromTimer, used);
+  renderObjHead();
+  setObjTab("review", { noFlush: true });
+  FX.toast(fromTimer ? "Time is up. Your draft was submitted." : "Submitted. Here is your estimate.");
+  if (cfg.kind === "l3") setTimeout(() => FX.confetti({ big: true, count: 110 }), 250);
 }
 
-function renderReview(r, cfg, v, fromTimer, used) {
-  $("review-title").textContent = cfg.kind === "l3" ? "Lesson 3 · your estimate" : `${cfg.type === "t2" ? "Task 2" : "Task 1"} · your estimate`;
-  const rb = $("review-body");
-  const mm = `${Math.floor(used / 60)}:${String(used % 60).padStart(2, "0")}`;
-  rb.innerHTML = `
-    <div class="score-hero"><div id="score-ring"></div>
-      <div><h3>${esc(r.label)}</h3><p>Estimate only, not an official CELPIP score. It comes from the simple rules below.</p>
-      <p style="margin-top:4px">${r.words} words · ${fromTimer ? "time ran out" : `finished in ${mm}`}</p></div></div>
-    <div class="card"><div class="card-head"><h2>Breakdown</h2><span class="chip">${r.overall}/100</span></div>
-      ${r.cats.map((c) => `<div class="cat"><div class="cat-top"><span>${esc(c.label)}</span><span>CLB ${c.clb}${c.clb >= 10 && c.score >= 88 ? "+" : ""} · ${c.score}</span></div>
-        <div class="cat-bar"><div class="cat-fill" data-w="${c.score}"></div></div>
-        <details><summary>How this was scored</summary><ul>${c.notes.map((n) => `<li class="${n.ok ? "" : "no"}"><span>${n.ok ? "✓" : "·"} ${esc(n.text)}</span><span class="pts">${n.pts > 0 ? "+" : ""}${n.pts}${n.max && n.max !== n.pts ? ` of ${n.max}` : ""}</span></li>`).join("")}</ul></details></div>`).join("")}
+/* Review tab */
+function renderReviewTab() {
+  const c = obj.cfg;
+  const last = state.lastSubmission[c.id];
+  const b = $("obj-body");
+  if (!last) {
+    b.innerHTML = UI.strip("info", "No review yet. Submit a timed draft and your CLB estimate shows here.");
+    UI.setFooter([{ id: "btn-rv-write", label: "Start writing", type: "emph", onClick: () => setObjTab("write") }]);
+    return;
+  }
+  const r = CHECKER.analyze({ subject: last.subject, body: last.body, type: c.type, prompt: c.prompt || { keywords: c.keywords } });
+  const tone = r.clb >= 10 ? "positive" : r.clb >= 8 ? "critical" : "negative";
+  const timeTxt = last.secs != null ? ` · ${last.fromTimer ? "time ran out" : `finished in ${fmt(last.secs)}`}` : "";
+  b.innerHTML = `<div id="review-body">
+    <div class="panel score-panel">
+      ${r.clb >= 10 ? UI.successCheck(52) : ""}
+      <div class="kpi"><span class="kpi-num ${tone}" id="review-clb">${esc(r.label)}</span><span class="kpi-lbl">Estimate · ${r.overall}/100 · ${r.words} words${timeTxt}</span></div>
+    </div>
+    ${UI.strip("info", "Estimate only, not an official CELPIP score. It comes from the simple rules below.")}
+    <h3 class="section-title">Draft checker · watch list <span class="chip ${r.flags.length ? "warn" : "good"}">${r.flags.length} flag${r.flags.length === 1 ? "" : "s"}</span></h3>
+    <div id="review-flags">${flagsStrips(r.flags)}</div>
+    ${r.good.length ? UI.strip("success", r.good.map(esc).join(" · "), "What you did well:") : ""}
+    <h3 class="section-title">Breakdown</h3>
+    <div class="panel">
+      ${r.cats.map((ct) => `<div class="cat"><div class="cat-top"><span>${esc(ct.label)}</span><span>CLB ${ct.clb}${ct.clb >= 10 && ct.score >= 88 ? "+" : ""} · ${ct.score}</span></div>
+        <div class="cat-bar"><div class="cat-fill ${ct.score >= 80 ? "good" : ct.score >= 64 ? "mid" : "low"}" data-w="${ct.score}"></div></div>
+        <details><summary>How this was scored</summary><ul>${ct.notes.map((n) => `<li class="${n.ok ? "" : "no"}"><span>${n.ok ? "Yes" : "Not yet"} · ${esc(n.text)}</span><span class="pts">${n.pts > 0 ? "+" : ""}${n.pts}${n.max && n.max !== n.pts ? ` of ${n.max}` : ""}</span></li>`).join("")}</ul></details></div>`).join("")}
       <p class="muted tiny">Weights: content 30%, vocabulary 25%, readability 20%, task 25%. A threat caps the estimate at CLB 9.</p>
     </div>
-    <div class="card" id="review-flags"><div class="card-head"><h2>Draft checker · watch list</h2><span class="chip ${r.flags.length ? "warn" : "good"}">${r.flags.length} flag${r.flags.length === 1 ? "" : "s"}</span></div>${flagsHtml(r.flags)}</div>
-    ${r.good.length ? `<div class="card"><div class="card-head"><h2>What you did well</h2></div><div class="good-chips">${r.good.map((g) => `<span class="chip good">✓ ${esc(g)}</span>`).join("")}</div></div>` : ""}
-    <article class="email-preview">
-      ${cfg.type === "t2" ? "" : `<div class="email-row"><span class="email-key">Subject:</span> <span id="email-subject-rv">${esc(r.subject || "(no subject)")}</span></div>`}
-      <div class="email-body">${esc(v.body.trim() || "(empty)")}</div>
-    </article>
-    <div id="review-model"></div>
-    <div class="result-actions">
-      <button type="button" class="btn-primary" id="btn-rv-again">${cfg.kind === "l3" ? "Another timed prompt" : "Try this prompt again"}</button>
-      <button type="button" class="btn-secondary" id="btn-rv-done">Done for now</button>
-    </div>`;
-  const ring = FX.ring({ value: r.overall, max: 100, size: 96, center: `${r.clb}${r.clb >= 10 && r.overall >= 88 ? "+" : ""}`, sub: "CLB est." });
-  $("score-ring").appendChild(ring);
-  requestAnimationFrame(() => requestAnimationFrame(() => rb.querySelectorAll(".cat-fill").forEach((f) => { f.style.width = `${f.dataset.w}%`; })));
-  if (cfg.prompt && cfg.prompt.model) {
-    const slot = $("review-model");
-    slot.innerHTML = `<button type="button" class="btn-secondary" id="btn-reveal-model" style="margin-bottom:14px">✨ Reveal the CLB 10 model answer</button>`;
-    $("btn-reveal-model").onclick = () => { slot.innerHTML = '<h2 class="section-title">CLB 10 model answer</h2>'; slot.appendChild(modelCard(cfg.type, cfg.prompt)); FX.confetti({ el: slot, count: 30 }); };
+    <h3 class="section-title">Your draft</h3>
+    <article class="panel email-preview">
+      ${c.type === "t2" ? "" : `<div class="email-row"><span class="email-key">Subject:</span> <span>${esc(r.subject || "(no subject)")}</span></div>`}
+      <div class="email-body">${esc(last.body.trim() || "(empty)")}</div>
+    </article></div>`;
+  requestAnimationFrame(() => requestAnimationFrame(() => b.querySelectorAll(".cat-fill").forEach((f) => { f.style.width = `${f.dataset.w}%`; })));
+  if (c.kind === "l3") {
+    UI.setFooter([
+      { id: "btn-rv-done", label: "Done", type: "default", onClick: navBack },
+      { id: "btn-rv-again", label: "Next timed prompt", type: "emph", onClick: () => startLesson3(true) },
+    ]);
+  } else {
+    UI.setFooter([
+      { id: "btn-rv-again", label: "Write again", type: "default", onClick: () => setObjTab("write") },
+      { id: "btn-rv-model", label: "See model answer", type: "emph", onClick: () => { obj.revealed = true; setObjTab("model"); } },
+    ]);
   }
-  $("btn-rv-again").onclick = () => (cfg.kind === "l3" ? startLesson3(true) : openWriter(cfg));
-  $("btn-rv-done").onclick = () => goTab(cfg.kind === "l3" ? "learn" : "write");
-  showScreen("screen-review");
-  if (r.clb >= 9) setTimeout(() => FX.confetti({ big: true, count: 130 }), 300);
-  FX.coach(r.clb >= 10 ? "done" : "hello", r.clb >= 10 ? "CLB 10 range! That is the target, Afolabi!" : `CLB ${r.clb} estimate. Fix the flags and try again. You are close.`);
 }
 
-/* ---------- Micro-interactions ---------- */
-document.addEventListener("pointerdown", (e) => {
-  const b = e.target.closest(".btn-primary, .quick, .game-card, .tab-btn, .lesson-card");
-  if (!b || FX.reduced()) return;
-  const r = b.getBoundingClientRect();
-  const s = document.createElement("span");
-  const size = Math.max(r.width, r.height);
-  s.className = "ripple";
-  s.style.width = s.style.height = `${size}px`;
-  s.style.left = `${e.clientX - r.left - size / 2}px`;
-  s.style.top = `${e.clientY - r.top - size / 2}px`;
-  if (getComputedStyle(b).position === "static") b.style.position = "relative";
-  b.style.overflow = "hidden";
-  b.appendChild(s);
-  setTimeout(() => s.remove(), 600);
-});
+/* Model answer tab */
+function highlightHtml(text, highlights) {
+  const ranges = [];
+  highlights.forEach((h, i) => { const s = text.indexOf(h.p); if (s >= 0) ranges.push({ s, e: s + h.p.length, i }); });
+  ranges.sort((a, b) => a.s - b.s);
+  let out = "", pos = 0;
+  ranges.forEach((r) => {
+    if (r.s < pos) return;
+    out += esc(text.slice(pos, r.s)) + `<mark data-i="${r.i}" tabindex="0" role="button">${esc(text.slice(r.s, r.e))}</mark>`;
+    pos = r.e;
+  });
+  return out + esc(text.slice(pos));
+}
+function renderModelTab() {
+  const c = obj.cfg, p = c.prompt;
+  const b = $("obj-body");
+  const write = { id: "btn-model-write", label: state.attempts.some((a) => a.id === c.id) ? "Write again" : "Start writing", type: "emph", onClick: () => setObjTab("write") };
+  if (!state.attempted[c.id]) {
+    b.innerHTML = `<div class="panel center lock-card">${UI.icon("lock", "lock-ico")}
+      <h3>Write first, then peek</h3><p class="muted small">The model answer unlocks after you submit a draft. Trying first is how your brain learns.</p>
+      <button type="button" class="link-btn" id="btn-unlock-paper">I wrote it on paper. Unlock it.</button></div>`;
+    $("btn-unlock-paper").onclick = async () => {
+      if (!(await UI.confirm({ title: "Unlock the model answer?", text: "Did you write your own answer first, on paper or in your head?", ok: "Yes, unlock", cancel: "Not yet" }))) return;
+      state.attempted[c.id] = true;
+      saveState(state);
+      FX.toast("Model answer unlocked");
+      renderObjHead(); renderObjTabs(); renderModelTab();
+    };
+    UI.setFooter([write]);
+    return;
+  }
+  const body = c.type === "t2" ? p.model : p.model.body;
+  const words = CHECKER.wordCount(body);
+  if (!obj.revealed) {
+    b.innerHTML = `${UI.strip("success", "Unlocked. Read it, then compare it with your own draft.")}
+      <div class="panel"><h3>CLB 10 model answer${c.type === "t2" ? ` · Option ${p.choice}` : ""}</h3><p class="muted small">${words} words · ${p.highlights.length} highlighted phrases, each with a short note.</p></div>`;
+    UI.setFooter([{ id: "btn-reveal-model", label: "Reveal model answer", type: "emph", onClick: () => { obj.revealed = true; renderModelTab(); } }]);
+    return;
+  }
+  b.innerHTML = `<div id="review-model"><div class="panel model-inner" id="model-card">
+      <h3>Model answer${c.type === "t2" ? ` · Option ${p.choice}` : ""} <span class="chip good">${words} words</span></h3>
+      ${c.type === "t2" ? "" : `<div class="email-row"><span class="email-key">Subject:</span> <b>${esc(p.model.subject)}</b></div>`}
+      <div class="model-email">${highlightHtml(body, p.highlights)}</div>
+      <div id="hl-tip" style="margin-top:.75rem">${UI.strip("info", "Tap a highlighted phrase to see why it scores high.")}</div>
+    </div>
+    <div class="panel"><h3>Why these phrases score high</h3><ul class="hl-list">${p.highlights.map((h) => `<li><q>${esc(h.p)}</q><br>${esc(h.why)}</li>`).join("")}</ul></div>
+    <div class="panel"><h3>Why this is CLB 10</h3><ul class="why-list">${p.why.map((w) => `<li>${UI.icon("check")}${esc(w)}</li>`).join("")}</ul></div></div>`;
+  b.querySelectorAll("mark").forEach((m) => {
+    const show = () => {
+      b.querySelectorAll("mark").forEach((x) => x.classList.toggle("on", x === m));
+      $("hl-tip").innerHTML = UI.strip("info", esc(p.highlights[Number(m.dataset.i)].why), "Why it works:");
+    };
+    m.addEventListener("click", show);
+    m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(); } });
+  });
+  UI.setFooter([write]);
+}
 
 /* ---------- Wire UI ---------- */
 function wire() {
-  document.querySelectorAll(".tab-btn").forEach((b) => b.addEventListener("click", () => goTab(b.dataset.tab)));
-  document.querySelectorAll("[data-back]").forEach((b) => b.addEventListener("click", leaveDeep));
-  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => {
-    const g = b.dataset.go;
-    if (g === "phrases") openPhrases();
-    else goTab(g);
-  }));
-  $("btn-theme").addEventListener("click", () => { toggleTheme(); FX.pop($("btn-theme")); });
-  $("set-dark").addEventListener("change", (e) => toggleTheme(e.target.checked));
-  $("set-motion").addEventListener("change", (e) => { state.settings.reduceMotion = e.target.checked; saveState(state); applySettings(); });
-  $("btn-warmup").addEventListener("click", () => Games.warmup());
-  $("btn-warmup-2").addEventListener("click", () => Games.warmup());
-  $("btn-open-phrases").addEventListener("click", openPhrases);
-  document.querySelectorAll(".seg").forEach((b) => b.addEventListener("click", () => { writeSeg = b.dataset.seg; renderWriteList(); }));
-
-  // Lessons (v2/v3 behaviour)
-  $("btn-start-l1").addEventListener("click", () => startLesson(false));
-  $("btn-start-l2").addEventListener("click", () => startLesson2());
-  $("btn-start-l3").addEventListener("click", () => startLesson3(false));
-  $("btn-back-home").addEventListener("click", leaveDeep);
-  $("btn-l2-back").addEventListener("click", leaveDeep);
-  $("btn-result-home").addEventListener("click", leaveDeep);
-  $("btn-done").addEventListener("click", leaveDeep);
-  $("btn-again").addEventListener("click", () => {
-    if (typeof resultAgainHandler === "function") resultAgainHandler();
-    else startLesson(true);
+  $("btn-back").addEventListener("click", navBack);
+  $("btn-settings").addEventListener("click", () => go({ p: "settings" }));
+  $("btn-avatar").addEventListener("click", () => { if (route.p !== "settings") go({ p: "settings" }); });
+  $("lp-groups").addEventListener("click", (e) => {
+    const t = e.target.closest(".tile");
+    if (!t) return;
+    if (t.id.startsWith("tile-game-")) go({ p: "game", id: t.id.slice(10) });
+    else if (TILE_ACTIONS[t.id]) TILE_ACTIONS[t.id]();
   });
-  $("btn-l2-check").addEventListener("click", checkL2);
-  $("btn-l2-next").addEventListener("click", nextL2);
-
-  // Writer
-  $("btn-writer-back").addEventListener("click", () => {
-    if (writer && !writer.submitted && $("writer-body").value.trim()) {
-      if (!confirm("Leave timed practice? Your draft is saved on this device.")) return;
-      state.drafts[writer.cfg.id] = { ...writerValues(), t: Date.now() };
-      saveState(state);
-    }
-    leaveDeep();
-  });
-  $("writer-body").addEventListener("input", () => { updateWriterMeta(); queueSave(); });
-  $("writer-subject").addEventListener("input", () => { updateWriterMeta(); queueSave(); });
-  $("btn-writer-check").addEventListener("click", checkWriterInline);
-  $("btn-writer-submit").addEventListener("click", () => submitWriter(false));
-
-  // Games
-  $("btn-game-back").addEventListener("click", () => Games.quit());
-
   wirePhrases();
   $("update-toast").addEventListener("click", () => location.reload());
+  window.addEventListener("beforeunload", flushDraft);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flushDraft(); });
 }
 
 /* ---------- PWA: service worker + update toast ---------- */
@@ -1030,13 +1251,14 @@ if ("serviceWorker" in navigator) {
 /* ---------- Boot ---------- */
 applySettings();
 wire();
-const startTab = location.hash.slice(1);
-currentTab = TABS.includes(startTab) ? startTab : "home";
-goTab(currentTab);
-FX.coach("hello");
-if (state.migratedFrom && !state.welcomed) {
-  setTimeout(() => FX.toast("Welcome to v4! Your earlier progress came with you."), 600);
-}
-if (!state.welcomed) { state.welcomed = true; saveState(state); }
+(() => {
+  let start = parseHash(location.hash);
+  if (start.p === "object" && !cfgFor(start.type, start.id)) start = { p: "launchpad" };
+  history.replaceState({ r: start, depth: 0 }, "", hashOf(start));
+  render(start);
+})();
+if (state.migratedFrom && !state.welcomed) setTimeout(() => FX.toast("Welcome back. Your earlier progress came with you."), 600);
+else if (!state.seenV5 && state.welcomed) setTimeout(() => FX.toast("New look: tap a tile to start. The back arrow brings you home."), 600);
+if (!state.welcomed || !state.seenV5) { state.welcomed = true; state.seenV5 = true; saveState(state); }
 /* Small hook for debugging and automated tests */
-window.CELPIP = { get state() { return state; }, CHECKER, version: 4 };
+window.CELPIP = { get state() { return state; }, CHECKER, version: APP_VERSION, go };

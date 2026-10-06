@@ -1,5 +1,5 @@
-/* CELPIP Coach v4 · brain games (1 to 3 minutes each, scored, best scores saved)
-   Uses globals from app.js at runtime: state, saveState, bumpStreak, showScreen, goTab, todayISO, refreshAll. */
+/* CELPIP Coach v5 · brain games (1 to 3 minutes each, scored, best scores saved)
+   Uses globals from app.js at runtime: state, saveState, bumpStreak, showPage, navBack, todayISO, refreshAll, UI. */
 "use strict";
 
 const GAMES = [
@@ -87,9 +87,8 @@ const Games = (() => {
           left() { return Math.max(0, total - (Date.now() - start)) / 1000; },
         };
       },
-      correct(el, pts, small) {
+      correct(el, pts) {
         if (pts) A.add(pts, el);
-        FX.confetti({ el, count: small ? 14 : 26 });
         FX.pop(el);
         FX.coach("correct");
         cur.right = (cur.right || 0) + 1;
@@ -100,22 +99,34 @@ const Games = (() => {
         cur.wrongs = (cur.wrongs || 0) + 1;
       },
       finish(summary) { finish(summary); },
+      /* Footer: Quit on the left, an optional single primary action on the right */
+      footer(primary) { setPlayFooter(primary); },
     };
     return A;
+  }
+
+  function setPlayFooter(primary) {
+    const w = cur && cur.opts.warmup;
+    UI.setFooter([
+      { id: "btn-game-back", label: w ? "Stop warm-up" : "Quit", type: "default", onClick: quit },
+      primary ? { id: primary.id, label: primary.label, type: "emph", onClick: primary.onClick } : null,
+    ]);
   }
 
   function start(id, opts = {}) {
     cleanup();
     const g = GAMES.find((x) => x.id === id);
     cur = { id, score: 0, opts, timers: [], ended: false, right: 0, wrongs: 0, startedAt: Date.now() };
-    $("game-name").textContent = g.name + (opts.warmup ? ` · warm-up ${opts.warmup.i + 1}/3` : "");
+    $("game-eyebrow").textContent = opts.warmup ? `Daily Warm-up · game ${opts.warmup.i + 1} of 3 · short version` : `Brain game · ${g.desc}`;
+    $("game-name").textContent = g.name;
     $("game-score").textContent = "0";
-    $("game-progress").textContent = "";
+    $("game-progress").textContent = "-";
     const A = makeApi();
     A.bar(1);
     A.stage.innerHTML = "";
     A.stage.dataset.game = id;
-    showScreen("screen-game");
+    showPage("game", { title: opts.warmup ? "Daily Warm-up" : g.name });
+    setPlayFooter(null);
     RUNNERS[id](A.stage, A, opts);
   }
 
@@ -123,8 +134,10 @@ const Games = (() => {
     cleanup();
     if (cur) cur.ended = true;
     cur = null;
-    goTab(document.body.dataset.lastTab || "games");
+    navBack();
   }
+
+  function A_bar(frac) { const b = $("game-timebar"); b.style.width = `${frac * 100}%`; b.classList.remove("low"); }
 
   function finish(summary) {
     if (!cur || cur.ended) return;
@@ -146,43 +159,43 @@ const Games = (() => {
     const w = opts.warmup;
     if (w) w.results.push({ id, score });
     const last = w && w.i >= w.ids.length - 1;
+    $("game-progress").textContent = "Done";
+    A_bar(1);
     stage.innerHTML = `
-      <div class="card end-card" id="end-card">
-        <div class="end-emoji">${isBest ? "🏆" : "🎉"}</div>
+      <div class="panel end-card" id="end-card">
+        ${UI.successCheck(64)}
         <p class="muted small">${esc(g.name)} complete</p>
         <div class="end-score" id="end-score">0</div>
         <p class="muted small">points</p>
-        ${isBest ? '<span class="chip good end-best">New best score!</span>' : `<span class="chip end-best">Best: ${rec.best}</span>`}
-        <p class="small" style="margin-top:10px">${esc(summary || "")}</p>
-        <p class="small muted" style="margin-top:6px" data-coach-line></p>
+        ${isBest ? UI.strip("success", `Best score so far: ${rec.best}.`, "New best score!") : UI.strip("info", `Your best is ${rec.best}. Play again to beat it.`, "Good round.")}
+        <p class="small" style="margin-top:.5rem">${esc(summary || "")}</p>
+        <p class="small muted" style="margin-top:.25rem" data-coach-line></p>
         <div id="end-actions"></div>
       </div>`;
     FX.countUp($("end-score"), score, 800);
     FX.coach("done");
-    setTimeout(() => FX.confetti({ big: true, count: isBest ? 140 : 90 }), 150);
-    const actions = $("end-actions");
+    setTimeout(() => FX.confetti({ count: isBest ? 110 : 70 }), 150);
     if (w && !last) {
-      actions.innerHTML = `<button type="button" class="btn-primary" id="btn-warm-next">Next game (${w.i + 2} of 3) →</button>
-        <button type="button" class="btn-secondary" id="btn-warm-quit">Stop warm-up</button>`;
-      $("btn-warm-next").onclick = () => start(w.ids[w.i + 1], { short: true, warmup: { ...w, i: w.i + 1 } });
-      $("btn-warm-quit").onclick = () => quit();
+      UI.setFooter([
+        { id: "btn-warm-quit", label: "Stop warm-up", type: "default", onClick: () => { cur = null; navBack(); } },
+        { id: "btn-warm-next", label: `Next game (${w.i + 2} of 3)`, type: "emph", onClick: () => start(w.ids[w.i + 1], { short: true, warmup: { ...w, i: w.i + 1 } }) },
+      ]);
     } else if (w && last) {
       state.warmups[todayISO()] = true;
       saveState(state);
       const total = w.results.reduce((a, r) => a + r.score, 0);
-      actions.innerHTML = `
-        <div class="card" style="margin-top:14px;text-align:left">
-          <div class="card-head"><h2>Warm-up done! 🧠</h2><span class="chip good">${total} pts</span></div>
-          ${w.results.map((r) => `<div class="best-row"><span>${GAMES.find((x) => x.id === r.id).icon} ${GAMES.find((x) => x.id === r.id).name}</span><b>${r.score}</b></div>`).join("")}
-        </div>
-        <button type="button" class="btn-primary" id="btn-warm-done">Back to Home</button>`;
-      $("btn-warm-done").onclick = () => { cur = null; goTab("home"); };
-      FX.toast("Daily Brain Warm-up complete!");
+      $("end-actions").innerHTML = `
+        <div class="panel" style="margin-top:1rem;text-align:left;box-shadow:none;border:1px solid var(--border)">
+          <h3>Warm-up done <span class="chip good">${total} pts</span></h3>
+          <ul class="row-list">${w.results.map((r) => `<li class="row"><span>${esc(GAMES.find((x) => x.id === r.id).name)}</span><b>${r.score}</b></li>`).join("")}</ul>
+        </div>`;
+      UI.setFooter([{ id: "btn-warm-done", label: "Done", type: "emph", onClick: () => { cur = null; navBack(); } }]);
+      FX.toast("Daily Warm-up complete");
     } else {
-      actions.innerHTML = `<button type="button" class="btn-primary" id="btn-play-again">Play again</button>
-        <button type="button" class="btn-secondary" id="btn-games-back">Back to games</button>`;
-      $("btn-play-again").onclick = () => start(id, {});
-      $("btn-games-back").onclick = () => { cur = null; goTab("games"); };
+      UI.setFooter([
+        { id: "btn-games-back", label: "Back to launchpad", type: "default", onClick: () => { cur = null; navBack(); } },
+        { id: "btn-play-again", label: "Play again", type: "emph", onClick: () => start(id, {}) },
+      ]);
     }
     if (typeof refreshAll === "function") refreshAll();
   }
@@ -242,7 +255,7 @@ const Games = (() => {
       let expected = 0, errors = 0;
       const t0 = Date.now();
       stage.innerHTML = `
-        <div class="game-q"><p class="eyebrow">Email: ${esc(set.t)}</p><p class="small muted">Tap the bites in order: Who, Why, Hurt, Ask, Thanks.</p></div>
+        <div class="game-q"><p class="eyebrow">Email: ${esc(set.t)}</p><p class="small muted">Tap the sentence for each step, in order.</p><div class="wizard-wrap" id="sw-wiz">${UI.wizard(WIZ5, 0)}</div></div>
         <div class="slots">${SANDWICH_LABELS.map((l, k) => `<div class="slot${k === 0 ? " next" : ""}" data-slot="${k}"><span class="n">${k + 1}</span><span class="st"><span class="lbl">${esc(l)}</span></span></div>`).join("")}</div>
         <div class="bite-pile">${pile.map((p) => `<button type="button" class="opt" data-k="${p.k}">${esc(p.t)}</button>`).join("")}</div>`;
       stage.querySelectorAll(".bite-pile .opt").forEach((b) => b.addEventListener("click", () => {
@@ -255,6 +268,8 @@ const Games = (() => {
           b.classList.add("used");
           A.add(20, slot);
           expected++;
+          if (expected < 5) $("sw-wiz").innerHTML = UI.wizard(WIZ5, expected);
+          else $("sw-wiz").innerHTML = UI.wizard(WIZ5, 4, { done: () => true });
           const nx = stage.querySelector(`[data-slot="${expected}"]`);
           if (nx) nx.classList.add("next");
           if (expected === 5) {
@@ -290,7 +305,7 @@ const Games = (() => {
         if (b.dataset.ok) {
           right++; combo++; maxCombo = Math.max(maxCombo, combo);
           b.classList.add("correct");
-          A.correct(b, 100 + Math.min(100, (combo - 1) * 20), true);
+          A.correct(b, 100 + Math.min(100, (combo - 1) * 20));
           A.later(next, 280);
         } else {
           combo = 0;
@@ -328,9 +343,8 @@ const Games = (() => {
         done = true;
         stage.querySelectorAll(".chunk").forEach((b) => { b.disabled = true; });
         stage.querySelector(`[data-k="${it.x}"]`).classList.add("correct");
-        $("fix-box").innerHTML = `<div class="good-line"><b>Fix</b>${esc(it.fix)}</div><p class="kid-line">${esc(it.why)}</p>
-          <button type="button" class="btn-primary" id="btn-err-next">${i + 1 >= items.length ? "Finish" : "Next"} →</button>`;
-        $("btn-err-next").onclick = () => { i++; next(); };
+        $("fix-box").innerHTML = `<div class="good-line"><b>Fix</b>${esc(it.fix)}</div><p class="kid-line">${esc(it.why)}</p>`;
+        A.footer({ id: "btn-err-next", label: i + 1 >= items.length ? "Finish" : "Next", onClick: () => { i++; A.footer(null); next(); } });
         if (pts) right += pts === 100 ? 1 : 0;
       };
       stage.querySelectorAll(".chunk").forEach((b) => b.addEventListener("click", () => {
@@ -374,7 +388,7 @@ const Games = (() => {
       if (a.dataset.k === b.dataset.k) {
         a.classList.add("matched"); b.classList.add("matched");
         matched++;
-        A.correct(b, 100, true);
+        A.correct(b, 100);
         A.bar(matched / pairs.length);
         if (matched === pairs.length) {
           const secs = Math.round((Date.now() - t0) / 1000);

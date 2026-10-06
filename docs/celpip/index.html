@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1d3557" />
+  <meta name="theme-color" content="#1d2d3e" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -19,8 +19,7 @@
     (function () {
       try {
         var s = JSON.parse(localStorage.getItem("celpip-coach-v4") || "{}").settings || {};
-        var dark = s.theme ? s.theme === "dark" : false;
-        if (dark) document.documentElement.setAttribute("data-theme", "dark");
+        if (s.theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
         if (s.reduceMotion) document.documentElement.classList.add("reduce-motion");
       } catch (e) {}
     })();
@@ -28,364 +27,152 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="app">
-    <!-- App bar (main tabs) -->
-    <header class="appbar" id="appbar">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">✉</span>
-        <div class="brand-text">
-          <span class="brand-kicker">CELPIP Coach</span>
-          <h1 id="appbar-title">Home</h1>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Shell bar -->
+  <header class="shellbar" id="shellbar">
+    <button type="button" class="sb-btn" id="btn-back" aria-label="Back" hidden>
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="sb-logo" id="sb-logo" aria-hidden="true">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+    </span>
+    <h1 class="sb-title" id="sb-title">CELPIP Coach</h1>
+    <div class="sb-actions">
+      <button type="button" class="sb-btn" id="btn-settings" aria-label="Settings">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button type="button" class="sb-avatar" id="btn-avatar" aria-label="Profile: Afolabi Adesina"><span>AA</span></button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- Launchpad -->
+    <section id="page-launchpad" class="page launchpad" aria-label="Launchpad">
+      <div id="lp-groups"></div>
+      <p class="lp-foot muted" id="lp-foot"></p>
+    </section>
+
+    <!-- Generic dynamic pages, filled by app.js -->
+    <section id="page-today" class="page dp" aria-label="Today's task"><div class="dp-header" id="today-head"></div><div class="dp-content" id="today-body"></div></section>
+    <section id="page-settings" class="page dp" aria-label="Settings"><div class="dp-header" id="settings-head"></div><div class="dp-content" id="settings-body"></div></section>
+    <section id="page-list" class="page dp" aria-label="Prompt list"><div class="dp-header" id="list-head"></div><div class="list-toolbar" id="list-toolbar"></div><div class="dp-content flush" id="list-body"></div></section>
+    <section id="page-object" class="page dp" aria-label="Prompt"><div class="dp-header" id="obj-head"></div><div class="tabs" id="obj-tabs" role="tablist" aria-label="Sections"></div><div class="dp-content" id="obj-body" role="tabpanel"></div></section>
+    <section id="page-watch" class="page dp" aria-label="Watch list"><div class="dp-header" id="watch-head"></div><div class="dp-content" id="watch-body"></div></section>
+    <section id="page-guides" class="page dp" aria-label="Baby steps"><div class="dp-header" id="guides-head"></div><div class="dp-content" id="guides-body"></div></section>
+    <section id="page-plan" class="page dp" aria-label="30-Day Plan"><div class="dp-header" id="plan-head"></div><div class="dp-content" id="plan-body"></div></section>
+    <section id="page-history" class="page dp" aria-label="CLB estimate"><div class="dp-header" id="history-head"></div><div class="dp-content" id="history-body"></div></section>
+
+    <!-- Phrase bank -->
+    <section id="page-phrases" class="page dp" aria-label="Phrase bank">
+      <div class="dp-header">
+        <h2 class="dp-title">Phrase Bank</h2>
+        <p class="dp-sub">Tap a card to see the CLB 10 version. Swipe for the next one.</p>
+        <div class="kpi-row">
+          <div class="kpi"><span class="kpi-num" id="phr-count">36</span><span class="kpi-lbl">cards</span></div>
+          <div class="kpi"><span class="kpi-num" id="phr-starred">0</span><span class="kpi-lbl">starred</span></div>
         </div>
       </div>
-      <div class="appbar-actions">
-        <div class="streak-pill" id="streak-display" title="Practice streak">
-          <span class="streak-fire" aria-hidden="true">🔥</span>
-          <span id="streak-count">0</span>
-        </div>
-        <button type="button" class="icon-btn theme-btn" id="btn-theme" aria-label="Toggle dark mode" title="Dark mode">
-          <span class="theme-icon" aria-hidden="true">🌙</span>
-        </button>
-      </div>
-    </header>
-
-    <main id="screens">
-      <!-- HOME -->
-      <section id="screen-home" class="screen tab active" data-tab="home" aria-label="Home">
-        <div class="hero">
-          <div class="coach">
-            <div class="coach-avatar" aria-hidden="true">🦉</div>
-            <p class="coach-bubble" data-coach-line aria-live="polite">Small steps every day.</p>
-          </div>
-          <div class="rings" id="home-rings"></div>
-        </div>
-
-        <div class="card today-card" id="today-card"></div>
-
-        <div class="card warmup-card">
-          <div class="card-head">
-            <h2>Daily Brain Warm-up</h2>
-            <span class="chip" id="warmup-status">3 short games</span>
-          </div>
-          <div class="warmup-games" id="warmup-games"></div>
-          <button type="button" class="btn-primary" id="btn-warmup">Start warm-up</button>
-        </div>
-
-        <div class="card watch-card">
-          <div class="card-head">
-            <h2>Your watch list</h2>
-            <span class="chip warn">From Day 1</span>
-          </div>
-          <p class="muted small">These were in your baseline email. The draft checker looks for every one.</p>
-          <div class="watch-chips" id="watch-chips"></div>
-          <div class="watch-detail" id="watch-detail" hidden></div>
-        </div>
-
-        <div class="quick-grid">
-          <button type="button" class="quick" data-go="write"><span>✍️</span>Write a Task 1</button>
-          <button type="button" class="quick" data-go="phrases"><span>🃏</span>Phrase cards</button>
-          <button type="button" class="quick" data-go="games"><span>🧠</span>Brain games</button>
-          <button type="button" class="quick" data-go="progress"><span>📅</span>30-day plan</button>
-        </div>
-      </section>
-
-      <!-- LEARN -->
-      <section id="screen-learn" class="screen tab" data-tab="learn" aria-label="Learn" hidden>
-        <h2 class="section-title">Baby steps</h2>
-        <div id="guides"></div>
-
-        <h2 class="section-title">Lessons</h2>
-        <div class="lesson-list" role="list">
-          <button type="button" class="lesson-card unlocked" id="btn-start-l1" role="listitem">
-            <div class="lesson-num">1</div>
-            <div class="lesson-body">
-              <h3>Fill the Gaps</h3>
-              <p>Practice each bite of the email sandwich with instant feedback.</p>
-              <span class="lesson-meta" id="l1-meta">Not started</span>
-            </div>
-            <span class="lesson-cta" id="l1-cta">Start</span>
-          </button>
-          <button type="button" class="lesson-card unlocked" id="btn-start-l2" role="listitem">
-            <div class="lesson-num">2</div>
-            <div class="lesson-body">
-              <h3>Tone and Grammar</h3>
-              <p>Fix you/your · cut weak openers · rewrite threats politely.</p>
-              <span class="lesson-meta" id="l2-meta">Not started</span>
-            </div>
-            <span class="lesson-cta" id="l2-cta">Start</span>
-          </button>
-          <button type="button" class="lesson-card unlocked" id="btn-start-l3" role="listitem">
-            <div class="lesson-num">3</div>
-            <div class="lesson-body">
-              <h3>Full Timed Draft</h3>
-              <p>27-minute Task 1 · subject and body · CLB estimate with the draft checker.</p>
-              <span class="lesson-meta" id="l3-meta">Not started</span>
-            </div>
-            <span class="lesson-cta" id="l3-cta">Start</span>
-          </button>
-        </div>
-
-        <button type="button" class="card link-card" id="btn-open-phrases">
-          <span class="link-icon" aria-hidden="true">🃏</span>
-          <span class="link-body"><strong>Phrase bank</strong><span class="muted small">Swipe CLB 10 phrases by bite. Star your favourites.</span></span>
-          <span class="chev" aria-hidden="true">›</span>
-        </button>
-
-        <h2 class="section-title">Your watch list, explained</h2>
-        <div id="watch-full"></div>
-
-        <div class="rules-card">
-          <h3>Rules to remember</h3>
-          <ul>
-            <li>No threats</li>
-            <li>Skip "I hope this email meets you well"</li>
-            <li>Firm but polite</li>
-            <li>Always write a clear subject and body</li>
-            <li>Sign as Afolabi</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- GAMES -->
-      <section id="screen-games" class="screen tab" data-tab="games" aria-label="Brain games" hidden>
-        <div class="card warmup-card compact">
-          <div class="card-head">
-            <h2>Daily Brain Warm-up</h2>
-            <span class="chip" id="warmup-status-2">3 short games</span>
-          </div>
-          <p class="muted small" id="warmup-list-2"></p>
-          <button type="button" class="btn-primary" id="btn-warmup-2">Start warm-up</button>
-        </div>
-        <div class="game-grid" id="game-grid"></div>
-      </section>
-
-      <!-- WRITE -->
-      <section id="screen-write" class="screen tab" data-tab="write" aria-label="Write" hidden>
-        <div class="segmented" role="tablist">
-          <button type="button" role="tab" class="seg active" data-seg="t1" aria-selected="true">Task 1 · Email</button>
-          <button type="button" role="tab" class="seg" data-seg="t2" aria-selected="false">Task 2 · Survey</button>
-        </div>
-        <p class="muted small" id="write-intro"></p>
-        <div class="prompt-list" id="prompt-list"></div>
-      </section>
-
-      <!-- PROGRESS -->
-      <section id="screen-progress" class="screen tab" data-tab="progress" aria-label="Progress" hidden>
-        <div class="rings big" id="progress-rings"></div>
-        <div class="card">
-          <div class="card-head">
-            <h2>30-day challenge</h2>
-            <span class="chip" id="cal-count">0/30</span>
-          </div>
-          <p class="muted small">Oct 5 to Nov 3, 2026 · tap a day to mark it done</p>
-          <div class="cal-dow" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
-          <div class="calendar" id="calendar" role="grid"></div>
-          <div class="cal-legend"><span><i class="lg base"></i>Baseline</span><span><i class="lg prac"></i>Practice</span><span><i class="lg done"></i>Done</span><span><i class="lg today"></i>Today</span></div>
-          <div class="day-detail" id="day-detail"></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>Best game scores</h2></div>
-          <div class="best-list" id="best-list"></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>Writing history</h2></div>
-          <div class="history" id="history"></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>Settings</h2></div>
-          <label class="switch-row"><span>Dark mode</span><input type="checkbox" id="set-dark" /><i class="switch"></i></label>
-          <label class="switch-row"><span>Reduce motion</span><input type="checkbox" id="set-motion" /><i class="switch"></i></label>
-          <p class="muted tiny" id="version-note">CELPIP Coach v4 · progress is saved on this device only</p>
-        </div>
-      </section>
-
-      <!-- PHRASE BANK -->
-      <section id="screen-phrases" class="screen deep" aria-label="Phrase bank" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" data-back aria-label="Back">←</button>
-          <h2 class="screen-title">Phrase bank</h2>
-        </header>
-        <div class="chip-row" id="phrase-groups"></div>
-        <div class="flash-wrap">
-          <div class="flash" id="flash" tabindex="0" aria-live="polite"></div>
-        </div>
+      <div class="dp-content">
+        <div class="chip-row" id="phrase-groups" role="group" aria-label="Filter by bite"></div>
+        <div class="flash-wrap"><div class="flash" id="flash" tabindex="0" role="button" aria-label="Flashcard, tap to flip" aria-live="polite"></div></div>
         <p class="muted small center" id="flash-pos"></p>
-        <div class="flash-actions">
-          <button type="button" class="btn-secondary" id="flash-prev" aria-label="Previous card">‹ Prev</button>
-          <button type="button" class="btn-star" id="flash-star" aria-label="Star this phrase">☆</button>
-          <button type="button" class="btn-secondary" id="flash-next" aria-label="Next card">Next ›</button>
-        </div>
-        <p class="muted tiny center">Tap the card to flip · swipe left or right</p>
-      </section>
+      </div>
+    </section>
 
-      <!-- PROMPT DETAIL -->
-      <section id="screen-prompt" class="screen deep" aria-label="Prompt" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" data-back aria-label="Back">←</button>
-          <h2 class="screen-title" id="prompt-title">Prompt</h2>
-        </header>
-        <div id="prompt-body"></div>
-      </section>
-
-      <!-- WRITER (Lesson 3 and all prompts) -->
-      <section id="screen-writer" class="screen deep" aria-label="Timed writing" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" id="btn-writer-back" aria-label="Back">←</button>
-          <div class="progress-wrap">
-            <div class="progress-label">
-              <span id="writer-kind">Timed Task 1</span>
-              <span class="timer" id="writer-timer" aria-live="off">27:00</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill" id="writer-time-fill" style="width:100%"></div></div>
-          </div>
-        </header>
-        <details class="scenario-card" id="writer-prompt-box" open>
-          <summary class="scenario-eyebrow">Prompt (tap to hide)</summary>
-          <div id="writer-prompt"></div>
-        </details>
-        <div class="card planner" id="writer-planner" hidden></div>
-        <div class="write-card">
-          <div id="writer-subject-wrap">
-            <label class="field-label" for="writer-subject">Subject</label>
-            <input type="text" id="writer-subject" class="write-input" maxlength="140" placeholder="Issue + who you are (unit, role, order)" autocomplete="off" />
-          </div>
-          <label class="field-label" for="writer-body" id="writer-body-label">Email body</label>
-          <textarea id="writer-body" class="write-area" rows="12"></textarea>
-          <div class="write-meta">
-            <span class="wc-chip" id="writer-words">0 words</span>
-            <span id="writer-live">Aim for 150 to 200 words</span>
-          </div>
-          <div class="inline-check" id="writer-check" hidden></div>
-          <button type="button" class="btn-secondary" id="btn-writer-check">Check my draft</button>
-          <button type="button" class="btn-primary" id="btn-writer-submit">Submit and see my CLB estimate</button>
-        </div>
-      </section>
-
-      <!-- REVIEW (draft checker result) -->
-      <section id="screen-review" class="screen deep" aria-label="Draft review" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" data-back aria-label="Back">←</button>
-          <h2 class="screen-title" id="review-title">Your draft</h2>
-        </header>
-        <div id="review-body"></div>
-      </section>
-
-      <!-- GAME -->
-      <section id="screen-game" class="screen deep" aria-label="Game" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" id="btn-game-back" aria-label="Quit game">←</button>
-          <div class="progress-wrap">
-            <div class="progress-label">
-              <span id="game-name">Game</span>
-              <span class="game-score"><span id="game-progress"></span> · <b id="game-score">0</b> pts</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill timebar" id="game-timebar" style="width:100%"></div></div>
-          </div>
-        </header>
-        <div id="game-stage" class="game-stage"></div>
-      </section>
-
-      <!-- LESSON 1 (kept from v2/v3) -->
-      <section id="screen-lesson" class="screen deep" aria-label="Lesson 1" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" id="btn-back-home" aria-label="Back">←</button>
-          <div class="progress-wrap">
-            <div class="progress-label"><span id="bite-label">Bite 1 of 5</span></div>
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1" id="progress-bar">
-              <div class="progress-fill" id="progress-fill"></div>
-            </div>
-          </div>
-        </header>
-        <div class="scenario-card" id="scenario-card">
-          <p class="scenario-eyebrow">Scenario</p>
-          <p class="scenario-text" id="scenario-text"></p>
-        </div>
-        <div class="bite-card" id="bite-card">
-          <p class="bite-title" id="bite-title"></p>
-          <p class="bite-hint" id="bite-hint"></p>
+    <!-- Lesson 1 wizard -->
+    <section id="page-lesson1" class="page dp" aria-label="Lesson 1">
+      <div class="dp-header">
+        <p class="dp-eyebrow">Lesson 1 · Fill the Gaps</p>
+        <h2 class="dp-title">Build the email sandwich</h2>
+        <div class="dp-status" id="bite-label"></div>
+        <div class="wizard-wrap" id="l1-wizard"></div>
+      </div>
+      <div class="dp-content">
+        <details class="panel scenario" open><summary>Scenario</summary><p id="scenario-text"></p></details>
+        <div class="panel step-card" id="bite-card">
+          <h3 class="step-title" id="bite-title"></h3>
+          <p class="step-hint" id="bite-hint"></p>
           <div class="gap-block" id="gap-block"></div>
-          <div class="feedback" id="feedback" hidden></div>
-          <button type="button" class="btn-primary" id="btn-check">Check</button>
-          <button type="button" class="btn-secondary" id="btn-next" hidden>Next bite →</button>
+          <div id="feedback" hidden></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- LESSON 2 (kept from v2/v3) -->
-      <section id="screen-lesson2" class="screen deep" aria-label="Lesson 2" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" id="btn-l2-back" aria-label="Back">←</button>
-          <div class="progress-wrap">
-            <div class="progress-label"><span id="l2-label">Drill 1 of 8</span></div>
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1" id="l2-progress-bar">
-              <div class="progress-fill" id="l2-progress-fill"></div>
-            </div>
-          </div>
-        </header>
-        <div class="scenario-card">
-          <p class="scenario-eyebrow" id="l2-tag">Tone fixer</p>
-          <p class="scenario-text" id="l2-prompt"></p>
-        </div>
-        <div class="bite-card" id="l2-card">
-          <p class="bite-title" id="l2-title"></p>
-          <p class="bite-hint" id="l2-hint"></p>
+    <!-- Lesson 2 wizard -->
+    <section id="page-lesson2" class="page dp" aria-label="Lesson 2">
+      <div class="dp-header">
+        <p class="dp-eyebrow">Lesson 2 · Tone and Grammar</p>
+        <h2 class="dp-title" id="l2-tag">Tone fixer</h2>
+        <div class="dp-status" id="l2-label"></div>
+        <div class="wizard-wrap" id="l2-wizard"></div>
+      </div>
+      <div class="dp-content">
+        <div class="panel scenario"><p class="panel-eyebrow">Situation</p><p id="l2-prompt"></p></div>
+        <div class="panel step-card" id="l2-card">
+          <h3 class="step-title" id="l2-title"></h3>
+          <p class="step-hint" id="l2-hint"></p>
           <div class="gap-block" id="l2-gap"></div>
-          <div class="feedback" id="l2-feedback" hidden></div>
-          <button type="button" class="btn-primary" id="btn-l2-check">Check</button>
-          <button type="button" class="btn-secondary" id="btn-l2-next" hidden>Next drill →</button>
+          <div id="l2-feedback" hidden></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- LESSON RESULT (kept from v2/v3) -->
-      <section id="screen-result" class="screen deep" aria-label="Your email" hidden>
-        <header class="topbar lesson-top">
-          <button type="button" class="icon-btn" id="btn-result-home" aria-label="Back">←</button>
-          <h2 class="screen-title" id="result-title">Your email</h2>
-        </header>
-        <div class="score-band" id="score-band">
-          <div class="score-num" id="score-num">-</div>
-          <div class="score-label" id="score-label">CLB estimate</div>
+    <!-- Lesson result -->
+    <section id="page-result" class="page dp" aria-label="Lesson result">
+      <div class="dp-header">
+        <p class="dp-eyebrow" id="result-title">Your email</p>
+        <div class="result-top">
+          <div id="result-check"></div>
+          <div class="kpi"><span class="kpi-num big" id="score-num">-</span><span class="kpi-lbl" id="score-label">CLB estimate</span></div>
         </div>
-        <div class="coach-notes">
-          <div class="note strength" id="note-strength"></div>
-          <div class="note fix" id="note-fix"></div>
-        </div>
-        <article class="email-preview" id="email-preview">
+      </div>
+      <div class="dp-content">
+        <div id="note-strength"></div>
+        <div id="note-fix"></div>
+        <article class="panel email-preview">
           <div class="email-row"><span class="email-key">Subject:</span> <span id="email-subject"></span></div>
           <div class="email-body" id="email-body"></div>
         </article>
-        <div class="result-actions">
-          <button type="button" class="btn-primary" id="btn-again">Practice again</button>
-          <button type="button" class="btn-secondary" id="btn-done">Done for now</button>
-        </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <nav class="tabbar" id="tabbar" aria-label="Main">
-      <button type="button" class="tab-btn active" data-tab="home" aria-label="Home">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span>
-      </button>
-      <button type="button" class="tab-btn" data-tab="learn" aria-label="Learn">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg><span>Learn</span>
-      </button>
-      <button type="button" class="tab-btn" data-tab="games" aria-label="Games">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a5 5 0 0 1 0 10c-1.6 0-2.4-1-3.2-2h-3.6c-.8 1-1.6 2-3.2 2A5 5 0 0 1 7 8zM8 11v4M6 13h4M15.5 12.5h.01M17.5 14.5h.01"/></svg><span>Games</span>
-      </button>
-      <button type="button" class="tab-btn" data-tab="write" aria-label="Write">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></svg><span>Write</span>
-      </button>
-      <button type="button" class="tab-btn" data-tab="progress" aria-label="Progress">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Progress</span>
-      </button>
-    </nav>
-  </div>
+    <!-- Game -->
+    <section id="page-game" class="page dp" aria-label="Game">
+      <div class="dp-header">
+        <p class="dp-eyebrow" id="game-eyebrow">Brain game</p>
+        <h2 class="dp-title" id="game-name">Game</h2>
+        <div class="kpi-row">
+          <div class="kpi"><span class="kpi-num" id="game-score">0</span><span class="kpi-lbl">points</span></div>
+          <div class="kpi"><span class="kpi-num" id="game-progress">-</span><span class="kpi-lbl">progress</span></div>
+        </div>
+        <div class="progress" aria-hidden="true"><div class="progress-fill" id="game-timebar"></div></div>
+      </div>
+      <div class="dp-content"><div id="game-stage" class="game-stage" aria-live="polite"></div></div>
+    </section>
+  </main>
+
+  <!-- Footer toolbar (one primary action, right) -->
+  <footer class="dp-footer" id="footer" hidden><div class="bar" id="footer-bar"></div></footer>
+
+  <!-- Confirmation dialog -->
+  <dialog id="dialog" aria-labelledby="dlg-title" aria-describedby="dlg-text">
+    <h2 id="dlg-title">Confirm</h2>
+    <p id="dlg-text"></p>
+    <div class="dlg-bar">
+      <button type="button" class="btn default" id="dlg-cancel">Cancel</button>
+      <button type="button" class="btn emph" id="dlg-ok">OK</button>
+    </div>
+  </dialog>
 
   <canvas id="confetti" aria-hidden="true"></canvas>
-  <div id="toast" class="toast" role="status" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <button type="button" id="update-toast" class="toast update" hidden>Update available, tap to refresh</button>
 
   <script src="content.js"></script>
   <script src="checker.js"></script>
   <script src="fx.js"></script>
+  <script src="ui.js"></script>
   <script src="games.js"></script>
   <script src="lessons.js"></script>
   <script src="app.js"></script>

@@ -1,4 +1,4 @@
-/* CELPIP Coach v4 · effects: confetti, toast, shake, progress rings, coach line */
+/* CELPIP Coach v5 · effects: confetti, toast, shake, progress rings, coach line */
 "use strict";
 
 const FX = (() => {
@@ -7,7 +7,7 @@ const FX = (() => {
 
   /* ---- Hand-rolled canvas confetti ---- */
   let canvas, ctx, parts = [], raf = null;
-  const COLORS = ["#2f5d9e", "#4db6a0", "#f2b544", "#e8746a", "#8fb4ef", "#9b7be0", "#5ecf9a"];
+  const COLORS = ["#0070f2", "#30914c", "#e76500", "#5d36ff", "#4db1ff", "#d1efff", "#f5b04d"];
   function ensureCanvas() {
     if (canvas) return;
     canvas = document.getElementById("confetti");
