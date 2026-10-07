@@ -165,3 +165,8 @@ dialog[open] { animation: fadein .2s ease-out both; }
 .grid > .card { margin-top: 0 !important; }
 .card.comment, .grid ~ .card { margin-top: var(--gap); }
 .about .comment p { max-width: none; }
+.keys { margin: 0; padding-left: 1.2rem; display: grid; gap: .7rem; }
+.keys li strong { display: block; font-size: .9rem; }
+.key-st { display: block; color: var(--muted); font-size: .82rem; }
+.key-st.pos { color: var(--pos); font-weight: 700; }
+.card + .grid { margin-top: var(--gap); }

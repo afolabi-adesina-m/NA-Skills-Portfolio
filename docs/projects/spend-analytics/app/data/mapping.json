@@ -1,0 +1,74 @@
+{
+ "examples": [
+  {
+   "raw": "Irving Shipbuilding Inc.",
+   "master": "Irving Shipbuilding Inc.",
+   "rule": "Exact match",
+   "id": "V00002"
+  },
+  {
+   "raw": "IBM Canada Ltd.",
+   "master": "IBM CANADA LTD.",
+   "rule": "Case and spacing",
+   "id": "V00012"
+  },
+  {
+   "raw": "IBM CANADA LTD",
+   "master": "IBM CANADA LTD.",
+   "rule": "Punctuation and accents",
+   "id": "V00012"
+  },
+  {
+   "raw": "IBM Canada Limited",
+   "master": "IBM CANADA LTD.",
+   "rule": "Legal suffix removed",
+   "id": "V00012"
+  },
+  {
+   "raw": "MICROSOFT CANADA INC",
+   "master": "MICROSOFT CANADA INC.",
+   "rule": "Punctuation and accents",
+   "id": "V00013"
+  },
+  {
+   "raw": "Bell Textron Canada Limited",
+   "master": "BELL TEXTRON CANADA LTD",
+   "rule": "Legal suffix removed",
+   "id": "V00008"
+  },
+  {
+   "raw": "CANADIAN CORPS OF COMMISSIONNAIRES",
+   "master": "CANADIAN CORPS OF COMMISSIONAIRES",
+   "rule": "Close spelling (fuzzy match)",
+   "id": "V00023"
+  },
+  {
+   "raw": "Airbus Defense and Space Limited",
+   "master": "Airbus Defence and Space SA",
+   "rule": "Close spelling (fuzzy match)",
+   "id": "V00004"
+  }
+ ],
+ "steps": [
+  [
+   "Raw names",
+   53265
+  ],
+  [
+   "Case and spacing",
+   47070
+  ],
+  [
+   "Punctuation and accents",
+   43070
+  ],
+  [
+   "Legal suffix removed",
+   40297
+  ],
+  [
+   "Close spelling (fuzzy match)",
+   38514
+  ]
+ ]
+}

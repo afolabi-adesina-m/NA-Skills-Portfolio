@@ -2,8 +2,8 @@
 (function () {
   "use strict";
   var state = { view: "overview", fy: "all", ct: "all" };
-  var cache = {}, G = null, S = null;
-  var VIEWS = ["overview", "quality", "suppliers", "categories", "about"];
+  var cache = {}, G = null, S = null, MAP = null;
+  var VIEWS = ["overview", "quality", "mapping", "suppliers", "categories", "about"];
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   function money(v) {
@@ -121,6 +121,23 @@
       '<div class="table-wrap"><table><thead><tr><th>Suggested master</th><th class="num">Names</th><th class="num">Spend</th><th class="num hide-sm">Contracts</th></tr></thead><tbody>' + (rows || '<tr><td colspan="4">No clusters in this view.</td></tr>') + "</tbody></table></div></section>" +
       comment(num(G.clusterNames) + " supplier names fall into " + num(G.clusters) + " likely duplicate clusters, linked to " + money(k.dupSpend) + " of spend. " + num(r35) + " records stop at exactly 35 characters, against " + num(r36) + " at 36, which points to a field that cut names short. The clusters are suggestions and need a data steward to confirm them.");
   }
+  function mapping() {
+    var st = MAP.steps, max = st[0][1];
+    var rows = MAP.examples.map(function (e) { return "<tr><td>" + esc(e.raw) + "</td><td>" + esc(e.master) + '</td><td><span class="badge">' + esc(e.rule) + '</span></td><td class="num">' + esc(e.id) + "</td></tr>"; }).join("");
+    var steps = '<div class="funnel">' + st.map(function (s, i) {
+      return '<div class="funnel-step"><span>' + esc(s[0]) + '</span><span class="bar-val">' + num(s[1]) + (i ? " (minus " + num(st[i - 1][1] - s[1]) + ")" : "") + '</span><span class="bar-track"><span class="bar-fill' + (i === st.length - 1 ? "" : " muted") + '" style="width:' + (s[1] / max * 100).toFixed(1) + '%"></span></span></div>';
+    }).join("") + "</div>";
+    var keys = [["1", "Name normalisation", "Applied", "pos"], ["2", "Tax ID or Business Number", "Used in a live ERP clean-up, not available in this public file", ""], ["3", "Parent and related company grouping", "Not applied in this file", ""]];
+    return '<h1 class="v-title">Mapping template</h1>' +
+      '<div class="tiles">' + [
+        { title: "As is", sub: "Raw supplier names", val: num(max) },
+        { title: "To be", sub: "Suggested masters", val: num(st[st.length - 1][1]), tone: "pos", foot: num(max - st[st.length - 1][1]) + " fewer" }
+      ].map(tile).join("") + "</div>" +
+      '<section class="card"><h2>Mapping table</h2><div class="table-wrap"><table><thead><tr><th>Raw name</th><th>Master name</th><th>Match rule</th><th class="num">Master ID</th></tr></thead><tbody>' + rows + "</tbody></table></div></section>" +
+      '<div class="grid two"><section class="card"><h2>Match keys</h2><ol class="keys">' + keys.map(function (k) { return "<li><strong>" + esc(k[1]) + '</strong><span class="key-st ' + k[3] + '">' + esc(k[2]) + "</span></li>"; }).join("") + "</ol></section>" +
+      '<section class="card"><h2>As is to To be</h2>' + steps + "</section></div>" +
+      comment("Name matching rules cut the list from " + num(max) + " to " + num(st[st.length - 1][1]) + " suppliers, " + num(max - st[st.length - 1][1]) + " fewer records. Case and spacing removed the most, " + num(st[0][1] - st[1][1]) + " names. In a live ERP clean-up, Tax ID and parent company checks would confirm each merge before it goes into the master file.");
+  }
   function suppliers() {
     var k = S.kpi, abc = S.abc, n = abc.A.n + abc.B.n + abc.C.n;
     var rows = S.topSuppliers.map(function (s, i) {
@@ -160,7 +177,7 @@
       '<section class="card"><h2>Data quality rules</h2>' + "<div class=\"table-wrap\"><table><thead><tr><th>Rule</th><th>Check</th><th class=\"num\">Failed</th><th class=\"num hide-sm\">Rate</th><th class=\"hide-sm\">Severity</th></tr></thead><tbody>" + rules + "</tbody></table></div></section>" +
       comment("The data covers 179,829 contracts from " + G.depts + " organizations over three fiscal years. " + G.rules.length + " quality checks ran on the full file, and the table shows how many records failed each one. Figures are unaudited public data.") + "</div>";
   }
-  var RENDER = { overview: overview, quality: quality, suppliers: suppliers, categories: categories, about: about };
+  var RENDER = { overview: overview, quality: quality, mapping: mapping, suppliers: suppliers, categories: categories, about: about };
 
   /* ---------- detail (object page) ---------- */
   var dlg = $("#detail"), lastFocus = null;
@@ -249,5 +266,5 @@
     else if (t.dataset.cluster != null) clusterDetail(S.clusters[+t.dataset.cluster]);
     else if (t.dataset.category != null) categoryDetail(S.categories[+t.dataset.category]);
   });
-  load("global.json").then(function (g) { G = g; update(false); });
+  Promise.all([load("global.json"), load("mapping.json")]).then(function (r) { G = r[0]; MAP = r[1]; update(false); });
 })();
