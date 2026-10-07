@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Government Contract Spend Analytics | Power BI and Tableau</title>
+  <meta name="description" content="Spend analysis and supplier master data quality on 179,829 real Government of Canada contracts (C$92.6B, FY'24 to FY'26), designed for Power BI and Tableau. Open Government Licence - Canada." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916a" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916a" />
+  <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Government Contract Spend Analytics | Power BI and Tableau" />
+  <meta property="og:description" content="Real Government of Canada contract data (C$92.6B, 179,829 contracts): spend analysis, Kraljic segmentation, Pareto and supplier master data quality, designed for Power BI and Tableau." />
+  <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/spend-analytics/img/og-spend-analytics.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/spend-analytics/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Government Contract Spend Analytics | Power BI and Tableau" />
+  <meta name="twitter:description" content="Real Government of Canada contract data (C$92.6B, 179,829 contracts): spend analysis plus supplier master data quality, designed for Power BI and Tableau." />
+  <meta name="twitter:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/spend-analytics/img/og-spend-analytics.jpg" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260916a" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/spend-analytics/sa.css?v=20261006a" />
+</head>
+<body class="theme-sa">
+  <a class="skip-link" href="#pages">Skip to report pages</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/NA-Skills-Portfolio/">
+        <img class="brand-photo" src="/NA-Skills-Portfolio/assets/afolabi-headshot.jpg?v=20260827d" alt="Afolabi Adesina" width="42" height="42" loading="eager" decoding="async" />
+        <span class="brand-text">
+          <span class="brand-name">Afolabi Adesina</span>
+          <span class="brand-tag">Portfolio Hub</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="sa-nav-links">Menu</button>
+      <div class="nav-links" id="sa-nav-links">
+        <a href="/NA-Skills-Portfolio/">Hub</a>
+        <a href="#pages">Report pages</a>
+        <a href="#findings">Findings</a>
+        <a href="#method">Method</a>
+        <a href="#downloads">Downloads</a>
+        <a href="/NA-Skills-Portfolio/projects/sap-migration/">SAP Lab</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="sa-hero">
+      <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Government Contract Spend Analytics</div>
+      <div class="eyebrow">Procurement analytics &middot; Supplier master data &middot; Power BI and Tableau</div>
+      <h1>Government Contract Spend Analytics</h1>
+      <p class="lead">
+        Real Government of Canada contract data (C$92.6B across 179,829 contracts, FY'24 to FY'26), analysed for spend
+        and for supplier master data quality, and designed as a six-page report for Power BI and Tableau.
+      </p>
+      <p class="sa-badge"><span class="sa-badge-dot" aria-hidden="true"></span>Real public data, Open Government Licence - Canada</p>
+      <div class="sa-pill-row">
+        <span class="sa-pill">Power BI &middot; DAX</span>
+        <span class="sa-pill">Tableau Public</span>
+        <span class="sa-pill">Python &middot; pandas &middot; rapidfuzz</span>
+        <span class="sa-pill">Kraljic &middot; Pareto</span>
+        <span class="sa-pill">Supplier MDM</span>
+      </div>
+      <p class="hero-cta-row">
+        <a class="btn btn-primary" href="#pages">See the report pages</a>
+        <a class="btn btn-ghost" href="kit/spend-analytics-kit.zip" download>Download the kit (about 3 MB)</a>
+      </p>
+      <p class="sa-status"><strong>Status:</strong> Mockups drawn from the real data in Python; Power BI and Tableau Public builds in progress.</p>
+    </section>
+
+    <section class="section sa-kpis" aria-label="Headline numbers">
+      <div class="sa-kpi-grid">
+        <div class="sa-kpi"><span class="sa-kpi-value">C$92.6B</span><span class="sa-kpi-label">contract value</span></div>
+        <div class="sa-kpi"><span class="sa-kpi-value">179,829</span><span class="sa-kpi-label">contracts over $10K</span></div>
+        <div class="sa-kpi"><span class="sa-kpi-value">38,370</span><span class="sa-kpi-label">suppliers after clean-up</span></div>
+        <div class="sa-kpi"><span class="sa-kpi-value">94</span><span class="sa-kpi-label">federal organizations</span></div>
+        <div class="sa-kpi"><span class="sa-kpi-value">FY'24 to FY'26</span><span class="sa-kpi-label">April 2023 to March 2026</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="why">
+      <h2>Why this project</h2>
+      <div class="sa-why">
+        <p>
+          My background is supplier master data. At Lafarge Africa (2018 to 2021) I looked after the supplier master file
+          and its master data, and at IHS Towers I led SAP Discovery for Procurement. In both roles the same question kept
+          coming up: how much of what a spend report says depends on how clean the supplier records are?
+        </p>
+        <p>
+          The Government of Canada publishes every contract over $10,000, with the vendor name typed in by each department.
+          That makes it a good public test: the spend story and the master data story come from the same file. This project
+          builds both, side by side, so the effect of messy supplier names on spend answers is visible in numbers.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="pages">
+      <h2>Report pages</h2>
+      <p class="sub">Six pages, one design for both tools. Every number on them is computed from the real data. Select a page to open it full size.</p>
+      <figure class="sa-overview">
+        <a href="img/full/00_all_pages.png" target="_blank" rel="noopener">
+          <picture>
+            <source srcset="img/00_all_pages.webp" type="image/webp" />
+            <img src="img/00_all_pages.jpg" width="1600" height="725" alt="All six report pages side by side" loading="lazy" decoding="async" />
+          </picture>
+        </a>
+        <figcaption>All six pages at a glance.</figcaption>
+      </figure>
+
+      <div class="sa-gallery">
+        <figure class="sa-shot">
+          <a href="img/full/01_spend_overview.png" target="_blank" rel="noopener">
+            <picture>
+              <source srcset="img/01_spend_overview.webp" type="image/webp" />
+              <img src="img/01_spend_overview.jpg" width="1280" height="720" alt="Page 1, Spend Overview: KPI cards, monthly spend trend, spend by fiscal year, top departments and commodity split" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption><strong>1. Spend Overview.</strong> KPI cards, a monthly trend with fiscal-year bands, spend by year, top departments and the goods, services and construction split. C$28.3B in FY'24, C$48.3B in FY'25, C$16.0B in FY'26; National Defence is 53.8% of spend.</figcaption>
+        </figure>
+        <figure class="sa-shot">
+          <a href="img/full/02_spend_by_category.png" target="_blank" rel="noopener">
+            <picture>
+              <source srcset="img/02_spend_by_category.webp" type="image/webp" />
+              <img src="img/02_spend_by_category.jpg" width="1280" height="720" alt="Page 2, Spend by Category: top 15 category groups and a treemap by standard object" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption><strong>2. Spend by Category.</strong> A full-width bar of the top 15 category groups and a treemap by standard object. The top 15 of 85 groups hold 89.3% of spend.</figcaption>
+        </figure>
+        <figure class="sa-shot">
+          <a href="img/full/03_vendor_competition.png" target="_blank" rel="noopener">
+            <picture>
+              <source srcset="img/03_vendor_competition.webp" type="image/webp" />
+              <img src="img/03_vendor_competition.jpg" width="1280" height="720" alt="Page 3, Vendor and Competition: top suppliers, procurement methods and competitive share by year" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption><strong>3. Vendor and Competition.</strong> Top suppliers, procurement methods and competitive share by year. The top 10 suppliers hold 49.2% of spend; the supplier HHI is 387 government-wide.</figcaption>
+        </figure>
+        <figure class="sa-shot">
+          <a href="img/full/04_category_segmentation.png" target="_blank" rel="noopener">
+            <picture>
+              <source srcset="img/04_category_segmentation.webp" type="image/webp" />
+              <img src="img/04_category_segmentation.jpg" width="1280" height="720" alt="Page 4, Category Segmentation: Kraljic 2x2 of spend against supply risk with tier cards" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption><strong>4. Category Segmentation.</strong> A Kraljic 2x2 of spend against supply risk, mapped to Strategic, Tactical and Operational tiers: 27.8%, 63.2% and 8.9% of spend.</figcaption>
+        </figure>
+        <figure class="sa-shot">
+          <a href="img/full/05_pareto.png" target="_blank" rel="noopener">
+            <picture>
+              <source srcset="img/05_pareto.webp" type="image/webp" />
+              <img src="img/05_pareto.jpg" width="1280" height="720" alt="Page 5, Pareto 80/20: supplier and category Pareto charts with ABC classes" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption><strong>5. Pareto 80/20.</strong> Supplier and category Pareto charts with ABC classes. 244 of 38,370 suppliers make up 80% of spend, and 10 of 85 category groups do.</figcaption>
+        </figure>
+        <figure class="sa-shot">
+          <a href="img/full/06_supplier_data_quality.png" target="_blank" rel="noopener">
+            <picture>
+              <source srcset="img/06_supplier_data_quality.webp" type="image/webp" />
+              <img src="img/06_supplier_data_quality.jpg" width="1280" height="720" alt="Page 6, Supplier Master Data Quality: clean-up funnel, duplicate clusters and data-quality rules" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption><strong>6. Supplier Master Data Quality.</strong> A clean-up funnel, duplicate clusters and 21 data-quality rules. 53,265 raw vendor names become 38,514 suggested master suppliers; C$13.9B sits with likely duplicate records.</figcaption>
+        </figure>
+      </div>
+
+      <!--
+        PLACEHOLDER: future live builds.
+        1. Tableau Public embed: paste the iframe from Tableau Public (Share > Embed code) here, inside
+           <div class="sa-embed"> ... </div>, and add a "View on Tableau Public" link under it.
+        2. Power BI screenshots: add the exported page images to img/powerbi/ and list them here as
+           figures, using the same markup as the gallery above.
+        Then update the Status line in the hero.
+      -->
+    </section>
+
+    <section class="section" id="findings">
+      <h2>Key findings</h2>
+      <p class="sub">All numbers are computed from the published data for contracts awarded April 2023 to March 2026, with values including amendments.</p>
+      <div class="sa-findings">
+        <article class="sa-finding">
+          <h3>244 suppliers carry 80% of the money</h3>
+          <p>244 of 38,370 suppliers (0.64%) account for 80.0% of spend, and just 11 suppliers make up half. Spend is far more concentrated than the usual 80/20.</p>
+        </article>
+        <article class="sa-finding">
+          <h3>61 of those 244 have likely duplicate records</h3>
+          <p>The suppliers that matter most are also the ones where duplicate records distort reporting. These are the records a master data team would fix first.</p>
+        </article>
+        <article class="sa-finding">
+          <h3>Aircraft and ships: 32.6% of spend, 1.8% of contracts</h3>
+          <p>One category group, acquisition of aircraft and ships, is C$30.1B from 3,228 contracts. A handful of awards drive the headline numbers.</p>
+        </article>
+        <article class="sa-finding">
+          <h3>Most spend is Tactical</h3>
+          <p>After segmentation, Strategic categories hold 27.8% of spend (4 groups), Tactical 63.2% (54 groups) and Operational 8.9% (27 groups).</p>
+        </article>
+        <article class="sa-finding">
+          <h3>53,265 vendor names, 38,514 suppliers</h3>
+          <p>Cleaning and fuzzy matching cut the vendor list by 27.7%. 3,135 records sit in 1,352 near-duplicate clusters holding C$13.9B, 15.0% of all spend.</p>
+        </article>
+        <article class="sa-finding">
+          <h3>A 35-character cliff in vendor names</h3>
+          <p>7,963 vendor names are exactly 35 characters long, against 791 at 36. That points to a 35-character name field somewhere upstream. It is the same length as the standard SAP vendor name field, a pattern familiar from supplier master work, though it does not mean the government uses SAP.</p>
+        </article>
+        <article class="sa-finding">
+          <h3>Category codes need stewardship too</h3>
+          <p>52.1% of contracts (93,750) carry a commodity code that is neither a GSIN nor an 8-digit UNSPSC-style code, and 616 contracts (C$187.7M) use an object code that is not in the Chart of Accounts.</p>
+        </article>
+        <article class="sa-finding">
+          <h3>Competitive often means one bid</h3>
+          <p>38.1% of contracts were non-competitive but only 18.9% of value. Of competitive contracts that reported bids, 44.9% had a single bid; 25.4% left the bid count blank and 26.5% reported zero bids.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <h2>Method</h2>
+
+      <div class="panel">
+        <h3 class="sa-h3">Data model</h3>
+        <p class="sa-note">A star schema: one fact row per contract, seven dimensions, and one snowflake link from category to segment.</p>
+        <div class="sa-diagram" role="img" aria-label="Star schema: FactContracts in the centre, linked to DimDate, DimVendor, DimDepartment, DimProcurementMethod, DimCommodityType and DimCategory; DimCategory links to DimCategorySegment; VendorNameMap links to DimVendor">
+          <svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <defs>
+              <style>
+                .t{font:600 15px "Segoe UI",Arial,sans-serif;fill:#fff}
+                .k{font:12px "Segoe UI",Arial,sans-serif;fill:#486581}
+                .d{fill:#fff;stroke:#9DB9D8;stroke-width:1.5}
+                .h{fill:#3E6A9E}
+                .f{fill:#1F3A5F}
+                .s{fill:#E3A33B}
+                .l{stroke:#9DB9D8;stroke-width:2}
+              </style>
+            </defs>
+            <line class="l" x1="450" y1="235" x2="120" y2="70"/>
+            <line class="l" x1="450" y1="235" x2="450" y2="70"/>
+            <line class="l" x1="450" y1="235" x2="780" y2="70"/>
+            <line class="l" x1="450" y1="235" x2="120" y2="235"/>
+            <line class="l" x1="450" y1="235" x2="780" y2="235"/>
+            <line class="l" x1="450" y1="235" x2="450" y2="395"/>
+            <line class="l" x1="450" y1="395" x2="780" y2="395"/>
+            <g><rect class="d" x="20" y="30" width="200" height="80" rx="10"/><rect class="h" x="20" y="30" width="200" height="30" rx="10"/><rect class="h" x="20" y="48" width="200" height="12"/><text class="t" x="34" y="51">DimDate</text><text class="k" x="34" y="80">DateKey, FiscalYearShort</text><text class="k" x="34" y="97">MonthStart, MonthLabel</text></g>
+            <g><rect class="d" x="350" y="30" width="200" height="80" rx="10"/><rect class="h" x="350" y="30" width="200" height="30" rx="10"/><rect class="h" x="350" y="48" width="200" height="12"/><text class="t" x="364" y="51">DimVendor</text><text class="k" x="364" y="80">VendorKey, MasterVendorName</text><text class="k" x="364" y="97">ParetoClass, DQ flags</text></g>
+            <g><rect class="d" x="680" y="30" width="200" height="80" rx="10"/><rect class="h" x="680" y="30" width="200" height="30" rx="10"/><rect class="h" x="680" y="48" width="200" height="12"/><text class="t" x="694" y="51">DimDepartment</text><text class="k" x="694" y="80">DeptKey</text><text class="k" x="694" y="97">DepartmentName</text></g>
+            <g><rect class="d" x="20" y="195" width="200" height="80" rx="10"/><rect class="h" x="20" y="195" width="200" height="30" rx="10"/><rect class="h" x="20" y="213" width="200" height="12"/><text class="t" x="34" y="216">DimProcurementMethod</text><text class="k" x="34" y="245">MethodKey, CompetitionType</text><text class="k" x="34" y="262">IsCompetitive</text></g>
+            <g><rect class="d" x="680" y="195" width="200" height="80" rx="10"/><rect class="h" x="680" y="195" width="200" height="30" rx="10"/><rect class="h" x="680" y="213" width="200" height="12"/><text class="t" x="694" y="216">DimCommodityType</text><text class="k" x="694" y="245">Goods, Services,</text><text class="k" x="694" y="262">Construction</text></g>
+            <g><rect class="d" x="350" y="355" width="200" height="80" rx="10"/><rect class="h" x="350" y="355" width="200" height="30" rx="10"/><rect class="h" x="350" y="373" width="200" height="12"/><text class="t" x="364" y="376">DimCategory</text><text class="k" x="364" y="405">Object code, ObjectName</text><text class="k" x="364" y="422">CategoryGroupKey</text></g>
+            <g><rect class="d" x="680" y="355" width="200" height="80" rx="10"/><rect class="s" x="680" y="355" width="200" height="30" rx="10"/><rect class="s" x="680" y="373" width="200" height="12"/><text class="t" x="694" y="376">DimCategorySegment</text><text class="k" x="694" y="405">Kraljic segment, tier</text><text class="k" x="694" y="422">Risk score, Pareto class</text></g>
+            <g><rect class="f" x="340" y="180" width="220" height="110" rx="12"/><text class="t" x="358" y="210" style="font-size:17px">FactContracts</text><text class="k" x="358" y="236" style="fill:#C9D6E6">179,829 rows, one per contract</text><text class="k" x="358" y="256" style="fill:#C9D6E6">ContractValue, OriginalValue</text><text class="k" x="358" y="276" style="fill:#C9D6E6">NumberOfBids, IsAmended</text></g>
+            <text class="k" x="20" y="330">Also: VendorNameMap (raw spelling to vendor),</text>
+            <text class="k" x="20" y="348">data-quality rule and duplicate tables.</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="sa-h3">Cleaning steps</h3>
+        <ol class="sa-steps">
+          <li><strong>One row per contract.</strong> Department plus procurement ID, original award dated 1 April 2023 to 31 March 2026, latest reported value including amendments. Standing offer and supply arrangement agreements reported at $0 are excluded; call-ups against them are kept.</li>
+          <li><strong>Standardize vendor names.</strong> Trim spaces, ignore case, remove accents and punctuation, drop legal suffixes such as Inc. and Ltd. and a leading "The".</li>
+          <li><strong>Fuzzy matching.</strong> rapidfuzz token-sort similarity of 92 or more, compared within the same first three letters. Numbers in the names must match and differing words must look like typos. Matches are grouped into clusters, and the spelling with the most spend becomes the suggested master.</li>
+          <li><strong>Categories.</strong> Each contract's economic object code is labelled with the official Government-wide Chart of Accounts 2025-26 (standard object, category group, object name).</li>
+          <li><strong>Data-quality rules.</strong> 21 rules covering vendor names, postal codes, country codes, bid counts, values, dates and code validity, each with records checked, records failed and spend affected.</li>
+        </ol>
+      </div>
+
+      <div class="sa-two">
+        <div class="panel">
+          <h3 class="sa-h3">Kraljic segmentation</h3>
+          <p class="sa-note">Each of the 85 category groups gets a Supply Risk Score from 0 to 100: the average of supplier concentration (HHI / 10,000), non-competitive share of spend, single-bid share and supplier scarcity (10 divided by the number of active suppliers, capped at 1), times 100.</p>
+          <div class="table-wrap">
+            <table class="sa-table">
+              <thead><tr><th>Segment</th><th>Rule</th><th>Tier</th></tr></thead>
+              <tbody>
+                <tr><td><span class="sa-seg sa-seg-strategic">Strategic</span></td><td>Pareto class A spend and risk 25 or more</td><td>Strategic</td></tr>
+                <tr><td><span class="sa-seg sa-seg-leverage">Leverage</span></td><td>Pareto class A spend and risk under 25</td><td>Tactical</td></tr>
+                <tr><td><span class="sa-seg sa-seg-bottleneck">Bottleneck</span></td><td>Not class A and risk 25 or more</td><td>Tactical</td></tr>
+                <tr><td><span class="sa-seg sa-seg-routine">Routine</span></td><td>Not class A and risk under 25</td><td>Operational</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="sa-assume">The thresholds are analyst-defined assumptions, not official classifications. Groups with fewer than 30 contracts (22 of 85) are flagged as low confidence.</p>
+        </div>
+        <div class="panel">
+          <h3 class="sa-h3">Pareto ABC</h3>
+          <p class="sa-note">Sort suppliers (or category groups) by spend, largest first, and look at the cumulative share of spend before each one.</p>
+          <ul class="sa-abc">
+            <li><span class="sa-abc-tag a">A</span> the items that make up the first 80% of spend: 244 suppliers, 10 category groups</li>
+            <li><span class="sa-abc-tag b">B</span> the next 15%: 2,283 suppliers, 13 groups</li>
+            <li><span class="sa-abc-tag c">C</span> the last 5%: 35,843 suppliers, 62 groups</li>
+          </ul>
+          <p class="sa-note">The item that crosses 80% still counts as A, because the test uses the share before it.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="sa-h3">Sample DAX (Power BI)</h3>
+<pre><code>Non-Competitive Spend % =
+DIVIDE (
+    CALCULATE ( [Total Spend], DimProcurementMethod[IsCompetitive] = 0 ),
+    [Total Spend]
+)</code></pre>
+<pre><code>Spend YoY % =
+VAR CurrentYearSpend = [Total Spend]
+VAR PriorYearSpend = [Spend PY]
+RETURN
+    IF (
+        HASONEVALUE ( DimDate[FiscalYearShort] ) &amp;&amp; NOT ISBLANK ( PriorYearSpend ),
+        DIVIDE ( CurrentYearSpend - PriorYearSpend, PriorYearSpend )
+    )</code></pre>
+<pre><code>Category Cumulative Spend % =
+VAR CurrentSpend = [Total Spend]
+VAR AllCategories =
+    ADDCOLUMNS ( ALLSELECTED ( DimCategorySegment[CategoryGroup] ), "@Spend", [Total Spend] )
+VAR RunningSpend = SUMX ( FILTER ( AllCategories, [@Spend] &gt;= CurrentSpend ), [@Spend] )
+VAR TotalSpend = SUMX ( AllCategories, [@Spend] )
+RETURN
+    IF ( NOT ISBLANK ( CurrentSpend ), DIVIDE ( RunningSpend, TotalSpend ) )</code></pre>
+<pre><code>Category Pareto Class =
+VAR Cum = [Category Cumulative Spend %]
+VAR Share =
+    DIVIDE ( [Total Spend], CALCULATE ( [Total Spend], ALLSELECTED ( DimCategorySegment[CategoryGroup] ) ) )
+VAR ShareBefore = Cum - Share
+RETURN
+    IF ( NOT ISBLANK ( Cum ), SWITCH ( TRUE (), ShareBefore &lt; 0.80, "A", ShareBefore &lt; 0.95, "B", "C" ) )</code></pre>
+        <h3 class="sa-h3">Sample Tableau calculation</h3>
+<pre><code>// ABC Class (table calculation, compute using the category or supplier field)
+IF RUNNING_SUM(SUM([Spend])) / TOTAL(SUM([Spend])) - SUM([Spend]) / TOTAL(SUM([Spend])) &lt; 0.80 THEN "A"
+ELSEIF RUNNING_SUM(SUM([Spend])) / TOTAL(SUM([Spend])) - SUM([Spend]) / TOTAL(SUM([Spend])) &lt; 0.95 THEN "B"
+ELSE "C"
+END</code></pre>
+      </div>
+    </section>
+
+    <section class="section" id="downloads">
+      <h2>Downloads</h2>
+      <div class="panel sa-download">
+        <div>
+          <h3 class="sa-h3">Spend analytics kit (slim web version)</h3>
+          <p class="sa-note">Power BI build guide, Tableau Public guide, 53 DAX measures with expected values, data model notes, the navy report theme, the Python scripts, the page mockups and the small dimension, segmentation and data-quality summary tables.</p>
+          <p class="sa-note">The large data files are left out to keep the download small. The full data regenerates from the open.canada.ca source with the included scripts (start with <code>prepare_source.py</code>; steps are in <code>ABOUT_THIS_DOWNLOAD.txt</code>).</p>
+        </div>
+        <a class="btn btn-primary" href="kit/spend-analytics-kit.zip" download>Download ZIP (about 3 MB)</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer sa-footer">
+    <p>
+      <strong>Source and licence.</strong> Contains information licensed under the
+      <a href="https://open.canada.ca/en/open-government-licence-canada" target="_blank" rel="noopener">Open Government Licence - Canada</a>.
+      Data: Government of Canada,
+      <a href="https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b" target="_blank" rel="noopener">Proactive Publication - Contracts</a>
+      (open.canada.ca), downloaded 6 October 2026. Category labels:
+      <a href="https://donnees-data.tpsgc-pwgsc.gc.ca/ba1/art-obj/art-obj-2526-eng.csv" target="_blank" rel="noopener">Government-wide Chart of Accounts 2025-26, object codes</a>.
+      Commodity code check:
+      <a href="https://donnees-data.tpsgc-pwgsc.gc.ca/ba2/aev-bas/nibs-gsin.csv" target="_blank" rel="noopener">GSIN list</a>
+      (Public Services and Procurement Canada). Values are as reported by departments; the reporting guidance asks for amended values including applicable taxes.
+      Segmentation thresholds and vendor matching rules are my own analyst-defined assumptions.
+    </p>
+    <p>Afolabi Adesina &middot; Oakville, ON &middot; <a href="/NA-Skills-Portfolio/">Back to hub</a></p>
+  </footer>
+
+  <script src="/NA-Skills-Portfolio/projects/spend-analytics/sa.js?v=20261006a"></script>
+</body>
+</html>

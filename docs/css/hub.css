@@ -611,6 +611,14 @@ body.hub a.btn-cta:hover,
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* Four featured cards: 2 x 2 on desktop (collapses to one column with the featured grid below 980px) */
+.track-grid-featured.track-grid-four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 980px) {
+  .track-grid-featured.track-grid-four { grid-template-columns: 1fr; }
+}
+
 .track-card {
   background: var(--surface-solid);
   border: 1px solid var(--line);
@@ -667,6 +675,7 @@ body.hub a.btn-cta:hover,
 .track-card.track-bi { --card-accent: var(--bi); }
 .track-card.track-r { --card-accent: var(--r); }
 .track-card.track-py { --card-accent: var(--py); }
+.track-card.track-spend { --card-accent: #1f3a5f; }
 
 .track-card:hover {
   transform: translateY(-4px);
