@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cost Optimization | Case study | Afolabi Adesina</title>
+  <meta name="description" content="I solved the transportation and transshipment models from MIT 15.057, then applied the same method to the ChemCo network from Houston and Dallas." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app/app.css?v=20261007a" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="./" aria-label="Cost Optimization case study"><span class="sb-title">Cost Optimization</span></a>
+    <span class="sb-sub">Case study</span>
+    <a class="sb-link" href="/NA-Skills-Portfolio/">Portfolio</a>
+  </header>
+  <main class="page" id="main">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span>Learning project on public data.</span></p>
+    <section class="card cs-hero"><h1>How much does a linear program save over a rule of thumb?</h1><p>I solved the transportation and transshipment models from MIT 15.057, then applied the same method to the ChemCo network from Houston and Dallas.</p><div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/about">About the data</a></div></section>
+    <div class="tiles" style="margin-top:1rem"><div class="tile"><span class="tile-title">Transportation LP</span><span class="tile-sub">Against northwest corner</span><span class="tile-val pos">15.3%</span><span class="tile-foot">121,450 against 143,400</span></div><div class="tile"><span class="tile-title">Transshipment LP</span><span class="tile-sub">Against a greedy plan</span><span class="tile-val">2.1%</span><span class="tile-foot">4,210 against 4,300 ($000)</span></div><div class="tile"><span class="tile-title">ChemCo LP</span><span class="tile-sub">Variable freight a year</span><span class="tile-val info">US$999K</span><span class="tile-foot">As is: US$1.01M</span></div><div class="tile"><span class="tile-title">Close Dallas</span><span class="tile-sub">All direct from Houston</span><span class="tile-val neg">US$1.87M</span><span class="tile-foot">US$861K more freight</span></div></div>
+    <section class="card"><h2>What I built</h2><ul class="plain"><li>Solved each model with PuLP and checked the shadow prices by solving again.</li><li>Built a network view of flows and a sensitivity chart for the Houston to Dallas rate.</li><li>Explained every shadow price in plain words.</li><li>Added formula cards for the LP, the transshipment balance and the cost per gallon.</li></ul></section>
+    <section class="card comment"><h2>What the numbers show</h2><p>The LP beats the rule of thumb in both teaching models. On ChemCo, routing each customer the cheaper way saves US$12K a year against the current setup, and Dallas keeps most gallons until the round trip rate passes US$3,690.</p></section>
+  </main>
+  <footer class="foot"><p>Models: <a href="https://ocw.mit.edu/courses/15-057-systems-optimization-spring-2003/" target="_blank" rel="noopener">MIT OpenCourseWare, 15.057 Systems Optimization</a>, Vande Vate, under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>. ChemCo data: <a href="https://ocw.mit.edu/courses/esd-260j-logistics-systems-fall-2006/" target="_blank" rel="noopener">MIT OpenCourseWare, ESD.260J Logistics Systems</a>, Caplice and Sheffi, under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p><p><a href="app/">Open app</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p></footer>
+</body>
+</html>

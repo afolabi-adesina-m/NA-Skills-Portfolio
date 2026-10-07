@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sales and Operations Planning | Case study | Afolabi Adesina</title>
+  <meta name="description" content="I used the Cups4U case from MIT to forecast 12 months of paper cup demand, test the error honestly and compare a chase plan with a level plan." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app/app.css?v=20261007a" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="./" aria-label="Sales and Operations Planning case study"><span class="sb-title">Sales and Operations Planning</span></a>
+    <span class="sb-sub">Case study</span>
+    <a class="sb-link" href="/NA-Skills-Portfolio/">Portfolio</a>
+  </header>
+  <main class="page" id="main">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span>Learning project on public data.</span></p>
+    <section class="card cs-hero"><h1>Can a simple forecast and plan stand up to a messy demand history?</h1><p>I used the Cups4U case from MIT to forecast 12 months of paper cup demand, test the error honestly and compare a chase plan with a level plan.</p><div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/about">About the data</a></div></section>
+    <div class="tiles" style="margin-top:1rem"><div class="tile"><span class="tile-title">Rows of order data</span><span class="tile-sub">Aug 1996 to Aug 2006</span><span class="tile-val">4,216</span><span class="tile-foot">12 SKUs, 18 customers</span></div><div class="tile"><span class="tile-title">Last 12 months</span><span class="tile-sub">Cases ordered</span><span class="tile-val info">5,247,496</span><span class="tile-foot">+2.0% on the year before</span></div><div class="tile"><span class="tile-title">Test WAPE</span><span class="tile-sub">Seasonal exponential smoothing</span><span class="tile-val">12.5%</span><span class="tile-foot">Same month last year: 12.1%</span></div><div class="tile"><span class="tile-title">Level output</span><span class="tile-sub">Cases a month, next 12</span><span class="tile-val">403,619</span><span class="tile-foot">No shortage with zero start stock</span></div></div>
+    <section class="card"><h2>What I built</h2><ul class="plain"><li>Measured channel trends, the lost customer, the price rise and promotion lifts from the raw rows.</li><li>Picked a forecast method on one year and tested it on the next, unseen year.</li><li>Built chase and level plans with an inventory balance and editable cost rates.</li><li>Added formula cards with worked examples on every screen.</li></ul></section>
+    <section class="card comment"><h2>What the numbers show</h2><p>The chosen seasonal method scored a test WAPE of 12.5%. The plain same month last year rule scored 12.1%, so a simple baseline was hard to beat in a year with a lost customer and a price rise. The plan costs depend on assumed rates, which the app lets you change.</p></section>
+  </main>
+  <footer class="foot"><p>Data: Cups4U case, <a href="https://ocw.mit.edu/courses/esd-260j-logistics-systems-fall-2006/" target="_blank" rel="noopener">MIT OpenCourseWare, ESD.260J Logistics Systems</a>, Caplice and Sheffi, under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p><p><a href="app/">Open app</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p></footer>
+</body>
+</html>

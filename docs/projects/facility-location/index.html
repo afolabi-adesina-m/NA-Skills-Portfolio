@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facility Location | Case study | Afolabi Adesina</title>
+  <meta name="description" content="I mapped 245 ChemCo customers from an MIT case and solved a p-median model for one to four sites, weighted by gallons delivered." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app/app.css?v=20261007a" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="./" aria-label="Facility Location case study"><span class="sb-title">Facility Location</span></a>
+    <span class="sb-sub">Case study</span>
+    <a class="sb-link" href="/NA-Skills-Portfolio/">Portfolio</a>
+  </header>
+  <main class="page" id="main">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span>Learning project on public data.</span></p>
+    <section class="card cs-hero"><h1>Is Dallas the right place to serve these customers, and would more sites pay?</h1><p>I mapped 245 ChemCo customers from an MIT case and solved a p-median model for one to four sites, weighted by gallons delivered.</p><div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/about">About the data</a></div></section>
+    <div class="tiles" style="margin-top:1rem"><div class="tile"><span class="tile-title">Customers</span><span class="tile-sub">With latitude and longitude</span><span class="tile-val">245</span><span class="tile-foot">1,520,461 gallons in 2004</span></div><div class="tile"><span class="tile-title">Dallas today</span><span class="tile-sub">Delivery cost a year</span><span class="tile-val info">US$690K</span><span class="tile-foot">106.1 mi average</span></div><div class="tile"><span class="tile-title">Houston direct</span><span class="tile-sub">Delivery cost a year</span><span class="tile-val neg">US$1.87M</span><span class="tile-foot">287.9 mi average</span></div><div class="tile"><span class="tile-title">Best 2 sites</span><span class="tile-sub">Delivery cost a year</span><span class="tile-val pos">US$475K</span><span class="tile-foot">Dallas and Amarillo</span></div></div>
+    <section class="card"><h2>What I built</h2><ul class="plain"><li>Plotted every customer on an SVG map from latitude and longitude, coloured by routing zone.</li><li>Solved the p-median model to optimality with PuLP for one to four sites.</li><li>Turned distance into cost with the case figures: US$3.00 a mile, scaled to the 2004 miles.</li><li>Added formula cards for the p-median model, haversine distance and the cost model.</li></ul></section>
+    <section class="card comment"><h2>What the numbers show</h2><p>The best single site lands in Dallas, so the current warehouse is well placed. Shipping direct from Houston would cost US$1.18M more a year in delivery. A second site saves US$215K a year, which is the most it could cost to run.</p></section>
+  </main>
+  <footer class="foot"><p>Data: ChemCo Distribution case, <a href="https://ocw.mit.edu/courses/esd-260j-logistics-systems-fall-2006/" target="_blank" rel="noopener">MIT OpenCourseWare, ESD.260J Logistics Systems</a>, Caplice and Sheffi, under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p><p><a href="app/">Open app</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p></footer>
+</body>
+</html>

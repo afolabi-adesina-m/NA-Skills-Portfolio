@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESG Reporting | Case study | Afolabi Adesina</title>
+  <meta name="description" content="How I rebuilt an ESG procurement and emissions report on public Government of Canada data: local and foreign suppliers, scope 1 and 2 emissions, and a diesel calculator." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app/app.css?v=20261007e1" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="./" aria-label="ESG Reporting case study">
+      <svg class="sb-logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0070F2"/><path d="M9 23c0-8 5-13 14-14-1 9-6 14-14 14z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 23l7-7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="sb-title">ESG Reporting</span>
+    </a>
+    <span class="sb-sub">Case study</span>
+    <a class="sb-link" href="/NA-Skills-Portfolio/">Portfolio</a>
+  </header>
+
+  <main class="page" id="main">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span>Public data only. IHS figures stay confidential.</span></p>
+
+    <section class="card cs-hero">
+      <h1>Who do we buy from, and what do our operations emit?</h1>
+      <p>At IHS Towers I gathered procurement data for ESG reporting: local and foreign suppliers by count and spend, linked to emissions from diesel generators, offices and warehouses. This app rebuilds that report on public Canadian data.</p>
+      <div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/diesel">Diesel calculator</a></div>
+    </section>
+
+    <div class="tiles" style="margin-top:1rem">
+      <div class="tile"><span class="tile-title">Local suppliers</span><span class="tile-sub">FY'24 to FY'26</span><span class="tile-val info">82.0%</span><span class="tile-foot">31,445 of 38,370</span></div>
+      <div class="tile"><span class="tile-title">Local spend</span><span class="tile-sub">Contract value</span><span class="tile-val info">87.6%</span><span class="tile-foot">Foreign: C$11.5B</span></div>
+      <div class="tile"><span class="tile-title">Scope 1 and 2</span><span class="tile-sub">Federal operations, FY'25</span><span class="tile-val">1,018.8 kt</span><span class="tile-foot">CO2e</span></div>
+      <div class="tile"><span class="tile-title">Since FY'06</span><span class="tile-sub">Change in total</span><span class="tile-val pos">minus 42.5%</span><span class="tile-foot">1,770.8 kt in FY'06</span></div>
+    </div>
+
+    <div class="grid two">
+      <section class="card"><h2>What I built</h2><ul class="plain">
+        <li>Split suppliers into local and foreign by count and spend, using the cleaned supplier keys from my spend app.</li>
+        <li>Mapped local spend to provinces from the postal code.</li>
+        <li>Built a scope 1 and 2 view of federal facilities and fleet from the Greening Government open data.</li>
+        <li>Added a diesel generator calculator on the official ECCC factor.</li>
+      </ul></section>
+      <section class="card"><h2>From my IHS work, and what is new</h2><ul class="plain">
+        <li><strong>From IHS:</strong> the report design, the local and foreign split, and the link to diesel, office and warehouse emissions.</li>
+        <li><strong>New:</strong> every number here, all from public Government of Canada files.</li>
+      </ul></section>
+    </div>
+
+    <section class="card comment"><h2>What the numbers show</h2><p>Most suppliers and most spend are local, and three foreign suppliers hold 73% of foreign spend. Federal scope 1 and 2 emissions are 42.5% below FY'06, and natural gas is the largest source. The two datasets sit side by side; supply chain emissions are not covered.</p></section>
+  </main>
+
+  <footer class="foot">
+    <p>Data: Government of Canada Proactive Publication, Contracts and Greenhouse Gas Emissions Inventory, under the Open Government Licence, Canada. Diesel factor: ECCC Emission Factors and Reference Values, Version 4.0.</p>
+    <p><a href="app/">Open app</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p>
+  </footer>
+</body>
+</html>

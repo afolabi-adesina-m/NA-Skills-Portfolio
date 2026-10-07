@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESG Reporting | Dashboard app | Afolabi Adesina</title>
+  <meta name="description" content="ESG reporting on public Government of Canada data: local and foreign suppliers by count and spend, federal scope 1 and 2 emissions, and a diesel generator calculator using the official ECCC factor." />
+  <meta property="og:title" content="ESG Reporting dashboard app" />
+  <meta property="og:description" content="Local and foreign suppliers, federal scope 1 and 2 emissions, and a diesel calculator on public Canadian data." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app.css?v=20261007e1" />
+</head>
+<body>
+  <a class="skip" href="#view">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="#/mix" aria-label="ESG Reporting home">
+      <svg class="sb-logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0070F2"/><path d="M9 23c0-8 5-13 14-14-1 9-6 14-14 14z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 23l7-7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="sb-title">ESG Reporting</span>
+    </a>
+    <span class="sb-sub">Public Government of Canada data</span>
+    <a class="sb-link" href="../">Case study</a>
+  </header>
+
+  <div class="page">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span>Public data, accessed 6 and 7 October 2026, unaudited.</span></p>
+
+    <nav class="tabbar" role="tablist" aria-label="Views" id="tabs">
+      <button role="tab" id="tab-mix" data-view="mix" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2v8h8a8 8 0 00-8-8z"/></svg>Supplier mix</button>
+      <button role="tab" id="tab-emissions" data-view="emissions" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10h3v10zm6 0V4h3v16zm6 0v-7h3v7z"/></svg>Emissions</button>
+      <button role="tab" id="tab-diesel" data-view="diesel" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h9v18H5zm2 2v5h5V5zm9 3l3 3v8a2 2 0 01-4 0v-4h-1v-2h3v6h0V12l-2-2z"/></svg>Diesel calculator</button>
+      <button role="tab" id="tab-about" data-view="about" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>Data and method</button>
+    </nav>
+
+    <main id="view" role="tabpanel" tabindex="-1" aria-live="polite"><p class="loading">Loading data&hellip;</p></main>
+  </div>
+
+  <footer class="foot">
+    <p>Sources: Government of Canada <a href="https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b" target="_blank" rel="noopener">Proactive Publication, Contracts</a> and <a href="https://open.canada.ca/data/en/dataset/6bed41cd-9816-4912-a2b8-b0b224909396" target="_blank" rel="noopener">Greenhouse Gas Emissions Inventory</a>, under the <a href="https://open.canada.ca/en/open-government-licence-canada" target="_blank" rel="noopener">Open Government Licence, Canada</a>. Diesel factor: <a href="https://publications.gc.ca/site/eng/9.964686/publication.html" target="_blank" rel="noopener">ECCC Emission Factors and Reference Values, Version 4.0</a>.</p>
+    <p><a href="../">Back to the case study</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p>
+  </footer>
+  <script src="app.js?v=20261007e1" defer></script>
+</body>
+</html>
