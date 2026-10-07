@@ -57,6 +57,7 @@
 .theme-sa .kpi { background: linear-gradient(180deg, #fff, #F7FBFF); border: 1px solid var(--bi-line); border-radius: 14px; box-shadow: 0 8px 24px rgba(16, 42, 67, 0.05); }
 .theme-sa .kpi .label { color: var(--bi-muted); }
 .theme-sa .kpi .value { color: var(--bi-navy); font-size: 1.35rem; }
+.sa-kpis .kpi:nth-child(-n+3) { border-top: 3px solid var(--bi-cyan-deep); }
 /* bi.css "a" colour rule would turn the primary button text cyan; keep the base dark text */
 .theme-sa .btn-primary { color: #042f2e; }
 .theme-sa .footer { color: var(--bi-muted); border-top-color: var(--bi-line); }
@@ -82,7 +83,7 @@
   scroll-margin-top: calc(var(--sa-header-h) + var(--sa-subnav-h) + 8px);
 }
 .sa-hero { padding: 0.25rem 0 1.25rem; }
-.sa-hero h1 { font-family: var(--display); font-size: clamp(1.65rem, 3vw, 2.35rem); margin: 0 0 0.45rem; color: var(--bi-navy); line-height: 1.18; max-width: 22ch; }
+.sa-hero h1 { font-family: var(--display); font-size: clamp(1.55rem, 3vw, 2.2rem); margin: 0 0 0.45rem; color: var(--bi-navy); line-height: 1.2; max-width: 28ch; }
 .sa-hero .lead { color: var(--bi-muted); max-width: 52ch; line-height: 1.55; margin: 0 0 0.85rem; font-size: 1.02rem; }
 .sa-kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .sa-intro { margin-top: 1.1rem; max-width: 70ch; }

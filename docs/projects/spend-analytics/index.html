@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Government Contract Spend Analytics | Power BI and Tableau</title>
-  <meta name="description" content="Spend and supplier data analysis of 179,829 Government of Canada contracts (C$92.6B, April 2023 to March 2026), designed as a Power BI and Tableau report." />
+  <title>Supplier Master Data on Federal Contract Spend | Power BI and Tableau</title>
+  <meta name="description" content="How much does messy supplier data change the spend story? Supplier master clean-up and spend analysis on 179,829 Government of Canada contracts (C$92.6B), designed for Power BI and Tableau." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/NA-Skills-Portfolio/assets/favicon-32x32.png?v=20260916a" />
   <link rel="icon" type="image/png" sizes="16x16" href="/NA-Skills-Portfolio/assets/favicon-16x16.png?v=20260916a" />
   <link rel="apple-touch-icon" href="/NA-Skills-Portfolio/assets/apple-touch-icon.png" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Government Contract Spend Analytics | Power BI and Tableau" />
-  <meta property="og:description" content="179,829 Government of Canada contracts, C$92.6B. Spend, supplier concentration and supplier data quality in one six-page report design." />
+  <meta property="og:title" content="Supplier Master Data on Federal Contract Spend | Power BI and Tableau" />
+  <meta property="og:description" content="How much does messy supplier data change the spend story? 53,265 vendor names cleaned to 38,514; C$13.9B sits with likely duplicates." />
   <meta property="og:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/spend-analytics/img/og-spend-analytics.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:url" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/spend-analytics/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Government Contract Spend Analytics | Power BI and Tableau" />
-  <meta name="twitter:description" content="179,829 Government of Canada contracts, C$92.6B. Spend, supplier concentration and supplier data quality in one six-page report design." />
+  <meta name="twitter:title" content="Supplier Master Data on Federal Contract Spend | Power BI and Tableau" />
+  <meta name="twitter:description" content="How much does messy supplier data change the spend story? 53,265 vendor names cleaned to 38,514; C$13.9B sits with likely duplicates." />
   <meta name="twitter:image" content="https://afolabi-adesina-m.github.io/NA-Skills-Portfolio/projects/spend-analytics/img/og-spend-analytics.jpg" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/brand-nav.css?v=20260916a" />
   <link rel="stylesheet" href="/NA-Skills-Portfolio/css/styles.css" />
-  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/spend-analytics/sa.css?v=20261006b" />
+  <link rel="stylesheet" href="/NA-Skills-Portfolio/projects/spend-analytics/sa.css?v=20261006c" />
 </head>
 <body class="theme-sa">
   <a class="skip-link" href="#report">Skip to the report</a>
@@ -59,31 +59,31 @@
     <section class="sa-group" id="overview" aria-labelledby="overview-title">
       <div class="sa-hero">
         <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Hub</a> / Spend Analytics</div>
-        <div class="eyebrow">Procurement analytics &middot; Real public data</div>
-        <h1 id="overview-title">Government Contract Spend Analytics</h1>
-        <p class="lead">I took three years of Government of Canada contracts and designed a six-page spend and supplier data report for Power BI and Tableau.</p>
+        <div class="eyebrow">Supplier master data &middot; Real public data</div>
+        <h1 id="overview-title">How much does messy supplier data change the spend story?</h1>
+        <p class="lead">I was Supplier Master File Administrator at Lafarge Africa (2018 to 2021) and SAP Discovery lead for Procurement at IHS Towers. This project puts that question to 179,829 Government of Canada contracts.</p>
         <div class="bi-pill-row">
+          <span class="bi-pill accent">Supplier MDM</span>
           <span class="bi-pill accent">Power BI</span>
           <span class="bi-pill accent">Tableau</span>
           <span class="bi-pill">Python</span>
-          <span class="bi-pill">Supplier master data</span>
         </div>
         <p class="hero-cta-row">
-          <a class="btn btn-primary" href="#report">See the report</a>
-          <a class="btn btn-ghost" href="#findings">Key findings</a>
+          <a class="btn btn-primary" href="#report">See the answer</a>
+          <a class="btn btn-ghost" href="#findings">The numbers</a>
         </p>
       </div>
 
       <div class="kpi-grid sa-kpis fade">
-        <div class="kpi"><div class="label">Contract value</div><div class="value">C$92.6B</div></div>
-        <div class="kpi"><div class="label">Contracts</div><div class="value">179,829</div></div>
-        <div class="kpi"><div class="label">Suppliers after clean-up</div><div class="value">38,370</div></div>
-        <div class="kpi"><div class="label">Federal organizations</div><div class="value">94</div></div>
-        <div class="kpi"><div class="label">Apr 2023 to Mar 2026</div><div class="value">FY'24 to FY'26</div></div>
+        <div class="kpi"><div class="label">Raw vendor names</div><div class="value">53,265</div></div>
+        <div class="kpi"><div class="label">After clean-up</div><div class="value">38,514</div></div>
+        <div class="kpi"><div class="label">Spend with likely duplicates</div><div class="value">C$13.9B</div></div>
+        <div class="kpi"><div class="label">Total contract value</div><div class="value">C$92.6B</div></div>
+        <div class="kpi"><div class="label">Contracts in scope</div><div class="value">179,829</div></div>
       </div>
 
       <div class="sa-intro fade">
-        <p>I was Supplier Master File Administrator at Lafarge Africa (2018 to 2021) and SAP Discovery lead for Procurement at IHS Towers. The question here: how much does messy supplier data change the spend story?</p>
+        <p>Departments typed the vendor names. I cleaned them into suggested masters, measured the duplicates against spend, and designed a six-page report for Power BI and Tableau around that.</p>
         <p class="sa-meta"><span class="sa-dot" aria-hidden="true"></span>Real public data, Open Government Licence - Canada</p>
         <p class="sa-status"><strong>Status:</strong> mockups built from the real data. Power BI and Tableau builds in progress.</p>
       </div>
@@ -91,70 +91,70 @@
 
     <section class="sa-group" id="report" aria-labelledby="report-title">
       <h2 id="report-title">Report</h2>
-      <p class="sub">Six pages, one design for both tools. Click a page to open it full size.</p>
+      <p class="sub">Six pages, one design for both tools. Data quality and supplier concentration come first, because they answer the question. Click a page to open it full size.</p>
       <div class="sa-viewer panel fade" id="sa-viewer">
         <div class="sa-tabs" role="tablist" aria-label="Report pages">
-          <button class="sa-tab" type="button" role="tab" id="sa-tab-1" aria-controls="sa-panel-1" aria-selected="true" tabindex="0"><span class="sa-tab-n">1</span>Overview</button>
-          <button class="sa-tab" type="button" role="tab" id="sa-tab-2" aria-controls="sa-panel-2" aria-selected="false" tabindex="-1"><span class="sa-tab-n">2</span>Categories</button>
+          <button class="sa-tab" type="button" role="tab" id="sa-tab-1" aria-controls="sa-panel-1" aria-selected="true" tabindex="0"><span class="sa-tab-n">1</span>Data quality</button>
+          <button class="sa-tab" type="button" role="tab" id="sa-tab-2" aria-controls="sa-panel-2" aria-selected="false" tabindex="-1"><span class="sa-tab-n">2</span>Pareto</button>
           <button class="sa-tab" type="button" role="tab" id="sa-tab-3" aria-controls="sa-panel-3" aria-selected="false" tabindex="-1"><span class="sa-tab-n">3</span>Suppliers</button>
-          <button class="sa-tab" type="button" role="tab" id="sa-tab-4" aria-controls="sa-panel-4" aria-selected="false" tabindex="-1"><span class="sa-tab-n">4</span>Segments</button>
-          <button class="sa-tab" type="button" role="tab" id="sa-tab-5" aria-controls="sa-panel-5" aria-selected="false" tabindex="-1"><span class="sa-tab-n">5</span>Pareto</button>
-          <button class="sa-tab" type="button" role="tab" id="sa-tab-6" aria-controls="sa-panel-6" aria-selected="false" tabindex="-1"><span class="sa-tab-n">6</span>Data quality</button>
+          <button class="sa-tab" type="button" role="tab" id="sa-tab-4" aria-controls="sa-panel-4" aria-selected="false" tabindex="-1"><span class="sa-tab-n">4</span>Overview</button>
+          <button class="sa-tab" type="button" role="tab" id="sa-tab-5" aria-controls="sa-panel-5" aria-selected="false" tabindex="-1"><span class="sa-tab-n">5</span>Categories</button>
+          <button class="sa-tab" type="button" role="tab" id="sa-tab-6" aria-controls="sa-panel-6" aria-selected="false" tabindex="-1"><span class="sa-tab-n">6</span>Segments</button>
         </div>
         <div class="sa-stage">
         <figure class="sa-panel" role="tabpanel" id="sa-panel-1" aria-labelledby="sa-tab-1">
-          <a class="sa-frame" href="img/full/01_spend_overview.png" target="_blank" rel="noopener" aria-label="Open page 1 full size">
+          <a class="sa-frame" href="img/full/06_supplier_data_quality.png" target="_blank" rel="noopener" aria-label="Open Data quality page full size">
+            <picture>
+              <source srcset="img/06_supplier_data_quality.webp" type="image/webp" />
+              <img src="img/06_supplier_data_quality.jpg" width="1280" height="720" alt="Supplier Master Data Quality: clean-up funnel, duplicate clusters and data checks" loading="eager" decoding="async" />
+            </picture>
+          </a>
+          <figcaption>53,265 raw names become 38,514 suggested masters. C$13.9B sits with likely duplicates.</figcaption>
+        </figure>
+        <figure class="sa-panel" role="tabpanel" id="sa-panel-2" aria-labelledby="sa-tab-2" hidden>
+          <a class="sa-frame" href="img/full/05_pareto.png" target="_blank" rel="noopener" aria-label="Open Pareto page full size">
+            <picture>
+              <source srcset="img/05_pareto.webp" type="image/webp" />
+              <img src="img/05_pareto.jpg" width="1280" height="720" alt="Pareto: supplier and category Pareto charts with ABC classes" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption>244 of 38,370 suppliers make up 80% of spend. 61 of those 244 look like duplicates.</figcaption>
+        </figure>
+        <figure class="sa-panel" role="tabpanel" id="sa-panel-3" aria-labelledby="sa-tab-3" hidden>
+          <a class="sa-frame" href="img/full/03_vendor_competition.png" target="_blank" rel="noopener" aria-label="Open Suppliers page full size">
+            <picture>
+              <source srcset="img/03_vendor_competition.webp" type="image/webp" />
+              <img src="img/03_vendor_competition.jpg" width="1280" height="720" alt="Vendor and Competition: top suppliers, procurement methods and competitive share by year" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <figcaption>Top 10 suppliers hold 49.2% of spend. Supplier HHI is 387 government-wide.</figcaption>
+        </figure>
+        <figure class="sa-panel" role="tabpanel" id="sa-panel-4" aria-labelledby="sa-tab-4" hidden>
+          <a class="sa-frame" href="img/full/01_spend_overview.png" target="_blank" rel="noopener" aria-label="Open Overview page full size">
             <picture>
               <source srcset="img/01_spend_overview.webp" type="image/webp" />
-              <img src="img/01_spend_overview.jpg" width="1280" height="720" alt="Page 1, Spend Overview: KPI cards, monthly trend, spend by fiscal year and top departments" loading="eager" decoding="async" />
+              <img src="img/01_spend_overview.jpg" width="1280" height="720" alt="Spend Overview: KPI cards, monthly trend, spend by fiscal year and top departments" loading="lazy" decoding="async" />
             </picture>
           </a>
           <figcaption>FY'25 was the biggest year at C$48.3B. National Defence is 53.8% of all spend.</figcaption>
         </figure>
-        <figure class="sa-panel" role="tabpanel" id="sa-panel-2" aria-labelledby="sa-tab-2" hidden>
-          <a class="sa-frame" href="img/full/02_spend_by_category.png" target="_blank" rel="noopener" aria-label="Open page 2 full size">
+        <figure class="sa-panel" role="tabpanel" id="sa-panel-5" aria-labelledby="sa-tab-5" hidden>
+          <a class="sa-frame" href="img/full/02_spend_by_category.png" target="_blank" rel="noopener" aria-label="Open Categories page full size">
             <picture>
               <source srcset="img/02_spend_by_category.webp" type="image/webp" />
-              <img src="img/02_spend_by_category.jpg" width="1280" height="720" alt="Page 2, Spend by Category: top 15 category groups and a treemap by standard object" loading="lazy" decoding="async" />
+              <img src="img/02_spend_by_category.jpg" width="1280" height="720" alt="Spend by Category: top 15 category groups and a treemap by standard object" loading="lazy" decoding="async" />
             </picture>
           </a>
           <figcaption>The top 15 of 85 category groups hold 89.3% of spend.</figcaption>
         </figure>
-        <figure class="sa-panel" role="tabpanel" id="sa-panel-3" aria-labelledby="sa-tab-3" hidden>
-          <a class="sa-frame" href="img/full/03_vendor_competition.png" target="_blank" rel="noopener" aria-label="Open page 3 full size">
-            <picture>
-              <source srcset="img/03_vendor_competition.webp" type="image/webp" />
-              <img src="img/03_vendor_competition.jpg" width="1280" height="720" alt="Page 3, Vendor and Competition: top suppliers, procurement methods and competitive share by year" loading="lazy" decoding="async" />
-            </picture>
-          </a>
-          <figcaption>The top 10 suppliers hold 49.2% of spend. 38.1% of contracts were not competed.</figcaption>
-        </figure>
-        <figure class="sa-panel" role="tabpanel" id="sa-panel-4" aria-labelledby="sa-tab-4" hidden>
-          <a class="sa-frame" href="img/full/04_category_segmentation.png" target="_blank" rel="noopener" aria-label="Open page 4 full size">
+        <figure class="sa-panel" role="tabpanel" id="sa-panel-6" aria-labelledby="sa-tab-6" hidden>
+          <a class="sa-frame" href="img/full/04_category_segmentation.png" target="_blank" rel="noopener" aria-label="Open Segments page full size">
             <picture>
               <source srcset="img/04_category_segmentation.webp" type="image/webp" />
-              <img src="img/04_category_segmentation.jpg" width="1280" height="720" alt="Page 4, Category Segmentation: category groups plotted by spend and supply risk" loading="lazy" decoding="async" />
+              <img src="img/04_category_segmentation.jpg" width="1280" height="720" alt="Category Segmentation: category groups plotted by spend and supply risk" loading="lazy" decoding="async" />
             </picture>
           </a>
           <figcaption>Strategic 27.8%, Tactical 63.2%, Operational 8.9% of spend.</figcaption>
-        </figure>
-        <figure class="sa-panel" role="tabpanel" id="sa-panel-5" aria-labelledby="sa-tab-5" hidden>
-          <a class="sa-frame" href="img/full/05_pareto.png" target="_blank" rel="noopener" aria-label="Open page 5 full size">
-            <picture>
-              <source srcset="img/05_pareto.webp" type="image/webp" />
-              <img src="img/05_pareto.jpg" width="1280" height="720" alt="Page 5, Pareto: supplier and category Pareto charts with ABC classes" loading="lazy" decoding="async" />
-            </picture>
-          </a>
-          <figcaption>244 of 38,370 suppliers make up 80% of spend.</figcaption>
-        </figure>
-        <figure class="sa-panel" role="tabpanel" id="sa-panel-6" aria-labelledby="sa-tab-6" hidden>
-          <a class="sa-frame" href="img/full/06_supplier_data_quality.png" target="_blank" rel="noopener" aria-label="Open page 6 full size">
-            <picture>
-              <source srcset="img/06_supplier_data_quality.webp" type="image/webp" />
-              <img src="img/06_supplier_data_quality.jpg" width="1280" height="720" alt="Page 6, Supplier Master Data Quality: clean-up funnel, duplicate clusters and data checks" loading="lazy" decoding="async" />
-            </picture>
-          </a>
-          <figcaption>53,265 vendor spellings come down to 38,514 suppliers.</figcaption>
         </figure>
         </div>
         <div class="sa-controls">
@@ -173,48 +173,48 @@
 
     <section class="sa-group" id="findings" aria-labelledby="findings-title">
       <h2 id="findings-title">Findings</h2>
-      <p class="sub">Contracts awarded April 2023 to March 2026, at their latest reported value.</p>
+      <p class="sub">Numbers that answer the question first. Spend mix comes after.</p>
       <div class="sa-findings">
-        <article class="sa-find fade"><p class="sa-num">244</p><p>suppliers out of 38,370 make up 80% of spend. Just 11 make up half.</p></article>
-        <article class="sa-find fade"><p class="sa-num">61</p><p>of those 244 top suppliers have likely duplicate records. I would start the clean-up there.</p></article>
-        <article class="sa-find fade"><p class="sa-num">32.6%</p><p>of spend went to aircraft and ships, from 1.8% of contracts.</p></article>
-        <article class="sa-find fade"><p class="sa-num">C$13.9B</p><p>sits with 3,135 vendor names that look like near-duplicates, grouped in 1,352 clusters.</p></article>
-        <article class="sa-find fade"><p class="sa-num">7,963</p><p>records have a vendor name of exactly 35 characters, against 791 at 36, so names look cut off. SAP's vendor name field is also 35 characters, though that doesn't mean the government uses SAP.</p></article>
-        <article class="sa-find fade"><p class="sa-num">52.1%</p><p>of contracts carry a commodity code that is neither a GSIN nor an 8-digit UNSPSC-style code.</p></article>
-        <article class="sa-find fade"><p class="sa-num">44.9%</p><p>of competitive contracts that reported bids got one bid. 25.4% of competitive contracts left the count blank.</p></article>
+        <article class="sa-find fade"><p class="sa-num">53,265 &rarr; 38,514</p><p>raw vendor names after clean-up and fuzzy matching. That is 27.7% fewer suppliers to report on.</p></article>
+        <article class="sa-find fade"><p class="sa-num">C$13.9B</p><p>of spend sits with 3,135 vendor names that look like near-duplicates, in 1,352 clusters. That is 15% of all spend.</p></article>
+        <article class="sa-find fade"><p class="sa-num">61 of 244</p><p>class A suppliers (the ones that make up 80% of spend) have likely duplicate records. That is where I would start the clean-up.</p></article>
+        <article class="sa-find fade"><p class="sa-num">7,963</p><p>records have a vendor name of exactly 35 characters, against 791 at 36. Names look cut off. SAP's vendor name field (NAME1) is also 35 characters, though that does not mean the government uses SAP.</p></article>
+        <article class="sa-find fade"><p class="sa-num">49.2%</p><p>of spend sits with the top 10 suppliers. Supplier HHI is 387 government-wide, so concentration is high even before duplicates.</p></article>
+        <article class="sa-find fade"><p class="sa-num">11</p><p>suppliers make up half of the C$92.6B. Spend is far more concentrated than a classic 80/20.</p></article>
+        <article class="sa-find fade"><p class="sa-num">32.6%</p><p>of spend went to aircraft and ships, from 1.8% of contracts. Category mix matters once the supplier file is clean.</p></article>
       </div>
     </section>
 
     <section class="sa-group" id="built" aria-labelledby="built-title">
       <h2 id="built-title">How I built it</h2>
-      <p class="sub">Python for the data work, one model for both tools.</p>
+      <p class="sub">Clean-up and golden records first. Model and DAX after that.</p>
 
       <div class="sa-cards">
         <div class="skill-card fade">
-          <h3>Data</h3>
-          <p>Proactive Publication - Contracts from open.canada.ca. Contracts awarded April 2023 to March 2026, one row each at the latest value. Standing offer and supply arrangement records left out.</p>
+          <h3>1. Clean and match</h3>
+          <p>I standardized vendor names (case, accents, punctuation, Inc. and Ltd.), then matched near-duplicates with rapidfuzz at 92% similarity. Different numbers never match.</p>
         </div>
         <div class="skill-card fade">
-          <h3>Supplier clean-up</h3>
-          <p>I standardized vendor names (case, accents, punctuation, Inc. and Ltd.), then matched near-duplicates with rapidfuzz at 92% similarity. Different numbers never match. The spelling with the most spend becomes the master.</p>
+          <h3>2. Golden record</h3>
+          <p>Each fuzzy cluster gets one suggested master: the spelling with the most spend. A VendorNameMap links every raw spelling to that master.</p>
         </div>
         <div class="skill-card fade">
-          <h3>Data checks</h3>
-          <p>21 checks on names, postal and country codes, bids, values, dates and category codes, each with failed records and spend.</p>
+          <h3>3. Checks and spend</h3>
+          <p>21 checks on names, postal and country codes, bids, values, dates and category codes. Each one carries failed records and the spend involved, so the cost of bad data is visible.</p>
         </div>
       </div>
 
       <div class="view-grid">
         <div class="panel fade">
-          <h3 class="chart-title">Segmentation</h3>
-          <p class="chart-note">I scored the 85 category groups for supply risk (supplier concentration, non-competitive share, single bids, few suppliers) and crossed that with Pareto spend class.</p>
+          <h3 class="chart-title">Scope and labels</h3>
+          <p class="chart-note">Proactive Publication - Contracts from open.canada.ca. Contracts awarded April 2023 to March 2026, one row each at the latest value. Standing offer and supply arrangement records left out. Category labels from the Chart of Accounts 2025-26.</p>
           <div class="sa-matrix" role="table" aria-label="Segmentation rules">
             <div class="sa-cell sa-strategic" role="row"><strong role="cell">Strategic</strong><span role="cell">Top 80% of spend, risk 25+</span></div>
             <div class="sa-cell sa-leverage" role="row"><strong role="cell">Leverage</strong><span role="cell">Top 80% of spend, risk under 25</span></div>
             <div class="sa-cell sa-bottleneck" role="row"><strong role="cell">Bottleneck</strong><span role="cell">Rest of spend, risk 25+</span></div>
             <div class="sa-cell sa-routine" role="row"><strong role="cell">Routine</strong><span role="cell">Rest of spend, risk under 25</span></div>
           </div>
-          <p class="sa-small">Leverage and Bottleneck make up the Tactical tier. My thresholds, not an official classification. 22 groups with under 30 contracts are flagged low confidence.</p>
+          <p class="sa-small">I scored the 85 category groups for supply risk and crossed that with Pareto spend class. My thresholds, not an official classification. 22 groups with under 30 contracts are flagged low confidence.</p>
         </div>
         <div class="panel fade">
           <h3 class="chart-title">Two of the DAX measures</h3>
@@ -240,7 +240,7 @@ RETURN
 
       <div class="panel fade sa-model">
         <h3 class="chart-title">Data model</h3>
-        <p class="chart-note">One fact row per contract and seven dimensions.</p>
+        <p class="chart-note">One fact row per contract and seven dimensions. DimVendor holds the master name and DQ flags; VendorNameMap sits beside it.</p>
         <div class="sa-diagram" role="img" aria-label="Star schema: FactContracts in the centre, linked to DimDate, DimVendor, DimDepartment, DimProcurementMethod, DimCommodityType and DimCategory; DimCategory links to DimCategorySegment">
           <svg viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <defs><style>
@@ -283,6 +283,6 @@ RETURN
     <p>Afolabi Adesina &middot; Oakville, ON</p>
   </footer>
 
-  <script src="/NA-Skills-Portfolio/projects/spend-analytics/sa.js?v=20261006b"></script>
+  <script src="/NA-Skills-Portfolio/projects/spend-analytics/sa.js?v=20261006c"></script>
 </body>
 </html>
