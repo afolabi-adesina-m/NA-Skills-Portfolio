@@ -36,9 +36,9 @@
     var tag = t.go ? "button" : "div";
     return "<" + tag + ' class="tile"' + (t.go ? ' type="button" data-go="' + t.go + '"' : "") + ">" +
       '<span class="tile-title">' + esc(t.title) + "</span>" +
-      (t.sub ? '<span class="tile-sub">' + esc(t.sub) + "</span>" : "") +
+      '<span class="tile-sub">' + esc(t.sub || "") + "</span>" +
       '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + "</span>" +
-      (t.foot ? '<span class="tile-foot">' + esc(t.foot) + "</span>" : "") + "</" + tag + ">";
+      '<span class="tile-foot">' + esc(t.foot || "") + "</span>" + "</" + tag + ">";
   }
   function bars(rows, opt) {
     opt = opt || {};
@@ -117,7 +117,7 @@
       '<div class="grid two"><section class="card"><h2>From raw names to suppliers</h2>' + funnel + "</section>" +
       '<section class="card"><h2>Name length spike at 35</h2>' +
       columns(hist, { every: 5, fmt: function (v) { return num(v) + " records"; }, aria: "Vendor name records by length, spike at 35 characters" }) + "</section></div>" +
-      '<section class="card" style="margin-top:1rem"><h2>Top duplicate clusters</h2>' +
+      '<section class="card"><h2>Top duplicate clusters</h2>' +
       '<div class="table-wrap"><table><thead><tr><th>Suggested master</th><th class="num">Names</th><th class="num">Spend</th><th class="num hide-sm">Contracts</th></tr></thead><tbody>' + (rows || '<tr><td colspan="4">No clusters in this view.</td></tr>') + "</tbody></table></div></section>" +
       comment(num(G.clusterNames) + " supplier names fall into " + num(G.clusters) + " likely duplicate clusters, linked to " + money(k.dupSpend) + " of spend. " + num(r35) + " records stop at exactly 35 characters, against " + num(r36) + " at 36, which points to a field that cut names short. The clusters are suggestions and need a data steward to confirm them.");
   }
@@ -157,7 +157,7 @@
       '<div class="grid two"><section class="card"><h2>What this is</h2>' +
       "<ul><li>179,829 Government of Canada contracts from " + G.depts + " organizations, 1 April 2023 to 31 March 2026.</li><li>Money is contract value in Canadian dollars. Years are federal fiscal years, so FY'24 runs April 2023 to March 2024.</li></ul></section>" +
       '<section class="card"><h2>How suppliers were cleaned</h2><ol><li>Trim spaces and fold case.</li><li>Remove accents, punctuation and legal suffixes such as Inc. and Ltd.</li><li>Group close spellings with fuzzy matching into a suggested master.</li></ol></section></div>' +
-      '<section class="card" style="margin-top:1rem"><h2>Data quality rules</h2>' + "<div class=\"table-wrap\"><table><thead><tr><th>Rule</th><th>Check</th><th class=\"num\">Failed</th><th class=\"num hide-sm\">Rate</th><th class=\"hide-sm\">Severity</th></tr></thead><tbody>" + rules + "</tbody></table></div></section>" +
+      '<section class="card"><h2>Data quality rules</h2>' + "<div class=\"table-wrap\"><table><thead><tr><th>Rule</th><th>Check</th><th class=\"num\">Failed</th><th class=\"num hide-sm\">Rate</th><th class=\"hide-sm\">Severity</th></tr></thead><tbody>" + rules + "</tbody></table></div></section>" +
       comment("The data covers 179,829 contracts from " + G.depts + " organizations over three fiscal years. " + G.rules.length + " quality checks ran on the full file, and the table shows how many records failed each one. Figures are unaudited public data.") + "</div>";
   }
   var RENDER = { overview: overview, quality: quality, suppliers: suppliers, categories: categories, about: about };

@@ -146,3 +146,22 @@ dialog[open] { animation: fadein .2s ease-out both; }
 }
 .comment{margin-top:1rem;border-left:4px solid #0070F2}
 .comment p{margin:.3rem 0 0;color:#1D2D3E;line-height:1.5}
+/* alignment pass v=20261007c */
+:root { --gap: 1rem; --pad: 1rem; }
+.tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; margin-bottom: var(--gap); }
+@media (min-width: 900px) { .tiles { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } }
+.tile, div.tile { display: flex; flex-direction: column; gap: 0; padding: var(--pad); min-height: 0; box-sizing: border-box; }
+.tile-title { font-size: .92rem; line-height: 1.25rem; min-height: 2.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tile-sub { font-size: .8rem; line-height: 1.1rem; min-height: 2.2rem; }
+.tile-val { margin-top: auto; padding-top: .5rem; line-height: 2.2rem; font-size: 1.85rem; }
+.tile-foot { font-size: .78rem; line-height: 1.1rem; min-height: 2.2rem; margin-top: .25rem; }
+.grid { gap: var(--gap); align-items: stretch; }
+.grid + .grid, .grid + .card, .card + .card, .tiles + .card { margin-top: var(--gap); }
+.card { padding: var(--pad); box-sizing: border-box; }
+.card h2 { line-height: 1.4rem; margin: 0 0 .75rem; }
+.comment { height: auto; }
+@media (min-width: 700px) { .grid.two, .grid.wide { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { :root { --gap: .75rem; --pad: .8rem; } .tile-val { font-size: 1.45rem; line-height: 1.8rem; } }
+.grid > .card { margin-top: 0 !important; }
+.card.comment, .grid ~ .card { margin-top: var(--gap); }
+.about .comment p { max-width: none; }
