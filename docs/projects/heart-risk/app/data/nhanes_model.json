@@ -1,0 +1,137 @@
+{
+ "source": "CDC NCHS NHANES 1999-2008 with 2019 public use linked mortality files",
+ "cohort_flow": {
+  "nhanes_1999_2008_records": 51623,
+  "age_40_79": 14737,
+  "no_self_reported_cvd": 12516,
+  "mortality_eligible": 12502,
+  "excluded_alive_under_10y": 0,
+  "complete_cases": 10727,
+  "events_10y_heart_death": 239,
+  "other_deaths_within_10y_coded_0": 1013
+ },
+ "target": "Heart disease death (UCOD_LEADING 001) within 120 months of exam",
+ "test": {
+  "n": 2682,
+  "events": 60,
+  "auc": 0.776,
+  "brier": 0.0213,
+  "brier_base_rate": 0.0219
+ },
+ "calibration_deciles": [
+  {
+   "bin": 0,
+   "n": 269,
+   "mean_predicted": 0.0014,
+   "observed": 0.0037
+  },
+  {
+   "bin": 1,
+   "n": 268,
+   "mean_predicted": 0.0025,
+   "observed": 0.0037
+  },
+  {
+   "bin": 2,
+   "n": 268,
+   "mean_predicted": 0.004,
+   "observed": 0.0037
+  },
+  {
+   "bin": 3,
+   "n": 268,
+   "mean_predicted": 0.006,
+   "observed": 0.0075
+  },
+  {
+   "bin": 4,
+   "n": 268,
+   "mean_predicted": 0.0086,
+   "observed": 0.0075
+  },
+  {
+   "bin": 5,
+   "n": 268,
+   "mean_predicted": 0.0124,
+   "observed": 0.0112
+  },
+  {
+   "bin": 6,
+   "n": 268,
+   "mean_predicted": 0.018,
+   "observed": 0.0149
+  },
+  {
+   "bin": 7,
+   "n": 268,
+   "mean_predicted": 0.0272,
+   "observed": 0.056
+  },
+  {
+   "bin": 8,
+   "n": 268,
+   "mean_predicted": 0.0416,
+   "observed": 0.0299
+  },
+  {
+   "bin": 9,
+   "n": 269,
+   "mean_predicted": 0.0854,
+   "observed": 0.0855
+  }
+ ],
+ "model": {
+  "type": "logistic_regression",
+  "features": [
+   "age",
+   "male",
+   "sbp",
+   "bp_meds",
+   "tchol",
+   "hdl",
+   "smoker",
+   "diabetes",
+   "bmi"
+  ],
+  "scaler_mean": [
+   56.73897,
+   0.48912,
+   129.20555,
+   0.28999,
+   208.61753,
+   53.37203,
+   0.21417,
+   0.15749,
+   28.97195
+  ],
+  "scaler_scale": [
+   11.10678,
+   0.49988,
+   19.80785,
+   0.45376,
+   41.44205,
+   16.37177,
+   0.41025,
+   0.36426,
+   6.14891
+  ],
+  "coef": [
+   0.98117,
+   0.23802,
+   0.17522,
+   0.31684,
+   0.14244,
+   -0.09956,
+   0.41368,
+   0.15244,
+   0.13149
+  ],
+  "intercept": -4.51458
+ },
+ "caveats": [
+  "Survey weights not used",
+  "Other cause deaths counted as non events",
+  "NCHS substituted synthetic follow-up time or cause of death for some public use records",
+  "Prior CVD is self reported"
+ ]
+}

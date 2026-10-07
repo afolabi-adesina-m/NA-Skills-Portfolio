@@ -1,0 +1,129 @@
+{
+ "source": "Statistics Canada CCHS 2022 PUMF (82M0013X), Statistics Canada Open Licence",
+ "measure": "CCCDGCAR: has heart disease, ever had a heart attack, or suffers effects of a stroke; respondents 35+; weighted by WTS_M; not stated excluded",
+ "overall": {
+  "n": 51650,
+  "prevalence_pct": 8.9
+ },
+ "by_province": [
+  {
+   "group": "Alberta",
+   "n": 6189,
+   "prevalence_pct": 8.9
+  },
+  {
+   "group": "British Columbia",
+   "n": 7457,
+   "prevalence_pct": 8.7
+  },
+  {
+   "group": "Manitoba",
+   "n": 2209,
+   "prevalence_pct": 7.9
+  },
+  {
+   "group": "New Brunswick",
+   "n": 1954,
+   "prevalence_pct": 9.5
+  },
+  {
+   "group": "Newfoundland and Labrador",
+   "n": 1480,
+   "prevalence_pct": 12.2
+  },
+  {
+   "group": "Nova Scotia",
+   "n": 2024,
+   "prevalence_pct": 10.7
+  },
+  {
+   "group": "Ontario",
+   "n": 16729,
+   "prevalence_pct": 9.2
+  },
+  {
+   "group": "Prince Edward Island",
+   "n": 285,
+   "prevalence_pct": 9.9
+  },
+  {
+   "group": "Quebec",
+   "n": 10183,
+   "prevalence_pct": 8.2
+  },
+  {
+   "group": "Saskatchewan",
+   "n": 1793,
+   "prevalence_pct": 9.0
+  },
+  {
+   "group": "Territories",
+   "n": 1347,
+   "prevalence_pct": 5.6
+  }
+ ],
+ "by_age": [
+  {
+   "group": "35 to 49",
+   "n": 12590,
+   "prevalence_pct": 1.7
+  },
+  {
+   "group": "50 to 64",
+   "n": 15751,
+   "prevalence_pct": 5.9
+  },
+  {
+   "group": "65 and older",
+   "n": 23309,
+   "prevalence_pct": 19.8
+  }
+ ],
+ "by_sex": [
+  {
+   "group": "Female",
+   "n": 27924,
+   "prevalence_pct": 6.8
+  },
+  {
+   "group": "Male",
+   "n": 23726,
+   "prevalence_pct": 11.1
+  }
+ ],
+ "by_smoking": [
+  {
+   "group": "Current",
+   "n": 5593,
+   "prevalence_pct": 7.9
+  },
+  {
+   "group": "Former",
+   "n": 16997,
+   "prevalence_pct": 12.6
+  },
+  {
+   "group": "Never or experimental",
+   "n": 27536,
+   "prevalence_pct": 7.2
+  }
+ ],
+ "by_bmi": [
+  {
+   "group": "Overweight or obese",
+   "n": 31101,
+   "prevalence_pct": 9.7
+  },
+  {
+   "group": "Under or normal weight",
+   "n": 18423,
+   "prevalence_pct": 7.7
+  }
+ ],
+ "caveats": [
+  "Self reported",
+  "Cross sectional prevalence, not risk",
+  "Heart disease and stroke grouped",
+  "No bootstrap CVs computed; small provinces less precise"
+ ]
+}

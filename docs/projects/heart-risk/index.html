@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heart Risk | Case study | Afolabi Adesina</title>
+  <meta name="description" content="How I turned a Framingham class assignment into a browser risk app on public NHANES data, with a Canadian view from the CCHS 2022." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app/app.css?v=20261007h" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="./" aria-label="Heart Risk case study">
+      <svg class="sb-logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0070F2"/><path d="M16 24s-7.5-4.6-7.5-10a4.2 4.2 0 0 1 7.5-2.6A4.2 4.2 0 0 1 23.5 14c0 5.4-7.5 10-7.5 10z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M9.5 16h3.5l1.5-2.5 2 4.5 1.5-2h4.5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="sb-title">Heart Risk</span>
+    </a>
+    <span class="sb-sub">Case study</span>
+    <a class="sb-link" href="/NA-Skills-Portfolio/">Portfolio</a>
+  </header>
+
+  <main class="page" id="main">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span><strong>Not medical advice.</strong> Learning project on public data.</span></p>
+
+    <section class="card cs-hero">
+      <h1>Can a simple model give an honest heart risk estimate from public data?</h1>
+      <p>I started with a Framingham dataset from a class assignment, then rebuilt the idea on US national survey data with real death records, and added a Canadian view.</p>
+      <div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/about">Model card</a></div>
+    </section>
+
+    <div class="tiles" style="margin-top:1rem">
+      <div class="tile"><span class="tile-title">People in the model</span><span class="tile-sub">NHANES, ages 40 to 79</span><span class="tile-val">10,727</span><span class="tile-foot">1999 to 2008 exams</span></div>
+      <div class="tile"><span class="tile-title">Heart disease deaths</span><span class="tile-sub">Within 10 years</span><span class="tile-val">239</span><span class="tile-foot">60 in the test set</span></div>
+      <div class="tile"><span class="tile-title">Test AUC</span><span class="tile-sub">NHANES model</span><span class="tile-val info">0.776</span><span class="tile-foot">Framingham: 0.704</span></div>
+      <div class="tile"><span class="tile-title">Canada, 35 and older</span><span class="tile-sub">CCHS 2022, self reported</span><span class="tile-val">8.9%</span><span class="tile-foot">Ontario: 9.2%</span></div>
+    </div>
+
+    <div class="grid two">
+      <section class="card"><h2>What I built</h2><ul class="plain">
+        <li>Joined five NHANES survey cycles to the CDC death records and kept adults with no heart disease or stroke at the exam.</li>
+        <li>Trained a logistic regression and exported it to a small JSON file, so the calculator runs in the browser with no server.</li>
+        <li>Put the Framingham model next to it, with calibration charts for both.</li>
+        <li>Added weighted Canadian figures by province, age, sex, smoking and BMI.</li>
+      </ul></section>
+      <section class="card"><h2>From my assignment, and what is new</h2><ul class="plain">
+        <li><strong>From the assignment:</strong> the choice of Framingham data, the BioLINCC reference, and the pandas clean up work.</li>
+        <li><strong>New:</strong> every model, metric and chart, the NHANES and CCHS work, the JSON export, the app and the model card.</li>
+      </ul></section>
+    </div>
+
+    <section class="card comment"><h2>What the numbers show</h2><p>The NHANES model ranks people well on unseen data (AUC 0.776), and age, smoking and blood pressure medicine move the estimate most. It rests on 239 deaths and on public records that NCHS partly altered for privacy, so it is a learning tool, not a clinical one. Framingham predicts a broader outcome, so its numbers run higher.</p></section>
+  </main>
+
+  <footer class="foot">
+    <p>Data: CDC NHANES and NCHS linked mortality files, Framingham on Kaggle (license unknown, learning only), Statistics Canada CCHS 2022 under the Statistics Canada Open Licence.</p>
+    <p><a href="app/">Open app</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p>
+  </footer>
+</body>
+</html>

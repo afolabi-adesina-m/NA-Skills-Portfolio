@@ -1,0 +1,55 @@
+{
+ "nhanes_age_bands": [
+  {
+   "band": "40 to 49",
+   "n": 3507,
+   "events": 23,
+   "observed_pct": 0.66
+  },
+  {
+   "band": "50 to 59",
+   "n": 2674,
+   "events": 33,
+   "observed_pct": 1.23
+  },
+  {
+   "band": "60 to 69",
+   "n": 2752,
+   "events": 67,
+   "observed_pct": 2.43
+  },
+  {
+   "band": "70 to 79",
+   "n": 1794,
+   "events": 116,
+   "observed_pct": 6.47
+  }
+ ],
+ "nhanes_ranges_p1_p99": {
+  "sbp": [
+   94.0,
+   188.0
+  ],
+  "tchol": [
+   125.0,
+   319.0
+  ],
+  "hdl": [
+   26.0,
+   104.0
+  ],
+  "bmi": [
+   18.3,
+   47.6
+  ]
+ },
+ "framingham_fill": {
+  "cigsPerDay_if_smoker": 20.0,
+  "note": "Other Framingham inputs use the training median"
+ },
+ "cchs_share_65_plus_by_smoking_pct": {
+  "Current": 20.4,
+  "Former": 42.6,
+  "Never or experimental": 28.8
+ }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heart Risk | Learning app | Afolabi Adesina</title>
+  <meta name="description" content="A learning app on public heart data: a 10 year heart disease death estimate from NHANES, a Framingham comparison and a Canadian view from the CCHS." />
+  <meta property="og:title" content="Heart Risk learning app" />
+  <meta property="og:description" content="Logistic regression on public NHANES data, compared with Framingham, plus Canadian prevalence from the CCHS 2022." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app.css?v=20261007h" />
+</head>
+<body>
+  <a class="skip" href="#view">Skip to content</a>
+  <header class="shellbar">
+    <a class="sb-brand" href="#/calculator" aria-label="Heart Risk home">
+      <svg class="sb-logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0070F2"/><path d="M16 24s-7.5-4.6-7.5-10a4.2 4.2 0 0 1 7.5-2.6A4.2 4.2 0 0 1 23.5 14c0 5.4-7.5 10-7.5 10z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M9.5 16h3.5l1.5-2.5 2 4.5 1.5-2h4.5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="sb-title">Heart Risk</span>
+    </a>
+    <span class="sb-sub">NHANES, Framingham and CCHS public data</span>
+    <a class="sb-link" href="../">Case study</a>
+  </header>
+
+  <div class="page">
+    <p class="strip" role="note"><span class="strip-icon" aria-hidden="true">i</span><span><strong>Not medical advice.</strong> Learning project on public data.</span></p>
+
+    <nav class="tabbar" role="tablist" aria-label="Views" id="tabs">
+      <button role="tab" id="tab-calculator" data-view="calculator" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zm1 3v4h10V5zm0 7v2h2v-2zm4 0v2h2v-2zm4 0v6h2v-6zm-8 4v2h2v-2zm4 0v2h2v-2z"/></svg>Risk calculator</button>
+      <button role="tab" id="tab-compare" data-view="compare" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9h4v11zm6 0V4h4v16zm6 0v-8h4v8z"/></svg>Compare models</button>
+      <button role="tab" id="tab-canada" data-view="canada" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.6 3.6 2.4-1-1 4.4 2.6-1.2.8 2.2 2.6-.6-1.4 3.4 1.4 1-5 3.2.4 2h-3.4v3h-2v-3H7l.4-2-5-3.2 1.4-1L2.4 9.4l2.6.6.8-2.2L8.4 9l-1-4.4 2.4 1z"/></svg>Canada view</button>
+      <button role="tab" id="tab-about" data-view="about" aria-controls="view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>Model card</button>
+    </nav>
+
+    <main id="view" role="tabpanel" tabindex="-1" aria-live="polite"><p class="loading">Loading data&hellip;</p></main>
+  </div>
+
+  <footer class="foot">
+    <p>Sources: <a href="https://wwwn.cdc.gov/nchs/nhanes/" target="_blank" rel="noopener">CDC NHANES</a> with <a href="https://www.cdc.gov/nchs/linked-data/mortality-files/index.html" target="_blank" rel="noopener">NCHS linked mortality files</a>, <a href="https://www.kaggle.com/datasets/aasheesh200/framingham-heart-study-dataset" target="_blank" rel="noopener">Framingham on Kaggle</a> (license unknown, learning only) and <a href="https://www150.statcan.gc.ca/n1/en/catalogue/82M0013X" target="_blank" rel="noopener">Statistics Canada CCHS 2022</a> under the Statistics Canada Open Licence.</p>
+    <p><strong>Not medical advice.</strong> Learning project on public data.</p>
+    <p><a href="../">Back to the case study</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p>
+  </footer>
+  <script src="app.js?v=20261007h" defer></script>
+</body>
+</html>
