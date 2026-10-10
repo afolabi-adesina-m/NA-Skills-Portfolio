@@ -1,9 +1,9 @@
-/* ESG Reporting app: hash routing, hand rolled SVG charts, no dependencies. Same pattern as the Supplier Spend app. */
+/* ESG Reporting app: hash routing (forecast view added 10 October 2026), hand rolled SVG charts, no dependencies. Same pattern as the Supplier Spend app. */
 (function () {
   "use strict";
-  var state = { view: "mix", fy: "all", lpm: 1000, months: 12, sites: 1 };
+  var state = { view: "mix", fy: "all", fs: "fed", lpm: 1000, months: 12, sites: 1 };
   var D = null;
-  var VIEWS = ["mix", "emissions", "diesel", "about"];
+  var VIEWS = ["mix", "emissions", "diesel", "forecast", "about"];
   var C = { loc: "#0070F2", for: "#049F9A", s1: "#0070F2", s2: "#89D1FF", fleet: "#1D2D3E" };
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
@@ -181,7 +181,170 @@
       "<li>The calculator uses the stationary diesel factor. Vehicles use different CH4 and N2O factors.</li></ul></section></div>" +
       comment("All figures come from public Government of Canada files. The supplier split reuses the cleaned supplier keys from the spend work, and the calculator uses the published ECCC factor with no changes. Figures are unaudited.") + "</div>";
   }
-  var RENDER = { mix: mix, emissions: emissions, diesel: diesel, about: about };
+  /* ---------- forecast view (precomputed in Python, data/forecast.json) ---------- */
+  var FC = null, fcLoading = false;
+  var MC = { act: "#1D2D3E", ets: "#0070F2", arima: "#7858FF", linear: "#E76500", snaive: "#6A7682", path: "#AA0808", gg: "#256F3A" };
+  var MN = { ets: "ETS", arima: "AutoARIMA", linear: "Linear trend", snaive: "Seasonal naive" };
+  var SERIES = ["fed", "can", "us"];
+  function n2(v) { return num(v, 2); }
+  function fcSeries() { return FC.series.filter(function (s) { return s.key === state.fs; })[0]; }
+  function yLab(S, y) { return S.key === "fed" ? "FY'" + String(y + 1).slice(-2) : String(y); }        // fed years are fiscal start years
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  function tLab(S, t) { if (S.freq === "year") return yLab(S, t); var p = String(t).split("-"); return MONTHS[+p[1] - 1] + " " + p[0]; }
+  function xOf(S, t) { if (S.freq === "year") return t; var p = String(t).split("-"); return +p[0] + (+p[1] - 1) / 12; }
+  function amt(S, v) { return num(v, 1) + " " + S.unit.split(" ")[0]; }
+  function fcChart(S) {
+    var W = small() ? 360 : 1100, H = small() ? 300 : 340, pl = small() ? 40 : 52, pr = small() ? 18 : 24, pt = 12, pb = 26;
+    var from = S.chartFrom ? xOf(S, S.chartFrom) : xOf(S, S.actual.t[0]), x0 = S.key === "fed" ? 2005 : from, x1 = S.freq === "year" ? FC.end : FC.end + 11 / 12;
+    var act = S.actual.t.map(function (t, i) { return [xOf(S, t), S.actual.v[i]]; }).filter(function (p) { return p[0] >= from; });
+    var fx = S.fcT.map(function (t) { return xOf(S, t); });
+    var monthly = S.freq === "month", pv = function (y) { return S.pathway[y] / (monthly ? 12 : 1); };
+    var path = [];
+    for (var y = FC.baseYear; y <= FC.end; y++) { path.push([y, pv(y)]); if (monthly) path.push([y + 11 / 12, pv(y)]); }
+    var b = S.fc[S.best], vals = act.map(function (p) { return p[1]; }).concat(b.lo80, b.hi80, path.map(function (p) { return p[1]; }));
+    ["ets", "arima", "linear", "snaive"].forEach(function (k) { vals = vals.concat(S.fc[k].mean); });
+    if (S.gg) vals.push(S.gg.base, S.gg.target2025);
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), raw = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var tick = [1, 2, 2.5, 5, 10].map(function (k) { return k * mag; }).filter(function (k) { return k >= raw; })[0];
+    lo = Math.floor(lo / tick) * tick; hi = Math.ceil(hi / tick) * tick;
+    var X = function (v) { return pl + (W - pl - pr) * (v - x0) / (x1 - x0); }, Y = function (v) { return pt + (H - pt - pb) * (1 - (v - lo) / (hi - lo)); };
+    var line = function (pts) { return pts.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join(""); };
+    var last = act[act.length - 1], s = "";
+    for (var v = lo; v <= hi + tick / 2; v += tick) {
+      var yy = Y(v);
+      s += '<line class="axis" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + yy.toFixed(1) + '" y2="' + yy.toFixed(1) + '"/><text x="' + (pl - 6) + '" y="' + (yy + 4).toFixed(1) + '" text-anchor="end">' + num(v, 0) + "</text>";
+    }
+    var step = S.freq === "year" ? (small() ? 10 : 5) : (small() ? 5 : 2), first = Math.ceil(x0 / step) * step;
+    for (var t = first; t <= Math.floor(x1); t += step) s += '<text x="' + X(t).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="' + (X(t) > W - 30 ? "end" : "middle") + '">' + esc(S.freq === "year" ? yLab(S, t) : String(t)) + "</text>";
+    var bandUp = fx.map(function (x, i) { return [x, b.hi80[i]]; }), bandDn = fx.map(function (x, i) { return [x, b.lo80[i]]; }).reverse();
+    s += '<path d="' + line(bandUp) + line(bandDn).replace("M", "L") + 'Z" fill="' + MC[S.best] + '" fill-opacity=".14" stroke="none"><title>80% range, ' + esc(MN[S.best]) + "</title></path>";
+    if (S.gg) {
+      var gy = Y(S.gg.target2025);
+      s += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + gy.toFixed(1) + '" y2="' + gy.toFixed(1) + '" stroke="' + MC.gg + '" stroke-dasharray="2 4" stroke-width="1.5"><title>Greening Government target: 40% below FY\'06 by 2025, ' + kt(S.gg.target2025) + "</title></line>";
+      s += '<circle cx="' + X(2005).toFixed(1) + '" cy="' + Y(S.gg.base).toFixed(1) + '" r="4" fill="' + MC.act + '"><title>FY\'06: ' + kt(S.gg.base) + "</title></circle>";
+    }
+    s += '<path d="' + line(path) + '" fill="none" stroke="' + MC.path + '" stroke-width="2" stroke-dasharray="7 5"><title>SBTi Absolute Contraction, 4.2% a year from ' + FC.baseYear + "</title></path>";
+    s += '<path d="' + line([last].concat(fx.map(function (x, i) { return [x, S.fc.snaive.mean[i]]; }))) + '" fill="none" stroke="' + MC.snaive + '" stroke-width="1.5" stroke-dasharray="3 4"/>';
+    ["linear", "arima", "ets"].forEach(function (k) {
+      s += '<path d="' + line([last].concat(fx.map(function (x, i) { return [x, S.fc[k].mean[i]]; }))) + '" fill="none" stroke="' + MC[k] + '" stroke-width="' + (k === S.best ? 2.6 : 1.6) + '"><title>' + esc(MN[k]) + "</title></path>";
+    });
+    s += '<path d="' + line(act) + '" fill="none" stroke="' + MC.act + '" stroke-width="2"/>';
+    if (S.freq === "year") act.forEach(function (p) { s += '<circle cx="' + X(p[0]).toFixed(1) + '" cy="' + Y(p[1]).toFixed(1) + '" r="2.4" fill="' + MC.act + '"><title>' + esc(yLab(S, p[0]) + ": " + amt(S, p[1])) + "</title></circle>"; });
+    return '<svg class="chart" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(S.name + ": actuals, three model forecasts to " + FC.end + ", seasonal naive reference and the SBTi pathway") + '">' + s + "</svg>";
+  }
+  function overlapNote(S) {
+    var same = ["ets", "arima"].filter(function (k) { return S.fc[k].mean.every(function (v, i) { return Math.abs(v - S.fc.snaive.mean[i]) < 0.01 * S.fc.snaive.mean[i]; }); });
+    return same.length ? '<p class="note">' + same.map(function (k) { return MN[k]; }).join(" and ") + " give the same flat forecast as the seasonal naive line here, so the lines sit on top of each other.</p>" : "";
+  }
+  function fcLegend(S) {
+    var it = [["Actual", MC.act, ""], ["ETS", MC.ets, ""], ["AutoARIMA", MC.arima, ""], ["Linear trend", MC.linear, ""], ["Seasonal naive, reference", MC.snaive, "dash"], ["SBTi 1.5C pathway" + (S.freq === "month" ? ", monthly average" : ""), MC.path, "dash"], ["80% range, " + MN[S.best], MC[S.best], "band"]];
+    if (S.gg) it.push(["Greening Government 2025 target", MC.gg, "dot"]);
+    return '<div class="legend">' + it.map(function (i) { return '<span><i class="ln ' + i[2] + '" style="--c:' + i[1] + '"></i>' + esc(i[0]) + "</span>"; }).join("") + "</div>";
+  }
+  function formulaCards(S) {
+    var e = S.ets, a = S.arima, L = S.linear, best = S.holdout[S.best], c = [];
+    var sym = function (rows) { return '<ul class="sym">' + rows.map(function (r) { return "<li><strong>" + r[0] + "</strong> " + esc(r[1]) + "</li>"; }).join("") + "</ul>"; };
+    var card = function (h, f, s, ex) { return '<section class="card fcard"><h2>' + esc(h) + '</h2><p class="formula">' + f + "</p>" + s + '<p class="c-sub ex-h">Worked example</p><p class="formula ex">' + ex + "</p></section>"; };
+    var firstT = tLab(S, S.fcT[0]), endT = S.freq === "year" ? yLab(S, FC.end) : "December " + FC.end;
+    // ETS
+    if (e.trend === "N" && e.season === "N") {
+      c.push(card("ETS, chosen model " + e.method, "l<sub>t</sub> = &alpha; &times; y<sub>t</sub> + (1 - &alpha;) &times; l<sub>t-1</sub><br>forecast = l<sub>T</sub> for every future year",
+        sym([["l", "level, the smoothed value"], ["y", "actual emissions"], ["\u03b1", "weight on the newest year, from 0 to 1, fitted"], ["T", "last year with data"]]),
+        "&alpha; = " + num(e.alpha, 4) + ", y<sub>T</sub> = " + n2(e.lastY) + ", l<sub>T-1</sub> = " + n2(e.prevLevel) + "<br>l<sub>T</sub> = " + num(e.alpha, 4) + " &times; " + n2(e.lastY) + " + " + num(1 - e.alpha, 4) + " &times; " + n2(e.prevLevel) + " = " + n2(e.level) + "<br>Forecast for " + esc(firstT) + " and every year after: " + n2(e.fc1)));
+    } else {
+      c.push(card("ETS, chosen model " + e.method, "forecast<sub>T+h</sub> = l<sub>T</sub> + (&phi; + &phi;<sup>2</sup> + ... + &phi;<sup>h</sup>) &times; b<sub>T</sub> + s<sub>month</sub>",
+        sym([["l", "level, updated with weight \u03b1 = " + num(e.alpha, 4)], ["b", "trend per month, updated with weight \u03b2 = " + num(e.beta, 4)], ["\u03c6", "damping, " + num(e.phi, 4) + ", so the trend fades out"], ["s", "seasonal effect of the month, updated with weight \u03b3 = " + num(e.gamma, 4)], ["h", "months ahead"]]),
+        "l<sub>T</sub> = " + n2(e.level) + ", b<sub>T</sub> = " + num(e.slope, 4) + ", s for " + esc(firstT) + " = " + n2(e.seasonUsed) + "<br>" + esc(firstT) + ": " + n2(e.level) + " + " + num(e.phi, 4) + " &times; (" + num(e.slope, 4) + ") + " + n2(e.seasonUsed) + " = " + n2(e.fc1)));
+    }
+    // ARIMA
+    if (a.p === 0 && a.q === 0 && a.d === 1 && a.m === 1) {
+      c.push(card("AutoARIMA, chosen orders " + a.label, "y<sub>t</sub> - y<sub>t-1</sub> = &epsilon;<sub>t</sub><br>forecast = y<sub>T</sub> for every future year",
+        sym([["p, d, q", "0 past values, 1 difference, 0 past errors, chosen by lowest AICc"], ["\u03b5", "random error"], ["y", "actual emissions"]]),
+        "y<sub>T</sub> = " + n2(a.lastY) + "<br>Forecast for " + esc(firstT) + " and every year after: " + n2(a.fc1)));
+    } else if (a.m === 1 && a.d === 2 && a.p === 0 && a.q === 1) {
+      var th = a.coef.ma1;
+      c.push(card("AutoARIMA, chosen orders " + a.label, "forecast<sub>T+1</sub> = 2 &times; y<sub>T</sub> - y<sub>T-1</sub> + &theta; &times; e<sub>T</sub>",
+        sym([["p, d, q", "0 past values, 2 differences, 1 past error, chosen by lowest AICc"], ["\u03b8", "weight on the last error, fitted"], ["e", "last one step error"]]),
+        "y<sub>T</sub> = " + n2(a.lastY) + ", y<sub>T-1</sub> = " + n2(a.prevY) + ", &theta; = " + num(th, 4) + ", e<sub>T</sub> = " + n2(a.lastRes) + "<br>" + esc(firstT) + ": 2 &times; " + n2(a.lastY) + " - " + n2(a.prevY) + " + (" + num(th, 4) + ") &times; (" + n2(a.lastRes) + ") = " + n2(a.fc1)));
+    } else {
+      var SYM = { ma1: "&theta;<sub>1</sub>", ma2: "&theta;<sub>2</sub>", sar1: "&Phi;<sub>1</sub>", sar2: "&Phi;<sub>2</sub>", sma1: "&Theta;<sub>1</sub>" };
+      var cf = Object.keys(a.coef).map(function (k) { return (SYM[k] || esc(k)) + " = " + num(a.coef[k], 4); }).join(", ");
+      var exact = a.p === 0 && a.q === 2 && a.P === 2 && a.Q === 1 && a.d === 1 && a.D === 1;
+      c.push(card("AutoARIMA, chosen orders " + a.label, !exact ? "seasonal ARIMA, see the orders and weights below" : "(1 - &Phi;<sub>1</sub>B<sup>12</sup> - &Phi;<sub>2</sub>B<sup>24</sup>)(1 - B)(1 - B<sup>12</sup>) y<sub>t</sub> = (1 + &theta;<sub>1</sub>B + &theta;<sub>2</sub>B<sup>2</sup>)(1 + &Theta;<sub>1</sub>B<sup>12</sup>) &epsilon;<sub>t</sub>",
+        sym([["(p,d,q)", "(" + a.p + "," + a.d + "," + a.q + "): past values, differences and past errors month to month"], ["(P,D,Q)[12]", "(" + a.P + "," + a.D + "," + a.Q + "): the same, year to year"], ["B", "back one month, so B\u00b9\u00b2 y is the same month last year"], ["\u03b8, \u0398, \u03a6", "fitted weights"]]),
+        cf + "<br>Forecast for " + esc(firstT) + ": " + n2(a.fc1) + ". The model has too many terms to show by hand."));
+    }
+    // Linear
+    var tEnd = S.freq === "year" ? FC.end - xOf(S, S.actual.t[0]) : (FC.end - xOf(S, S.actual.t[0])) * 12 + 11;
+    var lin = L.a + L.b * tEnd + (L.month ? L.month[11] : 0);
+    c.push(card("Linear trend", S.freq === "year" ? "forecast = a + b &times; t" : "forecast = a + b &times; t + s<sub>month</sub>",
+      sym([["t", S.freq === "year" ? (S.key === "fed" ? "years since FY'11" : "years since " + S.actual.t[0]) : "months since January " + String(S.actual.t[0]).slice(0, 4)], ["a, b", "intercept and slope from least squares on the last 10 years"]].concat(S.freq === "year" ? [] : [["s", "month effect against January"]])),
+      "a = " + num(L.a, 2) + ", b = " + num(L.b, 4) + " per " + (S.freq === "year" ? "year" : "month") + (L.month ? ", s for December = " + n2(L.month[11]) : "") + "<br>" + esc(endT) + ", t = " + tEnd + ": " + num(L.a, 2) + " + (" + num(L.b, 4) + ") &times; " + tEnd + (L.month ? " + (" + n2(L.month[11]) + ")" : "") + " = " + n2(lin)));
+    // SBTi
+    var bY = yLab(S, FC.baseYear);
+    c.push(card("SBTi Absolute Contraction", "P<sub>y</sub> = B &times; (1 - 0.042 &times; (y - " + FC.baseYear + "))",
+      sym([["B", "emissions in the base year, " + bY + " here"], ["0.042", "4.2% of the base cut each year, the SBTi rate for 1.5C"], ["P", "pathway value in year y"]]),
+      "B = " + n2(S.base) + "<br>" + esc(yLab(S, FC.end)) + ": " + n2(S.base) + " &times; (1 - 0.042 &times; " + (FC.end - FC.baseYear) + ") = " + n2(S.base) + " &times; " + num(1 - 0.042 * (FC.end - FC.baseYear), 3) + " = " + n2(S.pathway[FC.end]) + (S.freq === "month" ? " for the year" : "")));
+    // WAPE
+    c.push(card("WAPE, the test error", "WAPE = &Sigma; |forecast - actual| &divide; &Sigma; actual &times; 100",
+      sym([["\u03a3", "sum over every test " + S.freq], ["test", S.holdout[S.best].folds.length + " windows of " + S.testCfg.horizon + " " + S.freq + "s, starting " + S.testStarts.map(function (t) { return tLab(S, t); }).join(", ") + "; each model saw only earlier data"]]),
+      MN[S.best] + ": " + n2(best.sumAbsErr) + " &divide; " + n2(best.sumActual) + " &times; 100 = " + n2(best.wape) + "%"));
+    return '<div class="grid two fcards">' + c.join("") + "</div>";
+  }
+  function fcComment(S) {
+    var H = S.holdout, b = S.best, sn = H.snaive.wape, out = [], unit = S.unit, endY = yLab(S, FC.end);
+    out.push(MN[b] + " had the lowest test error, " + n2(H[b].wape) + "%, against " + n2(sn) + "% for the seasonal naive line, which repeats the last " + (S.freq === "year" ? "year" : "12 months") + ".");
+    var same = ["ets", "arima"].filter(function (k) { return Math.abs(S.f2030[k] - S.f2030.snaive) / S.f2030.snaive < 0.005; });
+    if (same.length) out.push(same.map(function (k) { return MN[k]; }).join(" and ") + (same.length > 1 ? " end" : " ends") + " at the same " + endY + " value as the seasonal naive line, so on this yearly series simple methods are hard to beat.");
+    if (Math.abs(H.ets.wape - H.arima.wape) < 0.05) out.push("ETS and AutoARIMA are close to a tie on test error.");
+    out.push("The " + (b === "linear" ? "linear trend" : MN[b]) + " forecast for " + endY + " is " + num(S.f2030[b], 1) + " " + unit + ", " + num(S.gap2030[b], 1) + "% above the 1.5C pathway of " + num(S.pathway[FC.end], 1) + " " + unit + ".");
+    if (S.best80) out.push("The low end of its 80% range, " + num(S.best80[0], 1) + ", is still above the pathway.");
+    else { var mlo = Math.min.apply(null, S.fc[b].lo80.slice(-12)); if (mlo > S.pathway[FC.end] / 12) out.push("Every month of its 80% range in " + FC.end + " is above the monthly pathway average."); }
+    out.push("Reaching the pathway needs a cut of " + n2(S.cutNeeded) + "% of the " + yLab(S, FC.baseYear) + " level each year from " + yLab(S, S.latestYear) + ".");
+    if (S.key !== "fed") out.push("SBTi targets are for companies, so this pathway is only an illustration for a national series.");
+    else out.push("The federal total already meets the Greening Government target of 40% below FY'06 by 2025, which is a different and less steep target.");
+    return comment(out.join(" "));
+  }
+  function forecast() {
+    if (!FC) { loadFC(); return '<p class="loading">Loading forecast data&hellip;</p>'; }
+    var S = fcSeries(), b = S.best, H = S.holdout, endY = yLab(S, FC.end), u = S.unit;
+    var seg = '<section class="filterbar inline" aria-label="Series"><div class="fb-group" role="group" aria-labelledby="fb-s"><span class="fb-label" id="fb-s">Series</span><div class="seg" id="f-s">' +
+      FC.series.map(function (x) { return '<button type="button" data-s="' + x.key + '" aria-pressed="' + (state.fs === x.key) + '">' + esc(x.name) + "</button>"; }).join("") + "</div></div></section>";
+    var rows = ["ets", "arima", "linear", "snaive"].map(function (k) {
+      return '<tr class="' + (k === b ? "best" : "") + '"><td>' + esc(MN[k]) + (k === b ? ' <span class="badge ok">Best</span>' : k === "snaive" ? ' <span class="badge b">Reference</span>' : "") + '</td><td class="num">' + n2(H[k].wape) + '%</td><td class="num hide-sm">' + num(H[k].sumAbsErr, 1) + '</td><td class="num">' + num(S.f2030[k], 1) + '</td><td class="num">' + num(S.gap2030[k], 1) + "%</td></tr>";
+    }).join("");
+    var latestSub = S.key === "fed" ? yLab(S, S.latestYear) + ", scope 1 and 2" : S.freq === "month" ? S.latestYear + " total, data to " + tLab(S, S.lastLabel) : String(S.latestYear);
+    var natNote = S.key === "fed" ? "" : " Shown as an illustration: SBTi targets are set by companies, not countries.";
+    return '<h1 class="v-title">Emissions forecast to ' + endY + " " + chip(S.name + ", " + u) + "</h1>" + seg +
+      '<div class="tiles">' + [
+        { title: "Latest actual", sub: latestSub, val: amt(S, S.latestActual), foot: num(100 * (S.latestActual - S.pathAtLatest) / S.pathAtLatest, 1) + "% above the pathway" },
+        { title: endY + " forecast", sub: MN[b] + (S.freq === "month" ? ", sum of 12 months" : ""), val: amt(S, S.f2030[b]), tone: "info", foot: S.best80 ? "80% range " + num(S.best80[0], 1) + " to " + num(S.best80[1], 1) : "80% range shown by month" },
+        { title: "Test error, WAPE", sub: MN[b] + ", held out " + S.freq + "s", val: n2(H[b].wape) + "%", foot: "Seasonal naive " + n2(H.snaive.wape) + "%" },
+        { title: "Gap to 1.5C pathway", sub: endY + ", SBTi 4.2% a year", val: "plus " + num(S.gap2030[b], 1) + "%", tone: "crit", foot: "Pathway " + amt(S, S.pathway[FC.end]) }
+      ].map(tile).join("") + "</div>" +
+      '<section class="card"><h2>Actuals and forecasts</h2><p class="c-sub">Pathway: SBTi Absolute Contraction, base year ' + yLab(S, FC.baseYear) + ", 4.2% of the base cut each year." + natNote + (S.gg ? " Green dotted line: Greening Government target, 40% below FY'06 by 2025. Fiscal years: FY'25 is April 2024 to March 2025." : "") + "</p>" + fcChart(S) + fcLegend(S) + overlapNote(S) + "</section>" +
+      '<div class="grid two"><section class="card"><h2>Model comparison</h2><div class="table-wrap"><table><thead><tr><th>Model</th><th class="num">WAPE</th><th class="num hide-sm">Total error</th><th class="num">' + esc(endY) + '</th><th class="num">Gap</th></tr></thead><tbody>' + rows + "</tbody></table></div>" +
+      '<p class="note">' + S.holdout[b].folds.length + " test windows of " + S.testCfg.horizon + " " + S.freq + "s. Best is the lowest WAPE among ETS, AutoARIMA and the linear trend." + (S.freq === "month" ? " " + endY + " values are 12 month totals." : "") + "</p></section>" +
+      fcComment(S).replace('class="card comment"', 'class="card comment in-grid"') + "</div>" +
+      formulaCards(S) +
+      '<p class="method-line">Method: the GHG Protocol calculation, activity times emission factor, is the industry standard. Forecasting engines differ by vendor: Microsoft uses ARIMA and ETS, Salesforce uses intensity times a business plan.</p>' +
+      '<section class="card"><h2>Sources and licences</h2><ol class="src-list">' + [
+        ["Greenhouse Gas Emissions Inventory, Item 1", "Treasury Board of Canada Secretariat. Open Government Licence, Canada.", "https://open.canada.ca/data/en/dataset/6bed41cd-9816-4912-a2b8-b0b224909396"],
+        ["CO2 and Greenhouse Gas Emissions data, Canada", "Our World in Data, Creative Commons BY 4.0. Accessed 10 October 2026.", "https://github.com/owid/co2-data"],
+        ["Monthly Energy Review, Table 11.1, total energy CO2", "US Energy Information Administration. Public domain. Accessed 10 October 2026.", "https://www.eia.gov/totalenergy/data/monthly/"],
+        ["SBTi Corporate Near-Term Criteria", "Science Based Targets initiative. Source of the 4.2% a year rate for 1.5C.", "https://files.sciencebasedtargets.org/production/files/SBTi-criteria.pdf"],
+        ["Greening Government Strategy", "Government of Canada. 40% below 2005 by 2025.", "https://www.canada.ca/en/treasury-board-secretariat/services/innovation/greening-government/strategy.html"],
+        ["Vendor methods", "Microsoft what-if analysis (ARIMA and ETS); Salesforce emissions forecast (intensity times business metric).", "https://help.salesforce.com/s/articleView?id=ind.netzero_manager_example_calculate_emissions_forecast.htm&language=en_US&type=5"],
+        ["StatsForecast", "Nixtla, Apache 2.0. AutoETS and AutoARIMA, fitted in Python ahead of time.", "https://github.com/Nixtla/statsforecast"]
+      ].map(function (s) { return '<li><a href="' + s[2] + '" target="_blank" rel="noopener">' + esc(s[0]) + "</a><span>" + esc(s[1]) + "</span></li>"; }).join("") + "</ol></section>";
+  }
+  function loadFC() {
+    if (fcLoading) return; fcLoading = true;
+    fetch("data/forecast.json?v=20261010f1").then(function (r) { if (!r.ok) throw new Error("data"); return r.json(); })
+      .then(function (d) { FC = d; if (state.view === "forecast") render(false); })
+      .catch(function () { fcLoading = false; $("#view").innerHTML = '<p class="loading">Could not load the forecast data. Please reload the page.</p>'; });
+  }
+  var RENDER = { mix: mix, emissions: emissions, diesel: diesel, forecast: forecast, about: about };
 
   /* ---------- wiring ---------- */
   function render(focus) {
@@ -201,9 +364,10 @@
     var p = location.hash.replace(/^#\/?/, "").split("?"), q = new URLSearchParams(p[1] || "");
     state.view = VIEWS.indexOf(p[0]) >= 0 ? p[0] : "mix";
     state.fy = /^(all|fy24|fy25|fy26)$/.test(q.get("fy") || "") ? q.get("fy") : "all";
+    state.fs = /^(fed|can|us)$/.test(q.get("s") || "") ? q.get("s") : "fed";
   }
   function writeHash() {
-    var h = "#/" + state.view + (state.view === "mix" && state.fy !== "all" ? "?fy=" + state.fy : "");
+    var h = "#/" + state.view + (state.view === "mix" && state.fy !== "all" ? "?fy=" + state.fy : "") + (state.view === "forecast" && state.fs !== "fed" ? "?s=" + state.fs : "");
     if (location.hash !== h) location.hash = h; else render(false);
   }
   var wasSmall = small();
@@ -218,6 +382,8 @@
   $("#view").addEventListener("click", function (e) {
     var b = e.target.closest("#f-fy button");
     if (b) { state.fy = b.dataset.fy; writeHash(); return; }
+    var sb = e.target.closest("#f-s button");
+    if (sb) { state.fs = sb.dataset.s; writeHash(); return; }
     var g = e.target.closest("[data-go]");
     if (g) { state.view = g.dataset.go; writeHash(); }
   });

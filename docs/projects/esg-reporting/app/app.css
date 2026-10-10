@@ -217,3 +217,20 @@ td.tag { color: var(--muted); font-size: .8rem; white-space: nowrap; }
 @media (max-width: 899px) { .tiles > .tile:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .legend { flex-wrap: wrap; gap: .3rem 1rem; }
 .legend span { white-space: nowrap; }
+/* Forecast view v=20261010f1 */
+.legend i.ln { width: 16px; height: 0; border-radius: 0; background: none; border-top: 2.5px solid var(--c); vertical-align: 3px; }
+.legend i.ln.dash { border-top-style: dashed; }
+.legend i.ln.dot { border-top-style: dotted; }
+.legend i.ln.band { height: 10px; border: 0; background: var(--c); opacity: .2; vertical-align: -1px; }
+tr.best td { background: var(--brand-soft); font-weight: 700; }
+.card.comment.in-grid { margin-top: 0; }
+.fcard .formula { overflow-x: auto; line-height: 1.7; }
+.fcard .formula.ex { background: var(--brand-soft); }
+.fcard .ex-h { margin: .8rem 0 0; }
+.sym { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .25rem; font-size: .84rem; color: var(--muted); }
+.sym li { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: .5rem; }
+.sym strong { color: var(--text); }
+.method-line { margin: var(--gap) 0; padding: .6rem .8rem; background: var(--card); border-radius: 8px; box-shadow: var(--shadow); font-size: .86rem; color: var(--muted); }
+.fcards { margin-top: var(--gap); }
+#f-s { flex-wrap: wrap; }
+@media (max-width: 560px) { #f-s button { padding: .4rem .5rem; } }

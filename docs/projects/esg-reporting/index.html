@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ESG Reporting | Case study | Afolabi Adesina</title>
-  <meta name="description" content="How I rebuilt an ESG procurement and emissions report on public Government of Canada data: local and foreign suppliers, scope 1 and 2 emissions, and a diesel calculator." />
+  <meta name="description" content="How I rebuilt an ESG procurement and emissions report on public Government of Canada data: local and foreign suppliers, scope 1 and 2 emissions, a diesel calculator, and an emissions forecast to 2030." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
-  <link rel="stylesheet" href="app/app.css?v=20261007e1" />
+  <link rel="stylesheet" href="app/app.css?v=20261010f1" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -25,7 +25,7 @@
     <section class="card cs-hero">
       <h1>Who do we buy from, and what do our operations emit?</h1>
       <p>At IHS Towers I gathered procurement data for ESG reporting: local and foreign suppliers by count and spend, linked to emissions from diesel generators, offices and warehouses. This app rebuilds that report on public Canadian data.</p>
-      <div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/diesel">Diesel calculator</a></div>
+      <div class="btn-row"><a class="btn primary" href="app/">Open app</a><a class="btn ghost" href="app/#/diesel">Diesel calculator</a><a class="btn ghost" href="app/#/forecast">Forecast</a></div>
     </section>
 
     <div class="tiles" style="margin-top:1rem">
@@ -48,11 +48,18 @@
       </ul></section>
     </div>
 
+    <section class="card" style="margin-top:1rem"><h2>Forecast to 2030</h2><ul class="plain">
+      <li>I tested ETS, AutoARIMA and a linear trend on held out years, with a seasonal naive line as the baseline. The screen shows the model with the lowest error for each series.</li>
+      <li>Federal operations: the linear trend had the lowest error, 4.60% against 5.34% for the baseline. It reaches 1,051.4 kt in FY'31, 66.1% above an SBTi 1.5C pathway of 633.1 kt from FY'20.</li>
+      <li>On yearly data, simple models are hard to beat. For federal operations, ETS and AutoARIMA both forecast a flat line at the latest value.</li>
+      <li>Canada and the US are shown too. The SBTi pathway is a company method, so for countries it is only an illustration.</li>
+    </ul><div class="btn-row"><a class="btn ghost" href="app/#/forecast">Open the forecast</a></div></section>
+
     <section class="card comment"><h2>What the numbers show</h2><p>Most suppliers and most spend are local, and three foreign suppliers hold 73% of foreign spend. Federal scope 1 and 2 emissions are 42.5% below FY'06, and natural gas is the largest source. The two datasets sit side by side; supply chain emissions are not covered.</p></section>
   </main>
 
   <footer class="foot">
-    <p>Data: Government of Canada Proactive Publication, Contracts and Greenhouse Gas Emissions Inventory, under the Open Government Licence, Canada. Diesel factor: ECCC Emission Factors and Reference Values, Version 4.0.</p>
+    <p>Data: Government of Canada Proactive Publication, Contracts and Greenhouse Gas Emissions Inventory, under the Open Government Licence, Canada. Diesel factor: ECCC Emission Factors and Reference Values, Version 4.0. Forecast: also Our World in Data (CC BY 4.0) and US EIA (public domain).</p>
     <p><a href="app/">Open app</a> &middot; <a href="/NA-Skills-Portfolio/">Portfolio</a> &middot; Afolabi Adesina</p>
   </footer>
 </body>
