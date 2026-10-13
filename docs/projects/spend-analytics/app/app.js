@@ -2,7 +2,7 @@
 (function () {
   "use strict";
   var state = { view: "overview", fy: "all", ct: "all" };
-  var cache = {}, G = null, S = null, MAP = null;
+  var cache = {}, G = null, S = null, P = null, MAP = null;
   var VIEWS = ["overview", "quality", "mapping", "suppliers", "categories", "about"];
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
@@ -32,13 +32,22 @@
     return "The " + S.nCategories + " category groups split into " + order.map(function (t) { return t + " " + pct(S.tiers[t].share); }).join(", ") + " of spend. " +
       (top ? top.name + " is the largest group at " + money(top.spend) + ". " : "") + "Grey bars have fewer than 30 contracts, so read them with care.";
   }
+  /* change against a prior period: c = current, p = prior, o = {pts: share in points, good: "up"|"down"|"", vs: label} */
+  function delta(c, p, o) {
+    if (p == null || c == null || !isFinite(c) || !isFinite(p) || (!o.pts && p === 0)) return null;
+    var ch = o.pts ? (c - p) * 100 : (c / p - 1) * 100, r = Math.round(Math.abs(ch) * 10) / 10;
+    var dir = r === 0 ? "flat" : ch > 0 ? "up" : "down", cls = !o.good || dir === "flat" ? "neutral" : dir === o.good ? "good" : "bad";
+    var word = { up: "Up", down: "Down", flat: "No change" }[dir];
+    return '<span class="tile-delta ' + cls + '"><span class="d-arrow" aria-hidden="true">' + (dir === "up" ? "\u25B2" : dir === "down" ? "\u25BC" : "\u25CF") + '</span><span class="sr">' + word + " </span>" +
+      (dir === "flat" ? "" : r.toFixed(1) + (o.pts ? " pts" : "%")) + ' <span class="d-vs">vs ' + esc(o.vs) + "</span></span>";
+  }
   function tile(t) {
     var tag = t.go ? "button" : "div";
     return "<" + tag + ' class="tile"' + (t.go ? ' type="button" data-go="' + t.go + '"' : "") + ">" +
       '<span class="tile-title">' + esc(t.title) + "</span>" +
+      '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + "</span>" + (t.d || "") +
       '<span class="tile-sub">' + esc(t.sub || "") + "</span>" +
-      '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + "</span>" +
-      '<span class="tile-foot">' + esc(t.foot || "") + "</span>" + "</" + tag + ">";
+      '<span class="tile-foot">' + esc(t.foot || "") + "</span></" + tag + ">";
   }
   function bars(rows, opt) {
     opt = opt || {};
@@ -78,14 +87,15 @@
 
   /* ---------- views ---------- */
   function overview() {
-    var k = S.kpi;
+    var k = S.kpi, pk = P ? P.kpi : {}, vs = P ? "FY'" + String(+state.fy.slice(2) - 1) : "";
+    var dd = function (key, o) { return P ? delta(k[key], pk[key], { pts: o.pts, good: o.good, vs: vs }) : null; };
     var tiles = [
-      { title: "Total spend", sub: fyLabel(), val: money(k.spend), foot: num(k.contracts) + " contracts", go: "suppliers" },
-      { title: "Suppliers paid", sub: "After name clean-up", val: num(k.suppliers), foot: num(G.stages[0][1]) + " raw names became " + num(G.stages[G.stages.length - 1][1]), go: "quality" },
-      { title: "Spend with likely duplicates", sub: "Supplier sits in a name cluster", val: money(k.dupSpend), tone: "crit", foot: pct(k.dupShare) + " of spend", go: "quality" },
+      { title: "Total spend", sub: fyLabel(), val: money(k.spend), d: dd("spend", {}), foot: num(k.contracts) + " contracts", go: "suppliers" },
+      { title: "Suppliers paid", sub: "After name clean-up", val: num(k.suppliers), d: dd("suppliers", {}), foot: num(G.stages[0][1]) + " raw names became " + num(G.stages[G.stages.length - 1][1]), go: "quality" },
+      { title: "Spend with likely duplicates", sub: "Supplier sits in a name cluster", val: money(k.dupSpend), tone: "crit", d: dd("dupSpend", { good: "down" }), foot: pct(k.dupShare) + " of spend", go: "quality" },
       { title: "Class A with duplicates", sub: "Top suppliers, 80% of spend", val: k.classADup + " of " + k.classA, tone: "crit", foot: "Spread over more than one name", go: "suppliers" },
-      { title: "Top 10 supplier share", sub: "Concentration", val: pct(k.top10Share), tone: "info", foot: k.half + " suppliers make up half", go: "suppliers" },
-      { title: "Non-competitive", sub: "Share of contracts", val: pct(k.nonCompShare), foot: "Method recorded as non-competitive", go: "about" }
+      { title: "Top 10 supplier share", sub: "Concentration", val: pct(k.top10Share), tone: "info", d: dd("top10Share", { pts: 1 }), foot: k.half + " suppliers make up half", go: "suppliers" },
+      { title: "Non-competitive", sub: "Share of contracts", val: pct(k.nonCompShare), d: dd("nonCompShare", { pts: 1, good: "down" }), foot: "Method recorded as non-competitive", go: "about" }
     ];
     var monthly = S.monthly.map(function (m) { return [m[0], m[1]]; });
     var ct = Object.keys(S.byCT).sort(function (a, b) { return S.byCT[b] - S.byCT[a]; }).map(function (c) { return { name: c, v: S.byCT[c], label: money(S.byCT[c]) }; });
@@ -110,7 +120,7 @@
       '<div class="tiles">' + [
         { title: "Raw supplier names", sub: "As published, all years", val: num(st[0][1]) },
         { title: "After clean-up", sub: "Suggested masters, all years", val: num(st[st.length - 1][1]), tone: "pos", foot: pct(1 - st[st.length - 1][1] / st[0][1], 0) + " fewer" },
-        { title: "Spend with likely duplicates", sub: fyLabel(), val: money(k.dupSpend), tone: "crit", foot: pct(k.dupShare) + " of spend" },
+        { title: "Spend with likely duplicates", sub: fyLabel(), val: money(k.dupSpend), tone: "crit", d: P ? delta(k.dupSpend, P.kpi.dupSpend, { good: "down", vs: "FY'" + String(+state.fy.slice(2) - 1) }) : null, foot: pct(k.dupShare) + " of spend" },
         { title: "Names in clusters", sub: "All years", val: num(G.clusterNames), foot: "in " + num(G.clusters) + " clusters" },
         { title: "35-character names", sub: "Records, all years", val: num(r35), tone: "neg", foot: num(r36) + " at 36 characters" }
       ].map(tile).join("") + "</div>" +
@@ -228,7 +238,8 @@
     if (focus) v.focus({ preventScroll: true });
   }
   function loadSlice() {
-    return load("slice_" + state.fy + "_" + state.ct + ".json").then(function (d) { S = d; });
+    var prev = { fy25: "fy24", fy26: "fy25" }[state.fy];
+    return Promise.all([load("slice_" + state.fy + "_" + state.ct + ".json"), prev ? load("slice_" + prev + "_" + state.ct + ".json") : null]).then(function (r) { S = r[0]; P = r[1]; });
   }
   function readHash() {
     var p = location.hash.replace(/^#\/?/, "").split("?"), q = new URLSearchParams(p[1] || "");

@@ -12,7 +12,21 @@
   var LEG = '<div class="legend"><span><i style="background:#E3F4E8"></i>Lapse under 5%</span><span><i style="background:#FFF4D6"></i>5% to 15%</span><span><i style="background:#FDE4E2"></i>15% or more</span></div>';
   function mod(title, note, body) { return '<section class="module"><div class="mod-head"><h2>' + esc(title) + "</h2>" + (note ? "<span>" + esc(note) + "</span>" : "") + '</div><div class="mod-body">' + body + "</div></section>"; }
   function yearSel(fy, view) { return '<label>Fiscal year <select data-fy="' + view + '">' + D.years.slice().reverse().map(function (y) { return '<option value="' + y + '"' + (y === fy ? " selected" : "") + ">" + y + "</option>"; }).join("") + "</select></label>"; }
-  function kpis(t) { var l = t.auth - t.exp; return '<div class="kpis">' + [["Authorities", bil(t.auth), "Voted budget"], ["Actual", bil(t.exp), "Spent"], ["Lapse", bil(l), "Authorities less actual"], ["Lapse %", pc(l / t.auth), num(t.nOrg) + " organizations"]].map(function (k) { return '<div class="kpi"><span>' + k[0] + "</span><strong>" + k[1] + "</strong><em>" + esc(k[2]) + "</em></div>"; }).join("") + "</div>"; }
+  function dl(c, p, o) {
+    if (!p) return "";
+    var ch = o.pts ? (c - p) * 100 : (c / p - 1) * 100, r = Math.round(Math.abs(ch) * 10) / 10, dir = r === 0 ? "flat" : ch > 0 ? "up" : "down";
+    var cls = !o.good || dir === "flat" ? "neutral" : dir === o.good ? "good" : "bad";
+    return '<b class="kd ' + cls + '"><i aria-hidden="true">' + (dir === "up" ? "\u25B2" : dir === "down" ? "\u25BC" : "\u25CF") + '</i><span class="sr">' + { up: "Up", down: "Down", flat: "No change" }[dir] + " </span>" + (dir === "flat" ? "" : r.toFixed(1) + (o.pts ? " pts" : "%")) + " <small>vs " + esc(o.vs) + "</small></b>";
+  }
+  function kpis(t) {
+    var l = t.auth - t.exp, i = D.trend.indexOf(t), q = i > 0 ? D.trend[i - 1] : null, vs = q ? q.fy : "", ql = q ? q.auth - q.exp : 0;
+    return '<div class="kpis">' + [
+      ["Authorities", bil(t.auth), "Voted budget", q && dl(t.auth, q.auth, { vs: vs })],
+      ["Actual", bil(t.exp), "Spent", q && dl(t.exp, q.exp, { vs: vs })],
+      ["Lapse", bil(l), "Authorities less actual", q && dl(l, ql, { good: "down", vs: vs })],
+      ["Lapse %", pc(l / t.auth), num(t.nOrg) + " organizations", q && dl(l / t.auth, ql / q.auth, { pts: 1, good: "down", vs: vs })]
+    ].map(function (k) { return '<div class="kpi"><span>' + k[0] + "</span><strong>" + k[1] + "</strong>" + (k[3] || "") + "<em>" + esc(k[2]) + "</em></div>"; }).join("") + "</div>";
+  }
   function trendOf(fy) { return D.trend.filter(function (t) { return t.fy === fy; })[0]; }
   function parse() { var p = location.hash.replace(/^#\/?/, "").split("?"), q = new URLSearchParams(p[1] || ""); var fy = q.get("fy"); return { view: VIEWS.indexOf(p[0]) >= 0 ? p[0] : "variance", fy: D.years.indexOf(fy) >= 0 ? fy : D.years[D.years.length - 1], sort: q.get("sort") || "auth" }; }
 

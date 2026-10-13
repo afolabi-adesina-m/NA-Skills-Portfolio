@@ -201,3 +201,27 @@ td.pos, span.pos { color: var(--pos); } td.neg, span.neg { color: var(--neg); }
 .map text { font-size: 10px; }
 .map .lbl { font-size: 11px; fill: var(--text); font-weight: 700; }
 @media (max-width: 560px) { .inputs { grid-template-columns: 1fr 1fr; } .fx-card .fx { font-size: .95rem; } }
+
+/* KPI tiles, clean card look: short uppercase label, one big number, small change line */
+.tile, div.tile { gap: 0; padding: 1rem 1.1rem; box-shadow: none; border: 1px solid #E5E8EB; border-radius: 10px; }
+.tile:hover { box-shadow: 0 2px 10px rgba(34,53,72,.10); }
+div.tile:hover { box-shadow: none; }
+.tile-title { order: 0; text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; font-weight: 700; color: var(--muted); line-height: 1.1rem; min-height: 2.2rem; }
+.tile-val { order: 1; margin-top: .35rem; padding-top: 0; font-size: 2rem; line-height: 2.3rem; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.tile-delta { order: 2; display: inline-flex; align-items: baseline; gap: .3rem; margin-top: .3rem; font-size: .8rem; font-weight: 700; line-height: 1.1rem; }
+.tile-delta .d-arrow { font-size: .7rem; }
+.tile-delta .d-vs { font-weight: 400; color: var(--muted); }
+.tile-delta.good { color: var(--pos); }
+.tile-delta.bad { color: var(--neg); }
+.tile-delta.neutral { color: var(--muted); }
+.tile-sub { order: 3; margin-top: .55rem; min-height: 0; color: var(--muted); font-size: .78rem; line-height: 1.1rem; }
+.tile-foot { order: 4; margin-top: .15rem; min-height: 0; font-size: .78rem; line-height: 1.1rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 560px) { .tile, div.tile { padding: .8rem; } .tile-val { font-size: 1.5rem; line-height: 1.8rem; } .tile-title { font-size: .68rem; } }
+/* Home button in the shell bar */
+.sb-home { display: inline-flex; align-items: center; gap: .35rem; margin-left: auto; font-size: .88rem; font-weight: 700; text-decoration: none; padding: .35rem .7rem; border-radius: 8px; border: 1px solid #A6CFFF; color: var(--brand-dark); white-space: nowrap; }
+.sb-home svg { width: 16px; height: 16px; fill: currentColor; }
+.sb-home:hover { background: var(--brand-soft); }
+.sb-home + .sb-link { margin-left: 0; }
+@media (max-width: 560px) { .sb-sub { display: none; } }
+.sb-link { white-space: nowrap; }

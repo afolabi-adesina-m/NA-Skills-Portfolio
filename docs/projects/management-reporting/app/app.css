@@ -89,3 +89,19 @@ ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; }
   .g tbody th { max-width: 150px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* KPI cards, clean look: short uppercase label, one big number, small change line */
+.kpi { padding: .9rem 1rem; border-radius: 6px; }
+.kpi span { text-transform: uppercase; letter-spacing: .05em; font-size: .7rem; font-weight: 700; }
+.kpi strong { font-size: 1.75rem; font-weight: 700; margin-top: .3rem; line-height: 1.15; }
+.kpi .kd { display: block; margin-top: .25rem; font-size: .78rem; font-weight: 700; }
+.kpi .kd i { font-style: normal; font-size: .68rem; margin-right: .25rem; }
+.kpi .kd small { font-size: .78rem; font-weight: 400; color: var(--muted); }
+.kpi .kd.good { color: #1E7B34; } .kpi .kd.bad { color: #B42318; } .kpi .kd.neutral { color: var(--muted); }
+.kpi em { display: block; margin-top: .4rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tb-home { display: inline-flex; align-items: center; gap: .35rem; margin-left: auto; color: #fff; text-decoration: none; font-size: .85rem; font-weight: 600; padding: .3rem .65rem; border: 1px solid #3C4E74; border-radius: 6px; white-space: nowrap; }
+.tb-home svg { width: 15px; height: 15px; fill: currentColor; }
+.tb-home:hover { background: var(--navy-2); }
+.tb-home + .tb-link { margin-left: 0; }
+@media (max-width: 560px) { .kpi strong { font-size: 1.35rem; } .tb-sub { display: none; } }

@@ -25,13 +25,22 @@
 
   /* ---------- small UI builders ---------- */
   function comment(t) { return '<section class="card comment"><h2>What the numbers show</h2><p>' + esc(t) + "</p></section>"; }
+  /* change against a prior period: c = current, p = prior, o = {pts: share in points, good: "up"|"down"|"", vs: label} */
+  function delta(c, p, o) {
+    if (p == null || c == null || !isFinite(c) || !isFinite(p) || (!o.pts && p === 0)) return null;
+    var ch = o.pts ? (c - p) * 100 : (c / p - 1) * 100, r = Math.round(Math.abs(ch) * 10) / 10;
+    var dir = r === 0 ? "flat" : ch > 0 ? "up" : "down", cls = !o.good || dir === "flat" ? "neutral" : dir === o.good ? "good" : "bad";
+    var word = { up: "Up", down: "Down", flat: "No change" }[dir];
+    return '<span class="tile-delta ' + cls + '"><span class="d-arrow" aria-hidden="true">' + (dir === "up" ? "\u25B2" : dir === "down" ? "\u25BC" : "\u25CF") + '</span><span class="sr">' + word + " </span>" +
+      (dir === "flat" ? "" : r.toFixed(1) + (o.pts ? " pts" : "%")) + ' <span class="d-vs">vs ' + esc(o.vs) + "</span></span>";
+  }
   function tile(t) {
     var tag = t.go ? "button" : "div";
     return "<" + tag + ' class="tile"' + (t.go ? ' type="button" data-go="' + t.go + '"' : "") + ">" +
       '<span class="tile-title">' + esc(t.title) + "</span>" +
+      '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + "</span>" + (t.d || "") +
       '<span class="tile-sub">' + esc(t.sub || "") + "</span>" +
-      '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + "</span>" +
-      '<span class="tile-foot">' + esc(t.foot || "") + "</span>" + "</" + tag + ">";
+      '<span class="tile-foot">' + esc(t.foot || "") + "</span></" + tag + ">";
   }
   function bars(rows) {
     var max = Math.max.apply(null, rows.map(function (r) { return r.v; })) || 1;
@@ -69,7 +78,8 @@
 
   /* ---------- views ---------- */
   function mix() {
-    var P = D.proc, S = P[state.fy], L = S.local, F = S.foreign;
+    var P = D.proc, S = P[state.fy], L = S.local, F = S.foreign, pf = { fy25: "fy24", fy26: "fy25" }[state.fy], Q = pf ? P[pf] : null;
+    var dm = function (c, f) { return Q ? delta(c, f(Q), { vs: "FY'" + pf.slice(2) }) : null; };
     var seg = '<section class="filterbar inline" aria-label="Filters"><div class="fb-group" role="group" aria-labelledby="fb-fy"><span class="fb-label" id="fb-fy">Fiscal year</span><div class="seg" id="f-fy">' +
       ["all", "fy24", "fy25", "fy26"].map(function (k) { return '<button type="button" data-fy="' + k + '" aria-pressed="' + (state.fy === k) + '">' + (k === "all" ? "All" : "FY'" + k.slice(2)) + "</button>"; }).join("") + "</div></div></section>";
     var fyData = P.byFY.map(function (r) { return [r[0], [r[1], r[2]]]; });
@@ -81,11 +91,11 @@
     var topRows = S.topForeign.map(function (t, i) { return '<tr><td class="num">' + (i + 1) + "</td><td>" + esc(t[0]) + '</td><td class="hide-sm">' + esc(short(t[1])) + '</td><td class="num">' + money(t[2]) + '</td><td class="num hide-sm">' + pct(t[2] / F.spend) + "</td></tr>"; }).join("");
     return '<h1 class="v-title">Supplier mix, local and foreign ' + chip(fyLabel()) + "</h1>" + seg +
       '<div class="tiles">' + [
-        { title: "Suppliers paid", sub: "Suggested masters", val: num(S.suppliers), foot: num(S.contracts) + " contracts" },
-        { title: "Local suppliers", sub: "Canadian address", val: num(L.suppliers), tone: "info", foot: pct(L.suppliers / S.suppliers) + " of suppliers" },
-        { title: "Foreign suppliers", sub: "Address outside Canada", val: num(F.suppliers), foot: num(F.countries) + " countries" },
-        { title: "Local spend", sub: "Contract value", val: money(L.spend), tone: "info", foot: pct(L.spend / S.spend) + " of spend" },
-        { title: "Foreign spend", sub: "Contract value", val: money(F.spend), foot: pct(F.spend / S.spend) + " of spend" }
+        { title: "Suppliers paid", sub: "Suggested masters", val: num(S.suppliers), d: dm(S.suppliers, function (q) { return q.suppliers; }), foot: num(S.contracts) + " contracts" },
+        { title: "Local suppliers", sub: "Canadian address", val: num(L.suppliers), tone: "info", d: dm(L.suppliers, function (q) { return q.local.suppliers; }), foot: pct(L.suppliers / S.suppliers) + " of suppliers" },
+        { title: "Foreign suppliers", sub: "Address outside Canada", val: num(F.suppliers), d: dm(F.suppliers, function (q) { return q.foreign.suppliers; }), foot: num(F.countries) + " countries" },
+        { title: "Local spend", sub: "Contract value", val: money(L.spend), tone: "info", d: dm(L.spend, function (q) { return q.local.spend; }), foot: pct(L.spend / S.spend) + " of spend" },
+        { title: "Foreign spend", sub: "Contract value", val: money(F.spend), d: dm(F.spend, function (q) { return q.foreign.spend; }), foot: pct(F.spend / S.spend) + " of spend" }
       ].map(tile).join("") + "</div>" +
       '<div class="grid two"><section class="card"><h2>Split by count and spend</h2>' +
       '<p class="c-sub">Suppliers</p>' + split(L.suppliers, F.suppliers, "Local", "Foreign") +
@@ -103,6 +113,7 @@
   function emissions() {
     var E = D.em, d = E.diesel;
     var cut = 1 - E.total / E.baseTotal, yoy = E.total / E.prevTotal - 1;
+    var T1 = E.trend[E.trend.length - 1], T0 = E.trend[E.trend.length - 2], vsE = fyShort(T0[0]);
     var src = E.bySourceScope.map(function (r, i) { return { name: r[0], v: r[1], label: kt(r[1]) + ", " + pct(r[1] / E.total), tone: ["", "s2", "fleet"][i] }; });
     var cat = E.byCategory.map(function (c) { return { name: c[0] + ", scope " + c[1], v: c[2], label: kt(c[2]), tone: c[1] === 2 ? "s2" : "" }; });
     var tr = E.trend.map(function (t) { return [fyShort(t[0]), [t[1], t[2], t[3]]]; });
@@ -110,11 +121,10 @@
     var nameLoc = { NU: "Nunavut", QC: "Quebec", BC: "British Columbia", NS: "Nova Scotia", ON: "Ontario" };
     return '<h1 class="v-title">Emissions by scope and source ' + chip(fyShort(E.year) + ", federal operations") + "</h1>" +
       '<div class="tiles">' + [
-        { title: "Scope 1 and 2", sub: fyShort(E.year) + ", " + E.orgs + " organizations", val: kt(E.total), foot: "Facilities and fleet" },
-        { title: "Scope 1", sub: "Fuel burned on site and in vehicles", val: kt(E.scope1), tone: "info", foot: pct(E.scope1 / E.total) + " of total" },
-        { title: "Scope 2", sub: "Purchased electricity, heat, cooling", val: kt(E.scope2), foot: pct(E.scope2 / E.total) + " of total" },
-        { title: "Since " + fyShort(E.base), sub: "Change in total", val: "minus " + pct(cut), tone: "pos", foot: kt(E.baseTotal) + " in " + fyShort(E.base) },
-        { title: "Since " + fyShort("2023-24"), sub: "Change in total", val: (yoy < 0 ? "minus " : "plus ") + pct(Math.abs(yoy)), tone: yoy < 0 ? "pos" : "crit", foot: kt(E.prevTotal) + " in FY'24" }
+        { title: "Scope 1 and 2", sub: fyShort(E.year) + ", " + E.orgs + " organizations", val: kt(E.total), d: delta(E.total, E.prevTotal, { good: "down", vs: vsE }), foot: "Facilities and fleet" },
+        { title: "Scope 1", sub: "Fuel burned on site and in vehicles", val: kt(E.scope1), tone: "info", d: delta(T1[1] + T1[3], T0[1] + T0[3], { good: "down", vs: vsE }), foot: pct(E.scope1 / E.total) + " of total" },
+        { title: "Scope 2", sub: "Purchased electricity, heat, cooling", val: kt(E.scope2), d: delta(T1[2], T0[2], { good: "down", vs: vsE }), foot: pct(E.scope2 / E.total) + " of total" },
+        { title: "Since " + fyShort(E.base), sub: "Change in total", val: "minus " + pct(cut), tone: "pos", foot: kt(E.baseTotal) + " in " + fyShort(E.base) }
       ].map(tile).join("") + "</div>" +
       '<div class="grid two"><section class="card"><h2>By source and scope</h2>' + bars(src) +
       '<p class="note">Facilities cover offices, defence bases, laboratories, warehouses and other buildings.</p></section>' +

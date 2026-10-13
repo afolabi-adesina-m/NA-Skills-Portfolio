@@ -105,7 +105,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
       '<div class="form-foot"><div class="field"><span class="fb-label">Cholesterol units</span>' + seg("s-unit", [["mg", "mg/dL"], ["mmol", "mmol/L"]], state.unit) + "</div>" +
       '<div class="field"><span class="fb-label">Also run Framingham</span>' + seg("s-fram", [["0", "Off"], ["1", "On"]], state.fram ? "1" : "0") + "</div></div>" +
       "</div></section>";
-    return '<h1 class="v-title">Risk calculator</h1><div class="tiles" id="calc-tiles"></div>' +
+    return '<h1 class="v-title">Risk calculator</h1><section class="card result" id="calc-result" aria-live="polite"></section><div class="tiles" id="calc-tiles"></div>' +
       '<div class="grid two">' + form + '<section class="card"><h2>What moves your estimate</h2><div id="calc-drivers"></div>' +
       '<p class="note">Change in risk if that one input were the data average. Not medical advice.</p></section></div>' +
       '<div id="calc-comment"></div>';
@@ -125,7 +125,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
   }
   function updateCalc() {
     if (!$("#calc-tiles")) return;
-    if (!readForm()) { $("#calc-tiles").innerHTML = tile({ title: "Your estimate", sub: "10 year heart disease death", val: "Check inputs", tone: "crit" }); $("#calc-drivers").innerHTML = ""; $("#calc-comment").innerHTML = ""; return; }
+    if (!readForm()) { $("#calc-result").innerHTML = '<h2>Your result in plain words</h2><p class="plain-lead">Please check the details you entered.</p>'; $("#calc-tiles").innerHTML = tile({ title: "Your estimate", sub: "10 year heart disease death", val: "Check inputs", tone: "crit" }); $("#calc-drivers").innerHTML = ""; $("#calc-comment").innerHTML = ""; return; }
     var p = state.p, m = NH.model, r = HeartModel.nhanes(m, p), b = band(p.age), avg = b.observed_pct / 100, ratio = r / avg;
     var tiles = [
       { title: "Your estimate", sub: "10 year heart disease death", val: rpct(r), tone: "info", foot: "NHANES model" },
@@ -143,11 +143,61 @@ if (typeof module !== "undefined") module.exports = HeartModel;
       var pts = x.delta * 100;
       return { name: NAMES[x.f] + ": " + label(x.f), v: pts, label: (pts >= 0 ? "adds " : "takes off ") + Math.abs(pts).toFixed(pts > -1 && pts < 1 ? 2 : 1) + " points", tone: pts >= 0 ? "crit" : "" };
     }));
+    $("#calc-result").innerHTML = plainResult(r, fr, b, ratio, HeartModel.drivers(m, p));
     var top = d[0], tp = Math.abs(top.delta * 100);
     $("#calc-comment").innerHTML = comment("The estimate for these details is " + rpct(r) + ", against " + b.observed_pct.toFixed(1) + "% observed for people aged " + b.band + " in the data. " +
       NAMES[top.f] + " moves it most, " + (top.delta >= 0 ? "adding " : "taking off ") + tp.toFixed(tp < 1 ? 2 : 1) + " points compared with an average value. " +
       (fr != null ? "Framingham gives " + rpct(fr) + ", which is higher because it counts any coronary heart disease, not only deaths. " : "") +
       "The model ranks people well on test data (AUC " + NH.test.auc + ") but rests on " + NH.cohort_flow.events_10y_heart_death + " deaths, so read it as a rough guide.");
+  }
+  /* plain words: "about X in 100", a level against people the same age, 100 people grid, top inputs */
+  function inHundred(r) {
+    var v = r * 100;
+    if (v >= 1) return "About " + Math.round(v) + " in 100";
+    var k = Math.round(r * 1000);
+    return k >= 1 ? "Fewer than 1 in 100 (about " + k + " in 1,000)" : "Fewer than 1 in 1,000";
+  }
+  function people(n, a) {
+    var s = "";
+    for (var i = 0; i < 100; i++) {
+      var x = (i % 10) * 22 + 11, y = Math.floor(i / 10) * 24 + 8;
+      s += '<g class="' + (i < n ? "pp on" : i < a ? "pp avg" : "pp") + '"><circle cx="' + x + '" cy="' + y + '" r="4"/><path d="M' + (x - 6) + " " + (y + 14) + "a6 6 0 0 1 12 0z" + '"/></g>';
+    }
+    return '<svg class="people" viewBox="0 0 220 244" role="img" aria-label="' + n + ' of 100 people shaded for your result">' + s + "</svg>";
+  }
+  var PLAIN = {
+    age: function (up) { return up ? "Your age raises it" : "Your age lowers it"; },
+    male: function (up, p) { return (p.male ? "Being male" : "Being female") + (up ? " raises it" : " lowers it"); },
+    sbp: function (up) { return up ? "Your blood pressure raises it" : "Your blood pressure lowers it"; },
+    bp_meds: function (up, p) { return (p.bp_meds ? "Taking blood pressure medicine" : "Not taking blood pressure medicine") + (up ? " raises it" : " lowers it"); },
+    tchol: function (up) { return up ? "Your total cholesterol raises it" : "Your total cholesterol lowers it"; },
+    hdl: function (up) { return up ? "Your HDL, the good cholesterol, raises it" : "Your HDL, the good cholesterol, lowers it"; },
+    smoker: function (up, p) { return (p.smoker ? "Smoking" : "Not smoking") + (up ? " raises it" : " lowers it"); },
+    diabetes: function (up, p) { return (p.diabetes ? "Having diabetes" : "Not having diabetes") + (up ? " raises it" : " lowers it"); },
+    bmi: function (up) { return up ? "Your BMI raises it" : "Your BMI lowers it"; }
+  };
+  function plainResult(r, fr, b, ratio, drv) {
+    var lvl = ratio >= 1.5 ? ["high", "High"] : ratio <= 0.67 ? ["low", "Low"] : ["mod", "Moderate"];
+    var pos = Math.max(2, Math.min(98, (Math.log(ratio) / Math.log(4) + 1) / 2 * 100));
+    var n = Math.round(r * 100), p = state.p;
+    var top = drv.filter(function (x) { return Math.abs(x.delta) * 100 >= 0.05; }).slice(0, 3);
+    var list = top.map(function (x) {
+      var up = x.delta > 0, pts = Math.abs(x.delta * 100);
+      return '<li class="' + (up ? "up" : "down") + '"><span class="arr" aria-hidden="true">' + (up ? "\u25B2" : "\u25BC") + "</span>" + esc(PLAIN[x.f](up, p)) + ' <span class="muted">(' + (/^(male|smoker|bp_meds|diabetes)$/.test(x.f) ? "" : label(x.f) + ", ") + (up ? "adds about " : "takes off about ") + (pts < 1 ? pts.toFixed(1) : Math.round(pts)) + " in 100)</span></li>";
+    }).join("");
+    return '<h2>Your result in plain words</h2>' +
+      '<div class="res-grid"><div class="res-text">' +
+      '<p class="plain-lead"><strong>' + inHundred(r) + "</strong> people with answers like yours are expected to die of heart disease within 10 years, based on a model built on NHANES data.</p>" +
+      (fr != null ? '<p class="plain-sub">The Framingham model says <strong>' + inHundred(fr).toLowerCase() + "</strong> people with answers like yours are expected to develop coronary heart disease within 10 years. That counts any heart disease, not only deaths, so the number is higher.</p>" : "") +
+      '<p class="lvl-lab">Compared with people aged ' + esc(b.band) + ' in the data: <span class="lvl ' + lvl[0] + '">' + lvl[1] + "</span></p>" +
+      '<div class="lvl-bar" role="img" aria-label="' + lvl[1] + ' compared with people the same age"><span class="z low">Low</span><span class="z mod">Moderate</span><span class="z high">High</span><i style="left:' + pos.toFixed(1) + '%"></i></div>' +
+      '<p class="note">Low is under two thirds of the average at your age, ' + b.observed_pct.toFixed(1) + "%. High is one and a half times that average or more.</p>" +
+      '<h3>What raised or lowered your result</h3><ul class="why">' + list + "</ul>" +
+      '<p class="note">Each line compares your answer with the average person in the data, using the model weights.</p>' +
+      "</div>" +
+      '<figure class="res-fig">' + people(n, Math.round(b.observed_pct)) + '<figcaption><span class="key on"></span>Your result: ' + (n >= 1 ? n + " of 100" : "fewer than 1 of 100") + '<br><span class="key avg"></span>Average at your age: ' + Math.round(b.observed_pct) + " of 100</figcaption></figure></div>" +
+      '<p class="meaning"><strong>What this number means:</strong> it is the share of people with similar answers in past survey data, not a forecast for you. It cannot tell you whether you will or will not have heart disease.</p>' +
+      '<p class="meaning">Learning tool, not medical advice. Please talk to a doctor about your own health.</p>';
   }
   function label(f) {
     var p = state.p;

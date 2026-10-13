@@ -439,3 +439,8 @@
   font-weight: 700;
   letter-spacing: 0.02em;
 }
+
+/* Mobile fit: let grid items shrink, scroll wide tables inside their card */
+.view-grid > * { min-width: 0; }
+.table-wrap { max-width: 100%; overflow-x: auto; }
+.js-plotly-plot, .js-plotly-plot .plot-container { max-width: 100%; }

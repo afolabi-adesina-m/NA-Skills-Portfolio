@@ -8,11 +8,22 @@
   var big = function (v, pre) { pre = pre || ""; var a = Math.abs(v), s = v < 0 ? "minus " : ""; if (a >= 1e9) return s + pre + (a / 1e9).toFixed(2) + "B"; if (a >= 1e6) return s + pre + (a / 1e6).toFixed(2) + "M"; if (a >= 1e4) return s + pre + (a / 1e3).toFixed(0) + "K"; return s + pre + num(a); };
   var PAL = ["#0070F2", "#E8743B", "#19A979", "#945ECF", "#ED4A7B", "#5899DA"];
   function comment(t) { return '<section class="card comment"><h2>What the numbers show</h2><p>' + esc(t) + "</p></section>"; }
+  /* change against a prior period: c = current, p = prior, o = {pts: share in points, good: "up"|"down"|"", vs: label} */
+  function delta(c, p, o) {
+    if (p == null || c == null || !isFinite(c) || !isFinite(p) || (!o.pts && p === 0)) return null;
+    var ch = o.pts ? (c - p) * 100 : (c / p - 1) * 100, r = Math.round(Math.abs(ch) * 10) / 10;
+    var dir = r === 0 ? "flat" : ch > 0 ? "up" : "down", cls = !o.good || dir === "flat" ? "neutral" : dir === o.good ? "good" : "bad";
+    var word = { up: "Up", down: "Down", flat: "No change" }[dir];
+    return '<span class="tile-delta ' + cls + '"><span class="d-arrow" aria-hidden="true">' + (dir === "up" ? "\u25B2" : dir === "down" ? "\u25BC" : "\u25CF") + '</span><span class="sr">' + word + " </span>" +
+      (dir === "flat" ? "" : r.toFixed(1) + (o.pts ? " pts" : "%")) + ' <span class="d-vs">vs ' + esc(o.vs) + "</span></span>";
+  }
   function tile(t) {
     var tag = t.go ? "button" : "div";
     return "<" + tag + ' class="tile"' + (t.go ? ' type="button" data-go="' + t.go + '"' : "") + ">" +
-      '<span class="tile-title">' + esc(t.title) + '</span><span class="tile-sub">' + esc(t.sub || "") + "</span>" +
-      '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + '</span><span class="tile-foot">' + esc(t.foot || "") + "</span></" + tag + ">";
+      '<span class="tile-title">' + esc(t.title) + "</span>" +
+      '<span class="tile-val ' + (t.tone || "") + '">' + esc(t.val) + "</span>" + (t.d || "") +
+      '<span class="tile-sub">' + esc(t.sub || "") + "</span>" +
+      '<span class="tile-foot">' + esc(t.foot || "") + "</span></" + tag + ">";
   }
   function tiles(list) { return '<div class="tiles">' + list.map(tile).join("") + "</div>"; }
   function card(title, body, sub, cls) { return '<section class="card ' + (cls || "") + '"><h2>' + esc(title) + "</h2>" + (sub ? '<p class="c-sub">' + esc(sub) + "</p>" : "") + body + "</section>"; }
