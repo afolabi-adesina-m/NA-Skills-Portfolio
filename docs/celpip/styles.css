@@ -556,6 +556,16 @@ button.row { width: 100%; background: none; border: 0; border-bottom: 1px solid 
 .gap-select { appearance: none; padding-right: 1.75rem; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23556b82' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.625rem center; }
 .drill-bad { background: var(--neg-bg); border-left: 4px solid var(--neg-border); border-radius: var(--r); padding: 0.625rem 0.75rem; margin-bottom: 0.75rem; font-size: 0.9375rem; }
 .drill-bad .label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--neg); margin-bottom: 0.25rem; }
+.drill-good { background: var(--pos-bg); border-left: 4px solid var(--pos-border); border-radius: var(--r); padding: 0.625rem 0.75rem; margin-bottom: 0.75rem; font-size: 0.9375rem; }
+.drill-good .label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--pos); margin-bottom: 0.25rem; }
+.trick + .trick { margin-top: 0.25rem; }
+.quiz-note { font-size: 0.75rem; font-weight: 700; color: var(--text-2); margin: 0.85rem 0 0.35rem; }
+.quiz-item { display: block; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 0.75rem; margin-bottom: 0.5rem; min-height: var(--tap); }
+.quiz-item .q { display: block; font-weight: 600; }
+.quiz-item .a { display: block; margin-top: 0.35rem; color: var(--pos); font-weight: 700; }
+.quiz-item.open { border-color: var(--pos-border); background: var(--pos-bg); }
+.link-quiet { background: none; border: 0; color: var(--text-2); font-size: 0.8125rem; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; min-height: var(--tap); padding: 0.25rem 0.5rem; }
+.pre-skip { text-align: center; margin-top: 0.25rem; }
 .result-top { display: flex; align-items: center; gap: 1rem; margin-top: 0.25rem; }
 
 /* ---------- Phrase bank flashcards ---------- */
