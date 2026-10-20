@@ -250,7 +250,7 @@ body.hub .brand { color: var(--ink); }
   color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.65;
-  max-width: 42ch;
+  max-width: 52ch;
   font-weight: 450;
 }
 
@@ -362,7 +362,30 @@ body.hub .brand { color: var(--ink); }
   gap: 0.35rem;
   flex: 1 1 16rem;
   min-width: min(100%, 16rem);
-  max-width: 28rem;
+  max-width: 36rem;
+}
+
+.role-track-label {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--ink-soft);
+}
+
+.role-tracks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.role-tracks a {
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.4;
 }
 
 .resume-hint {
@@ -641,7 +664,7 @@ body.hub a.btn-cta:hover,
   line-height: 1.25;
   margin: 0 0 1rem;
   color: var(--ink);
-  max-width: 28ch;
+  max-width: 22em;
 }
 
 .about-copy p {
@@ -652,11 +675,24 @@ body.hub a.btn-cta:hover,
   max-width: 54ch;
 }
 
-.about-copy p.credentials {
-  font-size: 0.92rem;
+.credentials-card {
+  margin-top: 1.15rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.credentials-card p {
+  margin: 0 0 0.55rem;
+  font-size: 0.9rem;
   line-height: 1.5;
   color: var(--ink-soft);
-  max-width: 62ch;
+}
+
+.credentials-card p:last-child { margin-bottom: 0; }
+
+.credentials-card strong {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .about-copy p:last-child {
@@ -968,6 +1004,14 @@ body.hub a.btn-cta:hover,
   line-height: 1.6;
 }
 
+.contact-email {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 650;
+  word-break: break-word;
+}
+
 /* Recommendations */
 .section-recommendations { padding-bottom: 3.5rem; }
 
@@ -992,6 +1036,11 @@ body.hub a.btn-cta:hover,
 .recommendation-card blockquote {
   margin: 0;
   flex: 1;
+}
+
+.recommendation-card strong {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .recommendation-card blockquote p {
@@ -1129,9 +1178,15 @@ body.hub a.btn-cta:hover,
   color: var(--ink);
 }
 
-.footer-brand span {
+.footer-brand span,
+.footer-brand a {
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+.footer-brand a {
+  color: var(--accent);
+  font-weight: 650;
 }
 
 .footer-links {
@@ -1369,7 +1424,7 @@ body.hub a.btn-cta:hover,
 .logo-holcim img { max-height: 36px; }
 .social-proof-note {
   margin: 1rem auto 0;
-  max-width: 42rem;
+  max-width: 48rem;
   font-size: 0.78rem;
   color: var(--muted);
   line-height: 1.45;
