@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Translytics - Operations Dashboard</title>
+  <meta name="description" content="Operations dashboard for a fictional National Logistics Co. Gold-table KPIs and charts for 2023 and 2024, from a group Databricks project on synthetic data." />
+  <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
+  <link rel="stylesheet" href="app.css?v=20261020tx" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#dashboard">Skip to dashboard</a>
+  <header class="top">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="8" fill="#0062D6"/>
+        <path d="M11 12h26v7H29v17h-10V19H11z" fill="#fff"/>
+      </svg>
+      <div>
+        <h1>Translytics - Operations Dashboard</h1>
+        <p class="powered">Powered by Gold Layer | sandbox_catalog.logistics | 2023-2024</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="years" role="group" aria-label="Year">
+        <button type="button" data-year="2023">2023</button>
+        <button type="button" data-year="2024" aria-pressed="true">2024</button>
+        <button type="button" data-year="all">All</button>
+      </div>
+      <a class="home" href="/NA-Skills-Portfolio/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>Home</a>
+    </div>
+  </header>
+
+  <main class="wrap" id="dashboard">
+    <p class="year-note" id="year-note">2024. Change versus 2023.</p>
+    <section class="kpis" id="kpis" aria-label="Key figures"></section>
+
+    <section class="panel">
+      <h2>Monthly shipment volume and on-time rate</h2>
+      <div id="chart-volume" class="chart" role="img" aria-label="Monthly shipments as bars and on-time rate as a line"></div>
+    </section>
+
+    <div class="split">
+      <section class="panel">
+        <h2>Revenue by customer tier</h2>
+        <p class="caption">Both years. Unknown is a missing tier. Unmatched is a shipment whose customer id did not match a customer row.</p>
+        <div id="chart-tier" class="chart" role="img" aria-label="Revenue by customer tier, including Unknown and Unmatched"></div>
+      </section>
+      <section class="panel">
+        <h2>Top 10 drivers</h2>
+        <p class="caption">Both years. Ranked by on-time rate in the gold extract. Blank names are shown as Driver and the id.</p>
+        <div id="chart-drivers" class="chart" role="img" aria-label="Top 10 drivers, on-time deliveries stacked with late deliveries"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>Monthly failure rate and on-time rate</h2>
+      <div id="chart-rates" class="chart" role="img" aria-label="Monthly failure rate and on-time rate"></div>
+    </section>
+
+    <section class="panel how">
+      <h2>How this was built</h2>
+      <p>This is a group project for a fictional company, National Logistics Co. The rows are synthetic, generated for 1 January 2023 through 31 December 2024. The pipeline uses a medallion layout on Databricks: Bronze, Silver, and Gold tables stored as Delta, transformed with PySpark.</p>
+      <p>Bronze holds the raw files for shipments, drivers, warehouses, customers, trucks, routes, and shipment events. The generator planted nulls, mixed-case statuses, bad province names, duplicate rows, and foreign keys that do not match.</p>
+      <p>Silver cleans those files. Provinces and statuses are normalized, dates and numbers are cast, invalid keys are dropped, duplicate rows are removed, and each shipment gains days delayed and an on-time flag.</p>
+      <p>Gold aggregates Silver into Delta tables in sandbox_catalog.logistics. This page reads three extracts: the monthly KPI summary, revenue by customer tier, and the top 10 drivers. Active drivers is the busiest month in the selected year. Average delay is the gold average of late days. Tier revenue and the driver list cover both years, because those extracts are not split by year.</p>
+      <p>The original dashboard label compared rounded revenue, $3.8 million against $4.1 million, which is a 7.32% drop. The gold table drop, using the full dollar amounts, is 8.4%.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Synthetic data. Group project. <a href="../">Case study</a> &middot; <a href="/NA-Skills-Portfolio/">Home</a></p>
+  </footer>
+  <script src="app.js?v=20261020tx" defer></script>
+</body>
+</html>
