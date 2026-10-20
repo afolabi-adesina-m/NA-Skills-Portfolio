@@ -37,13 +37,14 @@ function defaultState() {
     lesson1Completions: 0,
     lesson2Completions: 0,
     lesson3Completions: 0,
+    lessonGrammarCompletions: 0,
     lastScore: null,
     lastBand: null,
     lastLesson: null,
     scenarioIndex: 0,
     l3ScenarioIndex: 0,
     completedScenarioIds: [],
-    lessonsTouched: { 1: false, 2: false, 3: false },
+    lessonsTouched: { 1: false, 2: false, 3: false, 4: false },
     // v4 fields
     activeDays: [],
     challengeDone: {},
@@ -203,7 +204,7 @@ const CHALLENGE = (() => {
 function challengeDoneCount() { return CHALLENGE.filter((d) => state.challengeDone[d.date]).length; }
 function todayChallenge() { return CHALLENGE.find((d) => d.date === todayISO()) || null; }
 
-const APP_VERSION = 5;
+const APP_VERSION = 6;
 const WIZ5 = ["Who I am", "Why I write", "How it hurts me", "What I want", "Thank you"];
 const GAME_ICONS = { tone: "chat", sandwich: "layers", words: "zap", errors: "search", memory: "grid", connect: "link" };
 
@@ -314,7 +315,11 @@ function render(r, opts = {}) {
     case "history": renderHistory(opts); break;
     case "game": Games.start(r.id, {}); break;
     case "warmup": Games.warmup(); break;
-    case "lesson": if (r.n === 2) startLesson2(); else startLesson(false); break;
+    case "lesson":
+      if (r.n === 2) startLesson2();
+      else if (r.n === 4) startLessonGrammar();
+      else startLesson(false);
+      break;
     case "result": if (resultReady) showPage("result", { title: "Lesson result" }); else go({ p: "launchpad" }, { replace: true }); break;
     default: route = { p: "launchpad" }; renderLaunchpad(opts);
   }
@@ -402,6 +407,7 @@ function renderLaunchpad(opts = {}) {
       { id: "tile-l1", title: "Lesson 1", sub: "Fill the Gaps · email sandwich", kpi: state.lesson1Completions, unit: "done", icon: "layers", foot: "5 steps + subject" },
       { id: "tile-l2", title: "Lesson 2", sub: "Tone and Grammar drills", kpi: state.lesson2Completions, unit: "done", icon: "edit", foot: `${L2_DRILLS.length} drills` },
       { id: "tile-l3", title: "Lesson 3", sub: "Full Timed Draft", kpi: state.lesson3Completions, unit: "done", icon: "clock", foot: "27 minutes" },
+      { id: "tile-grammar", title: "Grammar", sub: "Subject-verb agreement", kpi: state.lessonGrammarCompletions || 0, unit: "done", icon: "check", foot: "7 tricks, then a quiz" },
       { id: "tile-phrases", title: "Phrase Bank", sub: "Swipe CLB 10 phrases", kpi: PHRASES.length, unit: "cards", icon: "cards", foot: `${state.favPhrases.length} starred` },
       { id: "tile-watch", title: "Watch List", sub: "From your Day 1 email", kpi: WATCH_LIST.length, unit: "habits", icon: "eye", foot: "In the draft checker" },
       { id: "tile-guides", title: "Baby Steps", sub: "Task 1 and Task 2, step by step", kpi: GUIDES.length, unit: "guides", icon: "list", foot: "Start here" },
@@ -435,6 +441,7 @@ const TILE_ACTIONS = {
   "tile-l1": () => go({ p: "lesson", n: 1 }),
   "tile-l2": () => go({ p: "lesson", n: 2 }),
   "tile-l3": () => startLesson3(false),
+  "tile-grammar": () => go({ p: "lesson", n: 4 }),
   "tile-phrases": () => go({ p: "phrases" }),
   "tile-watch": () => go({ p: "watch" }),
   "tile-guides": () => go({ p: "guides" }),
@@ -495,7 +502,7 @@ function toggleDay(date, el) {
 function renderSettings(opts) {
   $("settings-head").innerHTML = `<div class="profile"><span class="big-avatar" aria-hidden="true">AA</span>
     <div><h2 class="dp-title">Afolabi A.</h2><p class="dp-sub">Oakville · Sheridan · Target CLB 10+</p></div></div>`;
-  const lessons = [state.lesson1Completions, state.lesson2Completions, state.lesson3Completions];
+  const lessons = [state.lesson1Completions, state.lesson2Completions, state.lesson3Completions, state.lessonGrammarCompletions];
   $("settings-body").innerHTML = `
     <div class="panel"><h3>Appearance</h3>
       <label class="switch-row"><span>Dark theme<small>Easier on the eyes at night</small></span><input type="checkbox" id="set-dark" /><i class="switch" aria-hidden="true"></i></label>
@@ -506,7 +513,7 @@ function renderSettings(opts) {
         <li class="row"><span>Dates</span><b>Oct 5 to Nov 3, 2026</b></li>
         <li class="row"><span>Days done</span><b>${challengeDoneCount()} of 30</b></li>
         <li class="row"><span>Streak</span><b>${computeStreak()} days</b></li>
-        <li class="row"><span>Lessons tried</span><b>${lessons.filter((x) => x > 0).length} of 3</b></li>
+        <li class="row"><span>Lessons tried</span><b>${lessons.filter((x) => x > 0).length} of 4</b></li>
       </ul>
     </div>
     <div class="panel"><h3>About</h3>
@@ -795,12 +802,60 @@ function cfgFor(type, id) {
   return p ? { kind: type, type, routeType: type, id, prompt: p, title: p.title, minutes: type === "t2" ? 26 : 27, keywords: p.keywords } : null;
 }
 function openObject(type, id, tab, opts = {}) { go({ p: "object", type, id, tab: tab || "prompt" }, opts); }
+
+/* Lesson linked to a practice prompt. Task 1 uses the fitting lesson from 1 to 3,
+   or the next unfinished one, then the grammar lesson. Task 2 uses grammar.
+   Lesson 3's own timed draft is never gated on itself. */
+function lessonDone(n) {
+  if (n === 4) return (state.lessonGrammarCompletions || 0) > 0;
+  if (n === 1) return (state.lesson1Completions || 0) > 0;
+  if (n === 2) return (state.lesson2Completions || 0) > 0;
+  if (n === 3) return (state.lesson3Completions || 0) > 0;
+  return true;
+}
+function pendingLesson(type, id) {
+  if (type === "l3") return null;
+  if (type === "t2") return lessonDone(4) ? null : 4;
+  const prompt = findPrompt(type, id);
+  const fit = prompt && prompt.lesson ? prompt.lesson : 1;
+  if (!lessonDone(fit)) return fit;
+  const next = [1, 2, 3].find((n) => !lessonDone(n));
+  if (next) return next;
+  return lessonDone(4) ? null : 4;
+}
+const LESSON_GATE = {
+  1: { name: "Lesson 1", detail: "Build the email sandwich. Five short bites, then a subject." },
+  2: { name: "Lesson 2", detail: "Tone and grammar. Calm asks and clear sentences." },
+  3: { name: "Lesson 3", detail: "One full email on the clock. 27 minutes." },
+  4: { name: "Grammar: subject-verb agreement", detail: "Seven quick tricks, then a short quiz." },
+};
+function startLinkedLesson(n) {
+  if (n === 3) startLesson3(false);
+  else go({ p: "lesson", n: n === 4 ? 4 : n });
+}
+function renderLessonFirst(r, cfg, lesson, opts) {
+  const info = LESSON_GATE[lesson];
+  $("pre-head").innerHTML = `<p class="dp-eyebrow">Lesson first</p>
+    <h2 class="dp-title">Learn this, then practice</h2>
+    <p class="dp-sub">${esc(cfg.title)}</p>`;
+  $("pre-body").innerHTML = `
+    ${UI.strip("info", "A short lesson makes this practice easier.")}
+    <div class="panel"><h3>${esc(info.name)}</h3><p>${esc(info.detail)}</p></div>
+    <p class="pre-skip"><button type="button" class="link-quiet" id="btn-skip-practice">Skip to practice</button></p>`;
+  $("btn-skip-practice").addEventListener("click", () => renderObject(r, { ...opts, skipGate: true }));
+  showPage("prelesson", { ...opts, title: "Lesson first" });
+  UI.setFooter([{ id: "btn-start-lesson", label: "Start lesson", type: "emph", onClick: () => startLinkedLesson(lesson) }]);
+}
 function objTabs(cfg) { return cfg.kind === "l3" ? ["prompt", "plan", "write", "review"] : ["prompt", "plan", "write", "model", "review"]; }
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.max(0, s) % 60).padStart(2, "0")}`;
 
 function renderObject(r, opts = {}) {
   const cfg = cfgFor(r.type, r.id);
   if (!cfg) { go({ p: "launchpad" }, { replace: true }); return; }
+  if (!opts.skipGate) {
+    const lesson = pendingLesson(r.type, r.id);
+    if (lesson) { renderLessonFirst(r, cfg, lesson, opts); return; }
+  }
   if (!obj || obj.cfg.id !== cfg.id) obj = { cfg, tab: "prompt", revealed: false };
   obj.tab = objTabs(cfg).includes(r.tab) ? r.tab : "prompt";
   renderObjHead();

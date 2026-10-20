@@ -1209,8 +1209,10 @@ function checkSubject() {
 }
 
 let resultReady = false;
-function showResult({ band, scorePct, strength, fix, subject, body, againLabel, againFn, title }) {
+let resultLessonN = 1;
+function showResult({ band, scorePct, strength, fix, subject, body, againLabel, againFn, title, lessonN }) {
   resultReady = true;
+  resultLessonN = lessonN || (title && title.startsWith("Lesson 2") ? 2 : 1);
   document.getElementById("result-title").textContent = title || "Your email";
   document.getElementById("score-num").textContent = band;
   document.getElementById("score-label").textContent = `Practice score ${scorePct}% · estimate only`;
@@ -1224,10 +1226,13 @@ function showResult({ band, scorePct, strength, fix, subject, body, againLabel, 
   UI.setFooter([
     { id: "btn-done", label: "Done", type: "default", onClick: navBack },
     { id: "btn-again", label: againLabel || "Practice again", type: "emph", onClick: () => {
-      const n = title && title.startsWith("Lesson 2") ? 2 : 1;
+      const n = resultLessonN;
       route = { p: "lesson", n };
       history.replaceState({ r: route, depth }, "", hashOf(route));
-      if (typeof resultAgainHandler === "function") resultAgainHandler(); else startLesson(true);
+      if (typeof resultAgainHandler === "function") resultAgainHandler();
+      else if (n === 4) startLessonGrammar();
+      else if (n === 2) startLesson2();
+      else startLesson(true);
     } },
   ]);
   FX.coach("done");
@@ -1470,4 +1475,169 @@ function startLesson3(advance) {
   }
   const p = L3_PROMPTS[state.l3ScenarioIndex % L3_PROMPTS.length];
   openObject("l3", p.id, "prompt", { replace: advance && route.p === "object" });
+}
+
+/* ---------- Grammar · subject-verb agreement ---------- */
+const GRAMMAR_LABELS = ["Cross out", "Pronoun", "Opposite s", "Singular", "Or and nor", "There is", "Tense", "Quiz"];
+const GRAMMAR_TEACH = [
+  {
+    title: "Cross out the extras",
+    parts: [{
+      emoji: "✂️",
+      title: "Cross out the words in between",
+      tip: "The verb belongs to the first noun.",
+      weak: "The list of items on the desk are ready.",
+      strongHtml: "The list <s>of items on the desk</s> is ready.",
+    }],
+  },
+  {
+    title: "Swap in a pronoun",
+    parts: [{
+      emoji: "👥",
+      title: "Swap in a pronoun",
+      tip: "My manager and her team becomes they, so the verb is are.",
+      weak: "My manager and her team is ready.",
+      strong: "My manager and her team are ready.",
+    }],
+  },
+  {
+    title: "The opposite s rule",
+    parts: [{
+      emoji: "🔄",
+      title: "The opposite s rule",
+      tip: "If the noun adds s, the verb usually drops it.",
+      strong: "the report shows / the reports show",
+    }],
+  },
+  {
+    title: "Words that stay singular",
+    parts: [{
+      emoji: "1️⃣",
+      title: "Always singular",
+      tip: "Each, every, everyone, nobody, either and neither are singular.",
+      strong: "Everyone is ready.",
+    }],
+  },
+  {
+    title: "Or and nor",
+    parts: [{
+      emoji: "🎯",
+      title: "Match the nearer subject",
+      tip: "With or or nor, match the nearer subject.",
+      weak: "Neither the slides nor the handout are ready.",
+      strong: "Neither the slides nor the handout is ready.",
+    }],
+  },
+  {
+    title: "There is or there are",
+    parts: [{
+      emoji: "📍",
+      title: "After there is or there are",
+      tip: "Find the real subject after the verb.",
+      strong: "There are two screens. There is one webcam.",
+    }],
+  },
+  {
+    title: "Pairs, then tense",
+    parts: [{
+      emoji: "⏱️",
+      title: "Proofread pairs, then tense",
+      tip: "Check each subject and verb first, then the tense.",
+      strong: "I was impressed by how AI agents are helping.",
+    }],
+  },
+];
+const GRAMMAR_QUIZ = [
+  { q: "The results shows a clear improvement.", a: "The results show a clear improvement." },
+  { q: "My colleagues was very supportive.", a: "My colleagues were very supportive." },
+  { q: "He don't understand the new system.", a: "He does not understand the new system." },
+  { q: "We seen the presentation yesterday.", a: "We saw the presentation yesterday." },
+  { q: "The data indicate a positive trend.", a: "Already correct. The data indicates a positive trend is also fine." },
+  { q: "The screens in the boardroom is ready.", a: "The screens in the boardroom are ready.", group: "Friday morning email to John about the venue" },
+  { q: "Neither the webcams nor the projector are working.", a: "Neither the webcams nor the projector is working." },
+  { q: "Each of the refreshments are ready for John.", a: "Each of the refreshments is ready for John." },
+];
+let gSession = null;
+
+function startLessonGrammar() {
+  gSession = { index: 0, seen: {} };
+  showPage("grammar", { title: "Grammar" });
+  renderGrammar();
+}
+
+function trickBlock(part) {
+  const strong = part.strongHtml || escapeHtml(part.strong || "");
+  return `<div class="trick">
+    <p class="step-hint">${escapeHtml(part.tip)}</p>
+    ${part.weak ? `<div class="drill-bad"><span class="label">Weak</span>${escapeHtml(part.weak)}</div>` : ""}
+    ${part.strong || part.strongHtml ? `<div class="drill-good"><span class="label">Strong</span>${strong}</div>` : ""}
+  </div>`;
+}
+
+function renderGrammar() {
+  const i = gSession.index;
+  const quiz = i >= GRAMMAR_TEACH.length;
+  const step = quiz ? null : GRAMMAR_TEACH[i];
+  document.getElementById("g-label").innerHTML = UI.status("info", `Step ${i + 1} of ${GRAMMAR_LABELS.length}`);
+  document.getElementById("g-wizard").innerHTML = UI.wizard(GRAMMAR_LABELS, i);
+  document.getElementById("g-title").textContent = quiz ? "✍️ Quick quiz" : `${step.parts[0].emoji} ${step.parts[0].title}`;
+  const body = document.getElementById("g-body");
+  if (!quiz) {
+    body.innerHTML = step.parts.map(trickBlock).join("");
+  } else {
+    let noteShown = false;
+    body.innerHTML = `<p class="step-hint">Tap a line to see the fix.</p>` + GRAMMAR_QUIZ.map((item, idx) => {
+      const open = !!gSession.seen[idx];
+      const note = item.group && !noteShown ? (noteShown = true, `<p class="quiz-note">${escapeHtml(item.group)}</p>`) : "";
+      return `${note}<button type="button" class="quiz-item${open ? " open" : ""}" data-i="${idx}" aria-expanded="${open}">
+        <span class="q">${escapeHtml(item.q)}</span>
+        ${open ? `<span class="a">${escapeHtml(item.a)}</span>` : ""}
+      </button>`;
+    }).join("");
+    body.querySelectorAll(".quiz-item").forEach((b) => b.addEventListener("click", () => {
+      gSession.seen[b.dataset.i] = true;
+      renderGrammar();
+      const again = document.querySelector(`#g-body .quiz-item[data-i="${b.dataset.i}"]`);
+      if (again) again.focus();
+    }));
+  }
+  const last = i >= GRAMMAR_LABELS.length - 1;
+  UI.setFooter([
+    { id: "btn-g-prev", label: "Previous", type: "default", disabled: i === 0, onClick: () => { if (gSession.index > 0) { gSession.index -= 1; renderGrammar(); window.scrollTo(0, 0); } } },
+    { id: "btn-g-next", label: last ? "See results" : "Next", type: "emph", onClick: () => {
+      if (last) {
+        if (Object.keys(gSession.seen).length < GRAMMAR_QUIZ.length) {
+          FX.toast("Tap each line to see the fix first.");
+          FX.shake(document.getElementById("g-body"));
+          return;
+        }
+        finishGrammar();
+        return;
+      }
+      gSession.index += 1;
+      renderGrammar();
+      window.scrollTo(0, 0);
+    } },
+  ]);
+}
+
+function finishGrammar() {
+  bumpStreak();
+  state.lessonGrammarCompletions = (state.lessonGrammarCompletions || 0) + 1;
+  state.lessonsTouched[4] = true;
+  state.lastLesson = 4;
+  saveState(state);
+  const lines = GRAMMAR_QUIZ.map((item) => item.a).join("\n");
+  showResult({
+    band: "Done",
+    scorePct: 100,
+    strength: "You checked the subject and the verb before the tense.",
+    fix: "On your next email, cross out the words in between, then read the pair out loud.",
+    subject: "Grammar · subject and verb",
+    body: lines,
+    title: "Grammar · results",
+    againLabel: "Review the tricks",
+    againFn: () => startLessonGrammar(),
+    lessonN: 4,
+  });
 }

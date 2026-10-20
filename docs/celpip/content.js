@@ -17,6 +17,7 @@ const T1_PROMPTS = [];
 
 T1_PROMPTS.push({
   id: "t1-heat",
+  lesson: 1,
   title: "Heating and dishwasher",
   tag: "Home",
   icon: "🏠",
@@ -64,6 +65,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-coop",
+  lesson: 1,
   title: "Co-op deadline extension",
   tag: "Sheridan",
   icon: "🎓",
@@ -109,6 +111,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-recruiter",
+  lesson: 2,
   title: "Recruiter thank-you and next steps",
   tag: "Job hunt",
   icon: "💼",
@@ -154,6 +157,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-reference",
+  lesson: 2,
   title: "Reference request to former manager",
   tag: "Job hunt",
   icon: "🤝",
@@ -199,6 +203,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-go",
+  lesson: 1,
   title: "GO Train delay made you late",
   tag: "Transit",
   icon: "🚆",
@@ -244,6 +249,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-rent",
+  lesson: 1,
   title: "Rent increase notice",
   tag: "Home",
   icon: "🧾",
@@ -286,6 +292,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-noise",
+  lesson: 1,
   title: "Noisy upstairs neighbour",
   tag: "Home",
   icon: "🔊",
@@ -331,6 +338,7 @@ Afolabi`,
 
 T1_PROMPTS.push({
   id: "t1-reschedule",
+  lesson: 2,
   title: "Reschedule an interview",
   tag: "Job hunt",
   icon: "📅",
@@ -375,6 +383,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-gym",
+  lesson: 1,
   title: "Cancel a gym membership",
   tag: "Oakville",
   icon: "🏋️",
@@ -420,6 +429,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-professor",
+  lesson: 2,
   title: "Research assistant opportunity",
   tag: "Sheridan",
   icon: "🔬",
@@ -465,6 +475,7 @@ Afolabi A.`,
 
 T1_PROMPTS.push({
   id: "t1-niagara",
+  lesson: 2,
   title: "Recommend a Niagara weekend",
   tag: "Friends",
   icon: "🍁",
@@ -511,6 +522,7 @@ Afolabi`,
 
 T1_PROMPTS.push({
   id: "t1-serviceontario",
+  lesson: 1,
   title: "ServiceOntario card delay",
   tag: "Oakville",
   icon: "🪪",
