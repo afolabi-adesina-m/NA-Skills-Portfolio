@@ -640,10 +640,6 @@ body.hub a.btn-cta:hover,
 }
 
 /* About */
-.section-about {
-  padding-bottom: 3.5rem;
-}
-
 .about-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -834,6 +830,8 @@ body.hub a.btn-cta:hover,
 }
 
 #work,
+#operations,
+#applied-ai,
 #about,
 #connect,
 #recommendations {
@@ -911,7 +909,7 @@ body.hub a.btn-cta:hover,
 
 /* Contact — two-column */
 .section-contact {
-  padding-bottom: 4rem;
+  padding-bottom: 4.5rem;
 }
 
 .contact-layout {
@@ -1013,8 +1011,6 @@ body.hub a.btn-cta:hover,
 }
 
 /* Recommendations */
-.section-recommendations { padding-bottom: 3.5rem; }
-
 .recommendation-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1450,8 +1446,6 @@ body.hub a.btn-cta:hover,
 }
 
 /* ===== Featured ERP work and applied AI ===== */
-.section-erp { padding-bottom: 0.5rem; }
-
 .feature-grid,
 .ai-grid {
   display: grid;
@@ -1474,7 +1468,6 @@ body.hub a.btn-cta:hover,
 }
 
 .tile-note {
-  flex: 1 1 100%;
   font-size: 0.75rem;
   line-height: 1.4;
   color: var(--muted);
@@ -1491,10 +1484,6 @@ body.hub a.btn-cta:hover,
 }
 
 /* ===== Flow map: How a business runs ===== */
-.section-flow {
-  padding-top: 2.5rem;
-}
-
 .flow-head {
   display: flex;
   align-items: flex-end;
@@ -1594,7 +1583,7 @@ body.hub a.btn-cta:hover,
   .flow-lanes { grid-auto-rows: auto; }
   .lane {
     display: grid;
-    grid-row: span 5;
+    grid-row: span 3;
     grid-template-rows: subgrid;
     row-gap: 0.65rem;
     align-content: start;
@@ -1636,6 +1625,8 @@ body.hub a.btn-cta:hover,
   font-size: 0.8rem;
   font-weight: 700;
 }
+
+.lane-head > div { min-width: 0; }
 
 .lane-head h3 {
   margin: 0;
