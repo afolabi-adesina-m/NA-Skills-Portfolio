@@ -1,0 +1,76 @@
+.tx-page {
+  background: #F5F6F7;
+  color: #1D2D3E;
+}
+
+.tx-page .site-header a,
+.tx-page .brand,
+.tx-page .brand-name,
+.tx-page .brand-tag {
+  color: #E8EEF5;
+}
+
+.tx-page .site-header .nav-home-btn,
+.tx-page .site-header .nav-home-btn:hover {
+  color: #7CB8FF;
+  text-decoration: none;
+}
+
+.tx-main {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3rem;
+}
+
+.tx-kicker {
+  margin: 0 0 0.6rem;
+  color: #556B82;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tx-main h1 {
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 700;
+  color: #1D2D3E;
+}
+
+.tx-lead,
+.tx-main p {
+  margin: 0 0 1rem;
+  color: #1D2D3E;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.tx-main h2 {
+  margin: 1.6rem 0 0.55rem;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: #1D2D3E;
+}
+
+.tx-main ul {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+  color: #1D2D3E;
+  line-height: 1.55;
+}
+
+.tx-main li { margin: 0.35rem 0; }
+
+.tx-main a { color: #0062D6; }
+
+.tx-foot {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 2.5rem;
+  color: #556B82;
+  font-size: 0.92rem;
+}
+
+.tx-foot a { color: #0062D6; font-weight: 650; }
