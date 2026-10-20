@@ -70,7 +70,7 @@ The same CSVs are mirrored under `docs/assets/data/` for the interactive Plotly 
 
 ## Author
 
-Afolabi Adesina · Oakville, ON · adesiafo@sheridancollege.ca
+Afolabi A. · Oakville, ON · adesiafo@sheridancollege.ca
 
 ## Hub customization
 

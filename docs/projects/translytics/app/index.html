@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Translytics - Operations Dashboard</title>
+  <title>Translytics - Operations Dashboard | Afolabi A.</title>
   <meta name="description" content="Operations dashboard for a fictional National Logistics Co. Gold-table KPIs and charts for 2023 and 2024, from a group Databricks project on synthetic data." />
   <link rel="icon" href="/NA-Skills-Portfolio/favicon.ico" />
   <link rel="stylesheet" href="app.css?v=20261020tx" />
@@ -61,7 +61,8 @@
 
     <section class="panel how">
       <h2>How this was built</h2>
-      <p>This is a group project for a fictional company, National Logistics Co. The rows are synthetic, generated for 1 January 2023 through 31 December 2024. The pipeline uses a medallion layout on Databricks: Bronze, Silver, and Gold tables stored as Delta, transformed with PySpark.</p>
+      <p class="caption">Afolabi A. Group project. Synthetic data.</p>
+      <p>This is a group project for a fictional company, National Logistics Co. Afolabi A. published this page from the gold extracts. The rows are synthetic, generated for 1 January 2023 through 31 December 2024. The pipeline uses a medallion layout on Databricks: Bronze, Silver, and Gold tables stored as Delta, transformed with PySpark.</p>
       <p>Bronze holds the raw files for shipments, drivers, warehouses, customers, trucks, routes, and shipment events. The generator planted nulls, mixed-case statuses, bad province names, duplicate rows, and foreign keys that do not match.</p>
       <p>Silver cleans those files. Provinces and statuses are normalized, dates and numbers are cast, invalid keys are dropped, duplicate rows are removed, and each shipment gains days delayed and an on-time flag.</p>
       <p>Gold aggregates Silver into Delta tables in sandbox_catalog.logistics. This page reads three extracts: the monthly KPI summary, revenue by customer tier, and the top 10 drivers. Active drivers is the busiest month in the selected year. Average delay is the gold average of late days. Tier revenue and the driver list cover both years, because those extracts are not split by year.</p>
@@ -70,7 +71,7 @@
   </main>
 
   <footer class="foot">
-    <p>Synthetic data. Group project. <a href="../">Case study</a> &middot; <a href="/NA-Skills-Portfolio/">Home</a></p>
+    <p>Synthetic data. Group project. <a href="../">Case study</a> &middot; <a href="/NA-Skills-Portfolio/">Home</a> &middot; Afolabi A.</p>
   </footer>
   <script src="app.js?v=20261020tx" defer></script>
 </body>
