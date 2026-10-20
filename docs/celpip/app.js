@@ -160,9 +160,9 @@ function computeStreak() {
 /* ---------- 30-day challenge ---------- */
 const BASELINE = [
   { label: "Baseline: Writing", plan: "Your Day 1 email to the building manager about the heating vents and dishwasher. Done! It scored about CLB 8 to 9, and your watch list came from it.", act: { t: "prompt", id: "t1-heat", type: "t1" }, cta: "Open the heating prompt" },
-  { label: "Baseline: Speaking", plan: "Record yourself answering one CELPIP speaking task on your phone (outside this app). Then do the Daily Brain Warm-up.", act: { t: "warmup" }, cta: "Start warm-up" },
-  { label: "Baseline: Reading", plan: "Do one CELPIP reading practice set (outside this app). Then flip through 10 phrase cards.", act: { t: "phrases" }, cta: "Open phrase cards" },
-  { label: "Baseline: Listening", plan: "Do one CELPIP listening practice set (outside this app). Then play Connector Rush.", act: { t: "game", id: "connect" }, cta: "Play Connector Rush" },
+  { label: "Baseline: Speaking", plan: "Record yourself answering 1 CELPIP speaking task on your phone (outside this app). Then do the Daily Brain Warm-up.", act: { t: "warmup" }, cta: "Start warm-up" },
+  { label: "Baseline: Reading", plan: "Do 1 CELPIP reading practice set (outside this app). Then flip through 10 phrase cards.", act: { t: "phrases" }, cta: "Open phrase cards" },
+  { label: "Baseline: Listening", plan: "Do 1 CELPIP listening practice set (outside this app). Then play Connector Rush.", act: { t: "game", id: "connect" }, cta: "Play Connector Rush" },
 ];
 const PRACTICE = [
   { plan: "Lesson 2: Tone and Grammar. Fix the threats and you/your mistakes from Day 1.", act: { t: "lesson", n: 2 } },
@@ -190,7 +190,7 @@ const PRACTICE = [
   { plan: "Lesson 3: Full timed draft, 27 minutes, no breaks.", act: { t: "lesson", n: 3 } },
   { plan: "Watch list review, then Error Hunt. Aim for a perfect round.", act: { t: "game", id: "errors" } },
   { plan: "Redo your weakest prompt from the writing history.", act: { t: "weakest" } },
-  { plan: "Mock test: one Task 1 and one Task 2 back to back. You are ready!", act: { t: "mock" } },
+  { plan: "Mock test: 1 Task 1 and 1 Task 2 back to back. You are ready!", act: { t: "mock" } },
 ];
 const CHALLENGE = (() => {
   const days = [];
@@ -232,7 +232,7 @@ function runAction(a) {
     if (!scored.length) { FX.toast("No attempts yet. Start with the heating email."); openObject("t1", "t1-heat", "prompt"); return; }
     const w = scored.reduce((m, x) => (x.overall < m.overall ? x : m), scored[0]);
     openObject(w.type, w.id, "prompt");
-  } else if (a.t === "mock") { go({ p: "list", type: "t1" }); FX.toast("Pick one Task 1, then one Task 2. Timer on!"); }
+  } else if (a.t === "mock") { go({ p: "list", type: "t1" }); FX.toast("Pick 1 Task 1, then 1 Task 2. Timer on!"); }
 }
 
 /* ---------- Router: launchpad -> app -> back ---------- */
@@ -461,7 +461,7 @@ function renderToday(opts) {
   const head = $("today-head"), body = $("today-body");
   if (!t) {
     head.innerHTML = `<h2 class="dp-title">Today's task</h2><p class="dp-sub">${todayISO() < LEARNER.challengeStart ? "The 30-day challenge starts on Oct 5." : "The 30-day challenge is finished. Well done, Afolabi."}</p>`;
-    body.innerHTML = UI.strip("info", "Keep a small daily habit: one warm-up and one Task 1 a week keeps your writing sharp.");
+    body.innerHTML = UI.strip("info", "Keep a small daily habit: 1 warm-up and 1 Task 1 a week keeps your writing sharp.");
     showPage("today", { ...opts, title: "Today's task" });
     UI.setFooter([backBtn(), { id: "btn-today-go", label: "Daily Warm-up", type: "emph", onClick: () => go({ p: "warmup" }) }]);
     return;
@@ -488,7 +488,7 @@ function renderToday(opts) {
 }
 
 function toggleDay(date, el) {
-  if (date > todayISO()) { FX.toast("That day has not arrived yet. One day at a time."); if (el) FX.shake(el); return false; }
+  if (date > todayISO()) { FX.toast("That day has not arrived yet. 1 day at a time."); if (el) FX.shake(el); return false; }
   const now = !state.challengeDone[date];
   if (now) state.challengeDone[date] = true;
   else delete state.challengeDone[date];
@@ -531,10 +531,10 @@ function watchHtml(w) {
   return `<div class="bad-line"><b>Day 1</b>${esc(w.bad)}</div><div class="good-line"><b>CLB 10</b>${esc(w.good)}</div><p class="kid-line">${esc(w.kid)}</p>`;
 }
 function renderWatch(opts) {
-  $("watch-head").innerHTML = `<h2 class="dp-title">Watch List</h2><p class="dp-sub">Six habits from your Day 1 email. The draft checker looks for every one.</p>
+  $("watch-head").innerHTML = `<h2 class="dp-title">Watch List</h2><p class="dp-sub">6 habits from your Day 1 email. The draft checker looks for every one.</p>
     <div class="kpi-row"><div class="kpi"><span class="kpi-num">${WATCH_LIST.length}</span><span class="kpi-lbl">habits</span></div><div class="kpi"><span class="kpi-num">CLB 8 to 9</span><span class="kpi-lbl">Day 1 baseline</span></div></div>`;
   $("watch-body").innerHTML = `
-    ${UI.strip("info", "Fix these six and your emails move toward CLB 10.")}
+    ${UI.strip("info", "Fix these 6 and your emails move toward CLB 10.")}
     <div id="watch-full">${WATCH_LIST.map((w, i) => `<details class="panel watch-item" ${i === 0 ? "open" : ""}><summary>${esc(w.title)}</summary>${watchHtml(w)}</details>`).join("")}</div>
     <div class="panel"><h3>Rules to remember</h3><ul class="rule-list">
       ${["No threats", "Skip \"I hope this email meets you well\"", "Firm but polite", "Always write a clear subject and body", "Sign as Afolabi"].map((r) => `<li>${UI.icon("check")}${esc(r)}</li>`).join("")}
@@ -545,7 +545,7 @@ function renderWatch(opts) {
 
 /* ---------- Baby steps ---------- */
 function renderGuides(opts) {
-  $("guides-head").innerHTML = `<h2 class="dp-title">Baby Steps</h2><p class="dp-sub">Tiny steps, one at a time. Read one guide before you write.</p>`;
+  $("guides-head").innerHTML = `<h2 class="dp-title">Baby Steps</h2><p class="dp-sub">Tiny steps, 1 at a time. Read 1 guide before you write.</p>`;
   $("guides-body").innerHTML = `<div id="guides">${GUIDES.map((g) => `<div class="panel guide"><h3>${esc(g.title)}</h3><ol class="steps">${g.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></div>`).join("")}</div>`;
   showPage("guides", { ...opts, title: "Baby Steps" });
   UI.setFooter([backBtn(), { id: "btn-guides-go", label: "Start Lesson 1", type: "emph", onClick: () => go({ p: "lesson", n: 1 }) }]);
@@ -787,9 +787,9 @@ let saveTimer = null;
 const TAB_LABELS = { prompt: "Prompt", plan: "Plan", write: "Write", model: "Model answer", review: "Review" };
 const T1_PLAN = [
   { key: "who", label: "1. Who I am", hint: "Your name and your link to the reader: unit, class, or job." },
-  { key: "why", label: "2. Why I write", hint: "The problem or the request, in one sentence." },
-  { key: "hurt", label: "3. How it hurts me", hint: "How it affects you: sleep, study, work, money. Add one real detail." },
-  { key: "ask", label: "4. What I want", hint: "One polite request with a date. No threats." },
+  { key: "why", label: "2. Why I write", hint: "The problem or the request, in 1 sentence." },
+  { key: "hurt", label: "3. How it hurts me", hint: "How it affects you: sleep, study, work, money. Add 1 real detail." },
+  { key: "ask", label: "4. What I want", hint: "1 polite request with a date. No threats." },
   { key: "thanks", label: "5. Thank you", hint: "Thank them, then sign as Afolabi." },
 ];
 
@@ -824,10 +824,10 @@ function pendingLesson(type, id) {
   return lessonDone(4) ? null : 4;
 }
 const LESSON_GATE = {
-  1: { name: "Lesson 1", detail: "Build the email sandwich. Five short bites, then a subject." },
+  1: { name: "Lesson 1", detail: "Build the email sandwich. 5 short bites, then a subject." },
   2: { name: "Lesson 2", detail: "Tone and grammar. Calm asks and clear sentences." },
-  3: { name: "Lesson 3", detail: "One full email on the clock. 27 minutes." },
-  4: { name: "Grammar: subject-verb agreement", detail: "Seven quick tricks, then a short quiz." },
+  3: { name: "Lesson 3", detail: "1 full email on the clock. 27 minutes." },
+  4: { name: "Grammar: subject-verb agreement", detail: "7 quick tricks, then a short quiz." },
 };
 function startLinkedLesson(n) {
   if (n === 3) startLesson3(false);
@@ -956,7 +956,7 @@ function renderPlanTab() {
   const plan = d.plan || {};
   const rows = t2 ? T2_PLANNER : T1_PLAN;
   $("obj-body").innerHTML = `
-    ${UI.strip("info", t2 ? "Pick a side, then jot quick notes. Two or three minutes is enough. Notes are saved, not scored." : "Jot one quick note for each bite. Two or three minutes is enough. Notes are saved, not scored.")}
+    ${UI.strip("info", t2 ? "Pick a side, then jot quick notes. 2 or 3 minutes is enough. Notes are saved, not scored." : "Jot 1 quick note for each bite. 2 or 3 minutes is enough. Notes are saved, not scored.")}
     <div class="panel planner" id="writer-planner">
       ${t2 ? `<p class="field-label">Your choice</p><div class="options" style="grid-template-columns:1fr 1fr;margin:0 0 .75rem">
         <button type="button" class="option" data-opt="A" aria-pressed="${d.option === "A"}"><b>Option A</b></button>

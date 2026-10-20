@@ -107,7 +107,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
       "</div></section>";
     return '<h1 class="v-title">Risk calculator</h1><section class="card result" id="calc-result" aria-live="polite"></section><div class="tiles" id="calc-tiles"></div>' +
       '<div class="grid two">' + form + '<section class="card"><h2>What moves your estimate</h2><div id="calc-drivers"></div>' +
-      '<p class="note">Change in risk if that one input were the data average. Not medical advice.</p></section></div>' +
+      '<p class="note">Change in risk if that 1 input were the data average. Not medical advice.</p></section></div>' +
       '<div id="calc-comment"></div>';
   }
   function readForm() {
@@ -191,7 +191,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
       (fr != null ? '<p class="plain-sub">The Framingham model says <strong>' + inHundred(fr).toLowerCase() + "</strong> people with answers like yours are expected to develop coronary heart disease within 10 years. That counts any heart disease, not only deaths, so the number is higher.</p>" : "") +
       '<p class="lvl-lab">Compared with people aged ' + esc(b.band) + ' in the data: <span class="lvl ' + lvl[0] + '">' + lvl[1] + "</span></p>" +
       '<div class="lvl-bar" role="img" aria-label="' + lvl[1] + ' compared with people the same age"><span class="z low">Low</span><span class="z mod">Moderate</span><span class="z high">High</span><i style="left:' + pos.toFixed(1) + '%"></i></div>' +
-      '<p class="note">Low is under two thirds of the average at your age, ' + b.observed_pct.toFixed(1) + "%. High is one and a half times that average or more.</p>" +
+      '<p class="note">Low is under 2/3 of the average at your age, ' + b.observed_pct.toFixed(1) + "%. High is 1.5 times that average or more.</p>" +
       '<h3>What raised or lowered your result</h3><ul class="why">' + list + "</ul>" +
       '<p class="note">Each line compares your answer with the average person in the data, using the model weights.</p>' +
       "</div>" +
@@ -265,7 +265,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
       '<section class="card"><h2>Sources</h2><div class="table-wrap"><table><thead><tr><th>Data</th><th class="hide-sm">Publisher</th><th>Licence</th></tr></thead><tbody>' +
       src.map(function (s) { return '<tr><td><a href="' + s[3] + '" target="_blank" rel="noopener">' + esc(s[0]) + '</a></td><td class="hide-sm">' + esc(s[1]) + "</td><td>" + esc(s[2]) + "</td></tr>"; }).join("") + "</tbody></table></div></section>" +
       '<div class="grid two"><section class="card"><h2>Method</h2><ul class="plain">' +
-      "<li>Adults aged 40 to 79 from five NHANES cycles, with no heart disease or stroke reported at the exam.</li>" +
+      "<li>Adults aged 40 to 79 from 5 NHANES cycles, with no heart disease or stroke reported at the exam.</li>" +
       "<li>Outcome: death from heart disease within 10 years of the exam.</li>" +
       "<li>Logistic regression on " + NH.model.features.length + " inputs. 75% of people to train, 25% to test.</li>" +
       "<li>" + num(f.complete_cases) + " people and " + num(f.events_10y_heart_death) + " deaths after removing rows with missing values.</li>" +
