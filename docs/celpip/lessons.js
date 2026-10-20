@@ -34,7 +34,7 @@ const SCENARIOS = [
     prompt:
       "You live in Flat 12B at Oakwood Apartments. The lobby light on your floor has been broken for a week. It is dark and unsafe at night. Write to the building manager.",
     context: {
-      name: "Afolabi Adesina",
+      name: "Afolabi A.",
       role: "tenant in Flat 12B",
       place: "Oakwood Apartments",
       problem: "broken lobby light",
@@ -191,7 +191,7 @@ const SCENARIOS = [
     prompt:
       "You live in Unit 4A. For two weeks, the neighbour above you has played loud music after 11 p.m. You cannot sleep. Write to the property manager.",
     context: {
-      name: "Afolabi Adesina",
+      name: "Afolabi A.",
       role: "resident of Unit 4A",
       place: "your building",
       problem: "loud music after 11 p.m.",
@@ -335,7 +335,7 @@ const SCENARIOS = [
     prompt:
       "You are a tenant in Apt 8. Your visitor parking permit never arrived after you requested it two weeks ago. Guests keep getting tickets. Write to the condo office.",
     context: {
-      name: "Afolabi Adesina",
+      name: "Afolabi A.",
       role: "tenant in Apt 8",
       problem: "visitor parking permit not received",
       impact: "guests getting tickets",
@@ -477,7 +477,7 @@ const SCENARIOS = [
     prompt:
       "You are a member of FitLife Gym. The evening class schedule was cut without notice, and you can no longer train after work. Write to the gym manager.",
     context: {
-      name: "Afolabi Adesina",
+      name: "Afolabi A.",
       role: "FitLife Gym member",
       problem: "evening classes cut without notice",
       impact: "cannot train after work",
@@ -619,7 +619,7 @@ const SCENARIOS = [
     prompt:
       "You ordered a laptop stand from ShopEase two weeks ago. Tracking still says in transit, and you need it for work. Write to customer service.",
     context: {
-      name: "Afolabi Adesina",
+      name: "Afolabi A.",
       role: "ShopEase customer",
       problem: "order still in transit after two weeks",
       impact: "need it for work",
@@ -861,7 +861,7 @@ const L2_DRILLS = [
     bad: "I hope this email meets you well. Do it now. Name.",
     prompt: "Best closing?",
     choices: [
-      { text: "Thank you for your prompt attention.\n\nAfolabi Adesina", good: true, tip: null },
+      { text: "Thank you for your prompt attention.\n\nAfolabi A.", good: true, tip: null },
       { text: "I hope this email meets you well. Do it now.", good: false, tip: "Cut the filler and the demand. Thank them and sign." },
       { text: "Fix it or lawyer. Bye.", good: false, tip: "Threat + abrupt close. Stay polite." },
     ],

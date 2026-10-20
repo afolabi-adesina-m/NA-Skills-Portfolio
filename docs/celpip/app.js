@@ -494,7 +494,7 @@ function toggleDay(date, el) {
 /* ---------- Settings ---------- */
 function renderSettings(opts) {
   $("settings-head").innerHTML = `<div class="profile"><span class="big-avatar" aria-hidden="true">AA</span>
-    <div><h2 class="dp-title">Afolabi Adesina</h2><p class="dp-sub">Oakville · Sheridan · Target CLB 10+</p></div></div>`;
+    <div><h2 class="dp-title">Afolabi A.</h2><p class="dp-sub">Oakville · Sheridan · Target CLB 10+</p></div></div>`;
   const lessons = [state.lesson1Completions, state.lesson2Completions, state.lesson3Completions];
   $("settings-body").innerHTML = `
     <div class="panel"><h3>Appearance</h3>
@@ -936,7 +936,7 @@ async function outlineIntoDraft() {
       `For these reasons, I strongly support Option ${choice}. ${v("close")}`.trim(),
     ];
   } else {
-    parts = ["Dear ...,", v("who") || "My name is Afolabi Adesina, and ...", v("why") || "I am writing to ...", v("hurt") || "Because of this, ...", v("ask") || "Could you please ... by ...?", `${v("thanks") || "Thank you for your help."}\n\nSincerely,\nAfolabi Adesina`];
+    parts = ["Dear ...,", v("who") || "My name is Afolabi A., and ...", v("why") || "I am writing to ...", v("hurt") || "Because of this, ...", v("ask") || "Could you please ... by ...?", `${v("thanks") || "Thank you for your help."}\n\nSincerely,\nAfolabi A.`];
   }
   if (d.body.trim() && !(await UI.confirm({ title: "Add the outline?", text: "The outline goes below what you already wrote. Nothing is deleted.", ok: "Add outline", cancel: "Cancel" }))) return;
   d.body = (d.body.trim() ? d.body.trim() + "\n\n" : "") + parts.join("\n\n");
@@ -1020,7 +1020,7 @@ function renderWriteTab() {
   const body = $("writer-body");
   body.placeholder = t2
     ? "I believe Option ... is the better choice.\n\nFirst, ...\nFor example, ...\n\nSecond, ...\n\nSome people may argue that ...\n\nFor these reasons, ..."
-    : "Dear ...,\n\nWho I am\nWhy I write\nHow it hurts me\nWhat I want (+ polite timeline)\n\nThank you\nAfolabi Adesina";
+    : "Dear ...,\n\nWho I am\nWhy I write\nHow it hurts me\nWhat I want (+ polite timeline)\n\nThank you\nAfolabi A.";
   body.value = d.body || "";
   if (!t2) $("writer-subject").value = d.subject || "";
   body.addEventListener("input", () => { updateWriterMeta(); queueSave(); });

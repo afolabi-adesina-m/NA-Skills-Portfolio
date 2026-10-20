@@ -60,7 +60,7 @@ def save_og_image(square: Image.Image) -> None:
         title_font = ImageFont.load_default()
         sub_font = ImageFont.load_default()
 
-    draw.text((text_x, photo_y + 40), "Afolabi Adesina", fill=(248, 250, 252), font=title_font)
+    draw.text((text_x, photo_y + 40), "Afolabi A.", fill=(248, 250, 252), font=title_font)
     draw.text(
         (text_x, photo_y + 120),
         "Applied analytics for operations,",

@@ -5,7 +5,7 @@
 
 const LEARNER = {
   name: "Afolabi",
-  fullName: "Afolabi Adesina",
+  fullName: "Afolabi A.",
   city: "Oakville, Ontario",
   target: 10,
   challengeStart: "2026-10-05",
@@ -33,7 +33,7 @@ T1_PROMPTS.push({
     subject: "Heating and dishwasher repairs needed in Unit 1408",
     body: `Dear Ms. Patel,
 
-My name is Afolabi Adesina, and I rent Unit 1408 at 2150 Trafalgar Road. I am writing to follow up on two maintenance issues that I reported to the front desk on Thursday, October 1.
+My name is Afolabi A., and I rent Unit 1408 at 2150 Trafalgar Road. I am writing to follow up on two maintenance issues that I reported to the front desk on Thursday, October 1.
 
 First, the heating vents in my living room and bedroom have been blowing only cold air for about a week. Second, my dishwasher no longer drains, so dirty water stays at the bottom after every cycle.
 
@@ -44,10 +44,10 @@ Could you please arrange for a technician to inspect both the heating and the di
 Thank you for your help. I look forward to hearing from you.
 
 Best regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
-    { p: "My name is Afolabi Adesina, and I rent Unit 1408", why: "Who I am in one clean line. No 'meets you well' filler. The reader knows who you are in 3 seconds." },
+    { p: "My name is Afolabi A., and I rent Unit 1408", why: "Who I am in one clean line. No 'meets you well' filler. The reader knows who you are in 3 seconds." },
     { p: "I am writing to follow up on", why: "A calm, professional way to say 'I already told you once'. No blame, but it is firm." },
     { p: "First,", why: "Signposts like First and Second make the email easy to follow. Examiners call this coherence." },
     { p: "Since the nights in Oakville are getting colder", why: "Real detail about how it hurts you. Specific details push you from CLB 8 to CLB 10." },
@@ -80,7 +80,7 @@ T1_PROMPTS.push({
     subject: "Request for a short extension on my co-op application",
     body: `Dear Ms. Thompson,
 
-I am Afolabi Adesina, a student in your co-op preparation group at Sheridan College. I am writing to ask for a short extension on my work term application, which is due this Friday, October 9.
+I am Afolabi A., a student in your co-op preparation group at Sheridan College. I am writing to ask for a short extension on my work term application, which is due this Friday, October 9.
 
 Unfortunately, one part of my application is delayed. My reference letter is coming from my former supervisor at the Centre for Applied AI, but she is attending a conference overseas and can only send it on Tuesday, October 13.
 
@@ -91,7 +91,7 @@ Would it be possible to extend my deadline to Wednesday, October 14? If that doe
 Thank you for considering my request. I truly appreciate your support.
 
 Kind regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "I am writing to ask for a short extension", why: "Why I write, said early and clearly. The word 'short' makes the request feel reasonable." },
@@ -136,7 +136,7 @@ If the team needs any more information, such as references or work samples, I ca
 Thank you for your time and support.
 
 Best regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "Your clear instructions about the location and the panel made me feel well prepared.", why: "A specific thank-you. Saying exactly what helped sounds sincere, not robotic." },
@@ -181,7 +181,7 @@ Would you be willing to act as one of my professional references? If you agree, 
 Thank you very much for considering this.
 
 Warm regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "I hope you and the team at Lafarge Africa are doing well.", why: "A real, personal greeting for someone you know. It is different from the empty 'meets you well' line because it names real people." },
@@ -226,7 +226,7 @@ I would appreciate a full refund of my fare for that trip. I would also ask you 
 Thank you for looking into this matter.
 
 Sincerely,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "I boarded the 8:13 a.m. train to Union Station", why: "Exact facts (time, station) make a complaint believable and easy to check." },
@@ -260,7 +260,7 @@ T1_PROMPTS.push({
     subject: "Question about the rent increase notice for Unit 1408",
     body: `Dear Mr. Russo,
 
-I am Afolabi Adesina, the tenant in Unit 1408, and I have rented this apartment for almost two years. I am writing about the letter I received on October 5, which says that my rent will rise by 8 percent starting November 1.
+I am Afolabi A., the tenant in Unit 1408, and I have rented this apartment for almost two years. I am writing about the letter I received on October 5, which says that my rent will rise by 8 percent starting November 1.
 
 I have some concerns about this notice. First, I understand that landlords in Ontario usually need to give tenants 90 days of written notice before a rent increase, and this letter gives me less than one month. Second, an 8 percent increase is much higher than I expected, especially since I am a full-time student on a fixed budget.
 
@@ -269,7 +269,7 @@ I really enjoy living here, and I have always paid my rent on time, so I would l
 Thank you for your understanding. I look forward to your reply.
 
 Best regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "I understand that landlords in Ontario usually need to give tenants 90 days of written notice", why: "Mentions the rule calmly as a fact, not as a threat. Compare: 'This is illegal and I will report you.'" },
@@ -358,7 +358,7 @@ I am available at any of the following times: Wednesday, October 14 after 1 p.m.
 I apologize for any inconvenience, and I appreciate your flexibility.
 
 Kind regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "Since the exam counts for 30 percent of my final grade", why: "A specific, sensible reason. The manager will understand right away." },
@@ -402,7 +402,7 @@ Would you consider waiving the fee or reducing it to one month's payment? Altern
 Thank you for taking the time to review my request. I hope we can find a fair solution.
 
 Sincerely,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "my member ID is 40721", why: "A helpful detail. It shows you are organized and makes the request easy to process." },
@@ -437,7 +437,7 @@ T1_PROMPTS.push({
     subject: "Interest in the AI supply chain research assistant position",
     body: `Dear Professor Singh,
 
-My name is Afolabi Adesina, and I am a student at Sheridan College. I recently saw your notice about a part-time research assistant role on using artificial intelligence to improve supply chains, and I am very interested in applying.
+My name is Afolabi A., and I am a student at Sheridan College. I recently saw your notice about a part-time research assistant role on using artificial intelligence to improve supply chains, and I am very interested in applying.
 
 I believe my background is a strong match. Until recently, I worked as a Student Research Assistant at Sheridan's Centre for Applied AI, where I cleaned datasets and prepared summaries for the research team. Before moving to Canada, I spent several years in procurement and SAP master data at Lafarge Africa and IHS Towers.
 
@@ -448,7 +448,7 @@ Could you please share a few more details about the role? In particular, I would
 Thank you for your time. I look forward to hearing from you.
 
 Best regards,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "I believe my background is a strong match.", why: "A confident topic sentence. The next lines prove it." },
@@ -538,7 +538,7 @@ Could you please check the status of my application and let me know when my card
 Thank you for your assistance.
 
 Sincerely,
-Afolabi Adesina`,
+Afolabi A.`,
   },
   highlights: [
     { p: "which I applied for in person at the Oakville ServiceOntario centre on August 10", why: "What, where, and when in one sentence. Officials love clear facts." },
@@ -755,10 +755,10 @@ const T2_PLANNER = [
 const WATCH_LIST = [
   { id: "threat", icon: "🚫", title: "No threats", bad: "or I will contact public works", good: "Could you please arrange a repair by Friday, October 9?", kid: "Threats make the reader feel scared or angry. Ask nicely and give a date instead." },
   { id: "your", icon: "✏️", title: "you vs your", bad: "Thank you for you help.", good: "Thank you for your help.", kid: "'Your' means it belongs to you: your help, your time. 'You' is the person." },
-  { id: "cliche", icon: "🙅", title: "Skip the cliche opener", bad: "I hope this email meets you well.", good: "My name is Afolabi Adesina, and I rent Unit 1408.", kid: "This line says nothing new. Start with who you are." },
+  { id: "cliche", icon: "🙅", title: "Skip the cliche opener", bad: "I hope this email meets you well.", good: "My name is Afolabi A., and I rent Unit 1408.", kid: "This line says nothing new. Start with who you are." },
   { id: "runon", icon: "✂️", title: "Short sentences", bad: "The heat is broken and the dishwasher is broken and I told the desk and nobody came so I am writing.", good: "The heat and the dishwasher are broken. I told the front desk, but nobody came.", kid: "If a sentence has more than 35 words, cut it in two. One idea, one sentence." },
   { id: "detail", icon: "🔍", title: "Add real detail", bad: "The heat is not working.", good: "The vents in my living room and bedroom have blown cold air for a week.", kid: "Where? How long? How does it hurt you? Details make the examiner believe you." },
-  { id: "signoff", icon: "🖊️", title: "Sign with your name", bad: "Best regards, Tenant", good: "Best regards, Afolabi Adesina", kid: "The name at the bottom must match who you said you are. Always sign Afolabi." },
+  { id: "signoff", icon: "🖊️", title: "Sign with your name", bad: "Best regards, Tenant", good: "Best regards, Afolabi A.", kid: "The name at the bottom must match who you said you are. Always sign Afolabi." },
 ];
 
 /* ---------- Baby-step guides ---------- */
@@ -790,7 +790,7 @@ const GUIDES = [
 /* ---------- Phrase bank (front = basic, back = CLB 10) ---------- */
 const PHRASE_GROUPS = ["Who I am", "Why I write", "How it hurts me", "What I want", "Thank you and name", "Task 2 opinion"];
 const PHRASES = [
-  { g: "Who I am", basic: "I hope this email meets you well.", clb: "My name is Afolabi Adesina, and I rent Unit 1408 at 2150 Trafalgar Road." },
+  { g: "Who I am", basic: "I hope this email meets you well.", clb: "My name is Afolabi A., and I rent Unit 1408 at 2150 Trafalgar Road." },
   { g: "Who I am", basic: "I'm a student.", clb: "I am a student at Sheridan College in Oakville." },
   { g: "Who I am", basic: "I had an interview with you.", clb: "I interviewed for the Junior Data Analyst position last Tuesday." },
   { g: "Who I am", basic: "You know me from work.", clb: "As you may remember, I worked under your supervision on the supply chain team." },
@@ -815,7 +815,7 @@ const PHRASES = [
   { g: "What I want", basic: "Pick another time.", clb: "I am available at any of the following times: Wednesday after 1 p.m. or Friday morning." },
   { g: "What I want", basic: "Do something.", clb: "If it is easier, I am happy to let maintenance in with a key." },
   { g: "Thank you and name", basic: "Thanks.", clb: "Thank you for your help. I look forward to hearing from you." },
-  { g: "Thank you and name", basic: "Bye.", clb: "Thank you for considering my request. Kind regards, Afolabi Adesina" },
+  { g: "Thank you and name", basic: "Bye.", clb: "Thank you for considering my request. Kind regards, Afolabi A." },
   { g: "Thank you and name", basic: "Sorry.", clb: "I apologize for any inconvenience, and I appreciate your flexibility." },
   { g: "Thank you and name", basic: "Thanks in advance.", clb: "Thank you for taking the time to review my request." },
   { g: "Thank you and name", basic: "Talk soon.", clb: "Please feel free to contact me if you need more information." },
@@ -832,7 +832,7 @@ const PHRASES = [
 const GAME_TONE = [
   { s: "Your heating is broken.", a: "Could you please arrange a repair by Friday, as the apartment is very cold at night?", b: ["Fix the heat or I will contact public works.", "The heat is broken. Do something."] },
   { s: "No reply to your email.", a: "I am following up on my email from Monday, as I have not yet received a reply.", b: ["Why haven't you answered my email?", "Answer me today."] },
-  { s: "Your opening line.", a: "My name is Afolabi Adesina, and I rent Unit 1408.", b: ["I hope this email meets you well.", "Hey, it's me again."] },
+  { s: "Your opening line.", a: "My name is Afolabi A., and I rent Unit 1408.", b: ["I hope this email meets you well.", "Hey, it's me again."] },
   { s: "Asking for a refund.", a: "I would appreciate a full refund for the delayed trip.", b: ["Give me my money back now.", "You owe me money, so pay it."] },
   { s: "A loud neighbour.", a: "Would it be possible to keep the music lower after 11 p.m.?", b: ["Your music is ruining my life.", "Stop the noise or I will call the police."] },
   { s: "Waiting on a recruiter.", a: "Could you please let me know the next steps in the hiring process?", b: ["Did I get the job or not?", "Tell me the result fast."] },
@@ -846,7 +846,7 @@ const GAME_TONE = [
 
 const SANDWICH_LABELS = ["Who I am", "Why I write", "How it hurts me", "What I want + polite timeline", "Thank you and name"];
 const GAME_SANDWICH = [
-  { t: "Heating", bites: ["My name is Afolabi Adesina, and I rent Unit 1408.", "I am writing about the heating vents, which have blown cold air for a week.", "Because of this, I have trouble sleeping and studying at home.", "Could you please send a technician by Friday, October 9?", "Thank you for your help. Best regards, Afolabi"] },
+  { t: "Heating", bites: ["My name is Afolabi A., and I rent Unit 1408.", "I am writing about the heating vents, which have blown cold air for a week.", "Because of this, I have trouble sleeping and studying at home.", "Could you please send a technician by Friday, October 9?", "Thank you for your help. Best regards, Afolabi"] },
   { t: "Co-op deadline", bites: ["I am a student in your co-op preparation group at Sheridan.", "I am writing to ask for a short extension on my application.", "My reference letter is delayed, so my package is incomplete.", "Would it be possible to extend the deadline to October 14?", "Thank you for considering my request. Kind regards, Afolabi"] },
   { t: "Gym fee", bites: ["I have been a member of your Oakville location since April.", "I am writing to ask for help cancelling my membership.", "My long commute means I cannot use the gym, and the fee is a burden.", "Would you consider waiving the cancellation fee by the end of the month?", "Thank you for reviewing my request. Sincerely, Afolabi"] },
   { t: "Noisy neighbour", bites: ["My name is Afolabi, and I live in the unit below yours.", "I am writing about loud music late at night.", "The noise keeps me awake before my early classes.", "Could you keep the music lower after 11 p.m., starting this week?", "Thank you for understanding. Best wishes, Afolabi"] },
@@ -890,7 +890,7 @@ const GAME_ERRORS = [
   { c: ["Your", "welcome to call me any time after 3 p.m."], x: 0, fix: "You are", why: "'You are welcome' means you have permission. 'Your' is for things you own." },
   { c: ["I live in", "you", "building on Trafalgar Road."], x: 1, fix: "your", why: "The building belongs to the manager's company: your building." },
   { c: ["The vents blow cold air.", "The dishwasher does not drain and I tried to reset it and I called the desk and nobody came and I waited all week and I am cold", "so I am writing."], x: 1, fix: "Split it into two or three short sentences.", why: "This is a run-on sentence. Over 35 words in one sentence is too long." },
-  { c: ["My name is Afolabi Adesina.", "Thank you for your time.", "Sincerely, Tenant"], x: 2, fix: "Sincerely, Afolabi Adesina", why: "The sign-off must match your name." },
+  { c: ["My name is Afolabi A.", "Thank you for your time.", "Sincerely, Tenant"], x: 2, fix: "Sincerely, Afolabi A.", why: "The sign-off must match your name." },
   { c: ["Could", "your", "please send a technician this week?"], x: 1, fix: "you", why: "'You' is the person doing the action." },
   { c: ["I", "will be grateful", "if you could reply by Friday."], x: 1, fix: "would be grateful", why: "With 'if you could', use 'would'." },
   { c: ["The heating", "have", "been broken for a week."], x: 1, fix: "has", why: "One heating system = has." },

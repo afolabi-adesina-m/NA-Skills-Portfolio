@@ -277,7 +277,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
       "<li>Past heart disease, smoking and diabetes are partly self reported.</li>" +
       "<li>Deaths from other causes count as no event.</li>" +
       "<li>Framingham is a Kaggle file with an unknown license, used for learning only.</li></ul></section></div>" +
-      comment("This is a learning project, not a clinical tool. On " + num(NH.test.n) + " test people the NHANES model reached an AUC of " + NH.test.auc + " and a Brier score of " + NH.test.brier + ". It was built by Afolabi Adesina from public data, starting from a Framingham assignment at Sheridan College. Not medical advice.") + "</div>";
+      comment("This is a learning project, not a clinical tool. On " + num(NH.test.n) + " test people the NHANES model reached an AUC of " + NH.test.auc + " and a Brier score of " + NH.test.brier + ". It was built by Afolabi A. from public data, starting from a Framingham assignment at Sheridan College. Not medical advice.") + "</div>";
   }
 
   var RENDER = { calculator: calculator, compare: compare, canada: canada, about: about };
