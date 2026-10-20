@@ -75,7 +75,7 @@ if (typeof module !== "undefined") module.exports = HeartModel;
     }
     s += '<line x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(top) + '" y2="' + Y(top) + '" stroke="#A9B4BE" stroke-width="2" stroke-dasharray="5 4"/>';
     cal.forEach(function (c) {
-      s += '<circle cx="' + X(c.mean_predicted).toFixed(1) + '" cy="' + Y(c.observed).toFixed(1) + '" r="5" fill="#0070F2"><title>Predicted ' + (c.mean_predicted * 100).toFixed(2) + "%, observed " + (c.observed * 100).toFixed(2) + "%, " + c.n + " people</title></circle>";
+      s += '<circle cx="' + X(c.mean_predicted).toFixed(1) + '" cy="' + Y(c.observed).toFixed(1) + '" r="5" fill="#0062D6"><title>Predicted ' + (c.mean_predicted * 100).toFixed(2) + "%, observed " + (c.observed * 100).toFixed(2) + "%, " + c.n + " people</title></circle>";
     });
     s += '<text x="' + ((pl + W - pr) / 2) + '" y="' + (H - 4) + '" text-anchor="middle">Predicted risk</text>';
     s += '<text transform="rotate(-90)" x="' + (-(pt + H - pb) / 2) + '" y="11" text-anchor="middle">Observed rate</text>';

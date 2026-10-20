@@ -6,7 +6,7 @@
   var num = function (v, d) { return Number(v).toLocaleString("en-CA", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); };
   var pct = function (v, d) { return (v * 100).toFixed(d == null ? 1 : d) + "%"; };
   var big = function (v, pre) { pre = pre || ""; var a = Math.abs(v), s = v < 0 ? "minus " : ""; if (a >= 1e9) return s + pre + (a / 1e9).toFixed(2) + "B"; if (a >= 1e6) return s + pre + (a / 1e6).toFixed(2) + "M"; if (a >= 1e4) return s + pre + (a / 1e3).toFixed(0) + "K"; return s + pre + num(a); };
-  var PAL = ["#0070F2", "#E8743B", "#19A979", "#945ECF", "#ED4A7B", "#5899DA"];
+  var PAL = ["#0062D6", "#E76500", "#037C77", "#6B4FBB", "#C0392B", "#8A9AAB"];
   function comment(t) { return '<section class="card comment"><h2>What the numbers show</h2><p>' + esc(t) + "</p></section>"; }
   /* change against a prior period: c = current, p = prior, o = {pts: share in points, good: "up"|"down"|"", vs: label} */
   function delta(c, p, o) {
@@ -122,7 +122,7 @@
   }
   function customers() {
     var t = D.territories.slice().sort(function (a, b) { return b.gal - a.gal; }), cen = t.filter(function (x) { return x.terr === "Central"; })[0];
-    var rows = t.map(function (x) { return [{ h: '<span style="color:' + TC[x.terr] + '">&#9679;</span> ' + esc(x.terr) }, num(x.n), num(x.gal), pct(x.gal / D.gal), num(x.stops)]; });
+    var rows = t.map(function (x) { return [{ h: '<span class="swatch" style="background:' + TC[x.terr] + '" aria-hidden="true"></span> ' + esc(x.terr) }, num(x.n), num(x.gal), pct(x.gal / D.gal), num(x.stops)]; });
     var e = D.ex, H = hav([e.lat, e.lon], D.dallasPt);
     var fx = fxCard("Formula: haversine distance",
       [V("a") + " = sin&sup2;(&Delta;" + V("&phi;") + "/2) + cos " + V("&phi;") + "<sub>1</sub> &middot; cos " + V("&phi;") + "<sub>2</sub> &middot; sin&sup2;(&Delta;" + V("&lambda;") + "/2)",
@@ -148,7 +148,7 @@
     var seg = '<div class="seg" role="group" aria-label="Number of sites">' + [1, 2, 3, 4].map(function (k) { return '<button type="button" data-p="' + k + '" aria-pressed="' + (k === p) + '">' + k + "</button>"; }).join("") + "</div>";
     var stats = r.sites.map(function (st, j) {
       var g = 0, n = 0, wd = 0; D.customers.forEach(function (c, i) { if (r.assign[i] === j) { n++; g += c.gal; wd += c.gal * hav([c.lat, c.lon], [st.lat, st.lon]).d; } });
-      return [{ h: '<span style="color:' + PAL[j % PAL.length] + '">&#9670;</span> ' + esc(st.name) }, num(n), pct(g / D.gal, 0), mi(g ? wd / g : 0)];
+      return [{ h: '<span class="swatch" style="background:' + PAL[j % PAL.length] + '" aria-hidden="true"></span> ' + esc(st.name) }, num(n), pct(g / D.gal, 0), mi(g ? wd / g : 0)];
     });
     var term = function (i) { var c = D.customers[i], st = r.sites[r.assign[i]]; return c.gal * hav([c.lat, c.lon], [st.lat, st.lon]).d; };
     var bi = 0; D.customers.forEach(function (c, i) { if (term(i) > term(bi)) bi = i; });

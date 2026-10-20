@@ -40,7 +40,7 @@
 .brand-tag {
   font-size: 0.7rem;
   font-weight: 500;
-  color: var(--muted, #5e6778);
+  color: var(--muted, #556B82);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }

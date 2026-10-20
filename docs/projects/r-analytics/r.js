@@ -28,12 +28,12 @@
   const plotLayout = {
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
-    font: { family: "Figtree, sans-serif", size: 11, color: "#5e6778" },
+    font: { family: "Figtree, sans-serif", size: 11, color: "#556B82" },
     margin: { t: 24, r: 16, b: 40, l: 44 },
     legend: { orientation: "h", y: 1.12 },
   };
 
-  const accent = "#3a5a6e";
+  const accent = "#0062D6";
   const navy = "#1a2b3c";
 
   function drawWine() {

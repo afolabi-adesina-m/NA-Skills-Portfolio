@@ -1,6 +1,6 @@
 /* Management Reporting, Anaplan view. A planning grid look: navy top bar, page list, white grid modules. Not an Anaplan product. */
-:root { --navy: #14213D; --navy-2: #1F2F52; --blue: #1F6FD1; --blue-soft: #E8F1FC; --text: #1E2633; --muted: #5B6779; --line: #DCE1E8; --head: #F2F4F7; --bg: #EEF1F5; --card: #fff;
-  --good: #E3F4E8; --good-t: #1D6B3A; --warn: #FFF4D6; --warn-t: #8A5A00; --bad: #FDE4E2; --bad-t: #A1261B; --font: "Segoe UI", Roboto, Arial, Helvetica, sans-serif; }
+:root { --navy: #1A2B3C; --navy-2: #24384C; --blue: #0062D6; --blue-soft: #E8F1FC; --text: #1E2633; --muted: #556B82; --line: #D9DEE4; --head: #F2F4F7; --bg: #F5F6F7; --card: #fff;
+  --good: #E3F4E8; --good-t: #1D6B3A; --warn: #FFF4D6; --warn-t: #8A5A00; --bad: #FDE4E2; --bad-t: #AA0808; --font: "Segoe UI", Roboto, Arial, Helvetica, sans-serif; }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; font-family: var(--font); color: var(--text); background: var(--bg); font-size: 14px; line-height: 1.4; }
@@ -12,7 +12,7 @@ a { color: var(--blue); }
 .tb-mark { width: 26px; height: 26px; border-radius: 6px; background: var(--blue); display: grid; place-items: center; flex: none; }
 .tb-title { font-weight: 600; font-size: .98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tb-sub { color: #AFC0DA; font-size: .82rem; white-space: nowrap; }
-.tb-link { margin-left: auto; color: #fff; text-decoration: none; font-size: .85rem; font-weight: 600; padding: .3rem .65rem; border: 1px solid #3C4E74; border-radius: 6px; white-space: nowrap; }
+.tb-link { margin-left: auto; color: #E8EEF5; text-decoration: none; font-size: .85rem; font-weight: 600; padding: .3rem .65rem; border: 1px solid #E8EEF5; border-radius: 6px; white-space: nowrap; }
 .tb-link:hover { background: var(--navy-2); }
 .shell { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: calc(100vh - 48px); }
 .pages { background: #fff; border-right: 1px solid var(--line); padding: .8rem 0; }
@@ -97,10 +97,10 @@ ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; }
 .kpi .kd { display: block; margin-top: .25rem; font-size: .78rem; font-weight: 700; }
 .kpi .kd i { font-style: normal; font-size: .68rem; margin-right: .25rem; }
 .kpi .kd small { font-size: .78rem; font-weight: 400; color: var(--muted); }
-.kpi .kd.good { color: #1E7B34; } .kpi .kd.bad { color: #B42318; } .kpi .kd.neutral { color: var(--muted); }
+.kpi .kd.good { color: #256F3A; } .kpi .kd.bad { color: #AA0808; } .kpi .kd.neutral { color: var(--muted); }
 .kpi em { display: block; margin-top: .4rem; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.tb-home { display: inline-flex; align-items: center; gap: .35rem; margin-left: auto; color: #fff; text-decoration: none; font-size: .85rem; font-weight: 600; padding: .3rem .65rem; border: 1px solid #3C4E74; border-radius: 6px; white-space: nowrap; }
+.tb-home { display: inline-flex; align-items: center; gap: .35rem; margin-left: auto; color: #7CB8FF; text-decoration: none; font-size: .85rem; font-weight: 600; padding: .3rem .65rem; border: 1px solid #7CB8FF; border-radius: 6px; white-space: nowrap; }
 .tb-home svg { width: 15px; height: 15px; fill: currentColor; }
 .tb-home:hover { background: var(--navy-2); }
 .tb-home + .tb-link { margin-left: 0; }

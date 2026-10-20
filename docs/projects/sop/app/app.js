@@ -6,7 +6,7 @@
   var num = function (v, d) { return Number(v).toLocaleString("en-CA", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); };
   var pct = function (v, d) { return (v * 100).toFixed(d == null ? 1 : d) + "%"; };
   var big = function (v, pre) { pre = pre || ""; var a = Math.abs(v), s = v < 0 ? "minus " : ""; if (a >= 1e9) return s + pre + (a / 1e9).toFixed(2) + "B"; if (a >= 1e6) return s + pre + (a / 1e6).toFixed(2) + "M"; if (a >= 1e4) return s + pre + (a / 1e3).toFixed(0) + "K"; return s + pre + num(a); };
-  var PAL = ["#0070F2", "#E8743B", "#19A979", "#945ECF", "#ED4A7B", "#5899DA"];
+  var PAL = ["#0062D6", "#E76500", "#037C77", "#6B4FBB", "#C0392B", "#8A9AAB"];
   function comment(t) { return '<section class="card comment"><h2>What the numbers show</h2><p>' + esc(t) + "</p></section>"; }
   /* change against a prior period: c = current, p = prior, o = {pts: share in points, good: "up"|"down"|"", vs: label} */
   function delta(c, p, o) {

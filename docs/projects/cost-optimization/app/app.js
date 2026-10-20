@@ -6,7 +6,7 @@
   var num = function (v, d) { return Number(v).toLocaleString("en-CA", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); };
   var pct = function (v, d) { return (v * 100).toFixed(d == null ? 1 : d) + "%"; };
   var big = function (v, pre) { pre = pre || ""; var a = Math.abs(v), s = v < 0 ? "minus " : ""; if (a >= 1e9) return s + pre + (a / 1e9).toFixed(2) + "B"; if (a >= 1e6) return s + pre + (a / 1e6).toFixed(2) + "M"; if (a >= 1e4) return s + pre + (a / 1e3).toFixed(0) + "K"; return s + pre + num(a); };
-  var PAL = ["#0070F2", "#E8743B", "#19A979", "#945ECF", "#ED4A7B", "#5899DA"];
+  var PAL = ["#0062D6", "#E76500", "#037C77", "#6B4FBB", "#C0392B", "#8A9AAB"];
   function comment(t) { return '<section class="card comment"><h2>What the numbers show</h2><p>' + esc(t) + "</p></section>"; }
   /* change against a prior period: c = current, p = prior, o = {pts: share in points, good: "up"|"down"|"", vs: label} */
   function delta(c, p, o) {
@@ -132,7 +132,7 @@
     var s = "", mx = Math.max.apply(null, B.arcs.map(function (a) { return a.flow; }));
     B.arcs.forEach(function (a) {
       var p = pos[a.from], q = pos[a.to], on = a.flow > 0, mxp = p[0] + 34 + (q[0] - p[0] - 68) * 0.3, myp = p[1] + (q[1] - p[1]) * 0.3;
-      s += '<line x1="' + (p[0] + 34) + '" y1="' + p[1] + '" x2="' + (q[0] - 34) + '" y2="' + q[1] + '" stroke="' + (on ? "#0070F2" : "#C9D1D9") + '" stroke-width="' + (on ? 1.5 + 5 * a.flow / mx : 1.2) + '"' + (on ? "" : ' stroke-dasharray="4 4"') + "><title>" + esc(a.from + " to " + a.to + ": " + num(a.flow) + " of " + num(a.cap) + ", cost " + n1(a.cost)) + "</title></line>";
+      s += '<line x1="' + (p[0] + 34) + '" y1="' + p[1] + '" x2="' + (q[0] - 34) + '" y2="' + q[1] + '" stroke="' + (on ? "#0062D6" : "#C9D1D9") + '" stroke-width="' + (on ? 1.5 + 5 * a.flow / mx : 1.2) + '"' + (on ? "" : ' stroke-dasharray="4 4"') + "><title>" + esc(a.from + " to " + a.to + ": " + num(a.flow) + " of " + num(a.cap) + ", cost " + n1(a.cost)) + "</title></line>";
       if (on) s += '<text x="' + mxp + '" y="' + (myp - 5) + '" text-anchor="middle" style="fill:#1D2D3E;font-weight:700">' + num(a.flow) + "</text>";
     });
     Object.keys(pos).forEach(function (k) { var p = pos[k]; s += '<rect x="' + (p[0] - 34) + '" y="' + (p[1] - 15) + '" width="68" height="30" rx="8" fill="#fff" stroke="#556B82"/><text x="' + p[0] + '" y="' + (p[1] + 4) + '" text-anchor="middle" style="fill:#1D2D3E">' + esc(k) + "</text>"; });
