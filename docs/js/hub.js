@@ -62,7 +62,7 @@
   }
 
   var bodies = {
-    resume: "Hi Afolabi, Please share your tailored resume for our team. (Optional: our focus area is SAP MDM, Supply Chain BI or Applied AI.) Thank you."
+    resume: "Hi Afolabi, Please share your updated resume for our team. (Optional: our focus area is SAP MDM, Supply Chain BI or Applied AI.) Thank you."
   };
 
   function mailHref(kind) {
