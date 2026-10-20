@@ -128,9 +128,9 @@
     return '<h1 class="v-title">Demand history</h1><p class="v-sub">Monthly orders in cases, ' + num(D.nSku) + " SKUs, " + num(D.nCust) + " customers, 3 channels.</p>" +
       tiles([
         { title: "Last 12 months", sub: "Sep 2005 to Aug 2006", val: big(py6), d: delta(py6, py5, { good: "up", vs: "year before" }), foot: "Cases", tone: "info" },
-        { title: "Quick service share", sub: "Last 12 months", val: pct(q6 / py6, 0), foot: "Two restaurant chains" },
+        { title: "Quick service share", sub: "Last 12 months", val: pct(q6 / py6, 0), foot: "2 restaurant chains" },
         { title: "DrinkIt brand", sub: "Supermarket brand, on the year", val: pct(di6 / di5 - 1, 0), tone: "neg", foot: cases(di5) + " to " + cases(di6) + " cases" },
-        { title: "Promotion lift", sub: "Mass retail, one month a year", val: "+" + pct(e.promo.reduce(function (s, p) { return s + p.lift; }, 0) / e.promo.length, 0), tone: "crit", foot: "Not in the old forecast" }
+        { title: "Promotion lift", sub: "Mass retail, 1 month a year", val: "+" + pct(e.promo.reduce(function (s, p) { return s + p.lift; }, 0) / e.promo.length, 0), tone: "crit", foot: "Not in the old forecast" }
       ]) +
       card("Cases by channel", chart + legend([{ c: PAL[0], n: "Quick service (QSR)" }, { c: PAL[1], n: "Mass retail (MR)" }, { c: PAL[2], n: "Supermarket (SM)" }])) +
       '<div class="grid two">' + card("By channel, last 5 years", table(["Year", "QSR", "MR", "SM", "Total"], annual, [1, 2, 3, 4])) +
@@ -152,7 +152,7 @@
        V("F") + "<sub>t+h</sub> = " + V("L") + "<sub>t</sub> &middot; " + V("S") + "<sub>m(t+h)</sub>"],
       [[V("D") + "<sub>t</sub>", "Actual cases ordered in month t"], [V("S") + "<sub>m</sub>", "Seasonal index for calendar month m: month over its Sep to Aug year average, averaged over full years, scaled to mean 1"],
        [V("z") + "<sub>t</sub>", "Cases with the season taken out"], [V("L") + "<sub>t</sub>", "Smoothed level after month t"],
-       [V("&alpha;"), "Weight on the newest month, " + x.alpha.toFixed(2) + ", picked by least squared one step error"], [V("F") + "<sub>t+h</sub>", "Forecast h months ahead"]],
+       [V("&alpha;"), "Weight on the newest month, " + x.alpha.toFixed(2) + ", picked by least squared 1 step error"], [V("F") + "<sub>t+h</sub>", "Forecast h months ahead"]],
       "Last month in the data, " + ml(x.lastMonth) + ":" +
       '<div class="fx">' + V("z") + " = " + cases(x.D) + " / " + x.S_last.toFixed(4) + " = " + cases(x.z) + "</div>" +
       '<div class="fx">' + V("L") + " = " + x.alpha.toFixed(2) + " &middot; " + cases(x.z) + " + " + (1 - x.alpha).toFixed(2) + " &middot; " + cases(x.Fprev) + " = " + cases(x.L) + "</div>" +
@@ -229,7 +229,7 @@
       ["Finance review", "Cheaper plan", cheaper, cases(Math.abs(p.level.total - p.chase.total)) + " cost units saved at assumed rates"],
       ["Executive", "Promotion calendar", "Jan, Feb, Mar", "No promotion term in this forecast"]
     ].map(function (r) { return [r[0], r[1], { h: "<strong>" + esc(r[2]) + "</strong>" }, r[3]]; });
-    return '<h1 class="v-title">S&amp;OP summary</h1><p class="v-sub">One page for the monthly meeting.</p>' +
+    return '<h1 class="v-title">S&amp;OP summary</h1><p class="v-sub">1 page for the monthly meeting.</p>' +
       tiles([
         { title: "Demand plan", sub: "Next 12 months", val: big(p.sumD), tone: "info", foot: "Cases", go: "forecast" },
         { title: "Forecast error", sub: "Test year WAPE", val: pct(ch.test.wape), foot: "Chosen method", go: "forecast" },

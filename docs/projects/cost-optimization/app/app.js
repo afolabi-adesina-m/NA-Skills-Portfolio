@@ -109,8 +109,8 @@
     var red = []; A.plants.forEach(function (p, i) { A.dcs.forEach(function (d, j) { if (A.flow[i][j] === 0 && A.reduced[i][j] > 0) red.push([p + " to " + d, n1(A.cost[i][j]), n1(A.reduced[i][j])]); }); });
     var fx2 = fxCard("Formula: shadow price",
       [V("&pi;") + "<sub>i</sub> = &part;" + V("z") + "* / &part;" + V("s") + "<sub>i</sub>, &nbsp; " + V("r") + "<sub>ij</sub> = " + V("c") + "<sub>ij</sub> &minus; (" + V("&pi;") + "<sub>i</sub> + " + V("&mu;") + "<sub>j</sub>)"],
-      [[V("&pi;") + "<sub>i</sub>", "Change in best cost from one more unit at plant i"], [V("&mu;") + "<sub>j</sub>", "Price of one more unit needed at centre j"], [V("r") + "<sub>ij</sub>", "Reduced cost: how far a route rate must fall before the plan uses it"]],
-      "Check by solving again with one more unit at each plant:" + '<div class="fx">' + A.plants.map(function (p, i) { return esc(p) + ": " + n1(A.recheck[i]); }).join(", &nbsp; ") + "</div>");
+      [[V("&pi;") + "<sub>i</sub>", "Change in best cost from 1 more unit at plant i"], [V("&mu;") + "<sub>j</sub>", "Price of 1 more unit needed at centre j"], [V("r") + "<sub>ij</sub>", "Reduced cost: how far a route rate must fall before the plan uses it"]],
+      "Check by solving again with 1 more unit at each plant:" + '<div class="fx">' + A.plants.map(function (p, i) { return esc(p) + ": " + n1(A.recheck[i]); }).join(", &nbsp; ") + "</div>");
     var best = 0; A.dualS.forEach(function (v, i) { if (v < A.dualS[best]) best = i; });
     return '<h1 class="v-title">Transportation model</h1><p class="v-sub">Autopower case, 3 plants to 4 distribution centres, from MIT OCW 15.057.</p>' +
       tiles([
@@ -122,9 +122,9 @@
       '<div class="grid two">' + card("Unit cost and capacity", table(["From / to"].concat(A.dcs).concat(["Supply"]), costRows, [1, 2, 3, 4, 5])) +
       card("Optimal flows", table(["From / to"].concat(A.dcs), flowRows, [1, 2, 3, 4]).replace("<table>", '<table class="matrix">'), "Shaded cells carry flow.") + "</div>" +
       '<div class="grid two">' + fx + fx2 + "</div>" +
-      '<div class="grid two">' + card("Shadow prices, plants", table(["Plant", "Capacity", "One more unit", "Re-solve check"], shadow, [1, 2, 3])) +
+      '<div class="grid two">' + card("Shadow prices, plants", table(["Plant", "Capacity", "1 more unit", "Re-solve check"], shadow, [1, 2, 3])) +
       card("Unused routes", table(["Route", "Rate", "Must fall by"], red, [1, 2])) + "</div>" +
-      comment("The LP ships the same " + num(A.demand.reduce(function (a, b) { return a + b; }, 0)) + " units for " + num(A.opt) + ", " + pct(sav / A.nwCost) + " less than the northwest corner plan. One more unit of capacity at " + A.plants[best] + " would cut cost by " + n1(-A.dualS[best]) + ", so that is the plant to expand first.");
+      comment("The LP ships the same " + num(A.demand.reduce(function (a, b) { return a + b; }, 0)) + " units for " + num(A.opt) + ", " + pct(sav / A.nwCost) + " less than the northwest corner plan. 1 more unit of capacity at " + A.plants[best] + " would cut cost by " + n1(-A.dualS[best]) + ", so that is the plant to expand first.");
   }
   function netSvg(B) {
     var pos = {}, W = 640, H = 260;
@@ -148,7 +148,7 @@
       [[V("i"), "Plant"], [V("k"), "Distribution centre, a pass through node"], [V("j"), "Customer"], [V("u"), "Arc capacity, " + num(B.arcs[0].cap) + " tons on every arc"], [V("c"), "Cost in $000 per ton"]],
       "Balance at DC 1:" + '<div class="fx">In: ' + inn.map(function (a) { return num(a.flow); }).join(" + ") + " = " + num(inn.reduce(function (s, a) { return s + a.flow; }, 0)) + " &nbsp; Out: " + out.map(function (a) { return num(a.flow); }).join(" + ") + " = " + num(out.reduce(function (s, a) { return s + a.flow; }, 0)) + "</div>");
     var sp = [["Plant 1 capacity", d.s_1], ["Plant 2 capacity", d.s_2], ["Plant 3 capacity", d.s_3], ["Customer 1 demand", d.d_1], ["Customer 2 demand", d.d_2]].map(function (r) {
-      var v = r[1], w = r[0].indexOf("capacity") > 0 ? (v < 0 ? "One more ton saves " + n1(-v) : "Not scarce, worth 0") : "One more ton costs " + n1(v);
+      var v = r[1], w = r[0].indexOf("capacity") > 0 ? (v < 0 ? "1 more ton saves " + n1(-v) : "Not scarce, worth 0") : "1 more ton costs " + n1(v);
       return [r[0], { t: w, cls: v < 0 ? "pos" : "" }]; });
     return '<h1 class="v-title">Transshipment model</h1><p class="v-sub">3 plants, 2 distribution centres, 2 customers, every arc capped. From MIT OCW 15.057.</p>' +
       tiles([
@@ -159,7 +159,7 @@
       ]) +
       '<div class="grid wide">' + card("Optimal flows, tons", netSvg(B)) + card("Arcs", table(["Arc", "Cost", "Cap", "Flow", ""], rows, [1, 2, 3])) + "</div>" +
       '<div class="grid two">' + fx + card("Shadow prices in plain words", table(["Constraint", "Meaning"], sp, []), "Each DC balance has a price of " + n1(d.bal_1) + ": a ton landed at a DC is worth that much.") + "</div>" +
-      comment("The LP meets " + num(sumD) + " tons for " + num(B.opt) + " ($000), " + num(B.naive - B.opt) + " less than a greedy plan. Plant 1, the costliest source, keeps " + num(B.supply[0] - B.arcs.filter(function (a) { return a.from === "Plant 1"; }).reduce(function (s, a) { return s + a.flow; }, 0)) + " tons spare, while Plants 2 and 3 run full. Customer 2 is the costly one to serve: one more ton there adds " + n1(d.d_2) + ".");
+      comment("The LP meets " + num(sumD) + " tons for " + num(B.opt) + " ($000), " + num(B.naive - B.opt) + " less than a greedy plan. Plant 1, the costliest source, keeps " + num(B.supply[0] - B.arcs.filter(function (a) { return a.from === "Plant 1"; }).reduce(function (s, a) { return s + a.flow; }, 0)) + " tons spare, while Plants 2 and 3 run full. Customer 2 is the costly one to serve: 1 more ton there adds " + n1(d.d_2) + ".");
   }
   function chemco() {
     var C = D.C, sav = C.asis - C.opt;
@@ -177,9 +177,9 @@
       esc(e.city) + ", " + num(e.gal) + " gallons:" + '<div class="fx">via Dallas ' + C.repl.toFixed(4) + " + " + e.cd.toFixed(4) + " = " + (C.repl + e.cd).toFixed(4) + " &nbsp; direct " + e.ch.toFixed(4) + " &rArr; via Dallas</div>" +
       (h ? esc(h.city) + ":" + '<div class="fx">via Dallas ' + (C.repl + h.cd).toFixed(4) + " &nbsp; direct " + h.ch.toFixed(4) + " &rArr; direct</div>" : ""));
     var fx2 = fxCard("Shadow prices in plain words",
-      [V("&mu;") + "<sub>j</sub> = &part;" + V("z") + "* / &part;" + V("d") + "<sub>j</sub> = cost to serve one more gallon at " + V("j")],
+      [V("&mu;") + "<sub>j</sub> = &part;" + V("z") + "* / &part;" + V("d") + "<sub>j</sub> = cost to serve 1 more gallon at " + V("j")],
       [[V("&mu;") + "<sub>j</sub>", "Ranges from US$" + C.dualMin.toFixed(3) + " to US$" + C.dualMax.toFixed(3) + " a gallon, median US$" + C.dualMed.toFixed(3)], [V("&pi;") + "<sub>fleet</sub>", "Dallas fleet limit of " + num(C.fleetCap) + " miles: " + (C.fleetPi === 0 ? "not binding, worth 0" : C.fleetPi.toFixed(3))]],
-      "One more gallon for " + esc(e.city) + ":" + '<div class="fx">' + V("&mu;") + " = " + e.dual.toFixed(4) + " = " + V("r") + " + " + V("c") + "<sub>Dallas</sub></div>");
+      "1 more gallon for " + esc(e.city) + ":" + '<div class="fx">' + V("&mu;") + " = " + e.dual.toFixed(4) + " = " + V("r") + " + " + V("c") + "<sub>Dallas</sub></div>");
     return '<h1 class="v-title">ChemCo network</h1><p class="v-sub">Houston plant, Dallas warehouse, ' + num(C.n) + " customers. Variable freight in US$ a year.</p>" +
       tiles([
         { title: "LP optimum", sub: "Mixed routing", val: usd(C.opt), tone: "pos", foot: num(C.nDirect) + " customers go direct" },
@@ -188,7 +188,7 @@
         { title: "Replenishment", sub: "Houston to Dallas", val: "US$" + C.repl.toFixed(3), foot: "Per gallon" }
       ]) +
       '<div class="grid two">' + card("Optimal flows by zone, gallons", table(["Zone", "Customers", "Via Dallas", "Direct", "Direct customers"], rows, [1, 2, 3, 4]), "Houston ships " + num(C.hd) + " gallons to Dallas.") +
-      card("Share through Dallas as the round trip rate rises", lineChart([{ c: PAL[0], v: C.sens.map(function (s) { return s.shareDallas * 100; }), dots: 1 }], lab, { every: 1, fy: function (v) { return num(v) + "%"; }, aria: "Share of gallons routed through Dallas by round trip rate" }) + '<p class="note">Rate today: US$' + num(C.rate) + ". Below half of gallons from US$" + num(C.halfRate) + ".</p>") + "</div>" +
+      card("Share through Dallas as the round trip rate rises", lineChart([{ c: PAL[0], v: C.sens.map(function (s) { return s.shareDallas * 100; }), dots: 1 }], lab, { every: 1, fy: function (v) { return num(v) + "%"; }, aria: "Share of gallons routed through Dallas by round trip rate" }) + '<p class="note">Rate today: US$' + num(C.rate) + ". Below 1/2 of gallons from US$" + num(C.halfRate) + ".</p>") + "</div>" +
       '<div class="grid two">' + fx + fx2 + "</div>" +
       comment("Routing each customer the cheaper way costs " + usd(C.opt) + " a year, " + usd(sav) + " less than sending all through Dallas. Closing Dallas would add " + usd(C.direct - C.asis) + " in freight. Dallas keeps most gallons until the round trip rate passes US$" + num(C.halfRate) + ". Rent and stock at Dallas are fixed and sit outside this LP.");
   }
