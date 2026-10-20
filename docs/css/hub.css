@@ -246,7 +246,7 @@ body.hub .brand { color: var(--ink); }
 }
 
 .hero .lead {
-  margin: 0 0 1.25rem;
+  margin: 0 0 0.55rem;
   color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.65;
@@ -254,11 +254,20 @@ body.hub .brand { color: var(--ink); }
   font-weight: 450;
 }
 
-.hero .lead a {
+.hero .lead a,
+.hero-trail a {
   color: var(--accent);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.hero-trail {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  max-width: 46ch;
 }
 
 .hero-chips {
@@ -273,6 +282,7 @@ body.hub .brand { color: var(--ink); }
 .hero-chips .chip {
   background: var(--surface-solid);
   border-color: var(--line-strong);
+  max-width: 100%;
 }
 
 .hub-metrics {
@@ -1462,7 +1472,8 @@ body.hub a.btn-cta:hover,
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1.4;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
 }
 
 .status::before {
@@ -1732,9 +1743,11 @@ body.hub a.foundation-link:hover {
 
 .path-list li {
   position: relative;
-  display: grid;
-  gap: 0.1rem;
+  display: block;
   padding: 0 0 0.9rem 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
 }
 
 .path-list li:last-child { padding-bottom: 0; }
