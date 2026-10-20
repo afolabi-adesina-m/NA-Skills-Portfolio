@@ -1,0 +1,7 @@
+customer_tier,total_customers,total_shipments,total_declared_value,failed_deliveries,avg_value_per_shipment
+Bronze,76,939,2140836.15,162,2279.91
+Gold,70,842,1880540.37,140,2233.42
+Silver,61,686,1478939.15,109,2155.89
+Platinum,49,575,1286624.69,94,2237.61
+Unknown,24,305,669593.44,61,2195.39
+Unmatched (orphan customer_id),20,209,480847.34,33,2300.7

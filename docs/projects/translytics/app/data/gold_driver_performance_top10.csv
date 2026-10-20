@@ -1,0 +1,11 @@
+rank,driver_id,full_name,employment_status,total_deliveries,completed_deliveries,on_time_deliveries,late_deliveries,failed_deliveries,on_time_rate_pct,avg_delay_days,total_revenue_handled
+1,33,,,17,4,9,7,1,52.94,4.0,31116.98
+2,103,,,35,1,16,14,7,45.71,5.14,86546.76
+3,28,Susan Miller,Terminated,29,7,13,15,4,44.83,3.6,71205.89
+4,87,Wei Williams,Terminated,25,5,11,13,6,44.0,4.46,65632.22
+5,104,,,26,4,11,15,7,42.31,4.07,56509.77
+6,22,Thomas Garcia,Active,19,3,8,11,5,42.11,3.82,34966.61
+7,69,,,24,4,10,13,4,41.67,2.85,54532.4
+8,4,Nancy White,Terminated,24,4,10,11,5,41.67,4.64,53919.53
+9,43,Joseph Brown,On Leave,24,2,10,13,7,41.67,3.85,67781.24
+10,75,Fatima Miller,On Leave,22,4,9,10,6,40.91,4.6,48654.11
