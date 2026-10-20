@@ -69,7 +69,7 @@
     });
     data.forEach(function (d, i) {
       var h = (H - pt - pb) * d[1] / max, x = pl + i * bw + bw * 0.12;
-      s += '<rect x="' + x.toFixed(1) + '" y="' + (H - pb - h).toFixed(1) + '" width="' + (bw * 0.76).toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" fill="' + (d[2] || "#0070F2") + '"><title>' + esc(d[0] + ": " + (opt && opt.fmt ? opt.fmt(d[1]) : money(d[1]))) + "</title></rect>";
+      s += '<rect x="' + x.toFixed(1) + '" y="' + (H - pb - h).toFixed(1) + '" width="' + (bw * 0.76).toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" fill="' + (d[2] || "#0062D6") + '"><title>' + esc(d[0] + ": " + (opt && opt.fmt ? opt.fmt(d[1]) : money(d[1]))) + "</title></rect>";
       if (!opt || !opt.every || i % opt.every === 0) s += '<text x="' + (x + bw * 0.38).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + esc(opt && opt.lab ? opt.lab(d[0]) : d[0]) + "</text>";
     });
     return '<svg class="chart" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(opt && opt.aria || "Column chart") + '">' + s + "</svg>";
@@ -81,7 +81,7 @@
     var s = "";
     [0, 0.5, 0.8, 1].forEach(function (c) { s += '<line class="axis" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + Y(c) + '" y2="' + Y(c) + '"' + (c === 0.8 ? ' stroke-dasharray="4 3" style="stroke:#E76500"' : "") + '/><text x="' + (pl - 6) + '" y="' + (Y(c) + 4) + '" text-anchor="end">' + c * 100 + "%</text>"; });
     [1, 10, 100, 1000, 10000].filter(function (r) { return r <= total; }).forEach(function (r) { s += '<text x="' + X(r) + '" y="' + (H - 10) + '" text-anchor="middle">' + num(r) + "</text>"; });
-    s += '<path d="' + pts.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join("") + '" fill="none" stroke="#0070F2" stroke-width="2.5"/>';
+    s += '<path d="' + pts.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join("") + '" fill="none" stroke="#0062D6" stroke-width="2.5"/>';
     return '<svg class="chart" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Cumulative share of spend by supplier rank, log scale">' + s + "</svg>";
   }
 
@@ -204,7 +204,7 @@
     var fys = ["FY'24", "FY'25", "FY'26"].map(function (y) { return [y, s.fy[y] || 0]; });
     openDetail("Supplier, " + fyLabel() + ", " + ctLabel(), s.name,
       facets([["Spend", money(s.spend)], ["Share", pct(s.share)], ["Contracts", num(s.contracts)], ["Pareto class", s.cls], ["Names on file", num(s.names)]]) +
-      (s.dup ? '<p class="strip" style="background:#FFF3E8;border-color:#F5B88A"><span class="strip-icon" style="background:#E76500" aria-hidden="true">!</span><span>This supplier appears under more than one name. Spend is grouped under the suggested master.</span></p>' : "") +
+      (s.dup ? '<p class="strip" style="background:#FFF3E8;border-color:#F5B88A"><span class="strip-icon" style="background:#8A5A00" aria-hidden="true">!</span><span>This supplier appears under more than one name. Spend is grouped under the suggested master.</span></p>' : "") +
       "<h3>Spellings on file</h3><ul class=\"plain\">" + s.variants.map(function (v) { return "<li>" + esc(v) + "</li>"; }).join("") + (s.names > s.variants.length ? "<li>and " + (s.names - s.variants.length) + " more</li>" : "") + "</ul>" +
       "<h3>Top buyers</h3>" + bars(s.depts.map(function (d) { return { name: d[0], v: d[1], label: money(d[1]) }; })) +
       "<h3>Spend by fiscal year</h3>" + columns(fys, { aria: "Supplier spend by fiscal year" }));

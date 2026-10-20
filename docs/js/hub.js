@@ -55,3 +55,45 @@
 
   reveals.forEach(function (el) { observer.observe(el); });
 })();
+
+(function () {
+  var button = document.getElementById("copy-resume");
+  var message = document.getElementById("resume-message");
+  if (!button || !message) return;
+
+  function fallbackCopy(text) {
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-999px";
+    document.body.appendChild(area);
+    area.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+    document.body.removeChild(area);
+    return ok;
+  }
+
+  button.addEventListener("click", function () {
+    var text = message.textContent || "";
+    var previous = button.textContent;
+    var done = function () {
+      button.textContent = "Copied";
+      window.setTimeout(function () { button.textContent = previous; }, 2000);
+    };
+    var failed = function () {
+      button.textContent = "Copy failed";
+      window.setTimeout(function () { button.textContent = previous; }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () {
+        if (fallbackCopy(text)) done();
+        else failed();
+      });
+      return;
+    }
+    if (fallbackCopy(text)) done();
+    else failed();
+  });
+})();

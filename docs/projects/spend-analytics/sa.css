@@ -1,18 +1,18 @@
 /* Spend Analytics. Design tokens copied from projects/bi-dashboard/bi.css so both BI pages look like one family. */
 .theme-sa {
-  --bi-navy: #0B1F33;
-  --bi-ink: #102A43;
-  --bi-muted: #486581;
-  --bi-line: #D9E2EC;
+  --bi-navy: #1A2B3C;
+  --bi-ink: #1D2D3E;
+  --bi-muted: #556B82;
+  --bi-line: #D9DEE4;
   --bi-panel: #FFFFFF;
-  --bi-soft: #F0F4F8;
-  --bi-cyan: #0EA5E9;
-  --bi-cyan-deep: #0284C7;
-  --bi-azure: #38BDF8;
-  --bi-ok: #0D9488;
-  --bi-warn: #D97706;
-  --bi-bad: #E11D48;
-  --bg: #F0F4F8;
+  --bi-soft: #F5F6F7;
+  --bi-cyan: #037C77;
+  --bi-cyan-deep: #0062D6;
+  --bi-azure: #E76500;
+  --bi-ok: #256F3A;
+  --bi-warn: #8A5A00;
+  --bi-bad: #C0392B;
+  --bg: #F5F6F7;
   --panel: var(--bi-panel);
   --line: var(--bi-line);
   --text: var(--bi-ink);
@@ -30,9 +30,9 @@
   --sa-subnav-h: 56px;
   color: var(--bi-ink);
   background:
-    radial-gradient(1000px 520px at 6% -12%, rgba(14, 165, 233, 0.16), transparent 55%),
-    radial-gradient(780px 420px at 96% 0%, rgba(2, 132, 199, 0.1), transparent 50%),
-    linear-gradient(180deg, #E8F1F8 0%, #F0F4F8 35%, #F7FAFC 100%);
+    radial-gradient(1000px 520px at 6% -12%, rgba(0, 98, 214, 0.16), transparent 55%),
+    radial-gradient(780px 420px at 96% 0%, rgba(0, 98, 214, 0.1), transparent 50%),
+    linear-gradient(180deg, #E8F1F8 0%, #F5F6F7 35%, #F7FAFC 100%);
   min-height: 100vh;
 }
 
@@ -59,13 +59,14 @@
 .theme-sa .kpi .value { color: var(--bi-navy); font-size: 1.35rem; }
 .sa-kpis .kpi:nth-child(-n+3) { border-top: 3px solid var(--bi-cyan-deep); }
 /* bi.css "a" colour rule would turn the primary button text cyan; keep the base dark text */
-.theme-sa .btn-primary { color: #042f2e; }
+.theme-sa .btn-primary { background: #0062D6; color: #fff; }
+.theme-sa .btn-primary:hover { background: #004BB0; color: #fff; }
 .theme-sa .footer { color: var(--bi-muted); border-top-color: var(--bi-line); }
 .theme-sa h2 { font-family: var(--display); color: var(--bi-navy); font-size: 1.35rem; margin: 0 0 0.4rem; }
 .theme-sa .sub { color: var(--bi-muted); margin: 0 0 1.1rem; }
 .bi-pill-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
 .bi-pill { border: 1px solid var(--bi-line); background: #fff; color: var(--bi-muted); border-radius: 999px; padding: 0.28rem 0.7rem; font-size: 0.78rem; font-weight: 650; }
-.bi-pill.accent { background: rgba(14, 165, 233, 0.12); border-color: rgba(14, 165, 233, 0.35); color: var(--bi-cyan-deep); }
+.bi-pill.accent { background: rgba(0, 98, 214, 0.12); border-color: rgba(0, 98, 214, 0.35); color: var(--bi-cyan-deep); }
 .hero-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1rem 0 0; }
 .view-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 1rem; }
 .chart-title { margin: 0 0 0.35rem; font-size: 1.02rem; color: var(--bi-navy); }
@@ -93,7 +94,7 @@
 .sa-status {
   color: var(--bi-muted); font-size: 0.86rem; line-height: 1.55;
   padding: 0.6rem 0.85rem; border-left: 3px solid var(--bi-cyan);
-  background: rgba(14, 165, 233, 0.06); border-radius: 0 10px 10px 0;
+  background: rgba(0, 98, 214, 0.06); border-radius: 0 10px 10px 0;
 }
 .sa-status strong { color: var(--bi-ink); }
 
@@ -134,8 +135,8 @@
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-.sa-subnav a:hover { color: var(--bi-cyan-deep); background: rgba(14, 165, 233, 0.08); text-decoration: none; }
-.sa-subnav a.is-active { color: var(--bi-cyan-deep); background: rgba(14, 165, 233, 0.14); }
+.sa-subnav a:hover { color: var(--bi-cyan-deep); background: rgba(0, 98, 214, 0.08); text-decoration: none; }
+.sa-subnav a.is-active { color: var(--bi-cyan-deep); background: rgba(0, 98, 214, 0.14); }
 .sa-subnav a:focus-visible,
 .sa-tab:focus-visible,
 .sa-step:focus-visible,
@@ -164,12 +165,12 @@
   transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 .sa-tab:hover { color: var(--bi-cyan-deep); }
-.sa-tab[aria-selected="true"] { background: #fff; color: var(--bi-navy); border-color: var(--bi-line); box-shadow: 0 4px 12px rgba(16, 42, 67, 0.08); }
+.sa-tab[aria-selected="true"] { background: #0062D6; color: #fff; border-color: #0062D6; box-shadow: none; }
 .sa-tab-n {
   display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 6px;
-  background: rgba(14, 165, 233, 0.12); color: var(--bi-cyan-deep); font-size: 0.72rem; font-weight: 750;
+  background: rgba(0, 98, 214, 0.12); color: #004BB0; font-size: 0.72rem; font-weight: 750;
 }
-.sa-tab[aria-selected="true"] .sa-tab-n { background: var(--bi-cyan-deep); color: #fff; }
+.sa-tab[aria-selected="true"] .sa-tab-n { background: #fff; color: #0062D6; }
 .sa-stage { position: relative; }
 .sa-panel { margin: 0; }
 .sa-panel[hidden] { display: none; }
@@ -183,7 +184,7 @@
   background: var(--bi-soft);
 }
 .sa-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.sa-frame:hover { border-color: rgba(14, 165, 233, 0.55); }
+.sa-frame:hover { border-color: rgba(0, 98, 214, 0.55); }
 .sa-panel figcaption { margin: 0.6rem 0.1rem 0; color: var(--bi-ink); font-size: 0.92rem; min-height: 1.4em; }
 .sa-controls { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 0.75rem; }
 .sa-step {

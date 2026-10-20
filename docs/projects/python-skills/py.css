@@ -1,26 +1,26 @@
 ﻿/* Python Skills Showcase — skim-first, hub navy + Python accent */
 
 :root {
-  --ink: #12151c;
+  --ink: #1D2D3E;
   --ink-soft: #2a3140;
-  --muted: #5e6778;
+  --muted: #556B82;
   --line: rgba(18, 21, 28, 0.1);
   --line-strong: rgba(18, 21, 28, 0.16);
   --surface: #ffffff;
-  --bg: #eef1f5;
+  --bg: #F5F6F7;
   --navy: #1a2b3c;
   --navy-hover: #0f1e2a;
-  --accent: #3776AB;
-  --accent-hover: #2d5f8a;
-  --accent-deep: #2d5f8a;
-  --py: #3776AB;
+  --accent: #0062D6;
+  --accent-hover: #004BB0;
+  --accent-deep: #004BB0;
+  --py: #0062D6;
   --py-yellow: #FFD43B;
-  --py-soft: rgba(55, 118, 171, 0.1);
+  --py-soft: rgba(0, 98, 214, 0.1);
   --py-pale: #e8f2fa;
-  --ok: #1e6b4f;
-  --warn: #8a6a2f;
+  --ok: #256F3A;
+  --warn: #8A5A00;
   --nb-input-bg: #f4f7fb;
-  --nb-border: #3776AB;
+  --nb-border: #0062D6;
   --radius: 14px;
   --radius-sm: 10px;
   --shadow: 0 1px 2px rgba(18, 21, 28, 0.04), 0 12px 40px rgba(26, 43, 60, 0.06);
@@ -137,7 +137,7 @@ body.py-page a:hover {
   z-index: 40;
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  background: rgba(238, 241, 245, 0.9);
+  background: rgba(245, 246, 247, 0.94);
   border-bottom: 1px solid var(--line);
 }
 
@@ -626,10 +626,10 @@ body.py-page a:hover {
   border: none;
 }
 
-.code-block .cm { color: #6b7a8a; font-style: italic; }
-.code-block .kw { color: #306998; font-weight: 600; }
-.code-block .fn { color: #3776AB; }
-.code-block .st { color: #b45309; }
+.code-block .cm { color: #556B82; font-style: italic; }
+.code-block .kw { color: #0062D6; font-weight: 600; }
+.code-block .fn { color: #0062D6; }
+.code-block .st { color: #8A5A00; }
 
 .capstone-note {
   margin: 1.35rem 0 0;

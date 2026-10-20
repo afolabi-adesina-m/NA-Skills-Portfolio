@@ -1,10 +1,10 @@
 /* ESG Reporting app: hash routing (forecast view added 10 October 2026), hand rolled SVG charts, no dependencies. Same pattern as the Supplier Spend app. */
 (function () {
   "use strict";
-  var state = { view: "mix", fy: "all", fs: "fed", lpm: 1000, months: 12, sites: 1 };
+  var state = { view: "mix", fy: "all", fs: "fed", fuel: "diesel", equip: "generator", litres: 100 };
   var D = null;
   var VIEWS = ["mix", "emissions", "diesel", "forecast", "about"];
-  var C = { loc: "#0070F2", for: "#049F9A", s1: "#0070F2", s2: "#89D1FF", fleet: "#1D2D3E" };
+  var C = { loc: "#0062D6", for: "#037C77", s1: "#0062D6", s2: "#8A9AAB", fleet: "#6B4FBB" };
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   function money(v) {
@@ -134,46 +134,97 @@
       '<div class="grid two"><section class="card"><h2>Diesel in ' + fyShort(E.year) + "</h2>" +
       '<div class="facets"><div class="facet"><span>Facilities</span><strong>' + num(d.facilityKt, 1) + ' kt</strong></div><div class="facet"><span>Fleet</span><strong>' + num(d.fleetKt, 1) + ' kt</strong></div><div class="facet"><span>Fleet litres</span><strong>' + num(d.fleetL / 1e6, 1) + " million</strong></div></div>" +
       '<p class="c-sub">Facility diesel by location</p>' + bars(d.facilityTop.map(function (t) { return { name: nameLoc[t[0]] || t[0], v: t[1], label: num(t[1], 2) + " kt" }; })) +
-      '<p class="note"><a href="#/diesel">Try the diesel calculator</a></p></section>' +
+      '<p class="note"><a href="#/diesel">Try the fuel calculator</a></p></section>' +
       '<section class="card"><h2>Fleet by type</h2>' + bars(fleet) + "</section></div>" +
       comment("Federal operations emitted " + kt(E.total) + " in " + fyShort(E.year) + ", " + pct(cut) + " below " + fyShort(E.base) + ". Scope 1 is " + pct(E.scope1 / E.total) + " of the total, and natural gas is the largest single source. Scope 2 fell from " + kt(E.trend[0][2]) + " to " + kt(E.scope2) + " over the period. Diesel at facilities added " + num(d.facilityKt, 1) + " kt, led by Nunavut.");
   }
-  function calc() {
-    var f = D.factor, L = state.lpm * state.months * state.sites;
-    return { L: L, t: L * f.co2e / 1e6, co2: L * f.co2 / 1e6, ch4: L * f.ch4 * f.gwpCh4 / 1e6, n2o: L * f.n2o * f.gwpN2o / 1e6 };
+  /* Table 4.3, ECCC Emission Factors and Reference Values, Version 4.0, for 2026.
+     NIR 1990 to 2023, Part 2, Table A6.1-6. GWP: CH4 28, N2O 265. */
+  var FUELS = {
+    diesel: { name: "Diesel", co2: 2681, ch4: 0.078, n2o: 0.022, gwpCh4: 28, gwpN2o: 265, co2e: 2689.014, row: "Diesel, refineries and others" },
+    gasoline: { name: "Gasoline", co2: 2307, ch4: 0.1, n2o: 0.02, gwpCh4: 28, gwpN2o: 265, co2e: 2315.1, row: "Motor gasoline" }
+  };
+  var NRCAN = "Natural Resources Canada, 2025 Fuel Consumption Ratings, updated 24 July 2026. Combined rating, 55 percent city and 45 percent highway.";
+  var EQUIP = {
+    diesel: [
+      { id: "generator", label: "Generator", kind: "none", hint: "No single published fuel use rate fits every generator, so run hours are not estimated." },
+      { id: "heavy", label: "Heavy truck", kind: "none", hint: "The 2025 NRCan ratings cover light duty vehicles. They do not list a heavy truck, so kilometres are not estimated." },
+      { id: "silverado", label: "Pickup: 2025 Chevrolet Silverado, 3.0 L diesel", kind: "road", lPer100: 9.3, hint: "2025 Chevrolet Silverado, pickup, 3.0 L, 6 cylinder, 10 speed automatic, diesel. Combined rating 9.3 L/100 km. " + NRCAN },
+      { id: "car", label: "Car", kind: "none", hint: "The 2025 NRCan ratings do not list a diesel car, so kilometres are not estimated." }
+    ],
+    gasoline: [
+      { id: "civic", label: "Car: 2025 Honda Civic Sedan", kind: "road", lPer100: 6.7, hint: "2025 Honda Civic Sedan, 2.0 L, 4 cylinder, variable transmission, regular gasoline. Combined rating 6.7 L/100 km. " + NRCAN },
+      { id: "corolla", label: "Car: 2025 Toyota Corolla", kind: "road", lPer100: 6.7, hint: "2025 Toyota Corolla (1-mode), 2.0 L, 4 cylinder, variable transmission, regular gasoline. Combined rating 6.7 L/100 km. " + NRCAN },
+      { id: "rav4", label: "SUV: 2025 Toyota RAV4 AWD", kind: "road", lPer100: 8.0, hint: "2025 Toyota RAV4 AWD (Stop/Start), 2.5 L, 4 cylinder, 8 speed automatic, regular gasoline. Combined rating 8.0 L/100 km. " + NRCAN },
+      { id: "crv", label: "SUV: 2025 Honda CR-V", kind: "road", lPer100: 7.8, hint: "2025 Honda CR-V, 1.5 L, 4 cylinder, variable transmission, regular gasoline. Combined rating 7.8 L/100 km. " + NRCAN },
+      { id: "f150", label: "Pickup: 2025 Ford F-150", kind: "road", lPer100: 11.3, hint: "2025 Ford F-150, 2.7 L, 6 cylinder, 10 speed automatic, regular gasoline. Combined rating 11.3 L/100 km. " + NRCAN },
+      { id: "smallgen", label: "Small generator", kind: "none", hint: "No single published fuel use rate fits every small generator, so run hours are not estimated." }
+    ]
+  };
+  function equipList() { return EQUIP[state.fuel] || EQUIP.diesel; }
+  function currentEquip() {
+    var list = equipList();
+    return list.filter(function (x) { return x.id === state.equip; })[0] || list[0];
   }
-  function dieselOut() {
-    var f = D.factor, r = calc(), share = r.t / (D.em.diesel.facilityKt * 1000);
-    return '<div class="calc-out">' + [
-      { title: "Diesel burned", sub: "Litres", val: num(r.L) },
-      { title: "Emissions", sub: "Tonnes CO2e", val: num(r.t, r.t < 10 ? 2 : 1), tone: "info" },
+  function fuelCalc() {
+    var f = FUELS[state.fuel], L = state.litres, eq = currentEquip();
+    var kg = L * f.co2e / 1000;
+    var km = eq.kind === "road" ? L * 100 / eq.lPer100 : null;
+    return {
+      L: L, kg: kg, f: f, eq: eq, km: km, perKm: km ? kg / km : null,
+      co2: L * f.co2 / 1000, ch4: L * f.ch4 * f.gwpCh4 / 1000, n2o: L * f.n2o * f.gwpN2o / 1000
+    };
+  }
+  function fuelOut() {
+    var r = fuelCalc(), f = r.f;
+    var tiles = [
+      { title: "Fuel burned", sub: "Litres", val: num(r.L) },
+      { title: "Emissions", sub: "kg CO2e", val: num(r.kg, r.kg < 10 ? 2 : 1), tone: "info" },
       { title: "Factor", sub: "kg CO2e per litre", val: num(f.co2e / 1000, 3) }
-    ].map(tile).join("") + "</div>" +
-      '<section class="card"><h2>By gas</h2><div class="table-wrap"><table><thead><tr><th>Gas</th><th class="num hide-sm">g per litre</th><th class="num hide-sm">GWP</th><th class="num">g CO2e per litre</th><th class="num">Tonnes CO2e</th></tr></thead><tbody>' +
+    ];
+    if (r.km != null) {
+      tiles.push({ title: "Distance", sub: "Estimated km", val: num(r.km, 0) });
+      tiles.push({ title: "Per kilometre", sub: "kg CO2e per km", val: num(r.perKm, 3) });
+    }
+    var extra = r.km != null
+      ? " Those litres would take this vehicle about " + num(r.km, 0) + " km, which is " + num(r.perKm, 3) + " kg CO2e per km. The same litres give the same emissions for every model. The model only estimates the distance."
+      : " " + r.eq.hint + " The same litres give the same emissions for every piece of equipment.";
+    return '<div class="calc-out">' + tiles.map(tile).join("") + "</div>" +
+      '<section class="card"><h2>By gas</h2><div class="table-wrap"><table><thead><tr><th>Gas</th><th class="num hide-sm">g per litre</th><th class="num hide-sm">GWP</th><th class="num">g CO2e per litre</th><th class="num">kg CO2e</th></tr></thead><tbody>' +
       [["CO2", f.co2, 1, r.co2], ["CH4", f.ch4, f.gwpCh4, r.ch4], ["N2O", f.n2o, f.gwpN2o, r.n2o]].map(function (g) {
         return "<tr><td>" + g[0] + '</td><td class="num hide-sm">' + num(g[1], g[1] < 1 ? 3 : 0) + '</td><td class="num hide-sm">' + g[2] + '</td><td class="num">' + num(g[1] * g[2], 3) + '</td><td class="num">' + num(g[3], 3) + "</td></tr>";
-      }).join("") + '<tr><td><strong>Total</strong></td><td class="hide-sm"></td><td class="hide-sm"></td><td class="num"><strong>' + num(f.co2e, 3) + '</strong></td><td class="num"><strong>' + num(r.t, 3) + "</strong></td></tr></tbody></table></div>" +
-      '<p class="formula">Tonnes CO2e = litres &times; ' + num(f.co2e, 3) + " g &divide; 1,000,000</p></section>" +
-      comment(num(r.L) + " litres of diesel give " + num(r.t, 1) + " tonnes CO2e. CO2 is " + pct(f.co2 / f.co2e) + " of the total. That equals " + pct(share, share < 0.01 ? 2 : 1) + " of the diesel emissions from all federal facilities in " + fyShort(D.em.year) + ".");
+      }).join("") + '<tr><td><strong>Total</strong></td><td class="hide-sm"></td><td class="hide-sm"></td><td class="num"><strong>' + num(f.co2e, 3) + '</strong></td><td class="num"><strong>' + num(r.kg, 3) + "</strong></td></tr></tbody></table></div>" +
+      '<p class="formula">kg CO2e = litres &times; ' + num(f.co2e, 3) + " g &divide; 1,000</p></section>" +
+      comment(num(r.L) + " litres of " + f.name.toLowerCase() + " give " + num(r.kg, 1) + " kg CO2e. CO2 is " + pct(f.co2 / f.co2e) + " of that total." + extra);
+  }
+  function fuelOptions() {
+    return equipList().map(function (x) {
+      return '<option value="' + x.id + '"' + (x.id === currentEquip().id ? " selected" : "") + ">" + esc(x.label) + "</option>";
+    }).join("");
   }
   function diesel() {
-    var field = function (id, lab, v, hint, max) { return '<div class="field"><label for="' + id + '">' + lab + '</label><input type="number" id="' + id + '" inputmode="decimal" min="0" max="' + max + '" step="any" value="' + v + '" /><span class="hint">' + hint + "</span></div>"; };
-    return '<h1 class="v-title">Diesel generator calculator ' + chip("ECCC factor") + "</h1>" +
+    var f = FUELS[state.fuel], eq = currentEquip();
+    return '<h1 class="v-title">Fuel calculator ' + chip("ECCC factor") + "</h1>" +
+      '<p class="c-sub">Pick a fuel, then a vehicle or piece of equipment, then enter litres. Emissions use the official factor per litre.</p>' +
       '<div class="grid two"><section class="card"><h2>Inputs</h2><form class="form" id="calc" novalidate>' +
-      field("c-lpm", "Litres per month, per site", state.lpm, "Example value. Change it.", 10000000) +
-      field("c-months", "Months", state.months, "1 to 12", 12) +
-      field("c-sites", "Sites", state.sites, "Generators or sites", 100000) +
+      '<div class="field"><label for="c-fuel">Step 1. Fuel</label><select id="c-fuel">' +
+      '<option value="diesel"' + (state.fuel === "diesel" ? " selected" : "") + '>Diesel</option>' +
+      '<option value="gasoline"' + (state.fuel === "gasoline" ? " selected" : "") + ">Gasoline</option></select></div>" +
+      '<div class="field"><label for="c-equip">Step 2. Vehicle or equipment</label><select id="c-equip">' + fuelOptions() + '</select><span class="hint" id="c-equip-hint">' + esc(eq.hint) + "</span></div>" +
+      '<div class="field"><label for="c-litres">Litres</label><input type="number" id="c-litres" inputmode="decimal" min="0" max="10000000" step="any" value="' + state.litres + '" /><span class="hint">Litres at the pump, or litres burned.</span></div>' +
       "</form></section>" +
-      '<section class="card"><h2>Official factor</h2><p class="c-sub">ECCC, Emission Factors and Reference Values, Version 4.0, Table 4.3 (2026), stationary diesel. GWP from the Greenhouse Gas Pollution Pricing Act, Schedule 3.</p>' +
-      '<div class="facets"><div class="facet"><span>CO2</span><strong>' + num(D.factor.co2) + ' g/L</strong></div><div class="facet"><span>CH4</span><strong>' + D.factor.ch4 + ' g/L</strong></div><div class="facet"><span>N2O</span><strong>' + D.factor.n2o + " g/L</strong></div></div></section></div>" +
-      '<div id="calc-out">' + dieselOut() + "</div>";
+      '<section class="card"><h2>Official factors</h2><p class="c-sub">Environment and Climate Change Canada, Emission Factors and Reference Values, Version 4.0, September 2026, Table 4.3, for 2026. From the National Inventory Report 1990 to 2023, Part 2, Table A6.1-6. Global warming potentials: methane 28, nitrous oxide 265, from the Greenhouse Gas Pollution Pricing Act, Schedule 3. This row: <span id="c-factor-row">' + esc(f.row) + '</span>.</p>' +
+      '<div class="facets" id="c-facets"><div class="facet"><span>CO2</span><strong>' + num(f.co2) + ' g/L</strong></div><div class="facet"><span>CH4</span><strong>' + num(f.ch4, 3) + ' g/L</strong></div><div class="facet"><span>N2O</span><strong>' + num(f.n2o, 3) + ' g/L</strong></div><div class="facet"><span>CO2e</span><strong>' + num(f.co2e / 1000, 3) + ' kg/L</strong></div></div>' +
+      '<p class="note">Road distance uses the NRCan combined rating for the model year 2025 vehicle named in the list. <a href="https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system/emission-factors-reference-values.html" target="_blank" rel="noopener">ECCC factors</a>. <a href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64" target="_blank" rel="noopener">NRCan ratings</a>.</p></section></div>' +
+      '<div id="calc-out">' + fuelOut() + "</div>";
   }
   function about() {
     var P = D.proc, A = P.all, np = A.provinces.filter(function (p) { return p[0] === "Postal code not usable"; })[0];
     var src = [
       ["Proactive Publication, Contracts", "Treasury Board of Canada Secretariat. 179,829 contracts, 1 April 2023 to 31 March 2026. Open Government Licence, Canada. Accessed 6 October 2026.", "https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b"],
       ["Greenhouse Gas Emissions Inventory, Items 1 to 3", "Treasury Board of Canada Secretariat, Centre for Greening Government. FY'06 and FY'11 to FY'25, published 17 February 2026. Open Government Licence, Canada. Accessed 7 October 2026.", "https://open.canada.ca/data/en/dataset/6bed41cd-9816-4912-a2b8-b0b224909396"],
-      ["Emission Factors and Reference Values, Version 4.0", "Environment and Climate Change Canada, September 2026, Table 4.3, from the National Inventory Report 1990 to 2023, Part 2, Table A6.1-6. Crown copyright, cited with credit for non-commercial use.", "https://publications.gc.ca/site/eng/9.964686/publication.html"],
+      ["Emission Factors and Reference Values, Version 4.0", "Environment and Climate Change Canada, September 2026, Table 4.3, for 2026, from the National Inventory Report 1990 to 2023, Part 2, Table A6.1-6. Diesel, refineries and others: 2,681 g CO2, 0.078 g CH4, 0.022 g N2O per litre. Motor gasoline: 2,307 g CO2, 0.100 g CH4, 0.02 g N2O per litre. Crown copyright, cited with credit for non-commercial use.", "https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system/emission-factors-reference-values.html"],
+      ["2025 Fuel Consumption Ratings", "Natural Resources Canada. Combined L/100 km for the 2025 models named in the fuel calculator. Open Government Licence, Canada. File updated 24 July 2026.", "https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64"],
       ["Greenhouse Gas Pollution Pricing Act, Schedule 3", "Global warming potentials: CH4 28, N2O 265. Justice Laws Website.", "https://laws-lois.justice.gc.ca/eng/acts/G-11.55/FullText.html"]
     ];
     return '<div class="about"><h1 class="v-title">Data and method</h1>' +
@@ -188,12 +239,12 @@
       "<li>Vendor country is the address on the contract, not the owner. A Canadian branch of a foreign firm counts as local.</li>" +
       "<li>The open emissions data leaves out CSE and some facilities, so totals can differ slightly from the summary tables on canada.ca.</li>" +
       "<li>Spend and emissions are separate datasets shown side by side. Scope 3 supply chain emissions are not covered.</li>" +
-      "<li>The calculator uses the stationary diesel factor. Vehicles use different CH4 and N2O factors.</li></ul></section></div>" +
+      "<li>The fuel calculator uses the Table 4.3 factor per litre for diesel and for gasoline. Road distance uses a 2025 NRCan combined rating. Generators and heavy trucks have no single published use rate here, so hours and kilometres are left out for those.</li></ul></section></div>" +
       comment("All figures come from public Government of Canada files. The supplier split reuses the cleaned supplier keys from the spend work, and the calculator uses the published ECCC factor with no changes. Figures are unaudited.") + "</div>";
   }
   /* ---------- forecast view (precomputed in Python, data/forecast.json) ---------- */
   var FC = null, fcLoading = false;
-  var MC = { act: "#1D2D3E", ets: "#0070F2", arima: "#7858FF", linear: "#E76500", snaive: "#6A7682", path: "#AA0808", gg: "#256F3A" };
+  var MC = { act: "#1D2D3E", ets: "#0062D6", arima: "#6B4FBB", linear: "#E76500", snaive: "#8A9AAB", path: "#C0392B", gg: "#256F3A" };
   var MN = { ets: "ETS", arima: "AutoARIMA", linear: "Linear trend", snaive: "Seasonal naive" };
   var SERIES = ["fed", "can", "us"];
   function n2(v) { return num(v, 2); }
@@ -372,6 +423,7 @@
   }
   function readHash() {
     var p = location.hash.replace(/^#\/?/, "").split("?"), q = new URLSearchParams(p[1] || "");
+    if (p[0] === "fuel") { location.replace(location.pathname + location.search + "#/diesel"); return; }
     state.view = VIEWS.indexOf(p[0]) >= 0 ? p[0] : "mix";
     state.fy = /^(all|fy24|fy25|fy26)$/.test(q.get("fy") || "") ? q.get("fy") : "all";
     state.fs = /^(fed|can|us)$/.test(q.get("s") || "") ? q.get("s") : "fed";
@@ -397,15 +449,42 @@
     var g = e.target.closest("[data-go]");
     if (g) { state.view = g.dataset.go; writeHash(); }
   });
-  $("#view").addEventListener("input", function (e) {
-    var t = e.target, map = { "c-lpm": "lpm", "c-months": "months", "c-sites": "sites" }, k = map[t.id];
-    if (!k) return;
+  function onFuelInput(e) {
+    var t = e.target;
+    if (!t || state.view !== "diesel") return;
+    if (t.id === "c-fuel") {
+      state.fuel = t.value === "gasoline" ? "gasoline" : "diesel";
+      if (!equipList().some(function (x) { return x.id === state.equip; })) state.equip = equipList()[0].id;
+      var sel = $("#c-equip");
+      if (sel) sel.innerHTML = fuelOptions();
+      var hint = $("#c-equip-hint");
+      if (hint) hint.textContent = currentEquip().hint;
+      var row = $("#c-factor-row");
+      if (row) row.textContent = FUELS[state.fuel].row;
+      var facets = $("#c-facets");
+      if (facets) {
+        var ff = FUELS[state.fuel];
+        facets.innerHTML = '<div class="facet"><span>CO2</span><strong>' + num(ff.co2) + ' g/L</strong></div><div class="facet"><span>CH4</span><strong>' + num(ff.ch4, 3) + ' g/L</strong></div><div class="facet"><span>N2O</span><strong>' + num(ff.n2o, 3) + ' g/L</strong></div><div class="facet"><span>CO2e</span><strong>' + num(ff.co2e / 1000, 3) + ' kg/L</strong></div>';
+      }
+      $("#calc-out").innerHTML = fuelOut();
+      return;
+    }
+    if (t.id === "c-equip") {
+      state.equip = t.value;
+      var hint2 = $("#c-equip-hint");
+      if (hint2) hint2.textContent = currentEquip().hint;
+      $("#calc-out").innerHTML = fuelOut();
+      return;
+    }
+    if (t.id !== "c-litres") return;
     var v = parseFloat(t.value), max = parseFloat(t.max), ok = isFinite(v) && v >= 0 && v <= max;
     t.setAttribute("aria-invalid", ok ? "false" : "true");
     if (!ok) return;
-    state[k] = v;
-    $("#calc-out").innerHTML = dieselOut();
-  });
+    state.litres = v;
+    $("#calc-out").innerHTML = fuelOut();
+  }
+  $("#view").addEventListener("input", onFuelInput);
+  $("#view").addEventListener("change", onFuelInput);
   fetch("data/esg.json").then(function (r) { if (!r.ok) throw new Error("data"); return r.json(); })
     .then(function (d) { D = d; readHash(); render(false); })
     .catch(function () { $("#view").innerHTML = '<p class="loading">Could not load the data. Please reload the page.</p>'; });

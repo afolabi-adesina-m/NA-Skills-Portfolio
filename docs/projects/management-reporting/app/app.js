@@ -67,8 +67,8 @@
     var col = { good: "#7CC593", warn: "#E9B949", bad: "#D9534F" };
     return '<div class="ctx"><h1>Trend, ' + T[0].fy + " to " + T[T.length - 1].fy + "</h1></div>" +
       mod("Voted and statutory, by year", "Time runs across the columns.", grid) +
-      '<div class="two">' + mod("Authorities and actual, voted", "C$ billions", lineSvg([{ c: "#1F6FD1", v: T.map(function (t) { return t.auth / 1e9; }) }, { c: "#14213D", v: T.map(function (t) { return t.exp / 1e9; }) }], labs, function (v) { return num(v); }) +
-        '<div class="legend"><span><i style="background:#1F6FD1"></i>Authorities</span><span><i style="background:#14213D"></i>Actual</span></div>') +
+      '<div class="two">' + mod("Authorities and actual, voted", "C$ billions", lineSvg([{ c: "#0062D6", v: T.map(function (t) { return t.auth / 1e9; }) }, { c: "#1A2B3C", v: T.map(function (t) { return t.exp / 1e9; }) }], labs, function (v) { return num(v); }) +
+        '<div class="legend"><span><i style="background:#0062D6"></i>Authorities</span><span><i style="background:#1A2B3C"></i>Actual</span></div>') +
       mod("Lapse %, voted", "Share of authorities not spent", lineSvg([{ bars: 1, v: l, c: l.map(function (v) { return col[tone(v / 100)]; }) }], labs, function (v) { return num(v, 0) + "%"; })) + "</div>";
   }
   function lapses(s) {

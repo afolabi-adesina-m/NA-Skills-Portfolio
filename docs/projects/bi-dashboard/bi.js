@@ -1,10 +1,10 @@
 (function () {
   const BASE = "/NA-Skills-Portfolio/assets/data/";
-  const COLORS = ["#0284C7", "#0EA5E9", "#38BDF8", "#0369A1", "#7DD3FC"];
+  const COLORS = ["#0062D6", "#037C77", "#E76500", "#6B4FBB", "#8A9AAB"];
   const PLOT_LAYOUT = {
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
-    font: { color: "#486581", family: "Segoe UI, Helvetica Neue, Arial, sans-serif" },
+    font: { color: "#556B82", family: "Segoe UI, Helvetica Neue, Arial, sans-serif" },
     margin: { t: 24, r: 16, b: 52, l: 56 },
     legend: { orientation: "h", y: -0.18 },
   };
@@ -150,8 +150,8 @@
       "chart-otif",
       traces,
       Object.assign({}, PLOT_LAYOUT, {
-        yaxis: { tickformat: ".0%", gridcolor: "#D9E2EC", range: [0.84, 1], title: "OTIF" },
-        xaxis: { gridcolor: "#D9E2EC" },
+        yaxis: { tickformat: ".0%", gridcolor: "#D9DEE4", range: [0.84, 1], title: "OTIF" },
+        xaxis: { gridcolor: "#D9DEE4" },
         shapes: [{
           type: "line",
           xref: "paper",
@@ -159,7 +159,7 @@
           x1: 1,
           y0: 0.95,
           y1: 0.95,
-          line: { color: "#0D9488", width: 1.5, dash: "dot" },
+          line: { color: "#256F3A", width: 1.5, dash: "dot" },
         }],
       }),
       { responsive: true, displayModeBar: false }
@@ -175,14 +175,14 @@
         y: latest.map(function (r) { return +r.freight_spend_cad; }),
         marker: {
           color: latest.map(function (r) {
-            return r.country === "US" ? "#0284C7" : "#38BDF8";
+            return r.country === "US" ? "#0062D6" : "#E76500";
           }),
         },
         hovertemplate: "%{x}<br>%{y:$,.0f}<extra></extra>",
       }],
       Object.assign({}, PLOT_LAYOUT, {
-        yaxis: { title: "CAD", gridcolor: "#D9E2EC" },
-        xaxis: { gridcolor: "#D9E2EC" },
+        yaxis: { title: "CAD", gridcolor: "#D9DEE4" },
+        xaxis: { gridcolor: "#D9DEE4" },
         margin: { t: 20, r: 10, b: 60, l: 56 },
         showlegend: false,
       }),
@@ -203,7 +203,7 @@
         marker: {
           size: latest.map(function (r) { return Math.max(12, (+r.orders) / 70); }),
           color: latest.map(function (r) { return +r.otif; }),
-          colorscale: [[0, "#E11D48"], [0.5, "#38BDF8"], [1, "#0D9488"]],
+          colorscale: [[0, "#C0392B"], [0.5, "#E76500"], [1, "#256F3A"]],
           cmin: 0.86,
           cmax: 0.98,
           showscale: true,
@@ -212,8 +212,8 @@
         hovertemplate: "%{text}<br>Turns %{x:.1f}<br>Fill %{y:.1%}<extra></extra>",
       }],
       Object.assign({}, PLOT_LAYOUT, {
-        xaxis: { title: "Inventory turns", gridcolor: "#D9E2EC" },
-        yaxis: { title: "Fill rate", tickformat: ".0%", gridcolor: "#D9E2EC", range: [0.88, 1] },
+        xaxis: { title: "Inventory turns", gridcolor: "#D9DEE4" },
+        yaxis: { title: "Fill rate", tickformat: ".0%", gridcolor: "#D9DEE4", range: [0.88, 1] },
         showlegend: false,
       }),
       { responsive: true, displayModeBar: false }
@@ -233,14 +233,14 @@
         textposition: "auto",
         marker: {
           color: latest.map(function (r) {
-            return +r.otif >= 0.95 ? "#0D9488" : (+r.otif >= 0.92 ? "#0EA5E9" : "#E11D48");
+            return +r.otif >= 0.95 ? "#256F3A" : (+r.otif >= 0.92 ? "#037C77" : "#C0392B");
           }),
         },
         hovertemplate: "%{y}<br>OTIF %{x:.1%}<br>Sales %{customdata}<extra></extra>",
         customdata: latest.map(function (r) { return fmtMoney(+r.sales_cad); }),
       }],
       Object.assign({}, PLOT_LAYOUT, {
-        xaxis: { tickformat: ".0%", range: [0.8, 1], gridcolor: "#D9E2EC", title: "OTIF" },
+        xaxis: { tickformat: ".0%", range: [0.8, 1], gridcolor: "#D9DEE4", title: "OTIF" },
         yaxis: { automargin: true },
         margin: { t: 16, r: 20, b: 48, l: 140 },
         showlegend: false,
@@ -260,10 +260,10 @@
         marker: {
           size: (window.__latestPlants || []).map(function (r) { return Math.max(12, (+r.orders) / 80); }),
           color: (window.__latestPlants || []).map(function (r) { return +r.otif; }),
-          colorscale: [[0, "#E11D48"], [0.5, "#38BDF8"], [1, "#0D9488"]],
+          colorscale: [[0, "#C0392B"], [0.5, "#E76500"], [1, "#256F3A"]],
           cmin: 0.86,
           cmax: 0.98,
-          line: { width: 1, color: "#102A43" },
+          line: { width: 1, color: "#1D2D3E" },
           colorbar: { title: "OTIF", thickness: 12 },
         },
         hoverinfo: "text",
@@ -311,12 +311,12 @@
         type: "bar",
         x: cats,
         y: cats.map(function (c) { return byCat[c]; }),
-        marker: { color: ["#0284C7", "#0EA5E9", "#38BDF8", "#7DD3FC"] },
+        marker: { color: ["#0062D6", "#037C77", "#E76500", "#8A9AAB"] },
         hovertemplate: "%{x}<br>%{y:$,.0f}<extra></extra>",
       }],
       Object.assign({}, PLOT_LAYOUT, {
-        yaxis: { title: "Revenue CAD", gridcolor: "#D9E2EC" },
-        xaxis: { gridcolor: "#D9E2EC" },
+        yaxis: { title: "Revenue CAD", gridcolor: "#D9DEE4" },
+        xaxis: { gridcolor: "#D9DEE4" },
         showlegend: false,
       }),
       { responsive: true, displayModeBar: false }
@@ -335,11 +335,11 @@
         orientation: "h",
         y: lines.slice().reverse(),
         x: lines.slice().reverse().map(function (k) { return byLine[k]; }),
-        marker: { color: "#0284C7" },
+        marker: { color: "#0062D6" },
         hovertemplate: "%{y}<br>%{x:$,.0f}<extra></extra>",
       }],
       Object.assign({}, PLOT_LAYOUT, {
-        xaxis: { title: "Revenue CAD", gridcolor: "#D9E2EC" },
+        xaxis: { title: "Revenue CAD", gridcolor: "#D9DEE4" },
         yaxis: { automargin: true },
         margin: { t: 16, r: 16, b: 48, l: 130 },
         showlegend: false,
@@ -392,12 +392,12 @@
           type: "bar",
           x: causes,
           y: causes.map(function (c) { return causeCount[c]; }),
-          marker: { color: "#0369A1" },
+          marker: { color: "#6B4FBB" },
           hovertemplate: "%{x}<br>%{y} orders impacted<extra></extra>",
         }],
         Object.assign({}, PLOT_LAYOUT, {
-          yaxis: { title: "Orders impacted", gridcolor: "#D9E2EC" },
-          xaxis: { tickangle: -18, gridcolor: "#D9E2EC" },
+          yaxis: { title: "Orders impacted", gridcolor: "#D9DEE4" },
+          xaxis: { tickangle: -18, gridcolor: "#D9DEE4" },
           margin: { t: 16, r: 12, b: 90, l: 56 },
           showlegend: false,
         }),

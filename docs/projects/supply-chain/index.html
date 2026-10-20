@@ -359,11 +359,11 @@
   </footer>
 
   <script>
-  const chartFont = { color: "#5e6778", family: "Figtree, Segoe UI, sans-serif" };
+  const chartFont = { color: "#556B82", family: "Figtree, Segoe UI, sans-serif" };
   const grid = "rgba(18, 21, 28, 0.1)";
-  const teal = "#2f5d50";
+  const teal = "#0062D6";
   const emerald = "#3d7a6a";
-  const sky = "#3a5a6e";
+  const sky = "#0062D6";
 
   document.querySelector(".nav-toggle")?.addEventListener("click", () => {
     const links = document.getElementById("sc-nav-links");
@@ -470,7 +470,7 @@
       y: values,
       connector: { line: { color: grid } },
       increasing: { marker: { color: emerald } },
-      decreasing: { marker: { color: "#D97706" } },
+      decreasing: { marker: { color: "#8A5A00" } },
       totals: { marker: { color: teal } },
       text: values.map(v => (v >= 0 ? "" : "−") + Math.abs(v)),
       textposition: "outside"
@@ -676,7 +676,7 @@
       <div class="kpi"><div class="label">Max border dwell</div><div class="value">${Math.max(...dwell).toFixed(1)}h</div></div>
       <div class="kpi"><div class="label">Alert rule</div><div class="value" style="font-size:0.95rem">OTIF · dwell</div></div>`;
     Plotly.newPlot("chart-otif", [
-      { type: "bar", name: "OTIF %", x: lanes, y: otif, marker: { color: otif.map(v => v < 92 ? "#D97706" : teal) }, yaxis: "y" },
+      { type: "bar", name: "OTIF %", x: lanes, y: otif, marker: { color: otif.map(v => v < 92 ? "#8A5A00" : teal) }, yaxis: "y" },
       { type: "scatter", mode: "lines+markers", name: "Border dwell (h)", x: lanes, y: dwell, line: { color: sky }, yaxis: "y2" }
     ], {
       paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",

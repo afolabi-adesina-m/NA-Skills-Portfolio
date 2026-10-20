@@ -1,25 +1,25 @@
 /* Statistical Computing in R — family-group skim, hub-aligned */
 
 :root {
-  --ink: #12151c;
+  --ink: #1D2D3E;
   --ink-soft: #2a3140;
-  --muted: #5e6778;
+  --muted: #556B82;
   --line: rgba(18, 21, 28, 0.1);
   --line-strong: rgba(18, 21, 28, 0.16);
   --surface: #ffffff;
-  --bg: #eef1f5;
+  --bg: #F5F6F7;
   --navy: #1a2b3c;
   --navy-hover: #0f1e2a;
-  --accent: #3a5a6e;
-  --accent-hover: #2d4859;
-  --accent-deep: #2d4859;
-  --r: #3a5a6e;
-  --r-soft: rgba(58, 90, 110, 0.1);
+  --accent: #0062D6;
+  --accent-hover: #004BB0;
+  --accent-deep: #004BB0;
+  --r: #0062D6;
+  --r-soft: rgba(0, 98, 214, 0.1);
   --r-pale: #e4eaef;
-  --ok: #1e6b4f;
+  --ok: #256F3A;
   --nb-input-bg: #f4f6f8;
   --nb-output-bg: #ffffff;
-  --nb-border: #3a5a6e;
+  --nb-border: #0062D6;
   --radius: 14px;
   --radius-sm: 10px;
   --shadow: 0 1px 2px rgba(18, 21, 28, 0.04), 0 12px 40px rgba(26, 43, 60, 0.06);
@@ -90,7 +90,7 @@ body.r-page a:hover {
   height: min(70vw, 720px);
   top: -18%;
   left: -12%;
-  background: radial-gradient(circle, rgba(58, 90, 110, 0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 98, 214, 0.18) 0%, transparent 70%);
 }
 
 .mesh-b {
@@ -123,7 +123,7 @@ body.r-page a:hover {
   z-index: 40;
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  background: rgba(26, 43, 60, 0.94);
+  background: #1A2B3C;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -138,8 +138,8 @@ body.r-page a:hover {
   gap: 1rem;
 }
 
-.r-page .brand { color: #f4f6f8; }
-.r-page .brand-tag { color: rgba(244, 246, 248, 0.65); }
+.r-page .brand { color: #E8EEF5; }
+.r-page .brand-tag { color: #E8EEF5; }
 .r-page .brand-photo {
   border-color: rgba(255, 255, 255, 0.22);
 }
@@ -152,14 +152,15 @@ body.r-page a:hover {
 }
 
 .nav-links a {
-  color: rgba(244, 246, 248, 0.82);
+  color: #E8EEF5;
   font-size: 0.88rem;
   font-weight: 550;
   text-decoration: none;
 }
 
-.nav-links a:hover {
-  color: #fff;
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: #7CB8FF;
   text-decoration: none;
 }
 
@@ -256,13 +257,13 @@ body.r-page a:hover {
 
 a.pill:hover {
   text-decoration: none;
-  border-color: rgba(58, 90, 110, 0.35);
+  border-color: rgba(0, 98, 214, 0.35);
   color: var(--navy);
 }
 
 .pill.accent {
   background: var(--r-soft);
-  border-color: rgba(58, 90, 110, 0.3);
+  border-color: rgba(0, 98, 214, 0.3);
   color: var(--accent-deep);
 }
 
@@ -368,7 +369,7 @@ a.pill:hover {
 
 .family[open] > summary {
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(58, 90, 110, 0.06), transparent);
+  background: linear-gradient(180deg, rgba(0, 98, 214, 0.06), transparent);
 }
 
 .family[open] > summary::after { content: "–"; }
@@ -430,8 +431,8 @@ a.pill:hover {
 }
 
 .problem.featured {
-  border-color: rgba(58, 90, 110, 0.35);
-  box-shadow: 0 0 0 1px rgba(58, 90, 110, 0.08);
+  border-color: rgba(0, 98, 214, 0.35);
+  box-shadow: 0 0 0 1px rgba(0, 98, 214, 0.08);
 }
 
 .problem > summary {
@@ -471,9 +472,9 @@ a.pill:hover {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--r);
-  background: var(--r-soft);
-  border: 1px solid rgba(58, 90, 110, 0.22);
+  color: #004BB0;
+  background: #E8F1FC;
+  border: 1px solid rgba(0, 98, 214, 0.22);
   border-radius: 4px;
   padding: 0.12rem 0.4rem;
 }
@@ -567,10 +568,10 @@ a.pill:hover {
   border: none;
 }
 
-.code-block .cm { color: #6b7a8a; font-style: italic; }
+.code-block .cm { color: #556B82; font-style: italic; }
 .code-block .kw { color: var(--navy); font-weight: 600; }
 .code-block .fn { color: var(--r); }
-.code-block .st { color: #b45309; }
+.code-block .st { color: #8A5A00; }
 
 .nb-output .metric-grid,
 .nb-output .result-callout {
@@ -582,7 +583,7 @@ a.pill:hover {
 
 .result-callout {
   background: var(--r-pale);
-  border: 1px solid rgba(58, 90, 110, 0.15);
+  border: 1px solid rgba(0, 98, 214, 0.15);
   border-radius: var(--radius-sm);
   padding: 0.85rem 0.95rem;
   margin-bottom: 0.85rem;
@@ -736,4 +737,19 @@ a.pill:hover {
     width: 100%;
     order: 3;
   }
+}
+
+/* Dark bar: beat body.r-page a so links stay light on #1A2B3C */
+.r-page .site-header a,
+.r-page .skip-link {
+  color: #E8EEF5;
+}
+.r-page .site-header .nav-home-btn,
+.r-page .site-header .nav-links a:hover,
+.r-page .site-header .nav-links a[aria-current="page"] {
+  color: #7CB8FF;
+}
+.r-page .site-header .nav-home-btn:hover {
+  color: #7CB8FF;
+  text-decoration: none;
 }
