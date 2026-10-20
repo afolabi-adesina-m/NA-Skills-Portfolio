@@ -365,13 +365,6 @@ body.hub .brand { color: var(--ink); }
   max-width: 36rem;
 }
 
-.resume-hint {
-  margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--muted);
-}
-
 .resume-template {
   width: 100%;
 }
