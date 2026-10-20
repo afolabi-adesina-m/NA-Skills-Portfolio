@@ -365,29 +365,6 @@ body.hub .brand { color: var(--ink); }
   max-width: 36rem;
 }
 
-.role-track-label {
-  margin: 0.35rem 0 0;
-  font-size: 0.82rem;
-  font-weight: 650;
-  color: var(--ink-soft);
-}
-
-.role-tracks {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.2rem;
-}
-
-.role-tracks a {
-  font-size: 0.86rem;
-  font-weight: 650;
-  line-height: 1.4;
-}
-
 .resume-hint {
   margin: 0;
   font-size: 0.8rem;
@@ -685,6 +662,14 @@ body.hub a.btn-cta:hover,
 }
 
 .credentials-card p:last-child { margin-bottom: 0; }
+
+.credentials-card .about-path-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted);
+}
 
 .credentials-card strong {
   color: var(--ink);
@@ -1430,9 +1415,13 @@ body.hub a.btn-cta:hover,
   .logo-item { min-width: 100px; height: 44px; }
 }
 
-/* About kicker matches the other section kickers */
-.about-copy .section-kicker {
-  font-size: 0.72rem;
+/* About headings and labels stay in sentence case */
+.about-copy .section-kicker,
+.about-path-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
   margin-bottom: 0.55rem;
 }
 
@@ -1780,10 +1769,6 @@ body.hub a.foundation-link:hover {
 /* About: career path */
 .about-path-label {
   margin: 0 0 0.75rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--muted);
 }
 
