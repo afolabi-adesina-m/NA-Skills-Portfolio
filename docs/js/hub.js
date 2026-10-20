@@ -69,7 +69,7 @@
     var href = "mailto:" + address();
     var body = bodies[kind];
     if (!body) return href;
-    return href + "?subject=" + encodeURIComponent("Resume Request, Afolabi Adesina") + "&body=" + encodeURIComponent(body);
+    return href + "?subject=" + encodeURIComponent("Resume Request, Afolabi A.") + "&body=" + encodeURIComponent(body);
   }
 
   document.querySelectorAll("[data-mail]").forEach(function (el) {

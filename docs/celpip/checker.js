@@ -102,7 +102,7 @@ const CHECKER = (() => {
     const tail = lines.slice(-3).join(" ");
     const signedAfolabi = /afolabi/i.test(tail);
     if (type !== "t2") {
-      if (!signedAfolabi) add("signoff", "bad", "Sign-off is not 'Afolabi'", "End with your real name: Afolabi or Afolabi Adesina.");
+      if (!signedAfolabi) add("signoff", "bad", "Sign-off is not 'Afolabi'", "End with your real name: Afolabi or Afolabi A.");
       if (!/^(dear|hi|hello|good (morning|afternoon))\b/i.test(lines[0] || "")) add("greeting", "warn", "No greeting", "Start with 'Dear Ms. Patel,' or 'Dear Building Manager,'.");
     }
 
