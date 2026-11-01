@@ -1,5 +1,5 @@
 /**
- * CELPIP Coach v5 · core: state + migration (unchanged from v4), router, launchpad, dynamic pages,
+ * CELPIP Coach v7 · core: state + migration (unchanged from v4), router, launchpad, dynamic pages,
  * list report + object page for prompts, timed writer, review, phrase bank, plan, settings, PWA.
  * Personal use · localStorage only · no backend · vanilla JS
  */
@@ -60,6 +60,9 @@ function defaultState() {
     lastClb: null,
     settings: { theme: null, reduceMotion: false },
     welcomed: false,
+    // v7 fields
+    sections: {},
+    sectionLast: null,
   };
 }
 
@@ -204,7 +207,7 @@ const CHALLENGE = (() => {
 function challengeDoneCount() { return CHALLENGE.filter((d) => state.challengeDone[d.date]).length; }
 function todayChallenge() { return CHALLENGE.find((d) => d.date === todayISO()) || null; }
 
-const APP_VERSION = 6;
+const APP_VERSION = 7;
 const WIZ5 = ["Who I am", "Why I write", "How it hurts me", "What I want", "Thank you"];
 const GAME_ICONS = { tone: "chat", sandwich: "layers", words: "zap", errors: "search", memory: "grid", connect: "link" };
 
@@ -255,6 +258,8 @@ function parseHash(h) {
   if (p === "list") return { p, type: parts[1] === "t2" ? "t2" : "t1" };
   if (p === "object") return { p, type: parts[1], id: parts[2], tab: parts[3] };
   if (p === "game") return { p, id: parts[1] };
+  if (p === "menu") return { p, id: ["listening", "reading", "writing", "speaking"].includes(parts[1]) ? parts[1] : undefined };
+  if (p === "section") return SECTIONS.some((s) => s.id === parts[1]) ? { p, id: parts[1], tab: parts[2] } : { p: "menu" };
   if (p === "lesson") return { p, n: Number(parts[1]) || 1 };
   if (["launchpad", "today", "settings", "phrases", "watch", "guides", "plan", "history", "warmup"].includes(p)) return { p };
   return { p: "launchpad" };
@@ -264,6 +269,12 @@ function go(r, opts = {}) {
   if (opts.replace) history.replaceState({ r, depth }, "", hashOf(r));
   else { depth += 1; history.pushState({ r, depth }, "", hashOf(r)); }
   render(r, opts);
+}
+
+/* Used by sections.js when the sub-tab changes: update the route and URL without adding a history entry */
+function setRouteTab(tab) {
+  route = { ...route, tab };
+  history.replaceState({ r: route, depth }, "", hashOf(route));
 }
 
 function needsGuard() {
@@ -298,6 +309,7 @@ function leaveCurrent(next) {
     obj = null;
   }
   if ((route.p === "game" || route.p === "warmup") && next.p !== route.p) Games.abort();
+  if (route.p === "section" && next.p !== "section") Sections.leave();
 }
 
 function render(r, opts = {}) {
@@ -313,6 +325,8 @@ function render(r, opts = {}) {
     case "guides": renderGuides(opts); break;
     case "plan": renderPlan(opts); break;
     case "history": renderHistory(opts); break;
+    case "menu": Sections.renderMenu(r, opts); break;
+    case "section": Sections.renderSection(r, opts); break;
     case "game": Games.start(r.id, {}); break;
     case "warmup": Games.warmup(); break;
     case "lesson":
@@ -337,6 +351,8 @@ function showPage(id, opts = {}) {
   $("sb-logo").hidden = !home;
   $("sb-title").textContent = home ? "CELPIP Coach" : opts.title || "CELPIP Coach";
   $("btn-settings").hidden = id === "settings";
+  $("btn-home").hidden = home;
+  $("btn-menu").hidden = id === "menu";
   document.title = home ? "CELPIP Coach" : `${opts.title || ""} · CELPIP Coach`;
   if (!opts.keepFooter) UI.setFooter([]);
   if (!opts.keepScroll) window.scrollTo(0, 0);
@@ -395,7 +411,14 @@ function renderLaunchpad(opts = {}) {
   } else {
     todayTile = { id: "tile-today", title: "Today's task", sub: "Challenge finished. Keep a small daily habit.", kpi: daysDone, unit: "of 30 done", foot: "Next: Task 1 Emails", footCls: "action", footIcon: "play" };
   }
+  const SK = (name) => Sections.skillStats(name);
   const groups = [
+    { name: "CELPIP sections", note: "Lesson · Tips · Practice · Progress", tiles: [
+      { id: "tile-sec-listening", title: "Listening", sub: "Parts 1 to 6 · audio once", kpi: SK("Listening").sessions, unit: "sessions", icon: "headphones", foot: "Open section" },
+      { id: "tile-sec-reading", title: "Reading", sub: "Parts 1 to 4", kpi: SK("Reading").sessions, unit: "sessions", icon: "book", foot: "Open section" },
+      { id: "tile-sec-writing", title: "Writing", sub: "Task 1 email · Task 2 survey", kpi: t1Done + t2Done, unit: "prompts done", icon: "edit", foot: "2 tasks" },
+      { id: "tile-sec-speaking", title: "Speaking", sub: "Tasks 1 to 8", kpi: SK("Speaking").sessions, unit: "sessions", icon: "mic", foot: "8 tasks" },
+    ] },
     { name: "Today", tiles: [
       todayTile,
       { id: "tile-warmup", title: "Daily Warm-up", sub: ids.map((id) => GAMES.find((g) => g.id === id).name).join(", "), icon: "activity",
@@ -435,6 +458,10 @@ function renderLaunchpad(opts = {}) {
 }
 
 const TILE_ACTIONS = {
+  "tile-sec-listening": () => go({ p: "menu", id: "listening" }),
+  "tile-sec-reading": () => go({ p: "menu", id: "reading" }),
+  "tile-sec-writing": () => go({ p: "menu", id: "writing" }),
+  "tile-sec-speaking": () => go({ p: "menu", id: "speaking" }),
   "tile-today": () => go({ p: "today" }),
   "tile-warmup": () => go({ p: "warmup" }),
   "tile-streak": () => go({ p: "plan" }),
@@ -1264,6 +1291,16 @@ function renderModelTab() {
 function wire() {
   $("btn-back").addEventListener("click", navBack);
   $("btn-settings").addEventListener("click", () => go({ p: "settings" }));
+  $("btn-home").addEventListener("click", async () => {
+    if (needsGuard() && !(await confirmLeaveDraft())) return;
+    flushDraft();
+    go({ p: "launchpad" });
+  });
+  $("btn-menu").addEventListener("click", async () => {
+    if (needsGuard() && !(await confirmLeaveDraft())) return;
+    flushDraft();
+    go({ p: "menu" });
+  });
   $("btn-avatar").addEventListener("click", () => { if (route.p !== "settings") go({ p: "settings" }); });
   $("lp-groups").addEventListener("click", (e) => {
     const t = e.target.closest(".tile");

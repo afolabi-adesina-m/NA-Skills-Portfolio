@@ -8,7 +8,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="CELPIP Coach" />
-  <meta name="description" content="Personal CELPIP Writing coach · CLB 10 practice" />
+  <meta name="description" content="Personal CELPIP coach · Listening, Reading, Writing and Speaking" />
   <meta name="robots" content="noindex" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
@@ -39,6 +39,12 @@
     </span>
     <h1 class="sb-title" id="sb-title">CELPIP Coach</h1>
     <div class="sb-actions">
+      <button type="button" class="sb-btn" id="btn-home" aria-label="Home" hidden>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+      </button>
+      <button type="button" class="sb-btn" id="btn-menu" aria-label="Menu: all sections">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
       <button type="button" class="sb-btn" id="btn-settings" aria-label="Settings">
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
@@ -52,6 +58,10 @@
       <div id="lp-groups"></div>
       <p class="lp-foot muted" id="lp-foot"></p>
     </section>
+
+    <!-- Section menu and section pages, filled by sections.js -->
+    <section id="page-menu" class="page dp" aria-label="Menu"><div class="dp-header" id="menu-head"></div><div class="dp-content" id="menu-body"></div></section>
+    <section id="page-section" class="page dp" aria-label="Section"><div class="dp-header" id="sec-head"></div><div class="tabs" id="sec-tabs" role="tablist" aria-label="Section parts"></div><div class="dp-content" id="sec-body" role="tabpanel"></div></section>
 
     <!-- Generic dynamic pages, filled by app.js -->
     <section id="page-today" class="page dp" aria-label="Today's task"><div class="dp-header" id="today-head"></div><div class="dp-content" id="today-body"></div></section>
@@ -192,6 +202,8 @@
   <script src="ui.js"></script>
   <script src="games.js"></script>
   <script src="lessons.js"></script>
+  <script src="sections-data.js"></script>
+  <script src="sections.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
