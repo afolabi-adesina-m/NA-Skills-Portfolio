@@ -1,7 +1,7 @@
-/* CELPIP Coach v6 · offline cache
+/* CELPIP Coach v7 · offline cache
    Scope is this folder only (the script directory). Requests outside /celpip/ are never
    cached or claimed, so the rest of the portfolio is untouched. */
-const CACHE = "celpip-email-coach-v6";
+const CACHE = "celpip-email-coach-v7";
 const SCOPE_URL = new URL("./", self.location);
 
 function inScope(url) {
@@ -18,6 +18,8 @@ const ASSETS = [
   "./ui.js",
   "./games.js",
   "./lessons.js",
+  "./sections-data.js",
+  "./sections.js",
   "./app.js",
   "./manifest.json",
   "./icons/icon-192.png",

@@ -1,4 +1,4 @@
-# CELPIP Coach v6
+# CELPIP Coach v7
 
 A small offline study app for Afolabi's 30-day CELPIP Writing challenge (Oct 5 to Nov 3, 2026, target CLB 10+).
 Plain HTML, CSS and JavaScript. No frameworks, no UI library, no build step, no server code.
@@ -8,6 +8,20 @@ Live path when deployed: `https://afolabi-adesina-m.github.io/NA-Skills-Portfoli
 
 v6 adds a short grammar lesson and a lesson-first step before practice. v5 rebuilt the layout and navigation.
 Content, games, the draft checker, the calendar, the phrase bank and saved progress still carry over. The storage key is unchanged.
+
+## What is new in v7: section menu
+
+* **Menu** (hamburger icon in the top bar, or the "CELPIP sections" tiles on the home screen): 12 entries, grouped Listening, Reading, Writing (Task 1, Task 2) and Speaking (Tasks 1 to 8).
+* Every section has four tabs: **Lesson, Tips, Practice, Progress**. A "Jump to" list at the top switches sections without going back.
+* **Home** and **Menu** buttons sit in the top bar on every page, next to Back. On narrow phones the AA avatar is hidden to make room (Settings stays).
+* **Lesson first, skip any time:** each section opens on a short Lesson. "Skip to practice" is always there, next to "Got it, start practice". Writing practice still uses the v6 "Lesson first" step before a prompt, with its own skip link.
+* **Writing 1 and 2** reuse the existing prompts, Lessons 1 to 3, Grammar lesson, Baby Steps, timed drafts and CLB estimates.
+* **Speaking 1 to 8**: prep and speaking timers with the real time limits, two or three practice prompts per task, a self check list and a 1 to 5 self rating.
+* **Listening and Reading**: two short original drills each. The listening drill reads a script aloud once with the device voice (Web Speech API), with a notes pad (three columns for viewpoint drills), then shows the questions.
+* **Tips** are paraphrased from free videos by HZad Education - Coaching Central on YouTube, each tip tagged with its video. They are one coach's advice, not official CELPIP rules. The Credits box lists the channel and popular videos.
+* New files: `sections-data.js` (lessons, tips, prompts, drills, credits) and `sections.js` (menu and section pages). New routes: `#/menu`, `#/menu/<skill>`, `#/section/<id>/<tab>`.
+* New saved fields in the same `celpip-coach-v4` key: `sections` (practice log and lesson flag per section) and `sectionLast`. Nothing existing is renamed.
+* Service worker cache is now `celpip-email-coach-v7`.
 
 ## How it is laid out
 
@@ -63,16 +77,16 @@ icons/          app icons
 
 ## Offline cache and updates
 
-* `sw.js` uses cache `celpip-email-coach-v6`, scope `./` (only the celpip folder).
+* `sw.js` uses cache `celpip-email-coach-v7`, scope `./` (only the celpip folder).
 * It calls `skipWaiting()` and `clients.claim()`, and removes older `celpip-email-coach-*` caches.
 * Files come cache-first, so HTML, CSS and JS always match one version.
-* **To ship a change:** edit the files, then bump `CACHE` in `sw.js` (for example to `celpip-email-coach-v6`).
+* **To ship a change:** edit the files, then bump `CACHE` in `sw.js` (for example to `celpip-email-coach-v8`).
   Open pages will show "Update available, tap to refresh".
 * The first visit after a new cache goes live may still show the previous version for one load while the new worker installs. The next load is current.
 
 ## Saved progress
 
-* v6 keeps the same localStorage key as v4 and v5: `celpip-coach-v4` (schema 4). Nothing is renamed, so no progress is lost.
+* v7 keeps the same localStorage key as v4, v5 and v6: `celpip-coach-v4` (schema 4). Nothing is renamed, so no progress is lost.
 * The grammar lesson adds `lessonGrammarCompletions` (starts at 0 when missing) and `lessonsTouched.4`. Drafts, scores, streak and the other fields stay as they are.
 * `seenV5` is still the one-time "New look" toast from v5.
 * The v2/v3 migration is still there: on a first run with no v4 data it copies progress from `celpip-email-coach-v1`
@@ -81,7 +95,7 @@ icons/          app icons
 ## Run it locally
 
 ```bash
-mkdir -p /tmp/site/NA-Skills-Portfolio && cp -r celpip-v5 /tmp/site/NA-Skills-Portfolio/celpip
+mkdir -p /tmp/site/NA-Skills-Portfolio && cp -r celpip-v7 /tmp/site/NA-Skills-Portfolio/celpip
 cd /tmp/site && python3 -m http.server 8765
 # open http://localhost:8765/NA-Skills-Portfolio/celpip/
 ```
