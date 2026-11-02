@@ -93,8 +93,8 @@
       { title: "Total spend", sub: fyLabel(), val: money(k.spend), d: dd("spend", {}), foot: num(k.contracts) + " contracts", go: "suppliers" },
       { title: "Suppliers paid", sub: "After name clean-up", val: num(k.suppliers), d: dd("suppliers", {}), foot: num(G.stages[0][1]) + " raw names became " + num(G.stages[G.stages.length - 1][1]), go: "quality" },
       { title: "Spend with likely duplicates", sub: "Supplier sits in a name cluster", val: money(k.dupSpend), tone: "crit", d: dd("dupSpend", { good: "down" }), foot: pct(k.dupShare) + " of spend", go: "quality" },
-      { title: "Class A with duplicates", sub: "Top suppliers, 80% of spend", val: k.classADup + " of " + k.classA, tone: "crit", foot: "Spread over more than one name", go: "suppliers" },
-      { title: "Top 10 supplier share", sub: "Concentration", val: pct(k.top10Share), tone: "info", d: dd("top10Share", { pts: 1 }), foot: k.half + " suppliers make up half", go: "suppliers" },
+      { title: "Class A with duplicates", sub: "Top suppliers, 80% of spend", val: k.classADup + " of " + k.classA, tone: "crit", foot: "Spread over more than 1 name", go: "suppliers" },
+      { title: "Top 10 supplier share", sub: "Concentration", val: pct(k.top10Share), tone: "info", d: dd("top10Share", { pts: 1 }), foot: k.half + " suppliers make up 1/2", go: "suppliers" },
       { title: "Non-competitive", sub: "Share of contracts", val: pct(k.nonCompShare), d: dd("nonCompShare", { pts: 1, good: "down" }), foot: "Method recorded as non-competitive", go: "about" }
     ];
     var monthly = S.monthly.map(function (m) { return [m[0], m[1]]; });
@@ -104,7 +104,7 @@
       '<div class="grid wide"><section class="card"><h2>Spend by month</h2>' +
       columns(monthly, { every: Math.max(1, Math.round(monthly.length / 6)), lab: function (m) { return m.slice(2).replace("-", "/"); }, aria: "Monthly spend" }) + "</section>" +
       '<section class="card"><h2>By commodity type</h2>' + bars(ct) + "</section></div>" +
-      comment(money(k.dupSpend) + " of " + money(k.spend) + " (" + pct(k.dupShare) + ") sits with suppliers listed under more than one name. " + k.classADup + " of the " + k.classA + " Class A suppliers are affected, so the biggest spend lines are the ones most at risk. Cleaning the names took the list from " + num(G.stages[0][1]) + " to " + num(G.stages[G.stages.length - 1][1]) + " suppliers.");
+      comment(money(k.dupSpend) + " of " + money(k.spend) + " (" + pct(k.dupShare) + ") sits with suppliers listed under more than 1 name. " + k.classADup + " of the " + k.classA + " Class A suppliers are affected, so the biggest spend lines are the ones most at risk. Cleaning the names took the list from " + num(G.stages[0][1]) + " to " + num(G.stages[G.stages.length - 1][1]) + " suppliers.");
   }
   function quality() {
     var k = S.kpi, st = G.stages, max = st[0][1];
@@ -158,13 +158,13 @@
         { title: "Class A", sub: "First 80% of spend", val: num(abc.A.n), tone: "info", foot: money(abc.A.spend) },
         { title: "Class B", sub: "Next 15%", val: num(abc.B.n), foot: money(abc.B.spend) },
         { title: "Class C", sub: "Last 5%", val: num(abc.C.n), foot: money(abc.C.spend) },
-        { title: "Class A with duplicates", sub: "More than one name", val: k.classADup + " of " + abc.A.n, tone: "crit" },
-        { title: "Half of spend", sub: "Suppliers needed", val: num(k.half), foot: "of " + num(n) }
+        { title: "Class A with duplicates", sub: "More than 1 name", val: k.classADup + " of " + abc.A.n, tone: "crit" },
+        { title: "1/2 of spend", sub: "Suppliers needed", val: num(k.half), foot: "of " + num(n) }
       ].map(tile).join("") + "</div>" +
       '<div class="grid wide"><section class="card"><h2>Top 25 suppliers</h2><div class="table-wrap"><table><thead><tr><th class="num">#</th><th>Supplier</th><th class="num">Spend</th><th class="num hide-sm">Share</th><th class="hide-sm">Class</th></tr></thead><tbody>' + rows + "</tbody></table></div></section>" +
       '<section class="card"><h2>80/20 curve</h2>' + paretoChart(S.pareto, n) +
       '<p class="note">Top 10 suppliers: ' + pct(k.top10Share) + " of spend.</p></section></div>" +
-      comment(num(abc.A.n) + " of " + num(n) + " suppliers carry 80% of spend, and just " + num(k.half) + " make up half of it. The top 10 alone hold " + pct(k.top10Share) + ". " + k.classADup + " of the Class A suppliers appear under more than one name, so clean master data matters most where the money is.");
+      comment(num(abc.A.n) + " of " + num(n) + " suppliers carry 80% of spend, and just " + num(k.half) + " make up 1/2 of it. The top 10 alone hold " + pct(k.top10Share) + ". " + k.classADup + " of the Class A suppliers appear under more than 1 name, so clean master data matters most where the money is.");
   }
   function categories() {
     var order = ["Strategic", "Tactical", "Operational"], tones = { Strategic: "info", Tactical: "", Operational: "pos" };
@@ -185,7 +185,7 @@
       "<ul><li>179,829 Government of Canada contracts from " + G.depts + " organizations, 1 April 2023 to 31 March 2026.</li><li>Money is contract value in Canadian dollars. Years are federal fiscal years, so FY'24 runs April 2023 to March 2024.</li></ul></section>" +
       '<section class="card"><h2>How suppliers were cleaned</h2><ol><li>Trim spaces and fold case.</li><li>Remove accents, punctuation and legal suffixes such as Inc. and Ltd.</li><li>Group close spellings with fuzzy matching into a suggested master.</li></ol></section></div>' +
       '<section class="card"><h2>Data quality rules</h2>' + "<div class=\"table-wrap\"><table><thead><tr><th>Rule</th><th>Check</th><th class=\"num\">Failed</th><th class=\"num hide-sm\">Rate</th><th class=\"hide-sm\">Severity</th></tr></thead><tbody>" + rules + "</tbody></table></div></section>" +
-      comment("The data covers 179,829 contracts from " + G.depts + " organizations over three fiscal years. " + G.rules.length + " quality checks ran on the full file, and the table shows how many records failed each one. Figures are unaudited public data.") + "</div>";
+      comment("The data covers 179,829 contracts from " + G.depts + " organizations over 3 fiscal years. " + G.rules.length + " quality checks ran on the full file, and the table shows how many records failed each one. Figures are unaudited public data.") + "</div>";
   }
   var RENDER = { overview: overview, quality: quality, mapping: mapping, suppliers: suppliers, categories: categories, about: about };
 
@@ -204,7 +204,7 @@
     var fys = ["FY'24", "FY'25", "FY'26"].map(function (y) { return [y, s.fy[y] || 0]; });
     openDetail("Supplier, " + fyLabel() + ", " + ctLabel(), s.name,
       facets([["Spend", money(s.spend)], ["Share", pct(s.share)], ["Contracts", num(s.contracts)], ["Pareto class", s.cls], ["Names on file", num(s.names)]]) +
-      (s.dup ? '<p class="strip" style="background:#FFF3E8;border-color:#F5B88A"><span class="strip-icon" style="background:#8A5A00" aria-hidden="true">!</span><span>This supplier appears under more than one name. Spend is grouped under the suggested master.</span></p>' : "") +
+      (s.dup ? '<p class="strip" style="background:#FFF3E8;border-color:#F5B88A"><span class="strip-icon" style="background:#8A5A00" aria-hidden="true">!</span><span>This supplier appears under more than 1 name. Spend is grouped under the suggested master.</span></p>' : "") +
       "<h3>Spellings on file</h3><ul class=\"plain\">" + s.variants.map(function (v) { return "<li>" + esc(v) + "</li>"; }).join("") + (s.names > s.variants.length ? "<li>and " + (s.names - s.variants.length) + " more</li>" : "") + "</ul>" +
       "<h3>Top buyers</h3>" + bars(s.depts.map(function (d) { return { name: d[0], v: d[1], label: money(d[1]) }; })) +
       "<h3>Spend by fiscal year</h3>" + columns(fys, { aria: "Supplier spend by fiscal year" }));

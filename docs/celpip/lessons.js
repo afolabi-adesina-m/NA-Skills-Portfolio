@@ -71,7 +71,7 @@ const SCENARIOS = [
       {
         type: "choice",
         title: "Bite 2 · Why I write",
-        hint: "State the problem in one clear sentence.",
+        hint: "State the problem in 1 clear sentence.",
         promptLine: "Why are you writing?",
         choices: [
           {
@@ -139,7 +139,7 @@ const SCENARIOS = [
             key: "timeline",
             kind: "select",
             options: [
-              { value: "within the next three days", good: true },
+              { value: "within the next 3 days", good: true },
               { value: "whenever you feel like it", good: false, tip: "Add a polite, realistic timeline." },
               { value: "immediately or I will move out tomorrow", good: false, tip: "Too harsh. Try a calm deadline." },
             ],
@@ -189,7 +189,7 @@ const SCENARIOS = [
     id: "noisy-neighbor",
     title: "Noisy neighbour",
     prompt:
-      "You live in Unit 4A. For two weeks, the neighbour above you has played loud music after 11 p.m. You cannot sleep. Write to the property manager.",
+      "You live in Unit 4A. For 2 weeks, the neighbour above you has played loud music after 11 p.m. You cannot sleep. Write to the property manager.",
     context: {
       name: "Afolabi A.",
       role: "resident of Unit 4A",
@@ -219,7 +219,7 @@ const SCENARIOS = [
         promptLine: "Why write?",
         choices: [
           {
-            text: "I am writing because the neighbour above me has played loud music after 11 p.m. for two weeks.",
+            text: "I am writing because the neighbour above me has played loud music after 11 p.m. for 2 weeks.",
             good: true,
             tip: null,
           },
@@ -285,7 +285,7 @@ const SCENARIOS = [
             options: [
               { value: "this week", good: true },
               { value: "someday", good: false, tip: "Give a polite, realistic timeline." },
-              { value: "in the next five minutes", good: false, tip: "Unrealistic. Try this week." },
+              { value: "in the next 5 minutes", good: false, tip: "Unrealistic. Try this week." },
             ],
           },
         ],
@@ -333,7 +333,7 @@ const SCENARIOS = [
     id: "parking-permit",
     title: "Missing parking permit",
     prompt:
-      "You are a tenant in Apt 8. Your visitor parking permit never arrived after you requested it two weeks ago. Guests keep getting tickets. Write to the condo office.",
+      "You are a tenant in Apt 8. Your visitor parking permit never arrived after you requested it 2 weeks ago. Guests keep getting tickets. Write to the condo office.",
     context: {
       name: "Afolabi A.",
       role: "tenant in Apt 8",
@@ -362,14 +362,14 @@ const SCENARIOS = [
         promptLine: "Reason:",
         choices: [
           {
-            text: "I am writing because the visitor parking permit I requested two weeks ago has not arrived.",
+            text: "I am writing because the visitor parking permit I requested 2 weeks ago has not arrived.",
             good: true,
             tip: null,
           },
           {
             text: "Parking is confusing.",
             good: false,
-            tip: "Mention the permit request and the two-week wait.",
+            tip: "Mention the permit request and the 2-week wait.",
           },
           {
             text: "If I do not get a permit today I will hire a lawyer.",
@@ -482,7 +482,7 @@ const SCENARIOS = [
       problem: "evening classes cut without notice",
       impact: "cannot train after work",
       ask: "restore evening hours or offer an alternative",
-      timeline: "within two weeks",
+      timeline: "within 2 weeks",
     },
     bites: [
       {
@@ -540,7 +540,7 @@ const SCENARIOS = [
             key: "feeling",
             kind: "select",
             options: [
-              { value: "have had to skip workouts for two weeks", good: true },
+              { value: "have had to skip workouts for 2 weeks", good: true },
               { value: "am mildly entertained", good: false, tip: "Show a real inconvenience." },
               { value: "demand a lawsuit", good: false, tip: "Stay polite." },
             ],
@@ -559,7 +559,7 @@ const SCENARIOS = [
             key: "ask",
             kind: "select",
             options: [
-              { value: "restore at least two evening classes or suggest an alternative schedule", good: true },
+              { value: "restore at least 2 evening classes or suggest an alternative schedule", good: true },
               { value: "make the gym better", good: false, tip: "Ask for a concrete schedule fix." },
               { value: "refund everything forever or I will destroy your reviews", good: false, tip: "Remove threats." },
             ],
@@ -568,9 +568,9 @@ const SCENARIOS = [
             key: "timeline",
             kind: "select",
             options: [
-              { value: "within the next two weeks", good: true },
+              { value: "within the next 2 weeks", good: true },
               { value: "never mind the timing", good: false, tip: "Add a polite timeline." },
-              { value: "tonight at midnight", good: false, tip: "Unrealistic. Try two weeks." },
+              { value: "tonight at midnight", good: false, tip: "Unrealistic. Try 2 weeks." },
             ],
           },
         ],
@@ -617,11 +617,11 @@ const SCENARIOS = [
     id: "delivery-delay",
     title: "Late package delivery",
     prompt:
-      "You ordered a laptop stand from ShopEase two weeks ago. Tracking still says in transit, and you need it for work. Write to customer service.",
+      "You ordered a laptop stand from ShopEase 2 weeks ago. Tracking still says in transit, and you need it for work. Write to customer service.",
     context: {
       name: "Afolabi A.",
       role: "ShopEase customer",
-      problem: "order still in transit after two weeks",
+      problem: "order still in transit after 2 weeks",
       impact: "need it for work",
       ask: "update on delivery or replacement / refund option",
       timeline: "within 5 business days",
@@ -633,7 +633,7 @@ const SCENARIOS = [
         hint: "Identify yourself as a customer.",
         promptLine: "Opening:",
         choices: [
-          { text: "I am a ShopEase customer who placed an order two weeks ago.", good: true, tip: null },
+          { text: "I am a ShopEase customer who placed an order 2 weeks ago.", good: true, tip: null },
           { text: "Someone waiting for a box.", good: false, tip: "Name the store and that you are a customer." },
           { text: "I hope this email meets you well.", good: false, tip: "Skip filler. Say who you are." },
         ],
@@ -646,14 +646,14 @@ const SCENARIOS = [
         promptLine: "Reason:",
         choices: [
           {
-            text: "I am writing because my laptop stand order is still marked in transit after two weeks.",
+            text: "I am writing because my laptop stand order is still marked in transit after 2 weeks.",
             good: true,
             tip: null,
           },
           {
             text: "Shipping is weird.",
             good: false,
-            tip: "Mention the product, status, and two-week wait.",
+            tip: "Mention the product, status, and 2-week wait.",
           },
           {
             text: "Send my item now or I will sue ShopEase.",
@@ -710,9 +710,9 @@ const SCENARIOS = [
             key: "timeline",
             kind: "select",
             options: [
-              { value: "within five business days", good: true },
+              { value: "within 5 business days", good: true },
               { value: "whenever", good: false, tip: "Give a polite timeline." },
-              { value: "in one hour or else", good: false, tip: "Drop the threat and soften the deadline." },
+              { value: "in 1 hour or else", good: false, tip: "Drop the threat and soften the deadline." },
             ],
           },
         ],
@@ -822,7 +822,7 @@ const L2_DRILLS = [
     bad: "Fix the light or I will call a lawyer.",
     prompt: "Polite rewrite?",
     choices: [
-      { text: "Could you please arrange for the light to be repaired within three days?", good: true, tip: null },
+      { text: "Could you please arrange for the light to be repaired within 3 days?", good: true, tip: null },
       { text: "Fix the light or I will call a lawyer.", good: false, tip: "Threats lower your score. Ask politely." },
       { text: "If you ignore me I will sue and post online.", good: false, tip: "Still a threat. Stay calm and specific." },
     ],
@@ -835,7 +835,7 @@ const L2_DRILLS = [
     bad: "Send my package today or else you will regret it.",
     prompt: "Best rewrite?",
     choices: [
-      { text: "Please provide a delivery update or a refund option within five business days.", good: true, tip: null },
+      { text: "Please provide a delivery update or a refund option within 5 business days.", good: true, tip: null },
       { text: "Send my package today or else you will regret it.", good: false, tip: "Remove the threat and add a polite timeline." },
       { text: "I demand you ship it immediately or I call the police.", good: false, tip: "Demand + threat · rewrite as a polite request." },
     ],
@@ -873,7 +873,7 @@ const L3_PROMPTS = [
   {
     id: "l3-heater",
     prompt:
-      "You live in Unit 9C at Riverside Towers. The heater in your unit has not worked for five days. It is cold and you cannot work from home comfortably. Write an email to the building manager. Explain who you are, the problem, how it affects you, and what you want them to do (with a polite timeline).",
+      "You live in Unit 9C at Riverside Towers. The heater in your unit has not worked for 5 days. It is cold and you cannot work from home comfortably. Write an email to the building manager. Explain who you are, the problem, how it affects you, and what you want them to do (with a polite timeline).",
     keywords: ["unit 9c", "heater", "riverside", "cold", "repair", "fix"],
   },
   {
@@ -885,13 +885,13 @@ const L3_PROMPTS = [
   {
     id: "l3-library",
     prompt:
-      "You are a library member. Evening study rooms were closed without notice during exam week. Write to the library manager. Explain the impact on your studies and request restored hours or an alternative within one week.",
+      "You are a library member. Evening study rooms were closed without notice during exam week. Write to the library manager. Explain the impact on your studies and request restored hours or an alternative within 1 week.",
     keywords: ["library", "study", "evening", "exam", "hours"],
   },
   {
     id: "l3-parking",
     prompt:
-      "Assigned parking spot B14 at your condo has been blocked by construction cones for ten days with no notice. Write to the condo board. Ask for temporary parking and a clear end date for the blockage.",
+      "Assigned parking spot B14 at your condo has been blocked by construction cones for 10 days with no notice. Write to the condo board. Ask for temporary parking and a clear end date for the blockage.",
     keywords: ["parking", "b14", "cones", "condo", "temporary"],
   },
 ];
@@ -1061,7 +1061,7 @@ function checkCurrentBite() {
   if (bite.type === "choice") {
     const selected = document.querySelector("#gap-block .choice-grid .choice-btn.selected");
     if (!selected) {
-      showFeedback("tip", "Tap one option first.");
+      showFeedback("tip", "Tap 1 option first.");
       return;
     }
     const idx = Number(selected.dataset.index);
@@ -1218,7 +1218,7 @@ function showResult({ band, scorePct, strength, fix, subject, body, againLabel, 
   document.getElementById("score-label").textContent = `Practice score ${scorePct}% · estimate only`;
   document.getElementById("result-check").innerHTML = UI.successCheck(56);
   document.getElementById("note-strength").innerHTML = UI.strip("success", escapeHtml(strength), "Strength:");
-  document.getElementById("note-fix").innerHTML = UI.strip("warning", escapeHtml(fix), "One fix:");
+  document.getElementById("note-fix").innerHTML = UI.strip("warning", escapeHtml(fix), "1 fix:");
   document.getElementById("email-subject").textContent = subject || "(no subject)";
   document.getElementById("email-body").textContent = body || "";
   resultAgainHandler = againFn;
@@ -1275,9 +1275,9 @@ function finishLesson1() {
   if (!strengths.length) strengths.push("You completed the full email sandwich · keep practising.");
 
   if (session.biteScores[0] < 1) fixes.push("Open with who you are and your flat or unit number.");
-  else if (session.biteScores[1] < 1) fixes.push("State the problem in one specific sentence.");
+  else if (session.biteScores[1] < 1) fixes.push("State the problem in 1 specific sentence.");
   else if (session.biteScores[2] < 1) fixes.push("Spell out how the problem affects you (sleep, safety, work).");
-  else if (session.biteScores[3] < 1) fixes.push("Make one clear ask with a polite timeline · no threats.");
+  else if (session.biteScores[3] < 1) fixes.push("Make 1 clear ask with a polite timeline · no threats.");
   else if (session.biteScores[4] < 1) fixes.push("Close with a thank-you and your full name.");
   else if (session.subjectScore < 1) fixes.push("Tighten the subject: issue + location or order ID.");
   else fixes.push("Next round: write the same bites a little shorter and sharper.");
@@ -1375,7 +1375,7 @@ function checkL2() {
   const fb = document.getElementById("l2-feedback");
   if (!selected) {
     fb.hidden = false;
-    fb.innerHTML = UI.strip("warning", "Tap one option first.");
+    fb.innerHTML = UI.strip("warning", "Tap 1 option first.");
     FX.shake(document.getElementById("l2-card"));
     return;
   }
@@ -1534,7 +1534,7 @@ const GRAMMAR_TEACH = [
       emoji: "📍",
       title: "After there is or there are",
       tip: "Find the real subject after the verb.",
-      strong: "There are two screens. There is one webcam.",
+      strong: "There are 2 screens. There is 1 webcam.",
     }],
   },
   {

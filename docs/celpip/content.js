@@ -23,7 +23,7 @@ T1_PROMPTS.push({
   icon: "🏠",
   to: "the building manager",
   situation:
-    "You rent a one-bedroom apartment in a building in Oakville. For the past week, the heating vents in your living room and bedroom have been blowing cold air, and your dishwasher has stopped draining. You reported both problems to the front desk five days ago, but nobody has come to fix them.",
+    "You rent a 1-bedroom apartment in a building in Oakville. For the past week, the heating vents in your living room and bedroom have been blowing cold air, and your dishwasher has stopped draining. You reported both problems to the front desk 5 days ago, but nobody has come to fix them.",
   bullets: [
     "Describe the problems with your apartment",
     "Explain how these problems are affecting you",
@@ -34,7 +34,7 @@ T1_PROMPTS.push({
     subject: "Heating and dishwasher repairs needed in Unit 1408",
     body: `Dear Ms. Patel,
 
-My name is Afolabi A., and I rent Unit 1408 at 2150 Trafalgar Road. I am writing to follow up on two maintenance issues that I reported to the front desk on Thursday, October 1.
+My name is Afolabi A., and I rent Unit 1408 at 2150 Trafalgar Road. I am writing to follow up on 2 maintenance issues that I reported to the front desk on Thursday, October 1.
 
 First, the heating vents in my living room and bedroom have been blowing only cold air for about a week. Second, my dishwasher no longer drains, so dirty water stays at the bottom after every cycle.
 
@@ -48,7 +48,7 @@ Best regards,
 Afolabi A.`,
   },
   highlights: [
-    { p: "My name is Afolabi A., and I rent Unit 1408", why: "Who I am in one clean line. No 'meets you well' filler. The reader knows who you are in 3 seconds." },
+    { p: "My name is Afolabi A., and I rent Unit 1408", why: "Who I am in 1 clean line. No 'meets you well' filler. The reader knows who you are in 3 seconds." },
     { p: "I am writing to follow up on", why: "A calm, professional way to say 'I already told you once'. No blame, but it is firm." },
     { p: "First,", why: "Signposts like First and Second make the email easy to follow. Examiners call this coherence." },
     { p: "Since the nights in Oakville are getting colder", why: "Real detail about how it hurts you. Specific details push you from CLB 8 to CLB 10." },
@@ -56,7 +56,7 @@ Afolabi A.`,
     { p: "by Friday, October 9", why: "A polite timeline with a real date. Firm, never rude." },
   ],
   why: [
-    "All three bullets are answered, each in its own paragraph.",
+    "All 3 bullets are answered, each in its own paragraph.",
     "The tone is firm but friendly. There is no threat anywhere.",
     "Sentences are short and clear. None is longer than 35 words.",
     "The sign-off name matches the name in the first line.",
@@ -84,9 +84,9 @@ T1_PROMPTS.push({
 
 I am Afolabi A., a student in your co-op preparation group at Sheridan College. I am writing to ask for a short extension on my work term application, which is due this Friday, October 9.
 
-Unfortunately, one part of my application is delayed. My reference letter is coming from my former supervisor at the Centre for Applied AI, but she is attending a conference overseas and can only send it on Tuesday, October 13.
+Unfortunately, 1 part of my application is delayed. My reference letter is coming from my former supervisor at the Centre for Applied AI, but she is attending a conference overseas and can only send it on Tuesday, October 13.
 
-The rest of my package is ready. I have updated my resume to highlight my SAP master data and procurement experience, finished my cover letter, and completed the online skills profile. I would not want one missing letter to delay my chances with employers this term.
+The rest of my package is ready. I have updated my resume to highlight my SAP master data and procurement experience, finished my cover letter, and completed the online skills profile. I would not want 1 missing letter to delay my chances with employers this term.
 
 Would it be possible to extend my deadline to Wednesday, October 14? If that does not work, I could submit everything else now and forward the letter as soon as it arrives.
 
@@ -163,7 +163,7 @@ T1_PROMPTS.push({
   icon: "🤝",
   to: "your former manager",
   situation:
-    "You are applying for an SAP Master Data Analyst position with a large company in Toronto. The employer has asked for two professional references. You would like to ask your former manager from your previous job in Nigeria, but you have not spoken to this person in over a year.",
+    "You are applying for an SAP Master Data Analyst position with a large company in Toronto. The employer has asked for 2 professional references. You would like to ask your former manager from your previous job in Nigeria, but you have not spoken to this person in over a year.",
   bullets: [
     "Remind your former manager who you are and what you worked on together",
     "Explain the job you are applying for",
@@ -180,7 +180,7 @@ As you may remember, I worked under your supervision on the supply chain team, w
 
 I am now living in Oakville, Ontario, and I am applying for an SAP Master Data Analyst position with a manufacturing company in Toronto. The role focuses on data quality and supporting procurement, which closely matches the work we did together.
 
-Would you be willing to act as one of my professional references? If you agree, the hiring team may contact you by email or phone within the next two weeks to ask about my skills and work habits. I would be happy to send you my updated resume and the job description.
+Would you be willing to act as one of my professional references? If you agree, the hiring team may contact you by email or phone within the next 2 weeks to ask about my skills and work habits. I would be happy to send you my updated resume and the job description.
 
 Thank you very much for considering this.
 
@@ -192,10 +192,10 @@ Afolabi A.`,
     { p: "As you may remember,", why: "A gentle way to remind someone of the past without sounding pushy." },
     { p: "which closely matches the work we did together", why: "Links the new job to your shared history. It gives the manager a reason to say yes." },
     { p: "Would you be willing to act as one of my professional references?", why: "The key ask, as a polite question." },
-    { p: "within the next two weeks", why: "Tells them what to expect and when. Clear and considerate." },
+    { p: "within the next 2 weeks", why: "Tells them what to expect and when. Clear and considerate." },
   ],
   why: [
-    "It answers all three bullets in order.",
+    "It answers all 3 bullets in order.",
     "It respects the manager's time by explaining exactly what they need to do.",
     "Words like 'supervision', 'maintained', and 'closely matches' sound professional.",
   ],
@@ -222,7 +222,7 @@ T1_PROMPTS.push({
 
 I am a regular Lakeshore West rider from Oakville, and I am writing about a serious delay on Monday, October 5. I boarded the 8:13 a.m. train to Union Station, but it stopped near Long Branch for more than an hour because of a signal problem.
 
-During that time, the staff made only two short announcements, and neither one gave an expected arrival time. As a result, I could not tell the employer how late I would be.
+During that time, the staff made only 2 short announcements, and neither one gave an expected arrival time. As a result, I could not tell the employer how late I would be.
 
 This delay had a real cost for me. I was travelling to a final interview for an analyst position in downtown Toronto, and I arrived 40 minutes late. Although the manager kindly agreed to meet me, the interview was shortened, and I felt rushed and unprepared.
 
@@ -235,7 +235,7 @@ Afolabi A.`,
   },
   highlights: [
     { p: "I boarded the 8:13 a.m. train to Union Station", why: "Exact facts (time, station) make a complaint believable and easy to check." },
-    { p: "As a result,", why: "A cause and effect connector. It shows how one idea leads to the next." },
+    { p: "As a result,", why: "A cause and effect connector. It shows how 1 idea leads to the next." },
     { p: "This delay had a real cost for me.", why: "A short topic sentence that opens the 'how it hurts me' paragraph." },
     { p: "Although the manager kindly agreed to meet me", why: "Starting with Although shows complex grammar, a CLB 10 signal." },
     { p: "I would appreciate a full refund", why: "Firm and polite. No threat, no demand, but very clear." },
@@ -266,9 +266,9 @@ T1_PROMPTS.push({
     subject: "Question about the rent increase notice for Unit 1408",
     body: `Dear Mr. Russo,
 
-I am Afolabi A., the tenant in Unit 1408, and I have rented this apartment for almost two years. I am writing about the letter I received on October 5, which says that my rent will rise by 8 percent starting November 1.
+I am Afolabi A., the tenant in Unit 1408, and I have rented this apartment for almost 2 years. I am writing about the letter I received on October 5, which says that my rent will rise by 8 percent starting November 1.
 
-I have some concerns about this notice. First, I understand that landlords in Ontario usually need to give tenants 90 days of written notice before a rent increase, and this letter gives me less than one month. Second, an 8 percent increase is much higher than I expected, especially since I am a full-time student on a fixed budget.
+I have some concerns about this notice. First, I understand that landlords in Ontario usually need to give tenants 90 days of written notice before a rent increase, and this letter gives me less than 1 month. Second, an 8 percent increase is much higher than I expected, especially since I am a full-time student on a fixed budget.
 
 I really enjoy living here, and I have always paid my rent on time, so I would like to find a fair solution. Would you consider delaying the increase until February 1, 2027, and reviewing the amount? I would be happy to meet in person or talk by phone next week.
 
@@ -298,7 +298,7 @@ T1_PROMPTS.push({
   icon: "🔊",
   to: "your neighbour",
   situation:
-    "You live in an apartment building in Oakville. For the past two weeks, the neighbour who lives above you has been moving furniture and playing loud music late at night, often after midnight. You have never met this neighbour. You have early classes and a part-time job.",
+    "You live in an apartment building in Oakville. For the past 2 weeks, the neighbour who lives above you has been moving furniture and playing loud music late at night, often after midnight. You have never met this neighbour. You have early classes and a part-time job.",
   bullets: [
     "Introduce yourself",
     "Describe the problem and how it affects you",
@@ -311,9 +311,9 @@ T1_PROMPTS.push({
 
 My name is Afolabi, and I live in Unit 1308, directly below your apartment. We have not met yet, so I wanted to introduce myself and reach out in a friendly way.
 
-For the past two weeks, I have heard loud music and furniture moving late at night, often after midnight. You may not realize how easily sound travels between our floors, since the building is quite old.
+For the past 2 weeks, I have heard loud music and furniture moving late at night, often after midnight. You may not realize how easily sound travels between our floors, since the building is quite old.
 
-Unfortunately, the noise has been keeping me awake. I have early classes at Sheridan College three days a week, and on weekends I work morning shifts. When I lose sleep, it is hard for me to focus in class and at work.
+Unfortunately, the noise has been keeping me awake. I have early classes at Sheridan College 3 days a week, and on weekends I work morning shifts. When I lose sleep, it is hard for me to focus in class and at work.
 
 Would it be possible to keep the music lower and avoid moving furniture after 11 p.m. on weeknights? A rug under the furniture might also help. If it is easier to talk in person, please feel free to knock on my door any evening.
 
@@ -331,7 +331,7 @@ Afolabi`,
   ],
   why: [
     "Semi-formal tone: friendly, but still polished.",
-    "It offers two practical solutions (a time limit and a rug).",
+    "It offers 2 practical solutions (a time limit and a rug).",
     "No blame words like 'rude' or 'selfish'.",
   ],
 });
@@ -375,7 +375,7 @@ Afolabi A.`,
     { p: "I apologize for any inconvenience, and I appreciate your flexibility.", why: "A professional close that shows respect for their time." },
   ],
   why: [
-    "Clear reason, clear interest, clear options. All three bullets done.",
+    "Clear reason, clear interest, clear options. All 3 bullets done.",
     "A colon list of times is easy to read.",
     "Polite and confident at the same time.",
   ],
@@ -389,7 +389,7 @@ T1_PROMPTS.push({
   icon: "🏋️",
   to: "the gym manager",
   situation:
-    "Six months ago, you signed up for a 12-month membership at a gym in Oakville. You now have a co-op placement in Toronto with long commuting hours, and you can no longer use the gym. When you called to cancel, the staff said you must pay a large cancellation fee.",
+    "6 months ago, you signed up for a 12-month membership at a gym in Oakville. You now have a co-op placement in Toronto with long commuting hours, and you can no longer use the gym. When you called to cancel, the staff said you must pay a large cancellation fee.",
   bullets: [
     "Explain your situation",
     "Explain why you think the fee is unfair",
@@ -402,11 +402,11 @@ T1_PROMPTS.push({
 
 I have been a member of your Oakville location since April, and my member ID is 40721. I am writing to ask for your help with cancelling my membership.
 
-This month, I started a co-op placement in downtown Toronto. Because of my long commute on the GO train, I leave home at 6:30 a.m. and return after 7 p.m. As a result, I have not been able to visit the gym at all in the past three weeks.
+This month, I started a co-op placement in downtown Toronto. Because of my long commute on the GO train, I leave home at 6:30 a.m. and return after 7 p.m. As a result, I have not been able to visit the gym at all in the past 3 weeks.
 
 When I called on Monday to cancel, a staff member told me I would need to pay a $250 cancellation fee. I find this fee unfair, because I have made every monthly payment on time, and my situation changed for work reasons that I could not control.
 
-Would you consider waiving the fee or reducing it to one month's payment? Alternatively, I would be happy to freeze my membership until my placement ends in April, if that option is available.
+Would you consider waiving the fee or reducing it to 1 month's payment? Alternatively, I would be happy to freeze my membership until my placement ends in April, if that option is available.
 
 Thank you for taking the time to review my request. I hope we can find a fair solution.
 
@@ -422,8 +422,8 @@ Afolabi A.`,
   ],
   why: [
     "Disagreement with evidence, not emotion.",
-    "Two solutions make it easy for the manager to help.",
-    "Short paragraphs that match the three bullets.",
+    "2 solutions make it easy for the manager to help.",
+    "Short paragraphs that match the 3 bullets.",
   ],
 });
 
@@ -495,7 +495,7 @@ T1_PROMPTS.push({
 
 It was great to hear from you! Since you asked for weekend ideas, I strongly recommend a trip to Niagara. I went last month, and it was one of my favourite weekends since I moved to Ontario.
 
-The best part is that you get two very different experiences in one trip. Niagara Falls is exciting and busy, while Niagara-on-the-Lake is calm, with old buildings, small shops, and beautiful views of the lake.
+The best part is that you get 2 very different experiences in 1 trip. Niagara Falls is exciting and busy, while Niagara-on-the-Lake is calm, with old buildings, small shops, and beautiful views of the lake.
 
 On your first day, I suggest taking the boat tour that goes close to the falls. Bring a light jacket, because you will definitely get wet! In the evening, walk along the river to see the falls lit up in different colours. The next morning, rent a bike in Niagara-on-the-Lake and ride past the orchards and wineries.
 
@@ -508,7 +508,7 @@ Afolabi`,
   },
   highlights: [
     { p: "I strongly recommend a trip to Niagara", why: "Answers bullet 1 in the first paragraph. Clear and enthusiastic." },
-    { p: "while Niagara-on-the-Lake is calm", why: "'While' compares two things in one smooth sentence." },
+    { p: "while Niagara-on-the-Lake is calm", why: "'While' compares 2 things in 1 smooth sentence." },
     { p: "On your first day,", why: "Time order (first day, evening, next morning) makes the plan easy to follow." },
     { p: "To save money,", why: "Opens the budget paragraph so the reader knows the topic right away." },
     { p: "Cheers,", why: "An informal sign-off is fine for a friend. Match the tone to the reader." },
@@ -528,7 +528,7 @@ T1_PROMPTS.push({
   icon: "🪪",
   to: "ServiceOntario",
   situation:
-    "Eight weeks ago, you applied in person at a ServiceOntario centre for your new Ontario driver's licence card. You were told the card would arrive by mail within six weeks, but it has not arrived. Your temporary paper licence will expire soon, and a new employer needs to see government photo ID.",
+    "8 weeks ago, you applied in person at a ServiceOntario centre for your new Ontario driver's licence card. You were told the card would arrive by mail within 6 weeks, but it has not arrived. Your temporary paper licence will expire soon, and a new employer needs to see government photo ID.",
   bullets: [
     "Explain what you applied for and when",
     "Describe the problems this delay is causing",
@@ -539,7 +539,7 @@ T1_PROMPTS.push({
     subject: "Delayed driver's licence card, application from August 10",
     body: `Dear ServiceOntario,
 
-I am writing about my Ontario driver's licence card, which I applied for in person at the Oakville ServiceOntario centre on August 10. At that time, I was told that the card would arrive by mail within six weeks. It has now been eight weeks, and I have not received it.
+I am writing about my Ontario driver's licence card, which I applied for in person at the Oakville ServiceOntario centre on August 10. At that time, I was told that the card would arrive by mail within 6 weeks. It has now been 8 weeks, and I have not received it.
 
 This delay is creating several problems for me. My temporary paper licence expires on October 20, and after that date I will not have valid photo identification other than my passport. I have also just accepted a contract position, and the employer needs to see government photo ID before my first day.
 
@@ -553,14 +553,14 @@ Sincerely,
 Afolabi A.`,
   },
   highlights: [
-    { p: "which I applied for in person at the Oakville ServiceOntario centre on August 10", why: "What, where, and when in one sentence. Officials love clear facts." },
+    { p: "which I applied for in person at the Oakville ServiceOntario centre on August 10", why: "What, where, and when in 1 sentence. Officials love clear facts." },
     { p: "This delay is creating several problems for me.", why: "A topic sentence that previews the impact paragraph." },
     { p: "I have already confirmed that my mailing address on file is correct", why: "Shows you did your part, so the reader cannot blame you." },
     { p: "I would appreciate it if you could issue a replacement at no cost", why: "A polite conditional request. Firm, never rude." },
   ],
   why: [
     "Calm, factual, and complete.",
-    "Two clear asks: check the status, then replace the card if it is lost.",
+    "2 clear asks: check the status, then replace the card if it is lost.",
     "A good mix of short and long sentences.",
   ],
 });
@@ -572,7 +572,7 @@ T2_PROMPTS.push({
   id: "t2-transit",
   title: "Oakville: transit or parking?",
   icon: "🚌",
-  situation: "The Town of Oakville has money for one new project near the downtown GO station. The town is asking residents which project they prefer.",
+  situation: "The Town of Oakville has money for 1 new project near the downtown GO station. The town is asking residents which project they prefer.",
   optionA: "Build a large new parking garage for commuters who drive to the station.",
   optionB: "Add more frequent Oakville Transit bus routes to the station.",
   choice: "B",
@@ -594,7 +594,7 @@ For these reasons, I strongly support Option B. It is a fairer and greener choic
   ],
   why: [
     "Follows the planner: opinion, reason 1 + example, reason 2 + example, other side, close.",
-    "Each paragraph has one job.",
+    "Each paragraph has 1 job.",
     "Strong vocabulary: afford, attract, convenient, express routes.",
   ],
 });
@@ -605,15 +605,15 @@ T2_PROMPTS.push({
   icon: "🏢",
   situation: "Your employer is choosing a new work policy for all staff and has sent a survey to employees.",
   optionA: "Employees work from home full time.",
-  optionB: "Employees work in the office at least three days a week.",
+  optionB: "Employees work in the office at least 3 days a week.",
   choice: "B",
-  model: `In my opinion, Option B, working in the office at least three days a week, is the better policy for our company.
+  model: `In my opinion, Option B, working in the office at least 3 days a week, is the better policy for our company.
 
 The main reason is that working together in person builds stronger teams. When colleagues sit near each other, they can solve small problems in minutes instead of waiting for emails. For instance, during my time as a research assistant, I learned more from quick conversations at a shared table than from any online meeting.
 
 Another reason is that office days help newer employees learn and grow. New staff can watch how experienced colleagues handle clients and difficult tasks, and managers can notice their efforts more easily. This kind of support is very difficult to get through a screen.
 
-Of course, working from home saves commuting time and money, which matters a lot in the GTA. However, Option B still allows two remote days each week, so employees would keep some of that flexibility.
+Of course, working from home saves commuting time and money, which matters a lot in the GTA. However, Option B still allows 2 remote days each week, so employees would keep some of that flexibility.
 
 Overall, I believe Option B offers the best balance between teamwork and flexibility, so I would choose it without hesitation.`,
   highlights: [
@@ -635,12 +635,12 @@ T2_PROMPTS.push({
   title: "Should Sheridan require co-op?",
   icon: "🎓",
   situation: "Your college is considering a new rule for diploma programs and wants to hear from students.",
-  optionA: "All diploma students must complete at least one paid co-op term before graduating.",
+  optionA: "All diploma students must complete at least 1 paid co-op term before graduating.",
   optionB: "Co-op stays optional, so students can graduate sooner if they wish.",
   choice: "A",
-  model: `I strongly believe that Option A, requiring every diploma student to complete one paid co-op term, is the better choice for our college.
+  model: `I strongly believe that Option A, requiring every diploma student to complete 1 paid co-op term, is the better choice for our college.
 
-First, co-op gives students real Canadian work experience before they graduate. Many employers in the GTA ask for local experience, even for entry-level jobs. A friend of mine applied to more than fifty positions after graduation and only started getting interviews after he completed a short placement.
+First, co-op gives students real Canadian work experience before they graduate. Many employers in the GTA ask for local experience, even for entry-level jobs. A friend of mine applied to more than 50 positions after graduation and only started getting interviews after he completed a short placement.
 
 Second, a paid placement helps students choose the right career and build a network. Students can test whether they enjoy a field, such as data analysis or supply chain, and they often leave with references and contacts. Some even receive full-time offers from the same employer.
 
@@ -649,7 +649,7 @@ On the other hand, some students may worry that co-op will delay graduation or t
 In conclusion, a required co-op term would prepare students for the job market far better than classes alone, so I fully support Option A.`,
   highlights: [
     { p: "I strongly believe that Option A", why: "Opinion plus 'strongly' shows confidence." },
-    { p: "A friend of mine applied to more than fifty positions", why: "A specific story with a number makes the reason feel real." },
+    { p: "A friend of mine applied to more than 50 positions", why: "A specific story with a number makes the reason feel real." },
     { p: "such as data analysis or supply chain", why: "'Such as' gives examples inside a sentence." },
     { p: "These concerns are understandable, but", why: "A polite way to answer the other side." },
     { p: "In conclusion,", why: "A clear signal that you are closing." },
@@ -683,7 +683,7 @@ For these reasons, I believe Option A is the more valuable choice for our commun
     { p: "When I first arrived in Ontario", why: "Personal experience is powerful evidence in Task 2." },
     { p: "In addition,", why: "Adds reason 2 smoothly." },
     { p: "Admittedly,", why: "An advanced word to admit the other side has a point." },
-    { p: "while affordable language and career support is much harder to find", why: "Compares the two options directly in one sentence." },
+    { p: "while affordable language and career support is much harder to find", why: "Compares the 2 options directly in 1 sentence." },
   ],
   why: [
     "A strong personal example plus community-level reasoning.",
@@ -741,7 +741,7 @@ It is true that a certification, such as SAP or project management, gives deeper
 
 In short, Option B helps the most people at a lower cost, so it is the smarter investment.`,
   highlights: [
-    { p: "First, this option is fairer.", why: "A five-word topic sentence. Short and powerful." },
+    { p: "First, this option is fairer.", why: "A 5-word topic sentence. Short and powerful." },
     { p: "morale may drop", why: "'Morale' is a precise workplace word. Good vocabulary." },
     { p: "even senior staff started sharing new shortcuts", why: "A real example from your work background." },
     { p: "It is true that", why: "Admits the other side before answering it." },
@@ -749,7 +749,7 @@ In short, Option B helps the most people at a lower cost, so it is the smarter i
   ],
   why: [
     "Even though you work with SAP, you can argue the other way. Examiners score reasons, not your real preference.",
-    "A clear five-part structure.",
+    "A clear 5-part structure.",
     "Precise vocabulary: morale, access, investment.",
   ],
 });
@@ -768,7 +768,7 @@ const WATCH_LIST = [
   { id: "threat", icon: "🚫", title: "No threats", bad: "or I will contact public works", good: "Could you please arrange a repair by Friday, October 9?", kid: "Threats make the reader feel scared or angry. Ask nicely and give a date instead." },
   { id: "your", icon: "✏️", title: "you vs your", bad: "Thank you for you help.", good: "Thank you for your help.", kid: "'Your' means it belongs to you: your help, your time. 'You' is the person." },
   { id: "cliche", icon: "🙅", title: "Skip the cliche opener", bad: "I hope this email meets you well.", good: "My name is Afolabi A., and I rent Unit 1408.", kid: "This line says nothing new. Start with who you are." },
-  { id: "runon", icon: "✂️", title: "Short sentences", bad: "The heat is broken and the dishwasher is broken and I told the desk and nobody came so I am writing.", good: "The heat and the dishwasher are broken. I told the front desk, but nobody came.", kid: "If a sentence has more than 35 words, cut it in two. One idea, one sentence." },
+  { id: "runon", icon: "✂️", title: "Short sentences", bad: "The heat is broken and the dishwasher is broken and I told the desk and nobody came so I am writing.", good: "The heat and the dishwasher are broken. I told the front desk, but nobody came.", kid: "If a sentence has more than 35 words, cut it in 2. 1 idea, 1 sentence." },
   { id: "detail", icon: "🔍", title: "Add real detail", bad: "The heat is not working.", good: "The vents in my living room and bedroom have blown cold air for a week.", kid: "Where? How long? How does it hurt you? Details make the examiner believe you." },
   { id: "signoff", icon: "🖊️", title: "Sign with your name", bad: "Best regards, Tenant", good: "Best regards, Afolabi A.", kid: "The name at the bottom must match who you said you are. Always sign Afolabi." },
 ];
@@ -779,8 +779,8 @@ const GUIDES = [
     id: "g-t1",
     title: "Task 1 email in 5 baby steps",
     steps: [
-      "Read the 3 bullets. Each bullet becomes one paragraph. That is your map.",
-      "Write who you are in one line: your name and your unit or role. No 'meets you well'.",
+      "Read the 3 bullets. Each bullet becomes 1 paragraph. That is your map.",
+      "Write who you are in 1 line: your name and your unit or role. No 'meets you well'.",
       "Say why you write and how it hurts you. Add a real detail: a date, a room, a number.",
       "Ask nicely with a date. 'Could you please ... by Friday, October 9?' Never threaten.",
       "Say thank you, then sign Afolabi. Count your words: 150 to 200.",
@@ -811,7 +811,7 @@ const PHRASES = [
   { g: "Why I write", basic: "I want to talk about the heat.", clb: "I am writing to follow up on a heating issue that I reported on October 1." },
   { g: "Why I write", basic: "I need more time.", clb: "I am writing to ask for a short extension on my application." },
   { g: "Why I write", basic: "What is happening with my job?", clb: "I am writing to ask whether there is an update on the hiring timeline." },
-  { g: "Why I write", basic: "My card never came.", clb: "I am writing about my licence card, which has not arrived after eight weeks." },
+  { g: "Why I write", basic: "My card never came.", clb: "I am writing about my licence card, which has not arrived after 8 weeks." },
   { g: "Why I write", basic: "Can you be my reference?", clb: "I am reaching out to ask whether you would be willing to act as a reference." },
   { g: "Why I write", basic: "I can't come.", clb: "Unfortunately, I need to ask whether my interview could be moved." },
   { g: "How it hurts me", basic: "It's cold.", clb: "Since the nights are getting colder, I have had trouble sleeping." },
@@ -823,7 +823,7 @@ const PHRASES = [
   { g: "What I want", basic: "Fix it now or I will contact public works.", clb: "Could you please arrange for a technician to visit by Friday, October 9?" },
   { g: "What I want", basic: "Give me my money back.", clb: "I would appreciate a full refund for that trip." },
   { g: "What I want", basic: "Answer me.", clb: "I would be grateful to know the next steps before I make a decision." },
-  { g: "What I want", basic: "Drop the fee.", clb: "Would you consider waiving the fee or reducing it to one month's payment?" },
+  { g: "What I want", basic: "Drop the fee.", clb: "Would you consider waiving the fee or reducing it to 1 month's payment?" },
   { g: "What I want", basic: "Pick another time.", clb: "I am available at any of the following times: Wednesday after 1 p.m. or Friday morning." },
   { g: "What I want", basic: "Do something.", clb: "If it is easier, I am happy to let maintenance in with a key." },
   { g: "Thank you and name", basic: "Thanks.", clb: "Thank you for your help. I look forward to hearing from you." },
@@ -862,12 +862,12 @@ const GAME_SANDWICH = [
   { t: "Co-op deadline", bites: ["I am a student in your co-op preparation group at Sheridan.", "I am writing to ask for a short extension on my application.", "My reference letter is delayed, so my package is incomplete.", "Would it be possible to extend the deadline to October 14?", "Thank you for considering my request. Kind regards, Afolabi"] },
   { t: "Gym fee", bites: ["I have been a member of your Oakville location since April.", "I am writing to ask for help cancelling my membership.", "My long commute means I cannot use the gym, and the fee is a burden.", "Would you consider waiving the cancellation fee by the end of the month?", "Thank you for reviewing my request. Sincerely, Afolabi"] },
   { t: "Noisy neighbour", bites: ["My name is Afolabi, and I live in the unit below yours.", "I am writing about loud music late at night.", "The noise keeps me awake before my early classes.", "Could you keep the music lower after 11 p.m., starting this week?", "Thank you for understanding. Best wishes, Afolabi"] },
-  { t: "GO Train", bites: ["I am a regular Lakeshore West rider from Oakville.", "I am writing about a long delay on Monday, October 5.", "As a result, I arrived 40 minutes late to a job interview.", "I would appreciate a full refund within the next two weeks.", "Thank you for looking into this. Sincerely, Afolabi"] },
-  { t: "Licence card", bites: ["I applied for my Ontario driver's licence card on August 10.", "I am writing because the card has not arrived after eight weeks.", "My temporary licence expires soon, and my new employer needs photo ID.", "Could you please check the status and reply by October 16?", "Thank you for your assistance. Sincerely, Afolabi"] },
-  { t: "Rent increase", bites: ["I am the tenant in Unit 1408, and I have lived here for two years.", "I am writing about the rent increase notice I received on October 5.", "The short notice is hard for me as a student on a fixed budget.", "Would you consider delaying the increase until February 1?", "Thank you for your understanding. Best regards, Afolabi"] },
+  { t: "GO Train", bites: ["I am a regular Lakeshore West rider from Oakville.", "I am writing about a long delay on Monday, October 5.", "As a result, I arrived 40 minutes late to a job interview.", "I would appreciate a full refund within the next 2 weeks.", "Thank you for looking into this. Sincerely, Afolabi"] },
+  { t: "Licence card", bites: ["I applied for my Ontario driver's licence card on August 10.", "I am writing because the card has not arrived after 8 weeks.", "My temporary licence expires soon, and my new employer needs photo ID.", "Could you please check the status and reply by October 16?", "Thank you for your assistance. Sincerely, Afolabi"] },
+  { t: "Rent increase", bites: ["I am the tenant in Unit 1408, and I have lived here for 2 years.", "I am writing about the rent increase notice I received on October 5.", "The short notice is hard for me as a student on a fixed budget.", "Would you consider delaying the increase until February 1?", "Thank you for your understanding. Best regards, Afolabi"] },
   { t: "Interview reschedule", bites: ["I am scheduled to interview for the Business Analyst co-op role.", "I am writing to ask whether my Thursday interview could be moved.", "My required midterm exam was moved to the same morning.", "I am available Wednesday after 1 p.m. or anytime Friday.", "I appreciate your flexibility. Kind regards, Afolabi"] },
   { t: "Parking permit", bites: ["I am a tenant in Apt 8.", "I am writing because my visitor parking permit has not arrived.", "My guests keep receiving parking tickets.", "Could you please re-send the permit by this Friday?", "Thank you for resolving this. Sincerely, Afolabi"] },
-  { t: "Late delivery", bites: ["I am a ShopEase customer who placed an order two weeks ago.", "I am writing because my laptop stand is still marked in transit.", "I need the stand for my daily remote work.", "Please send a delivery update or a refund within five business days.", "Thank you for your assistance. Best regards, Afolabi"] },
+  { t: "Late delivery", bites: ["I am a ShopEase customer who placed an order 2 weeks ago.", "I am writing because my laptop stand is still marked in transit.", "I need the stand for my daily remote work.", "Please send a delivery update or a refund within 5 business days.", "Thank you for your assistance. Best regards, Afolabi"] },
 ];
 
 const GAME_WORDS = [
@@ -901,11 +901,11 @@ const GAME_ERRORS = [
   { c: ["Please fix the vents by Friday,", "or I will contact public works."], x: 1, fix: "Thank you for your help with this.", why: "That is a threat. Firm and polite scores higher." },
   { c: ["Your", "welcome to call me any time after 3 p.m."], x: 0, fix: "You are", why: "'You are welcome' means you have permission. 'Your' is for things you own." },
   { c: ["I live in", "you", "building on Trafalgar Road."], x: 1, fix: "your", why: "The building belongs to the manager's company: your building." },
-  { c: ["The vents blow cold air.", "The dishwasher does not drain and I tried to reset it and I called the desk and nobody came and I waited all week and I am cold", "so I am writing."], x: 1, fix: "Split it into two or three short sentences.", why: "This is a run-on sentence. Over 35 words in one sentence is too long." },
+  { c: ["The vents blow cold air.", "The dishwasher does not drain and I tried to reset it and I called the desk and nobody came and I waited all week and I am cold", "so I am writing."], x: 1, fix: "Split it into 2 or 3 short sentences.", why: "This is a run-on sentence. Over 35 words in 1 sentence is too long." },
   { c: ["My name is Afolabi A.", "Thank you for your time.", "Sincerely, Tenant"], x: 2, fix: "Sincerely, Afolabi A.", why: "The sign-off must match your name." },
   { c: ["Could", "your", "please send a technician this week?"], x: 1, fix: "you", why: "'You' is the person doing the action." },
   { c: ["I", "will be grateful", "if you could reply by Friday."], x: 1, fix: "would be grateful", why: "With 'if you could', use 'would'." },
-  { c: ["The heating", "have", "been broken for a week."], x: 1, fix: "has", why: "One heating system = has." },
+  { c: ["The heating", "have", "been broken for a week."], x: 1, fix: "has", why: "1 heating system = has." },
   { c: ["I am writing to inform you", "that i", "cannot attend on Thursday."], x: 1, fix: "that I", why: "The word I is always a capital letter." },
   { c: ["If nothing changes by Monday,", "I will take legal action", "against the building."], x: 1, fix: "I would appreciate an update by Monday.", why: "A threat again. Replace it with a polite timeline." },
   { c: ["I look forward", "to hear", "from you."], x: 1, fix: "to hearing", why: "'Look forward to' is followed by an -ing word." },
@@ -948,7 +948,7 @@ const GAME_CONNECT = [
 const COACH_LINES = {
   hello: [
     "Small steps every day. You are building CLB 10 brick by brick.",
-    "One email at a time, Afolabi. You have got this.",
+    "1 email at a time, Afolabi. You have got this.",
     "Today's rule: no threats, no cliches, lots of warmth.",
     "Remember the sandwich: Who, Why, Hurt, Ask, Thanks.",
     "Your Day 1 was about CLB 8 to 9. CLB 10 is close.",

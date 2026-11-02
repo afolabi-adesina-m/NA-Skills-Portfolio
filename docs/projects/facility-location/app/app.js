@@ -140,8 +140,8 @@
       ]) +
       '<div class="grid wide">' + card("Customer map", map({ aria: "Customer locations coloured by routing zone" }) + legend(t.map(function (x) { return { c: TC[x.terr], n: x.terr }; }))) +
       card("Routing zones", table(["Zone", "Customers", "Gallons", "Share", "Stops"], rows, [1, 2, 3, 4]), "Zones come from 3 digit ZIP codes in the case file.") + "</div>" +
-      '<div class="grid two">' + fx + card("How distance becomes cost", '<ul class="plain"><li>Trips: gallons / ' + num(D.galPerTrip) + ", a 4,000 gallon trailer at 80% full.</li><li>Each trip is counted out and back.</li><li>One scale factor, " + D.k.toFixed(2) + ", lifts straight line miles to the " + num(D.case.miles2004) + " miles driven in 2004.</li><li>Cost per mile: US$" + D.costPerMile.toFixed(2) + ", from driver, truck and trailer costs in the case.</li></ul>") + "</div>" +
-      comment("The Central zone holds " + pct(cen.gal / D.gal, 0) + " of gallons, so most demand sits near Dallas. " + num(t.filter(function (x) { return x.terr === "Outside zones"; })[0].n) + " customers fall outside the three zones and take " + pct(t.filter(function (x) { return x.terr === "Outside zones"; })[0].gal / D.gal, 1) + " of gallons. Straight line trips explain " + pct(1 / D.k, 0) + " of the miles driven, so road detours and multi stop routes matter.");
+      '<div class="grid two">' + fx + card("How distance becomes cost", '<ul class="plain"><li>Trips: gallons / ' + num(D.galPerTrip) + ", a 4,000 gallon trailer at 80% full.</li><li>Each trip is counted out and back.</li><li>1 scale factor, " + D.k.toFixed(2) + ", lifts straight line miles to the " + num(D.case.miles2004) + " miles driven in 2004.</li><li>Cost per mile: US$" + D.costPerMile.toFixed(2) + ", from driver, truck and trailer costs in the case.</li></ul>") + "</div>" +
+      comment("The Central zone holds " + pct(cen.gal / D.gal, 0) + " of gallons, so most demand sits near Dallas. " + num(t.filter(function (x) { return x.terr === "Outside zones"; })[0].n) + " customers fall outside the 3 zones and take " + pct(t.filter(function (x) { return x.terr === "Outside zones"; })[0].gal / D.gal, 1) + " of gallons. Straight line trips explain " + pct(1 / D.k, 0) + " of the miles driven, so road detours and multi stop routes matter.");
   }
   function sites(q) {
     var p = Math.min(4, Math.max(1, parseInt(q.get("p"), 10) || 2)), r = D.res.p[p - 1], base = D.res.dallas;
@@ -164,7 +164,7 @@
     return '<h1 class="v-title">Best sites</h1><p class="v-sub">Solved to optimality with PuLP. Outbound delivery cost only.</p>' +
       '<section class="filterbar" aria-label="Sites"><div class="fb-group"><span class="fb-label">Number of sites</span>' + seg + "</div></section>" +
       tiles([
-        { title: "Average distance", sub: "Gallon weighted, one way", val: mi(r.avgMi) + " mi", tone: "info", foot: "Dallas today: " + mi(base.avgMi) + " mi" },
+        { title: "Average distance", sub: "Gallon weighted, 1 way", val: mi(r.avgMi) + " mi", tone: "info", foot: "Dallas today: " + mi(base.avgMi) + " mi" },
         { title: "Miles a year", sub: "Estimated", val: big(r.miles), foot: "Dallas today: " + big(base.miles) },
         { title: "Delivery cost a year", sub: "US$" + D.costPerMile.toFixed(2) + " a mile", val: usd(r.cost) },
         { title: "Saving against Dallas", sub: "Delivery cost", val: usd(base.cost - r.cost), tone: base.cost - r.cost > 0 ? "pos" : "", foot: pct((base.cost - r.cost) / base.cost, 0) + " lower" }
@@ -172,7 +172,7 @@
       '<div class="grid wide">' + card(p + (p === 1 ? " site" : " sites"), map({ r: r, aria: "Customers linked to their nearest open site" })) +
       card("Sites", table(["Site", "Customers", "Gallons", "Avg miles"], stats, [1, 2, 3]), "Site names are the nearest customer town.") + "</div>" +
       fx +
-      comment("With " + p + (p === 1 ? " site" : " sites") + " the average customer sits " + mi(r.avgMi) + " miles away, against " + mi(base.avgMi) + " from Dallas today. Delivery cost falls by " + usd(base.cost - r.cost) + " a year. " + (p > 1 ? "Each extra site needs rent, stock and replenishment, which this view leaves out." : "One site lands in Dallas, so the current location is already the best single site."));
+      comment("With " + p + (p === 1 ? " site" : " sites") + " the average customer sits " + mi(r.avgMi) + " miles away, against " + mi(base.avgMi) + " from Dallas today. Delivery cost falls by " + usd(base.cost - r.cost) + " a year. " + (p > 1 ? "Each extra site needs rent, stock and replenishment, which this view leaves out." : "1 site lands in Dallas, so the current location is already the best single site."));
   }
   function compare() {
     var b = D.res.dallas, ho = D.res.houston, ps = D.res.p;

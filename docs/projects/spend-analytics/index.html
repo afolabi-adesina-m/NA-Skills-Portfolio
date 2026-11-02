@@ -84,7 +84,7 @@
       </div>
 
       <div class="sa-intro fade">
-        <p>Departments typed the vendor names. I cleaned them into suggested masters, measured the duplicates against spend, and designed a six-page report for Power BI and Tableau around that.</p>
+        <p>Departments typed the vendor names. I cleaned them into suggested masters, measured the duplicates against spend, and designed a 6-page report for Power BI and Tableau around that.</p>
         <p class="sa-meta"><span class="sa-dot" aria-hidden="true"></span>Real public data, Open Government Licence - Canada</p>
         <p class="sa-status"><strong>Status:</strong> mockups built from the real data. Power BI and Tableau builds in progress.</p>
       </div>
@@ -92,7 +92,7 @@
 
     <section class="sa-group" id="report" aria-labelledby="report-title">
       <h2 id="report-title">Report</h2>
-      <p class="sub">Six pages, one design for both tools. Data quality and supplier concentration come first, because they answer the question. Click a page to open it full size.</p>
+      <p class="sub">6 pages, 1 design for both tools. Data quality and supplier concentration come first, because they answer the question. Click a page to open it full size.</p>
       <p class="hero-cta-row"><a class="btn btn-primary" href="/NA-Skills-Portfolio/projects/spend-analytics/app/">Open the dashboard app</a></p>
       <div class="sa-viewer panel fade" id="sa-viewer">
         <div class="sa-tabs" role="tablist" aria-label="Report pages">
@@ -182,7 +182,7 @@
         <article class="sa-find fade"><p class="sa-num">61 of 244</p><p>class A suppliers (the ones that make up 80% of spend) have likely duplicate records. That is where I would start the clean-up.</p></article>
         <article class="sa-find fade"><p class="sa-num">7,963</p><p>records have a vendor name of exactly 35 characters, against 791 at 36. Names look cut off. SAP's vendor name field (NAME1) is also 35 characters, though that does not mean the government uses SAP.</p></article>
         <article class="sa-find fade"><p class="sa-num">49.2%</p><p>of spend sits with the top 10 suppliers. Supplier HHI is 387 government-wide, so concentration is high even before duplicates.</p></article>
-        <article class="sa-find fade"><p class="sa-num">11</p><p>suppliers make up half of the C$92.6B. Spend is far more concentrated than a classic 80/20.</p></article>
+        <article class="sa-find fade"><p class="sa-num">11</p><p>suppliers make up 1/2 of the C$92.6B. Spend is far more concentrated than a classic 80/20.</p></article>
         <article class="sa-find fade"><p class="sa-num">32.6%</p><p>of spend went to aircraft and ships, from 1.8% of contracts. Category mix matters once the supplier file is clean.</p></article>
       </div>
     </section>
@@ -198,7 +198,7 @@
         </div>
         <div class="skill-card fade">
           <h3>2. Golden record</h3>
-          <p>Each fuzzy cluster gets one suggested master: the spelling with the most spend. A VendorNameMap links every raw spelling to that master.</p>
+          <p>Each fuzzy cluster gets 1 suggested master: the spelling with the most spend. A VendorNameMap links every raw spelling to that master.</p>
         </div>
         <div class="skill-card fade">
           <h3>3. Checks and spend</h3>
@@ -209,7 +209,7 @@
       <div class="view-grid">
         <div class="panel fade">
           <h3 class="chart-title">Scope and labels</h3>
-          <p class="chart-note">Proactive Publication - Contracts from open.canada.ca. Contracts awarded April 2023 to March 2026, one row each at the latest value. Standing offer and supply arrangement records left out. Category labels from the Chart of Accounts 2025-26.</p>
+          <p class="chart-note">Proactive Publication - Contracts from open.canada.ca. Contracts awarded April 2023 to March 2026, 1 row each at the latest value. Standing offer and supply arrangement records left out. Category labels from the Chart of Accounts 2025-26.</p>
           <div class="sa-matrix" role="table" aria-label="Segmentation rules">
             <div class="sa-cell sa-strategic" role="row"><strong role="cell">Strategic</strong><span role="cell">Top 80% of spend, risk 25+</span></div>
             <div class="sa-cell sa-leverage" role="row"><strong role="cell">Leverage</strong><span role="cell">Top 80% of spend, risk under 25</span></div>
@@ -219,7 +219,7 @@
           <p class="sa-small">I scored the 85 category groups for supply risk and crossed that with Pareto spend class. My thresholds, not an official classification. 22 groups with under 30 contracts are flagged low confidence.</p>
         </div>
         <div class="panel fade">
-          <h3 class="chart-title">Two of the DAX measures</h3>
+          <h3 class="chart-title">2 of the DAX measures</h3>
           <div class="sa-code">
 <pre><code>Non-Competitive Spend % =
 DIVIDE (
@@ -242,7 +242,7 @@ RETURN
 
       <div class="panel fade sa-model">
         <h3 class="chart-title">Data model</h3>
-        <p class="chart-note">One fact row per contract and seven dimensions. DimVendor holds the master name and DQ flags; VendorNameMap sits beside it.</p>
+        <p class="chart-note">1 fact row per contract and 7 dimensions. DimVendor holds the master name and DQ flags; VendorNameMap sits beside it.</p>
         <div class="sa-diagram" role="img" aria-label="Star schema: FactContracts in the centre, linked to DimDate, DimVendor, DimDepartment, DimProcurementMethod, DimCommodityType and DimCategory; DimCategory links to DimCategorySegment">
           <svg viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <defs><style>

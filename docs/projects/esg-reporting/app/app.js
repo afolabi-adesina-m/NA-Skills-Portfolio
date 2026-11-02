@@ -231,7 +231,7 @@
       '<section class="card"><h2>Sources and licences</h2><ol class="src-list">' + src.map(function (s) { return '<li><a href="' + s[2] + '" target="_blank" rel="noopener">' + esc(s[0]) + "</a><span>" + esc(s[1]) + "</span></li>"; }).join("") + "</ol></section>" +
       '<div class="grid two"><section class="card"><h2>Method</h2><ol class="plain">' +
       "<li>Suppliers are the cleaned master names from the Supplier Spend app.</li>" +
-      "<li>Local means the vendor country on the contract is Canada. Each master takes the country of its highest spend name. " + num(P.mixedCountryMasters) + " masters had names in more than one country.</li>" +
+      "<li>Local means the vendor country on the contract is Canada. Each master takes the country of its highest spend name. " + num(P.mixedCountryMasters) + " masters had names in more than 1 country.</li>" +
       "<li>Province comes from the first letter of the postal code. " + num(np ? np[2] : 0) + " local suppliers have no usable code.</li>" +
       "<li>Spend is contract value in Canadian dollars. FY'25 runs April 2024 to March 2025.</li>" +
       "<li>Emissions are kilotonnes CO2e as published. Energy types are grouped into simple labels.</li></ol></section>" +
@@ -291,7 +291,7 @@
     });
     s += '<path d="' + line(act) + '" fill="none" stroke="' + MC.act + '" stroke-width="2"/>';
     if (S.freq === "year") act.forEach(function (p) { s += '<circle cx="' + X(p[0]).toFixed(1) + '" cy="' + Y(p[1]).toFixed(1) + '" r="2.4" fill="' + MC.act + '"><title>' + esc(yLab(S, p[0]) + ": " + amt(S, p[1])) + "</title></circle>"; });
-    return '<svg class="chart" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(S.name + ": actuals, three model forecasts to " + FC.end + ", seasonal naive reference and the SBTi pathway") + '">' + s + "</svg>";
+    return '<svg class="chart" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(S.name + ": actuals, 3 model forecasts to " + FC.end + ", seasonal naive reference and the SBTi pathway") + '">' + s + "</svg>";
   }
   function overlapNote(S) {
     var same = ["ets", "arima"].filter(function (k) { return S.fc[k].mean.every(function (v, i) { return Math.abs(v - S.fc.snaive.mean[i]) < 0.01 * S.fc.snaive.mean[i]; }); });
@@ -325,14 +325,14 @@
     } else if (a.m === 1 && a.d === 2 && a.p === 0 && a.q === 1) {
       var th = a.coef.ma1;
       c.push(card("AutoARIMA, chosen orders " + a.label, "forecast<sub>T+1</sub> = 2 &times; y<sub>T</sub> - y<sub>T-1</sub> + &theta; &times; e<sub>T</sub>",
-        sym([["p, d, q", "0 past values, 2 differences, 1 past error, chosen by lowest AICc"], ["\u03b8", "weight on the last error, fitted"], ["e", "last one step error"]]),
+        sym([["p, d, q", "0 past values, 2 differences, 1 past error, chosen by lowest AICc"], ["\u03b8", "weight on the last error, fitted"], ["e", "last 1 step error"]]),
         "y<sub>T</sub> = " + n2(a.lastY) + ", y<sub>T-1</sub> = " + n2(a.prevY) + ", &theta; = " + num(th, 4) + ", e<sub>T</sub> = " + n2(a.lastRes) + "<br>" + esc(firstT) + ": 2 &times; " + n2(a.lastY) + " - " + n2(a.prevY) + " + (" + num(th, 4) + ") &times; (" + n2(a.lastRes) + ") = " + n2(a.fc1)));
     } else {
       var SYM = { ma1: "&theta;<sub>1</sub>", ma2: "&theta;<sub>2</sub>", sar1: "&Phi;<sub>1</sub>", sar2: "&Phi;<sub>2</sub>", sma1: "&Theta;<sub>1</sub>" };
       var cf = Object.keys(a.coef).map(function (k) { return (SYM[k] || esc(k)) + " = " + num(a.coef[k], 4); }).join(", ");
       var exact = a.p === 0 && a.q === 2 && a.P === 2 && a.Q === 1 && a.d === 1 && a.D === 1;
       c.push(card("AutoARIMA, chosen orders " + a.label, !exact ? "seasonal ARIMA, see the orders and weights below" : "(1 - &Phi;<sub>1</sub>B<sup>12</sup> - &Phi;<sub>2</sub>B<sup>24</sup>)(1 - B)(1 - B<sup>12</sup>) y<sub>t</sub> = (1 + &theta;<sub>1</sub>B + &theta;<sub>2</sub>B<sup>2</sup>)(1 + &Theta;<sub>1</sub>B<sup>12</sup>) &epsilon;<sub>t</sub>",
-        sym([["(p,d,q)", "(" + a.p + "," + a.d + "," + a.q + "): past values, differences and past errors month to month"], ["(P,D,Q)[12]", "(" + a.P + "," + a.D + "," + a.Q + "): the same, year to year"], ["B", "back one month, so B\u00b9\u00b2 y is the same month last year"], ["\u03b8, \u0398, \u03a6", "fitted weights"]]),
+        sym([["(p,d,q)", "(" + a.p + "," + a.d + "," + a.q + "): past values, differences and past errors month to month"], ["(P,D,Q)[12]", "(" + a.P + "," + a.D + "," + a.Q + "): the same, year to year"], ["B", "back 1 month, so B\u00b9\u00b2 y is the same month last year"], ["\u03b8, \u0398, \u03a6", "fitted weights"]]),
         cf + "<br>Forecast for " + esc(firstT) + ": " + n2(a.fc1) + ". The model has too many terms to show by hand."));
     }
     // Linear

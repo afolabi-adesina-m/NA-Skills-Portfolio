@@ -92,7 +92,7 @@ const CHECKER = (() => {
     if (lowerI) add("lower-i", "warn", "Lowercase i", `Found ${lowerI} lowercase "i". Always write a capital I.`);
 
     const longOnes = proseSentences.filter((s) => wc(s) > 35);
-    longOnes.forEach((s) => add("long", "bad", "Sentence over 35 words", `${wc(s)} words: "${s.slice(0, 70)}..." Split it in two.`));
+    longOnes.forEach((s) => add("long", "bad", "Sentence over 35 words", `${wc(s)} words: "${s.slice(0, 70)}..." Split it in 2.`));
     const andChains = proseSentences.filter((s) => (s.match(/\band\b/gi) || []).length >= 4);
     andChains.forEach((s) => { if (wc(s) <= 35) add("runon", "warn", "Possible run-on", `Too many 'and's: "${s.slice(0, 60)}..."`); });
 
@@ -114,7 +114,7 @@ const CHECKER = (() => {
     if (informal.length) add("informal", "warn", "Informal words", `Swap these for formal words: ${[...new Set(informal)].join(", ")}.`);
     const shouting = (text.match(/\b[A-Z]{4,}\b/g) || []).filter((w) => !["ASAP", "PRESTO", "GTA"].includes(w));
     if (shouting.length >= 2) add("caps", "warn", "ALL CAPS", "Capital letters feel like shouting. Use normal case.");
-    if (/[!?]{2,}/.test(text)) add("punct", "warn", "Double punctuation", "Use one ! or ? at most.");
+    if (/[!?]{2,}/.test(text)) add("punct", "warn", "Double punctuation", "Use 1 ! or ? at most.");
 
     const noAsk = !!(prompt && prompt.noAsk);
     const hasTimeline = noAsk || /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|tomorrow|this week|next week|end of (the )?(week|month)|right away|as soon as possible|weeknights?|tonight)\b/i.test(text) || /\b(after|before|by) \d{1,2}(:\d\d)? ?[ap]\.?m\b/i.test(text) || /\b(january|february|march|april|june|july|august|september|october|november|december) \d{1,2}\b/i.test(text) || /\bwithin (the )?(next )?\w+ (days|weeks|business days|hours)\b/i.test(text);
@@ -129,7 +129,7 @@ const CHECKER = (() => {
     const conclusion = /\b(for these reasons|in conclusion|overall|in short|to sum up|therefore|all in all)\b/i.test(text);
     if (type === "t2") {
       if (!optionStated) add("option", "bad", "Say Option A or B", "Name your choice clearly in the first line.");
-      if (!otherSide) add("other", "warn", "Other side missing", "Add one or two lines: 'Some people may argue... That is a fair point, but...'");
+      if (!otherSide) add("other", "warn", "Other side missing", "Add 1 or 2 lines: 'Some people may argue... That is a fair point, but...'");
       if (examples < 1) add("example", "warn", "No examples", "Give each reason a small story: 'For example, ...'");
     }
 
@@ -144,7 +144,7 @@ const CHECKER = (() => {
     const note = (cat, ok, text2, pts) => { cat.notes.push({ ok, text: text2, pts: ok ? pts : 0, max: pts }); return ok ? pts : 0; };
     if (type === "t2") {
       ccs += note(cc, optionStated && opinion, "Clear opinion with Option A or B", 15);
-      ccs += note(cc, reasons >= 2, `Two reasons signposted (${reasons} found)`, 15);
+      ccs += note(cc, reasons >= 2, `2 reasons signposted (${reasons} found)`, 15);
       ccs += note(cc, examples >= 1, `Examples given (${examples} found)`, 12);
       ccs += note(cc, otherSide, "Other side addressed", 12);
       ccs += note(cc, conclusion, "Clear closing line", 6);
@@ -217,7 +217,7 @@ const CHECKER = (() => {
     ts += note(tf, wpts > 0, `${words} words (target 150 to 200)`, wpts);
     if (type === "t2") {
       ts += note(tf, optionStated, "Names Option A or B", 25);
-      ts += note(tf, reasons >= 2, "At least two reasons", 15);
+      ts += note(tf, reasons >= 2, "At least 2 reasons", 15);
       ts += note(tf, otherSide, "Responds to the other option", 15);
       ts += note(tf, !threatHits.length && !shouting.length, "Respectful tone", 15);
     } else {
