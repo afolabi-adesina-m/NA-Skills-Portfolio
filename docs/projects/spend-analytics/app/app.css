@@ -195,3 +195,4 @@ div.tile:hover { box-shadow: none; }
 .sb-home + .sb-link { margin-left: 0; }
 @media (max-width: 560px) { .sb-sub { display: none; } }
 .sb-link { white-space: nowrap; }
+h1.sb-title { margin: 0; }
