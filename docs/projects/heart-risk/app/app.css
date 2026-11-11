@@ -247,3 +247,4 @@ div.tile:hover { box-shadow: none; }
 .res-fig .key { display: inline-block; width: .7rem; height: .7rem; border-radius: 50%; margin-right: .3rem; vertical-align: -1px; background: #D0450B; }
 .res-fig .key.avg { background: #F4B99A; }
 .sb-link { white-space: nowrap; }
+h1.sb-title { margin: 0; }

@@ -54,30 +54,4 @@
   );
 
   reveals.forEach(function (el) { observer.observe(el); });
-})();
-
-(function () {
-  function address() {
-    return ["afolabi", "adesina", "m"].join(".") + "@" + ["gmail", "com"].join(".");
-  }
-
-  var bodies = {
-    resume: "Hi Afolabi, Please share your updated resume for our team. (Optional: our focus area is SAP MDM, Supply Chain BI or Applied AI.) Thank you."
-  };
-
-  function mailHref(kind) {
-    var href = "mailto:" + address();
-    var body = bodies[kind];
-    if (!body) return href;
-    return href + "?subject=" + encodeURIComponent("Resume Request, Afolabi A.") + "&body=" + encodeURIComponent(body);
-  }
-
-  document.querySelectorAll("[data-mail]").forEach(function (el) {
-    el.addEventListener("click", function (e) {
-      var href = mailHref(el.getAttribute("data-mail"));
-      el.setAttribute("href", href);
-      e.preventDefault();
-      window.location.href = href;
-    });
-  });
-})();
+})()();

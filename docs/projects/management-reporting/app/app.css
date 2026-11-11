@@ -105,3 +105,4 @@ ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; }
 .tb-home:hover { background: var(--navy-2); }
 .tb-home + .tb-link { margin-left: 0; }
 @media (max-width: 560px) { .kpi strong { font-size: 1.35rem; } .tb-sub { display: none; } }
+h1.tb-title { margin: 0; }

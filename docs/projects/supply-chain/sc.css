@@ -366,7 +366,7 @@
   border: 1px solid var(--line);
   border-radius: 12px;
 }
-.problem-block h4 {
+.problem-block h3 {
   margin: 0 0 0.45rem;
   font-size: 1rem;
   color: var(--ink);

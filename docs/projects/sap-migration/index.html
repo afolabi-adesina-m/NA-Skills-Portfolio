@@ -42,12 +42,10 @@
     </div>
     <div>
       <div class="breadcrumb"><a href="/NA-Skills-Portfolio/">Home</a> / SAP MDM Migration Lab</div>
-      <div class="eyebrow">MDM · Data migration · ECC delivery</div>
+      <div class="eyebrow">Master data management (MDM) · Data migration · ECC delivery</div>
       <h1>SAP MDM Migration Lab</h1>
-      <p class="practice-note">Practice lab, synthetic data</p>
       <p class="lead">
-        ECC → S/4 style cutover practice for Material and Business Partner masters.
-        Swimlane + module flow first; live DQ scorecard below. Synthetic North America demo data only.
+        Practice lab on synthetic data, modeled on an ECC to S/4 style cutover. It is not a client go-live. My IHS Towers work was S/4HANA discovery only.
       </p>
       <p class="hero-cta-row">
         <a class="btn btn-primary" href="#swimlane">See cutover swimlane</a>
@@ -57,7 +55,7 @@
   </section>
 
   <section class="section" id="swimlane">
-    <h2>How MDM cutover actually runs</h2>
+    <h2>How an MDM cutover is usually staged</h2>
     <p class="sub">My seat is the <strong>MDM · BA</strong> lane: stewarding quality and mapping while functional and tech lanes move the load.</p>
 
     <div class="diagram-wrap" role="img" aria-label="Swimlane diagram of MDM cutover from Extract to Go-live across five roles">
@@ -111,8 +109,8 @@
           <!-- steward row -->
           <rect x="140" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="79" text-anchor="middle">Approve scope</text>
           <rect x="270" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="79" text-anchor="middle">Rule sign-off</text>
-          <rect x="400" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="79" text-anchor="middle" fill="#556B82">—</text>
-          <rect x="530" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="79" text-anchor="middle" fill="#556B82">—</text>
+          <rect x="400" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="79" text-anchor="middle" fill="#556B82"></text>
+          <rect x="530" y="58" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="79" text-anchor="middle" fill="#556B82"></text>
           <rect x="660" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="79" text-anchor="middle">UAT accept</text>
           <rect x="790" y="58" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="79" text-anchor="middle">Hypercare</text>
 
@@ -128,23 +126,23 @@
           <rect x="140" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="209" text-anchor="middle">Fit-gap cues</text>
           <rect x="270" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="209" text-anchor="middle">Rule input</text>
           <rect x="400" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="450" y="209" text-anchor="middle">Partner roles</text>
-          <rect x="530" y="188" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="209" text-anchor="middle" fill="#556B82">—</text>
+          <rect x="530" y="188" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="209" text-anchor="middle" fill="#556B82"></text>
           <rect x="660" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="209" text-anchor="middle">Process UAT</text>
           <rect x="790" y="188" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="209" text-anchor="middle">Config fixes</text>
 
           <!-- tech -->
           <rect x="140" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="190" y="274" text-anchor="middle">Extract jobs</text>
-          <rect x="270" y="253" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="320" y="274" text-anchor="middle" fill="#556B82">—</text>
+          <rect x="270" y="253" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="320" y="274" text-anchor="middle" fill="#556B82"></text>
           <rect x="400" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="450" y="274" text-anchor="middle">Transform</text>
           <rect x="530" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="580" y="274" text-anchor="middle">LTMC load</text>
           <rect x="660" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="274" text-anchor="middle">Re-load</text>
           <rect x="790" y="253" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="274" text-anchor="middle">Transport</text>
 
           <!-- analytics -->
-          <rect x="140" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="190" y="339" text-anchor="middle" fill="#556B82">—</text>
+          <rect x="140" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="190" y="339" text-anchor="middle" fill="#556B82"></text>
           <rect x="270" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="320" y="339" text-anchor="middle">Baseline KPIs</text>
-          <rect x="400" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="339" text-anchor="middle" fill="#556B82">—</text>
-          <rect x="530" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="339" text-anchor="middle" fill="#556B82">—</text>
+          <rect x="400" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="450" y="339" text-anchor="middle" fill="#556B82"></text>
+          <rect x="530" y="318" width="100" height="34" rx="6" fill="#F8FAFC" stroke="#E6EEF6"/><text x="580" y="339" text-anchor="middle" fill="#556B82"></text>
           <rect x="660" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="710" y="339" text-anchor="middle">Reconcile packs</text>
           <rect x="790" y="318" width="100" height="34" rx="6" fill="#fff" stroke="#D4E2EF"/><text x="840" y="339" text-anchor="middle">Post KPIs</text>
         </g>
@@ -190,7 +188,7 @@
       <article class="flow-node" role="listitem">
         <span class="flow-kicker">4 · Proof</span>
         <h3>BW · KPIs</h3>
-        <p>Reporting packs confirm fill rate, spend, OTIF still reconcile.</p>
+        <p>Reporting packs confirm fill rate, spend, and on time in full (OTIF) still reconcile.</p>
       </article>
     </div>
   </section>
