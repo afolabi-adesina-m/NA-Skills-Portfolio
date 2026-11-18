@@ -1881,3 +1881,77 @@ body.hub a.foundation-link:hover {
   }
   .foundation-link-arrow { margin-left: auto; }
 }
+
+/* ===== Picture cards: wide project card, picture left and text right =====
+   Sizing follows the wide project card pattern: picture column 1.15fr, text column 1fr,
+   whole picture shown (contain) on a white panel with 18px padding, 14px corners,
+   28px between cards, stacked with the picture on top below 760px. */
+.feature-grid:has(.tile-thumb) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: 28px;
+}
+
+.tile:has(> .tile-thumb) {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  grid-template-rows: auto auto auto 1fr;
+  row-gap: 0.55rem;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.tile:has(> .tile-thumb) > :not(.tile-thumb) {
+  grid-column: 2;
+  margin-left: 1.75rem;
+  margin-right: 1.75rem;
+}
+
+.tile:has(> .tile-thumb) > .status {
+  justify-self: start;
+  margin-top: 1.75rem;
+}
+
+.tile:has(> .tile-thumb) > .tile-links {
+  align-self: end;
+  margin-bottom: 1.6rem;
+}
+
+.tile:has(> .tile-thumb) > .tile-thumb {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 18px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
+  border-bottom: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+}
+
+@media (max-width: 760px) {
+  .feature-grid:has(.tile-thumb) { grid-template-columns: 1fr; }
+  .tile:has(> .tile-thumb) {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .tile:has(> .tile-thumb) > :not(.tile-thumb) {
+    grid-column: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .tile:has(> .tile-thumb) > .tile-thumb {
+    grid-row: auto;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
