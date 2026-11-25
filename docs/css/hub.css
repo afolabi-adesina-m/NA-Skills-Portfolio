@@ -1957,3 +1957,12 @@ body.hub a.foundation-link:hover {
     border-bottom: 1px solid var(--line);
   }
 }
+
+/* Section heading set to the same size as its kicker label */
+.flow-head h2.heading-kicker-size {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
