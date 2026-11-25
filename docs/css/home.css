@@ -47,7 +47,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--sap-light); out
 .hero-name { position: absolute; inset: 0; margin: 0; pointer-events: none; font-size: clamp(3.3rem, 15vw, 13rem); line-height: 0.86; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #ece9e2; text-align: center; }
 .hero-name span { position: absolute; left: 0; right: 0; }
 .hero-name-top { top: clamp(18px, 3vw, 40px); z-index: 1; }
-.hero-name-bottom { top: 58%; z-index: 4; text-shadow: 0 6px 30px rgba(0, 0, 0, 0.45); }
+.hero-name-bottom { top: 64%; z-index: 4; text-shadow: 0 6px 30px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35); }
 .hero-glow { position: absolute; left: 50%; top: 14%; width: min(640px, 110vw); aspect-ratio: 1 / 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle at 50% 42%, rgba(150, 175, 205, 0.28) 0%, rgba(110, 135, 165, 0.12) 34%, rgba(90, 110, 135, 0.04) 52%, rgba(18, 20, 23, 0) 70%); z-index: 1; pointer-events: none; }
 .hero-photo { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 86%; width: auto; max-width: none; z-index: 2; }
 .hero-stage::after { content: ""; position: absolute; left: -16px; right: -16px; bottom: 0; height: 34%; background: linear-gradient(to bottom, rgba(18, 20, 23, 0) 0%, rgba(18, 20, 23, 0.75) 55%, var(--hero-bg) 100%); z-index: 3; pointer-events: none; }
@@ -245,10 +245,10 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--sap-light); out
   .principles li p { grid-column: 2; }
 }
 @media (max-width: 600px) {
-  .hero-stage { height: clamp(420px, 118vw, 560px); }
-  .hero-name { font-size: clamp(2.4rem, 12.5vw, 3.6rem); top: 18px; bottom: auto; }
-  .hero-name span { position: static; display: inline; }
-  .hero-photo { height: 84%; }
+  .hero-name { font-size: clamp(2.6rem, 15vw, 4rem); top: 14px; bottom: auto; line-height: 0.95; }
+  .hero-name span { position: static; display: block; }
+  .hero-stage { height: clamp(480px, 132vw, 620px); }
+  .hero-photo { height: 76%; }
   .band { padding: 64px 0; }
   .lanes, .ai-grid, .sk-grid, .proj-grid, .about-cols, .stats { grid-template-columns: 1fr; }
   
