@@ -1895,7 +1895,7 @@ body.hub a.foundation-link:hover {
 .tile:has(> .tile-thumb) {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   grid-template-rows: auto auto auto 1fr;
   row-gap: 0.55rem;
   padding: 0;
@@ -1904,7 +1904,7 @@ body.hub a.foundation-link:hover {
 }
 
 .tile:has(> .tile-thumb) > :not(.tile-thumb) {
-  grid-column: 2;
+  grid-column: 1;
   margin-left: 1.75rem;
   margin-right: 1.75rem;
 }
@@ -1920,7 +1920,7 @@ body.hub a.foundation-link:hover {
 }
 
 .tile:has(> .tile-thumb) > .tile-thumb {
-  grid-column: 1;
+  grid-column: 2;
   grid-row: 1 / -1;
   box-sizing: border-box;
   width: 100%;
@@ -1933,7 +1933,7 @@ body.hub a.foundation-link:hover {
   object-position: center;
   background: #fff;
   border-bottom: 0;
-  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
   border-radius: 0;
 }
 
@@ -1950,8 +1950,10 @@ body.hub a.foundation-link:hover {
   }
   .tile:has(> .tile-thumb) > .tile-thumb {
     grid-row: auto;
+    grid-column: 1;
+    grid-row: 1;
     height: auto;
-    border-right: 0;
+    border-left: 0;
     border-bottom: 1px solid var(--line);
   }
 }
