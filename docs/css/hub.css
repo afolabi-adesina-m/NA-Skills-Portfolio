@@ -1958,3 +1958,6 @@ body.hub a.foundation-link:hover {
   }
 }
 
+
+/* Italic data source note under each demo */
+.tile-data-note { display: block; font-style: italic; }
