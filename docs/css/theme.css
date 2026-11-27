@@ -1,0 +1,75 @@
+/* Shared project page theme: matches the home page (dark pill header, paper background, one font, one accent).
+   Load this LAST on every project page. It restyles the frame only: header, footer, page background, font,
+   brand colours. It does not touch charts, tables or any markup, link or id. */
+:root {
+  --ink: #1d232a;
+  --paper: #f3f1ec;
+  --dark: #16202a;
+  --line-dark: #33414e;
+  --sap: #0a6ed1;
+  --sap-deep: #0854a0;
+  --sap-light: #7cc0ff;
+  /* Tokens the project pages already read */
+  --bg: #f3f1ec;
+  --brand: #0a6ed1;
+  --brand-dark: #0854a0;
+  --accent: #0a6ed1;
+  --accent-2: #0854a0;
+  --info: #0a6ed1;
+  --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --display: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); }
+html { scroll-padding-top: 80px; }
+
+/* ---------- Header, hub style pages (.site-header) ---------- */
+body[class] .site-header { background: rgba(18, 20, 23, 0.94); border-bottom: 0; backdrop-filter: blur(8px); }
+body[class] .site-header .nav { max-width: 1180px; padding: 12px 24px; }
+body[class] .site-header .brand { color: #fff; background: rgba(255, 255, 255, 0.08); border-radius: 999px; padding: 5px 16px 5px 6px; }
+body[class] .site-header .brand-photo { width: 34px; height: 34px; min-width: 34px; min-height: 34px; border-color: rgba(255, 255, 255, 0.25); }
+body[class] .site-header .brand-name { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; }
+body[class] .site-header .brand-tag { color: #9aa7b3; font-size: 0.66rem; letter-spacing: 0.1em; }
+body[class] .site-header .nav-home-btn { color: #d6dde4; border-color: var(--line-dark); opacity: 1; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.74rem; }
+body[class] .site-header .nav-home-btn:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+body[class] .site-header .nav-links { gap: 4px; background: rgba(255, 255, 255, 0.06); border-radius: 999px; padding: 4px; }
+body[class] .site-header .nav-links a { color: #d6dde4; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; padding: 8px 12px; border: 0; border-radius: 999px; }
+body[class] .site-header .nav-links a:hover,
+body[class] .site-header .nav-links a[aria-current="page"] { background: rgba(255, 255, 255, 0.12); color: #fff; border: 0; }
+@media (max-width: 720px) {
+  body[class] .site-header .nav-links { border-radius: 14px; }
+  body[class] .site-header .nav-links a { border-radius: 10px; }
+}
+
+/* ---------- Header, app and case study pages (.shellbar) ---------- */
+.shellbar { background: rgba(18, 20, 23, 0.94); backdrop-filter: blur(8px); box-shadow: none; padding: 12px 24px; gap: 12px; }
+.shellbar .sb-brand { color: #fff; background: rgba(255, 255, 255, 0.08); border-radius: 999px; padding: 7px 16px 7px 10px; }
+.shellbar .sb-title { color: #fff; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
+.shellbar .sb-sub { color: #9aa7b3; font-size: 0.78rem; letter-spacing: 0.04em; }
+.shellbar .sb-home,
+.shellbar .sb-link { color: #d6dde4; border: 1px solid var(--line-dark); border-radius: 999px; background: transparent; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px; }
+.shellbar .sb-home:hover,
+.shellbar .sb-link:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+/* ---------- Footers ---------- */
+.footer,
+.foot { background: #10171e; color: #9aa7b3; border-top: 0; font-size: 0.85rem; }
+.foot { max-width: none; padding: 20px 24px; }
+.foot p { margin: 0 0 6px; }
+.footer a,
+.foot a { color: var(--sap-light); }
+.footer a:hover,
+.foot a:hover { color: #fff; }
+.footer { margin-top: 2rem; }
+
+/* ---------- Links and focus ---------- */
+a:focus-visible, button:focus-visible { outline-color: var(--sap-light); }
+
+/* ---------- Small screens: keep the app header on one tidy row ---------- */
+@media (max-width: 560px) {
+  .shellbar { flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+  .shellbar .sb-sub { display: none; }
+  .shellbar .sb-brand { padding: 6px 12px 6px 8px; }
+  .shellbar .sb-title { font-size: 0.72rem; letter-spacing: 0.05em; }
+  .shellbar .sb-home,
+  .shellbar .sb-link { padding: 6px 10px; font-size: 0.66rem; letter-spacing: 0.05em; }
+}
