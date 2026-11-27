@@ -39,7 +39,7 @@
 
   /* Scroll reveal, staggered among siblings */
   var sel = [".sec-label", ".band .display", ".split-note", ".stat", ".orgs", ".about-lead", ".about-cols p",
-    ".bring-list li", ".edu li", ".mini-label", ".xp-intro p", ".xp-item", ".proj", ".lane", ".ai-grid .card",
+    ".bring-list li", ".edu li", ".mini-label", ".xp-intro p", ".xp-item", ".xp-sub", ".proj", ".lane", ".ai-grid .card",
     ".legend", ".sk-group", ".principles li", ".rec", ".rec-source", ".contact-layout > *"].join(",");
   var items = document.querySelectorAll(sel);
   var io = new IntersectionObserver(function (entries) {
