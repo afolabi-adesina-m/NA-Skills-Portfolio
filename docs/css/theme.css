@@ -73,3 +73,22 @@ a:focus-visible, button:focus-visible { outline-color: var(--sap-light); }
   .shellbar .sb-home,
   .shellbar .sb-link { padding: 6px 10px; font-size: 0.66rem; letter-spacing: 0.05em; }
 }
+
+/* ---------- Management Reporting app header (.topbar) ---------- */
+.topbar { background: rgba(18, 20, 23, 0.94); backdrop-filter: blur(8px); height: auto; min-height: 56px; padding: 8px 24px; }
+.topbar .tb-title { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.topbar .tb-sub { color: #9aa7b3; }
+.topbar .tb-home,
+.topbar .tb-link { color: #d6dde4; border: 1px solid var(--line-dark); border-radius: 999px; background: transparent; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px; }
+.topbar .tb-home:hover,
+.topbar .tb-link:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+/* ---------- Translytics app header (header.top) ---------- */
+body > header.top { background: rgba(18, 20, 23, 0.94); backdrop-filter: blur(8px); border-bottom: 0; color: #fff; }
+body > header.top h1 { color: #fff; }
+body > header.top .powered { color: #9aa7b3; }
+body > header.top .home { color: #d6dde4; border: 1px solid var(--line-dark); border-radius: 999px; background: transparent; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+body > header.top .home:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+body > header.top .years { background: rgba(255, 255, 255, 0.06); border-color: var(--line-dark); }
+body > header.top .years button { color: #d6dde4; background: transparent; }
+body > header.top .years button[aria-pressed="true"] { background: var(--sap); color: #fff; }
