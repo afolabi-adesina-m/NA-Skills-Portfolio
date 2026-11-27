@@ -92,3 +92,99 @@ body > header.top .home:hover { background: rgba(255, 255, 255, 0.12); color: #f
 body > header.top .years { background: rgba(255, 255, 255, 0.06); border-color: var(--line-dark); }
 body > header.top .years button { color: #d6dde4; background: transparent; }
 body > header.top .years button[aria-pressed="true"] { background: var(--sap); color: #fff; }
+
+/* ==========================================================================
+   Dark shell (added on top of the theme above): near-black page background,
+   homepage top bar (.pf-top), dark hero bands, light framed content areas.
+   Inner SAP Fiori and Anaplan style app areas keep their own look inside the frame.
+   ========================================================================== */
+:root {
+  --pf-bg: #121417;
+  --pf-bg-2: #1b1f24;
+  --pf-line: #2e353d;
+  --pf-ink: #ece9e2;
+  --pf-ink-soft: #9aa7b3;
+  --pf-paper: #f3f1ec;
+  --pf-sap: #0a6ed1;
+  --pf-sap-deep: #0854a0;
+  --pf-sap-light: #7cc0ff;
+  --pf-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+html body.pf { background: var(--pf-bg) !important; font-family: var(--pf-sans) !important; }
+body.pf :is(h1, h2, h3, h4, h5, h6, p, a, li, td, th, dt, dd, label, button, input, select, textarea, summary, figcaption, blockquote, small, strong, em, span):not(code *, pre *, kbd, samp, .mono, [class*="mono"]) { font-family: inherit; }
+
+/* Top bar (same as homepage) */
+.pf-top { background: var(--pf-bg); border-bottom: 1px solid var(--pf-line); position: relative; z-index: 60; }
+.pf-top-nav { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 16px; justify-content: space-between; box-sizing: border-box; }
+.pf-top a { text-decoration: none; }
+.pf-brand { color: #fff !important; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.82rem; line-height: 1.2; background: rgba(255,255,255,0.08); border-radius: 999px; padding: 8px 16px; display: inline-flex; align-items: center; gap: 8px; }
+.pf-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pf-sap-light); display: inline-block; flex: none; }
+.pf-links { display: flex; gap: 4px; background: rgba(255,255,255,0.06); border-radius: 999px; padding: 4px; margin: 0; }
+.pf-links a { color: #d6dde4 !important; font-size: 0.78rem; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 12px; border-radius: 999px; }
+.pf-links a:hover, .pf-links a:focus-visible { background: rgba(255,255,255,0.12); color: #fff !important; }
+.pf-status { color: #d6dde4 !important; font-size: 0.76rem; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--pf-line); border-radius: 999px; padding: 8px 14px; display: inline-flex; gap: 8px; align-items: center; white-space: nowrap; }
+.pf-toggle { display: none; background: none; border: 1px solid var(--pf-line); border-radius: 8px; width: 42px; height: 38px; cursor: pointer; padding: 0; }
+.pf-toggle span, .pf-toggle span::before, .pf-toggle span::after { display: block; width: 18px; height: 2px; background: #fff; margin: 0 auto; position: relative; content: ""; }
+.pf-toggle span::before { position: absolute; top: -6px; }
+.pf-toggle span::after { position: absolute; top: 6px; }
+.pf-top a:focus-visible, .pf-toggle:focus-visible { outline: 3px solid var(--pf-sap-light); outline-offset: 2px; }
+
+/* Translytics case study footer on the dark shell */
+body.pf footer.tx-foot { background: #10171e !important; color: #9aa7b3 !important; border-top: 0 !important; }
+body.pf footer.tx-foot :is(p, span, small, li) { color: #9aa7b3 !important; }
+body.pf footer.tx-foot a { color: var(--pf-sap-light) !important; }
+
+/* ---------- Family 1: pages with the older hub header (site-header) ---------- */
+body.pf .site-header { border-top: 1px solid var(--pf-line); }
+body.pf .site-header .brand { display: none !important; }
+body.pf .site-header .nav { justify-content: flex-end; }
+body.pf .site-header :is(.nav-toggle, .menu-toggle, button) { color: #fff !important; border-color: var(--pf-line) !important; background: transparent !important; }
+body.pf .site-header :is(.nav-toggle-bars, .nav-toggle-bars::before, .nav-toggle-bars::after) { background: #fff !important; }
+
+/* Dark hero bands, like the homepage hero */
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) {
+  background: var(--pf-bg) !important;
+  color: var(--pf-ink) !important; border: 0 !important; box-shadow: none !important;
+}
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) :is(h1, h2, h3, p, li, .breadcrumb, .breadcrumb *, .lede, .lead, .sub, .hero-sub, .eyebrow, .kicker):not(.btn, .btn *, .chip, .chip *, [class*="pill"], [class*="pill"] *, [class*="badge"], [class*="badge"] *) { color: var(--pf-ink) !important; }
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) :is(.breadcrumb, .breadcrumb *, .eyebrow, .kicker, [class*="eyebrow"], [class*="kicker"]) { color: var(--pf-sap-light) !important; letter-spacing: 0.12em; }
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) a:not([class*="btn"]):not([class*="chip"]):not([class*="pill"]) { color: var(--pf-sap-light) !important; }
+
+/* Hero chips, labels and notes: readable on the dark band */
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) :is(.pill, .bi-pill, .sc-pill) { background: transparent !important; color: #d6dde4 !important; border: 1px solid #3a4048 !important; box-shadow: none !important; }
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) :is(.pill.accent, .bi-pill.accent, .sc-pill.accent) { background: var(--pf-sap) !important; color: #fff !important; border-color: var(--pf-sap) !important; }
+body.pf :is(.bi-hero, .sap-hero, .sc-hero, .py-hero, .r-hero) :is(.bi-mark-label, .sap-mark-label, .sc-mark-label) { color: var(--pf-sap-light) !important; }
+body.pf :is(.py-hero, .r-hero) .disclaimer { background: var(--pf-bg-2) !important; color: #c9d1d9 !important; border-color: var(--pf-sap-light) !important; }
+body.pf :is(.py-hero, .r-hero) :is(.py-kicker, .r-kicker) { color: var(--pf-sap-light) !important; }
+body.pf :is(.bi-hero, .sap-hero, .sc-hero) .btn-ghost { background: transparent !important; color: #fff !important; border: 1px solid #6f8090 !important; }
+
+/* Light content bands below the hero (homepage paper band) */
+body.pf.theme-bi > section:not(.bi-hero), body.pf.theme-bi > .bi-subnav,
+body.pf.theme-sap > section:not(.sap-hero), body.pf.theme-sap > nav:not(.site-header nav), body.pf.theme-sap > main,
+body.pf.theme-sc main > section:not(.sc-hero), body.pf.theme-sc > section,
+body.pf.py-page main > section:not(.py-hero),
+body.pf.r-page main > section:not(.r-hero),
+body.pf.theme-sa > .sa-subnav, body.pf.theme-sa main,
+body.pf.tx-page main.tx-main { background-color: var(--pf-paper); }
+body.pf.tx-page main.tx-main { padding-bottom: 40px; border-radius: 10px; margin-top: 24px; margin-bottom: 24px; }
+body.pf:is(.theme-bi, .theme-sap) > section:not(.bi-hero, .sap-hero), body.pf.theme-sc main > section:not(.sc-hero), body.pf:is(.py-page, .r-page) main > section:not(.py-hero, .r-hero) { border-radius: 0; }
+
+/* Section kicker style (small caps label in SAP blue) */
+body.pf :is(.section-kicker, .kicker, .eyebrow, .sa-eyebrow, .tx-kicker) { letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.74rem; font-weight: 700; color: var(--pf-sap-deep); }
+
+/* ---------- Family 2: Fiori-style case studies and apps (shellbar) ---------- */
+body.pf .page { background: var(--bg, #f5f6f7); border-radius: 10px; margin-top: 20px; margin-bottom: 24px; box-sizing: border-box; }
+@media (max-width: 1280px) { body.pf .page { margin-left: 12px; margin-right: 12px; } }
+
+/* ---------- Family 3: Anaplan-style grid app and Translytics app ---------- */
+body.pf .shell { background: var(--bg, #f5f6f7); border-radius: 10px; overflow: hidden; margin: 20px 12px 24px; }
+body.pf.tx-app main.wrap { background: var(--bg, #f6f8fb); border-radius: 10px; margin-top: 20px; margin-bottom: 24px; box-sizing: border-box; }
+
+/* Responsive top bar */
+@media (max-width: 1080px) { .pf-status { display: none; } }
+@media (max-width: 900px) {
+  .pf-toggle { display: block; }
+  .pf-top-nav { position: relative; }
+  .pf-links { display: none; position: absolute; left: 12px; right: 12px; top: 62px; flex-direction: column; border-radius: 12px; background: var(--pf-bg-2); padding: 8px; z-index: 70; }
+  .pf-links.is-open { display: flex; }
+}
